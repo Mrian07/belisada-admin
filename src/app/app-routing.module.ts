@@ -10,6 +10,8 @@ import {
 } from '@nebular/auth';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'pages', pathMatch: 'full' },
+  { path: '', loadChildren: 'app/features/features.module#FeaturesModule' },
   { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule' },
   {
     path: 'auth',
@@ -41,7 +43,6 @@ const routes: Routes = [
       },
     ],
   },
-  { path: '', redirectTo: 'pages', pathMatch: 'full' },
   { path: '**', redirectTo: 'pages' },
 ];
 
