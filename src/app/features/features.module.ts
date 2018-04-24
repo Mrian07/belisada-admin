@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { FeaturesRoutingModule } from './features-routing.module';
 import { FeaturesComponent } from './features.component';
 import { ThemeModule } from '../@theme/theme.module';
+import { FilterPipe } from '../@theme/pipes';
 
 @NgModule({
   imports: [
     CommonModule,
     ThemeModule,
-    FeaturesRoutingModule
+    FeaturesRoutingModule,
   ],
   declarations: [FeaturesComponent]
 })

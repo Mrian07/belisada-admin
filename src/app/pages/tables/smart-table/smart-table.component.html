@@ -1,10 +1,10 @@
 <nb-card>
   <nb-card-header>
-    Smart Table
+    Store Approval
   </nb-card-header>
 
   <nb-card-body>
-    <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
+    <ng2-smart-table (click)="testing(settings.columns.firstName)" [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
     </ng2-smart-table>
   </nb-card-body>
 </nb-card>

@@ -1,3 +1,88 @@
-<p>
-  store-list works!
-</p>
+
+<!-- <table  class="table table-hover">
+    <tr>
+      <th>Register Date <i class="fa fa-calendar"></i></th>
+      <th>Nama Toko <i class="fa fa-undo"></i></th>
+      <th>Nama Pemilik <i class="fa fa-undo"></i></th>
+      <th>Status <i class="fa fa-align-left"></i></th>
+      <th>Approved by <i class="fa fa-user"></i></th>
+    </tr>
+   
+    <tr>
+      
+      <td class="tr-middle" colspan="5"><input class="search-input-text" [(ngModel)]="searchText"  type="text"></td>
+      <td><button type="button" (click)="asd()">oke oce</button></td>
+      <td></td>
+    </tr>
+    <tbody (click)="collapsed1=!collapsed1">
+      <tr *ngFor="let c of characters | filter : searchText"> <td (click)="getCharacter(c)"> {{c.id}}</td>
+      </tr>
+     <tr *ngIf="collapsed1 !== false">{{cCharacters}}</tr>
+    </tbody>
+  </table> -->
+   <!-- <div *ngIf="collapsed1 !== false" >{{cCharacters}}</div> -->
+
+   <table class="table table-striped">
+      <thead>
+          <tr>
+              <th>Register Date <i class="fa fa-calendar"></i></th>
+              <th>Nama Toko <i class="fa fa-undo"></i></th>
+              <th>Nama Pemilik <i class="fa fa-undo"></i></th>
+              <th>Status <i class="fa fa-align-left"></i></th>
+              <th>Approved by <i class="fa fa-user"></i></th>
+          </tr>
+      </thead>
+      <tbody>
+          <ng-container *ngFor="let obj of characters">
+              <tr (click)="openCloseRow(obj.id)">
+                  <td>{{obj.date}}</td>
+                  <td (click)="getCharacter(obj)">
+                      {{obj.nam}}
+                  </td>
+                  <td>
+                        {{obj.subject}}
+                    </td>
+                  <td>{{obj.numComents}}</td>
+                  <td>{{obj.approvedBy}}</td>
+              </tr>
+              <tr *ngIf="rowSelected==obj.id">
+                  <td></td>
+                  <td colspan="4">
+                      <table class="table table-striped">
+                          <tbody>
+                              <tr>
+                                  <!-- <td style="width:15%;">{{q}}</td> -->
+                                  <td style="width:15%;">Alamat Toko</td>
+                                  <td>Jl. Asia afrika no 88</td>
+                                  <td>No Handphone</td>
+                                  <td>018238123</td>
+                                 
+                              </tr>
+                              <tr>
+                                    <td style="width:15%;">Provinsi</td>
+                                    <td>Jawa Barat</td>
+                                    <td>Email</td>
+                                    <td>makmur@jaya.com</td>
+                                    
+                              </tr>
+                              <tr>
+                                    <td style="width:15%;">Kota / Kabupaten</td>
+                                    <td>Bandung Barat</td>
+                                    <td><button class="btn btn-warning btn-demo" (click)="onApprove()">Approve</button></td>
+                                    <td></td>
+                              </tr>
+                              <tr>
+                                    <td style="width:15%;">Kecamatan</td>
+                                    <td>Bandung Barat</td>
+                              </tr>
+                              <tr>
+                                    <td style="width:15%;">Postal Code</td>
+                                    <td>15154</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </td>
+              </tr>
+          </ng-container>
+      </tbody>
+  </table>
