@@ -42,7 +42,12 @@
                   <td>
                         {{obj.subject}}
                     </td>
-                  <td>{{obj.numComents}}</td>
+                  <td *ngIf="obj.numComents === 'Approved'">
+                     <span class="bullets"> {{obj.numComents}} </span> 
+                  </td>
+                  <td *ngIf="obj.numComents === 'Need Approval'">
+                        {{obj.numComents}}
+                  </td>
                   <td>{{obj.approvedBy}}</td>
               </tr>
               <tr *ngIf="rowSelected==obj.id">
