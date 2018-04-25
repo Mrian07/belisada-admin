@@ -13,8 +13,13 @@ import { SmartTableService } from '../../../@core/data/smart-table.service';
   `],
 })
 export class SmartTableComponent {
-
+  values = '';
   settings = {
+    actions: {
+      add: false,
+      edit: false,
+      delete: false,
+    },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -30,28 +35,24 @@ export class SmartTableComponent {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'number',
-      },
       firstName: {
-        title: 'First Name',
+        title: 'Register DatE',
         type: 'string',
       },
       lastName: {
-        title: 'Last Name',
+        title: 'Nama Toko',
         type: 'string',
       },
       username: {
-        title: 'Username',
+        title: 'Nama Pemilik',
         type: 'string',
       },
       email: {
-        title: 'E-mail',
+        title: 'Status',
         type: 'string',
       },
       age: {
-        title: 'Age',
+        title: 'Approved By',
         type: 'number',
       },
     },
@@ -62,6 +63,16 @@ export class SmartTableComponent {
   constructor(private service: SmartTableService) {
     const data = this.service.getData();
     this.source.load(data);
+  }
+  onClick(event) {
+    console.log(event);
+  }
+  testing(test) {
+    
+    const data = this.service.getData();
+    const a =  data.find(x => x.id === test);
+  
+    console.log('asdsadasdsa', a);
   }
 
   onDeleteConfirm(event): void {

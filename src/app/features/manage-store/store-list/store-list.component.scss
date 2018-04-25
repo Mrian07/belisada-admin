@@ -1,0 +1,23 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+.search-input-text {
+    text-align: center;
+}
+.tr-middle {
+    text-align: center;
+}
+.bullets {
+    display: list-item;
+    list-style: disc;
+    list-style-position: inside;
+    color: red;
+}
