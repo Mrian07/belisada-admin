@@ -5,14 +5,16 @@ import { ManageStoreRoutingModule } from './manage-store-routing.module';
 import { StoreListComponent } from './store-list/store-list.component';
 import { StoreContohComponent } from './store-contoh/store-contoh.component';
 import { ManageStoreComponent } from './manage-store.component';
-import { FormsModule } from '@angular/forms';
-import { FilterPipe } from '../../@theme/pipes';
+import { SearchPipe } from '../../@theme/pipes';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   imports: [
     CommonModule,
     ManageStoreRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
-  declarations: [ManageStoreComponent, StoreListComponent, StoreContohComponent,FilterPipe]
+  declarations: [ManageStoreComponent, StoreListComponent, StoreContohComponent,SearchPipe]
 })
 export class ManageStoreModule { }

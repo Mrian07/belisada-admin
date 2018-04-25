@@ -1,40 +1,42 @@
 import { Component } from '@angular/core';
-// import { FilterPipe } from '../../../@theme/pipes/filter.pipe';
-
+import { HttpClient } from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import { AuthenticationService, Example } from '../../../@core/services/authentication/authentication.service';
+import { FormBuilder, FormGroup, Validators , ValidatorFn, AbstractControl, FormControl} from '@angular/forms';
 @Component({
   selector: 'store-list',
   templateUrl: './store-list.component.html',
   styleUrls: ['./store-list.component.scss'],
 })
+
 export class StoreListComponent {
   collapsed1: boolean = false;
   Approval: boolean;
   cCharacters: string = 'wahyu';
   approved: string = 'Approved';
   needApproved: string = 'Need Approval';
+  cha = ['asdadadasdsad', 'adadadasd1', 'adasdad3'];
+  exa: Example;
   characters = [];
-  private posts: Post
   private rowSelected: number
-  constructor() {
+  constructor(private auth: AuthenticationService) {
     this.rowSelected = -1;
-    let obj = new Post(1, '2017-12-11', this.cCharacters, 'Wahyu' , this.approved, '-', [this.cCharacters]);
-    this.characters.push(obj);
-    obj = new Post(2, '2017-12-11', 'bla bla', 'oke oce123', this.needApproved, '-', ['dassdfsds', 'dsdfds']);
-    this.characters.push(obj);
-
-    //  obj = new Post(3, '2017-12-11', 'bla bla', 2,['dassdfsds','dsdfds'])
-    // this.posts.push(obj)
   }
-
-
   getCharacter(id) {
-    this.cCharacters = id.nam;
+    this.cCharacters = id;
     console.log(this.cCharacters);
   }
 
   ngOnInit() {
     this.collapsed1;
-    console.log(this.collapsed1);
+    this.loadData();
+  }
+  loadData() {
+    this.auth.getData().subscribe(data => {
+      this.exa = data;
+      console.log('data : ', data);
+    });
   }
   onApprove() {
     this.Approval = true;
@@ -54,17 +56,4 @@ export class StoreListComponent {
     }
   }
 
-}
-
-export class Post {
-  constructor(
-
-    public id: number,
-    public date: string,
-    public nam: string, // nama toko
-    public subject: string, // nama pemilik
-    public numComents: string, // status
-    public approvedBy: string, // approved by
-    public comments: string[]
-  ) {}
 }

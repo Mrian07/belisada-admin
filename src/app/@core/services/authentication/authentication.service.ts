@@ -6,6 +6,7 @@ import { HttpHeaders } from '@angular/common/http/src/headers';
 import { Router } from '@angular/router';
 import { Token } from '../../models/authentication/authentication.model';
 
+import 'rxjs/add/operator/map';
 @Injectable()
 export class AuthenticationService {
     constructor(private configuration: Configuration, private http: HttpClient, private routes: Router) { }
@@ -35,4 +36,18 @@ export class AuthenticationService {
             return token;
         }
     }
+
+    getData() {
+        return this.http.get<any>('https://jsonplaceholder.typicode.com/users');
+    }
 }
+
+
+export class Example {
+    constructor(
+      public userId: number,
+      public id: number,
+      public title: number,
+      public body: number
+    ) {}
+  }

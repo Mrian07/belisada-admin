@@ -7,6 +7,8 @@ import { of as observableOf } from 'rxjs/observable/of';
 import { throwIfAlreadyLoaded } from './module-import-guard';
 import { DataModule } from './data/data.module';
 import { AnalyticsService } from './utils/analytics.service';
+import { AuthenticationService } from './services/authentication/authentication.service';
+import { Configuration } from './config/configuration';
 
 const socialLinks = [
   {
@@ -73,6 +75,11 @@ const NB_CORE_PROVIDERS = [
   AnalyticsService,
 ];
 
+const BELISADA_PROVIDERS = [
+  AuthenticationService,
+  Configuration
+]
+
 @NgModule({
   imports: [
     CommonModule,
@@ -92,6 +99,7 @@ export class CoreModule {
       ngModule: CoreModule,
       providers: [
         ...NB_CORE_PROVIDERS,
+        ...BELISADA_PROVIDERS
       ],
     };
   }
