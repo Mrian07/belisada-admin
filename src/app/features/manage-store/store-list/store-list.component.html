@@ -84,18 +84,16 @@
             </ng-container>
         </tbody>
     </table>
-
-   
-    <input placeholder="Item name..." [(ngModel)]="sing">
     <div *ngIf="checkSort === false; else oke">
-            <input placeholder="Item name..." [(ngModel)]="fising">
-           <div *ngFor="let obj of arrayRight | searchPipe:'obj':fising">
+        <input [(ngModel)]="searchText" placeholder="search text goes here">
+           <div *ngFor="let obj of arrayRight | filter : searchText">
                 
                {{obj}}
            </div>
         </div>
         <ng-template #oke>
-            <div *ngFor="let item of constSudahTeracak | searchPipe:'constSudahTeracak':sing">
+                <input [(ngModel)]="searchMe" placeholder="search text goes here">
+            <div *ngFor="let item of constSudahTeracak | filter : searchMe">
                 {{item}}
             </div>
         </ng-template>
