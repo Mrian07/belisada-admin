@@ -47,7 +47,8 @@ export class Example {
     constructor(
       public userId: number,
       public id: number,
-      public title: number,
-      public body: number
+      public name: string,
+      public title: string,
+      public body: string
     ) {}
   }

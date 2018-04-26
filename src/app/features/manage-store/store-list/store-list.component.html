@@ -1,8 +1,13 @@
+<button (click)="functionArrayBenar()">oke oce button</button>
 <table class="table table-striped">
         <thead>
             <tr>
                 <th>Register Date <i class="fa fa-calendar"></i></th>
-                <th>Nama Toko <i class="fa fa-undo"></i></th>
+                <th *ngIf="checkSort === false; else login" (click)="funcSortArray()">Nama Toko <i class="fa fa-undo"></i></th>
+                <!-- Click funcSortArray jika ingin sorting -->
+                <ng-template #login><th (click)="functionArrayBenar()">Nama Toko oke oce <i class="fa fa-undo"></i></th></ng-template>
+               
+                <!-- <th (click)="funcSortArray()">Nama Toko <i class="fa fa-undo"></i></th> -->
                 <th>Nama Pemilik <i class="fa fa-undo"></i></th>
                 <th>Status <i class="fa fa-align-left"></i></th>
                 <th>Approved by <i class="fa fa-user"></i></th>
@@ -14,16 +19,16 @@
                     <input placeholder="Item phone..." [(ngModel)]="testing"> </td>
                 <td>
                     <input placeholder="Item name..." [(ngModel)]="search"> </td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td> <input placeholder="Dummy1" readonly></td>
+                <td><input placeholder="Dummy2" readonly></td>
+                <td><input placeholder="Dummy3" readonly></td>
     
             </tr>
-            <ng-container *ngFor="let obj of exa | searchPipe:'username':search  | searchPipe:'phone':testing">
+            <ng-container *ngFor="let obj of exa | searchPipe:'name':search  | searchPipe:'phone':testing">
                 <tr (click)="openCloseRow(obj.id)">
                     <td>{{obj.phone}}</td>
                     <td (click)="getCharacter(obj.username)">
-                        {{obj.username}}
+                        {{obj.name}}
                     </td>
                     <td>
                         {{obj.website}}
@@ -44,21 +49,21 @@
                             <tbody>
                                 <tr>
                                     <td style="width:15%;">Alamat Toko</td>
-                                    <td>Jl. Asia afrika no 88</td>
+                                    <td>{{ obj.address.city }}</td>
                                     <td>No Handphone</td>
                                     <td>018238123</td>
     
                                 </tr>
                                 <tr>
                                     <td style="width:15%;">Provinsi</td>
-                                    <td>Jawa Barat</td>
+                                    <td>{{ obj.address.street }}</td>
                                     <td>Email</td>
                                     <td>makmur@jaya.com</td>
     
                                 </tr>
                                 <tr>
                                     <td style="width:15%;">Kota / Kabupaten</td>
-                                    <td>Bandung Barat</td>
+                                    <td>{{ obj.address.suite }}</td>
                                     <td>
                                         <button class="btn btn-warning btn-demo" (click)="onApprove()">Approve</button>
                                     </td>
@@ -70,7 +75,7 @@
                                 </tr>
                                 <tr>
                                     <td style="width:15%;">Postal Code</td>
-                                    <td>15154</td>
+                                    <td>{{ obj.address.zipcode }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -79,3 +84,18 @@
             </ng-container>
         </tbody>
     </table>
+
+   
+    <input placeholder="Item name..." [(ngModel)]="sing">
+    <div *ngIf="checkSort === false; else oke">
+            <input placeholder="Item name..." [(ngModel)]="fising">
+           <div *ngFor="let obj of arrayRight | searchPipe:'obj':fising">
+                
+               {{obj}}
+           </div>
+        </div>
+        <ng-template #oke>
+            <div *ngFor="let item of constSudahTeracak | searchPipe:'constSudahTeracak':sing">
+                {{item}}
+            </div>
+        </ng-template>
