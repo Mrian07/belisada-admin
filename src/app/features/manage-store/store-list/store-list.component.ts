@@ -9,7 +9,6 @@ import { FormBuilder, FormGroup, Validators , ValidatorFn, AbstractControl, Form
   templateUrl: './store-list.component.html',
   styleUrls: ['./store-list.component.scss'],
 })
-
 export class StoreListComponent {
   collapsed1: boolean = false;
   Approval: boolean;
@@ -17,16 +16,17 @@ export class StoreListComponent {
   approved: string = 'Approved';
   needApproved: string = 'Need Approval';
   cha = ['asdadadasdsad', 'adadadasd1', 'adasdad3'];
-  exa = [];
+  exa: Example[];
   characters = [];
   array: any[];
   constSudahTeracak: any;
   arrayRight: any[];
   checkSort: boolean = false;
+  arrayBenar: any;
   private rowSelected: number
   constructor(private auth: AuthenticationService) {
     this.rowSelected = -1;
-   
+
   }
   getCharacter(id) {
     this.cCharacters = id;
@@ -36,12 +36,12 @@ export class StoreListComponent {
   ngOnInit() {
     this.collapsed1;
     this.loadData();
-    this.okeOceFunc();
-    this.wow();
   }
   loadData() {
     this.auth.getData().subscribe(data => {
       this.exa = data;
+      this.arrayBenar = data;
+      this.arrayBenar = this.exa;
       console.log('data : ', data);
       this.array = [];
       this.arrayRight = [];
@@ -55,24 +55,22 @@ export class StoreListComponent {
 
   functionArrayBenar() {
     this.checkSort = false;
-    this.arrayRight;
-    console.log(this.arrayRight);
-    console.log('functionArrayBenar :',this.checkSort);
+    this.constSudahTeracak = this.balikin(this.exa);
   }
 
   funcSortArray() {
     this.checkSort = true;
     this.constSudahTeracak = this.byName(this.exa);
-    console.log(this.exa);
-    console.log('funcSortArray :',this.checkSort);
-    console.log('Aray yang sudah Urut', this.constSudahTeracak);
   }
-
-   sortData(array: Array<number | string>): Array<number | string> {
-    return array.sort((a, b) => b < a ?  2: 1);
+  sortIt(arr) {
+    return arr.sort((a, b) => a.replace(/[a-z]+/) - b.replace(/[a-z]+/));
   }
-   sortIt(arr){
-    return arr.sort((a,b) => a.replace(/[a-z]+/) - b.replace(/[a-z]+/));
+  balikin(tes) {
+    this.exa.sort((a, b) => {
+      if (a.name < b.name) return 1;
+      else if (a.name > b.name) return 1;
+      else return 0;
+    });
   }
   byName(tes) {
     this.exa.sort((a, b) => {
@@ -80,16 +78,6 @@ export class StoreListComponent {
       else if (a.name > b.name) return 1;
       else return 0;
     });
-  }
-  wow() {
-
-console.log(this.sortIt(['Item3', 'Item1', 'Item2']));
-console.log(this.sortIt(['Item12', 'Item3', 'Item1', 'Item2', 'Item4']));
-console.log(this.sortIt(['Item1', 'Item1', 'Item2']));
-  }
-  okeOceFunc() {
-    const sorted = this.sortData(['4(a)', 4, 3, '2(b) #NameWithN', '2(b) #AsimpleName']); 
-    console.log(sorted);
   }
   onApprove() {
     this.Approval = true;
