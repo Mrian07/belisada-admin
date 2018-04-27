@@ -1,4 +1,4 @@
-<button (click)="functionArrayBenar()">oke oce button</button>
+
 <table class="table table-striped">
         <thead>
             <tr>
@@ -24,6 +24,10 @@
                 <td><input placeholder="Dummy3" readonly></td>
     
             </tr>
+            <div *ngIf="title; else please">
+                    The user is logged in.
+                </div>
+                <ng-template #please>
             <ng-container *ngFor="let obj of exa | searchPipe:'name':search  | searchPipe:'phone':testing">
                 <tr (click)="openCloseRow(obj.id)">
                     <td>{{obj.phone}}</td>
@@ -82,10 +86,12 @@
                     </td>
                 </tr>
             </ng-container>
+        </ng-template>
         </tbody>
     </table>
     <div *ngIf="checkSort === false; else oke">
         <input [(ngModel)]="searchText" placeholder="search text goes here">
+
            <div *ngFor="let obj of arrayRight | filter : searchText">
                 
                {{obj}}

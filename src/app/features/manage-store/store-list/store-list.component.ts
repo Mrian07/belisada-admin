@@ -17,15 +17,16 @@ export class StoreListComponent {
   approved: string = 'Approved';
   needApproved: string = 'Need Approval';
   cha = ['asdadadasdsad', 'adadadasd1', 'adasdad3'];
-  exa: Example;
+  exa = [];
   characters = [];
   array: any[];
-  constSudahTeracak: any[];
+  constSudahTeracak: any;
   arrayRight: any[];
   checkSort: boolean = false;
   private rowSelected: number
   constructor(private auth: AuthenticationService) {
     this.rowSelected = -1;
+   
   }
   getCharacter(id) {
     this.cCharacters = id;
@@ -47,6 +48,7 @@ export class StoreListComponent {
       data.forEach(x => {
         this.array.push(x.name);
         this.arrayRight.push(x.name);
+        // this.exa.push(x);
       });
     });
   }
@@ -55,19 +57,29 @@ export class StoreListComponent {
     this.checkSort = false;
     this.arrayRight;
     console.log(this.arrayRight);
+    console.log('functionArrayBenar :',this.checkSort);
   }
 
   funcSortArray() {
     this.checkSort = true;
-    this.constSudahTeracak = this.sortData(this.array);
+    this.constSudahTeracak = this.byName(this.exa);
+    console.log(this.exa);
+    console.log('funcSortArray :',this.checkSort);
     console.log('Aray yang sudah Urut', this.constSudahTeracak);
   }
 
    sortData(array: Array<number | string>): Array<number | string> {
-    return array.sort((a, b) => a < b ?  -1: 1);
+    return array.sort((a, b) => b < a ?  2: 1);
   }
    sortIt(arr){
     return arr.sort((a,b) => a.replace(/[a-z]+/) - b.replace(/[a-z]+/));
+  }
+  byName(tes) {
+    this.exa.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      else if (a.name > b.name) return 1;
+      else return 0;
+    });
   }
   wow() {
 
