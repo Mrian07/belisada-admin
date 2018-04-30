@@ -10,6 +10,8 @@ import { FormBuilder, FormGroup, Validators , ValidatorFn, AbstractControl, Form
   styleUrls: ['./store-list.component.scss'],
 })
 export class StoreListComponent {
+  car:Car = new Car();
+  colours: Array<Colour>;
   collapsed1: boolean = false;
   Approval: boolean;
   cCharacters: string = 'wahyu';
@@ -19,10 +21,15 @@ export class StoreListComponent {
   exa: Example[];
   characters = [];
   array: any[];
+  exali:exapmling = new exapmling();
   constSudahTeracak: any;
   arrayRight: any[];
   checkSort: boolean = false;
   arrayBenar: any;
+  aaaa;
+  city: FormControl;
+  checkIfButtonWasPressed: boolean = false;
+  descripReject: FormControl;
   private rowSelected: number
   constructor(private auth: AuthenticationService) {
     this.rowSelected = -1;
@@ -34,6 +41,14 @@ export class StoreListComponent {
   }
 
   ngOnInit() {
+    this.colours = Array<Colour>();
+    this.colours.push(new Colour(0, 'Need Approval'));
+    this.colours.push(new Colour(1, 'Approved'));
+    this.colours.push(new Colour(2, 'Rejected'));
+    this.colours.push(new Colour(2, 'Revise'));
+    this.city = new FormControl('');
+    this.descripReject = new FormControl();
+    // this.city = new FormControl('');
     this.collapsed1;
     this.loadData();
   }
@@ -42,7 +57,6 @@ export class StoreListComponent {
       this.exa = data;
       this.arrayBenar = data;
       this.arrayBenar = this.exa;
-      console.log('data : ', data);
       this.array = [];
       this.arrayRight = [];
       data.forEach(x => {
@@ -52,6 +66,17 @@ export class StoreListComponent {
       });
     });
   }
+  getValueFromSelect() {
+    const b = this.exali.descript = this.descripReject.value;
+    this.descripReject.reset();
+    alert(this.aaaa);
+    console.log(b);
+  }
+  Selected(value: any) {
+    this.checkIfButtonWasPressed = true;
+  this.aaaa = value;
+
+       }
 
   functionArrayBenar() {
     this.checkSort = false;
@@ -83,6 +108,9 @@ export class StoreListComponent {
     this.Approval = true;
     console.log('Untuk mengganti approval', this.Approval);
   }
+  okelu(x) {
+    console.log('asd', x);
+  }
   public openCloseRow(idReserva: number): void {
 
     if (this.rowSelected === -1) {
@@ -97,4 +125,26 @@ export class StoreListComponent {
     }
   }
 
+}
+
+/*
+  dibawah adalah model example untuk proses develop ( belum memakai real api dari backend belisada)
+
+*/
+export class Car
+{
+    color:Colour;
+}
+export class exapmling {
+  descript: string;
+}
+export class Colour
+{
+    constructor(id:number, name:string) {
+        this.id=id;
+        this.name=name;
+    }
+
+    id:number;
+    name:string;
 }

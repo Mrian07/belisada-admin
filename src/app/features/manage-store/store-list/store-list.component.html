@@ -76,13 +76,25 @@
                                     <td style="width:15%;">Kota / Kabupaten</td>
                                     <td>{{ obj.address.suite }}</td>
                                     <td>
-                                        <button class="btn btn-warning btn-demo" (click)="onApprove()">Approve</button>
+                                            <div class="styled-select yellow rounded">
+                                                    <select [formControl]="city" #selectedCategory  (change)="Selected($event.target.value)" class="input-style-text-100">
+                                                      <option [ngValue]="null" disabled selected>Silahkan Pilih Action</option>
+                                                      <option *ngFor="let option of colours" [ngValue]="option.name" placeholder="Pilih kota">{{ option.name }}
+                                                      </option>
+                                                  </select>
+                                                  </div>
                                     </td>
-                                    <td></td>
+                                    <td>
+                                            <button class="button-hide-borderB"  (click)="getValueFromSelect()" [disabled]="checkIfButtonWasPressed === false" ><img class="small-image-for-save" src="assets/images/save_1.png"> Save</button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td style="width:15%;">Kecamatan</td>
                                     <td>Bandung Barat</td>
+                                <div *ngIf="aaaa === '3: Rejected' || aaaa === '4: Revise' ">
+                                      
+                                <textarea rows="4" cols="50" [formControl]="descripReject" placeholder="Explenation"></textarea>
+                                </div>
                                 </tr>
                                 <tr>
                                     <td style="width:15%;">Postal Code</td>
