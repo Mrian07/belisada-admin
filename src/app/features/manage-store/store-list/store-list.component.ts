@@ -53,6 +53,7 @@ export class StoreListComponent {
     this.loadData();
   }
   loadData() {
+    this.city.reset();
     this.auth.getData().subscribe(data => {
       this.exa = data;
       this.arrayBenar = data;
@@ -69,6 +70,8 @@ export class StoreListComponent {
   getValueFromSelect() {
     const b = this.exali.descript = this.descripReject.value;
     this.descripReject.reset();
+    this.city.reset();
+    this.checkIfButtonWasPressed = false;
     alert(this.aaaa);
     console.log(b);
   }
