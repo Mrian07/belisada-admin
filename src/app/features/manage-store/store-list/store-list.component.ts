@@ -73,8 +73,16 @@ export class StoreListComponent {
     this.city.reset();
     this.checkIfButtonWasPressed = false;
     alert(this.aaaa);
+    
     console.log(b);
+    localStorage.setItem('Testing', this.aaaa);
+    localStorage.setItem('description', b);
+    this.newMethod();
   }
+  private newMethod() {
+    this.aaaa = '2: Approved';
+  }
+
   Selected(value: any) {
     this.checkIfButtonWasPressed = true;
   this.aaaa = value;
