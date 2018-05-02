@@ -45,6 +45,11 @@ export class AuthenticationService {
         return this.http.post(this.configuration.apiURL + '/account/login', data)
         .map(resp => resp as Login);
     }
+
+    doForgotPassword(data){
+        return this.http.post(this.configuration.apiURL + '/account/sendemail', data)
+        .map(resp => resp as Login);
+    }
 }
 
 
