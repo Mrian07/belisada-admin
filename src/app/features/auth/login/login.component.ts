@@ -1,5 +1,9 @@
+import { AuthenticationService } from './../../../@core/services/authentication/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Login } from './../../../@core/models/authentication/authentication.model';
+import { Router, ActivatedRoute } from '@angular/router';
+import { LocalStorageEnum } from './../../../@core/enum/local-storage.enum';
 
 @Component({
   selector: 'login',
@@ -11,6 +15,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -31,24 +37,23 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('this.signinFormGroup: ', this.signinFormGroup);
-    // const signinRequest: SigninRequest = this.signinFormGroup.value;
-    // this.userService.signin(signinRequest).subscribe(
-    // result => {
-    //   // Handle result
-    //   if (result.status === 0) {
-    //     this.alert = true;
-    //     this.msg = result.message;
-    //   } else {
-    //     const token: string = result.token;
-    //     this.userService.setUserToLocalStorage(token);
-    //     this.router.navigate(['/']);
-    //   }
-    // },
-    // error => {
-    //   swal('belisada.co.id', 'unknown error', 'error');
-    //   }
-    // );
+    console.log('this.signinFormGroup: ', this.signinFormGroup.value);
+    const login: Login = this.signinFormGroup.value;
+    this.authenticationService.doLogin(login).subscribe(
+    result => {      
+      // Handle result
+      if (result.status === 1) {
+        localStorage.setItem(LocalStorageEnum.TOKEN_KEY, result.token);
+        sessionStorage.setItem(LocalStorageEnum.TOKEN_KEY, result.token);
+        this.router.navigate(['/pages/dashboard']);
+      } else{
+        alert(result.message);
+      }
+    },
+    error => {
+      // swal('belisada.co.id', 'unknown error', 'error');
+      }
+    );
   }
 
 }

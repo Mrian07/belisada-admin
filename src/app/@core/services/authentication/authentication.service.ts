@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpHeaders } from '@angular/common/http/src/headers';
 import { Router } from '@angular/router';
-import { Token } from '../../models/authentication/authentication.model';
+import { Login, Token } from '../../models/authentication/authentication.model';
 
 import 'rxjs/add/operator/map';
 @Injectable()
@@ -39,6 +39,11 @@ export class AuthenticationService {
 
     getData() {
         return this.http.get<any>('https://jsonplaceholder.typicode.com/users');
+    }
+
+    doLogin(data){
+        return this.http.post(this.configuration.apiURL + '/account/login', data)
+        .map(resp => resp as Login);
     }
 }
 
