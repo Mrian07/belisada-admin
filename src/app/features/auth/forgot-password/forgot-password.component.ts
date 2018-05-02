@@ -36,11 +36,9 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('this.signinFormGroup: ', this.signinFormGroup.value);
     const forgotPassword: ForgotPassword = this.signinFormGroup.value;
     this.authenticationService.doForgotPassword(forgotPassword).subscribe(
     result => {     
-      console.log(result); 
       // Handle result
       if (result.status === 1) {
         this.isProses=true;

@@ -23,3 +23,10 @@ export class Token {
     status: number;
     message: string;
   }
+
+  export class ResetPassword{
+    key: any;
+    newPassword: any;
+    status: number;
+    message: string;
+  }

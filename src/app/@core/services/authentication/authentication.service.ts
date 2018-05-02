@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpHeaders } from '@angular/common/http/src/headers';
 import { Router } from '@angular/router';
-import { Login, Token } from '../../models/authentication/authentication.model';
+import { ResetPassword, ForgotPassword, Login, Token } from '../../models/authentication/authentication.model';
 
 import 'rxjs/add/operator/map';
 @Injectable()
@@ -48,7 +48,12 @@ export class AuthenticationService {
 
     doForgotPassword(data){
         return this.http.post(this.configuration.apiURL + '/account/sendemail', data)
-        .map(resp => resp as Login);
+        .map(resp => resp as ForgotPassword);
+    }
+
+    doResetPassword(data){
+        return this.http.post(this.configuration.apiURL + '/account/resetpassword', data)
+        .map(resp => resp as ResetPassword);
     }
 }
 
