@@ -7,7 +7,7 @@ import { APP_BASE_HREF, PathLocationStrategy, LocationStrategy } from '@angular/
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 
 import { AppComponent } from './app.component';
@@ -17,6 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthComponent } from './features/auth/auth.component';
 import { AuthModule } from './features/auth/auth.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler/src/core';
+import { HttpTokenInterceptor } from './@core/services/interceptors/http.token.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,6 +37,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler/src/core';
     {
       provide: LocationStrategy,
       useClass: PathLocationStrategy,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpTokenInterceptor,
+      multi: true
     },
     { provide: APP_BASE_HREF, useValue: '/' },
   ]
