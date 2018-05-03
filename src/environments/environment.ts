@@ -10,5 +10,5 @@
 
 export const environment = {
   production: false,
-  apiUrl: ''
+  apiUrl: 'http://43.243.141.117:8080/belisada-admin'
 };

@@ -1,51 +1,47 @@
-import { AuthenticationService } from './../../../@core/services/authentication/authentication.service';
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from './../../../@core/services/authentication/authentication.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Login } from './../../../@core/models/authentication/authentication.model';
+import { ForgotPassword } from './../../../@core/models/authentication/authentication.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LocalStorageEnum } from './../../../@core/enum/local-storage.enum';
 
 @Component({
-  selector: 'login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'forgot-password',
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit {
   signinFormGroup: FormGroup;
+  isProses: boolean;
 
-  constructor(
-    private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
     private authenticationService: AuthenticationService,
-    private router: Router,
-  ) { }
+    private router: Router,) { }
 
   ngOnInit() {
+    this.isProses=false;
     this.createFormControl();
   }
 
   /* Fungsi untuk membuat nama field pada form */
   createFormControl() {
     this.signinFormGroup = this.fb.group({
+      type: ['reset', [
+        Validators.required]],
       email: ['', [
         Validators.required,
         Validators.pattern('[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}')
-      ]],
-      password: ['', [
-        Validators.required,
-      ]],
+      ]]
     });
   }
 
   onSubmit() {
-    console.log('this.signinFormGroup: ', this.signinFormGroup.value);
-    const login: Login = this.signinFormGroup.value;
-    this.authenticationService.doLogin(login).subscribe(
-    result => {      
+    const forgotPassword: ForgotPassword = this.signinFormGroup.value;
+    this.authenticationService.doForgotPassword(forgotPassword).subscribe(
+    result => {     
       // Handle result
       if (result.status === 1) {
-        localStorage.setItem(LocalStorageEnum.TOKEN_KEY, result.token);
-        sessionStorage.setItem(LocalStorageEnum.TOKEN_KEY, result.token);
-        this.router.navigate(['/pages/dashboard']);
+        this.isProses=true;
       } else{
         alert(result.message);
       }
@@ -55,5 +51,7 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
+}
 
 }
