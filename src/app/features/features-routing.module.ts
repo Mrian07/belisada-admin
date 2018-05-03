@@ -13,6 +13,11 @@ const routes: Routes = [{
     {
       path: 'profile',
       loadChildren: './profile/profile.module#ProfileModule',
+
+    },
+    {
+      path: 'buyer',
+      loadChildren: './manage-buyer/manage-buyer.module#ManageBuyerModule',
     }
   ]
 }];
