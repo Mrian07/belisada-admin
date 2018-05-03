@@ -4,7 +4,18 @@
     </nb-card-header>
 
     <nb-card-body>
-        <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
-        </ng2-smart-table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email Address</th>
+                    <th>Date Joined <i class="fa fa-undo"></i></th>
+                    <th>Status <i class="fa fa-align-left"></i></th>
+                    <th>Approved by <i class="fa fa-user"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </nb-card-body>
 </nb-card>
