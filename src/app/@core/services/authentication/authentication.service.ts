@@ -57,14 +57,3 @@ export class AuthenticationService {
         .map(resp => resp as ResetPassword);
     }
 }
-
-
-export class Example {
-    constructor(
-      public userId: number,
-      public id: number,
-      public name: string,
-      public title: string,
-      public body: string
-    ) {}
-  }
