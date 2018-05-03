@@ -1,14 +1,13 @@
-<table class="table table-striped">
+<!-- <table class="table table-striped">
     <thead>
         <tr>
             <th>Register Date <i class="fa fa-calendar"></i></th>
             <th *ngIf="checkSort === false; else login" (click)="funcSortArray()">Nama Toko <i class="fa fa-undo"></i></th>
-            <!-- Click funcSortArray jika ingin sorting -->
             <ng-template #login>
                 <th (click)="functionArrayBenar()">Nama Toko<i class="fa fa-undo"></i></th>
             </ng-template>
 
-            <!-- <th (click)="funcSortArray()">Nama Toko <i class="fa fa-undo"></i></th> -->
+         
             <th>Nama Pemilik <i class="fa fa-undo"></i></th>
             <th>Status <i class="fa fa-align-left"></i></th>
             <th>Approved by <i class="fa fa-user"></i></th>
@@ -79,7 +78,7 @@
                                             <div class="styled-select yellow rounded">
                                                     <select [formControl]="city" #selectedCategory  (change)="Selected($event.target.value)" class="input-style-text-100">
                                                       <option [ngValue]="null" disabled selected>Silahkan Pilih Action</option>
-                                                      <option *ngFor="let option of colours" [ngValue]="option.name" placeholder="Pilih kota">{{ option.name }}
+                                                      <option *ngFor="let option of list" [ngValue]="option.statusId" placeholder="Pilih kota">{{ option.status }}
                                                       </option>
                                                   </select>
                                                   </div>
@@ -106,5 +105,146 @@
                 </tr>
             </ng-container>
         </ng-template>
+
+        
+    </tbody>
+</table> -->
+
+
+<nb-card>
+    <span class="text-header">Store Approval</span>
+
+<table border=0>
+       
+    <thead>
+        <tr>
+            <th>Register Date <i class="fa fa-calendar"></i></th>
+            <th *ngIf="checkSort === false; else login" (click)="funcSortArray()">Nama Toko <i class="fa fa-undo"></i></th>
+            <!-- Click funcSortArray jika ingin sorting -->
+            <ng-template #login>
+                <th (click)="functionArrayBenar()">Nama Toko <i class="fa fa-undo"></i></th>
+            </ng-template>
+
+            <!-- <th (click)="funcSortArray()">Nama Toko <i class="fa fa-undo"></i></th> -->
+            <th>Nama Pemilik <i class="fa fa-undo"></i></th>
+            <th>Status <i class="fa fa-align-left"></i></th>
+            <th>Approved by <i class="fa fa-user"></i></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <input placeholder="search tanggal" [(ngModel)]="registerDat"> </td>
+            <td>
+                <input placeholder="search Nama toko" [(ngModel)]="search"> </td>
+            <td>
+                <input placeholder="search Nama Owner" [(ngModel)]="namaOwner">
+            </td>
+            <td>
+                <input placeholder="search status" [(ngModel)]="status">
+            </td>
+            <td>
+                <input placeholder="search approvedBy" [(ngModel)]="verifiedByName">
+            </td>
+
+        </tr>
+        <div *ngIf="title; else please">
+            The user is logged in.
+        </div>
+        <ng-template #please>
+            <ng-container *ngFor="let obj of listToko.data | searchPipe:'name':search  | searchPipe:'registeredDate':registerDat | searchPipe:'ownerStore':namaOwner | searchPipe:'status':status | searchPipe:'verifiedByName':verifiedByName">
+                <tr (click)="openCloseRow(obj.storeId)">
+                    <td>{{obj.registeredDate}}</td>
+                    <td (click)="getCharacter(obj.storeId)">
+                        {{obj.name}}
+                    </td>
+                    <td>
+                        {{obj.ownerStore}}
+                    </td>
+                    <td>
+                        <span> {{obj.status}} </span>
+                    </td>
+                    
+                    <td>{{obj.verifiedByName}}</td>
+                </tr>
+                <tr *ngIf="rowSelected==obj.storeId">
+                    <td></td>
+                    <td colspan="4">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <td style="width:15%;">Alamat Toko</td>
+                                    <td>{{ listDetailToko.address }}</td>
+                                    <td>No Handphone</td>
+                                    <td>{{ listDetailToko.phone }}</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="width:15%;">Provinsi</td>
+                                    <td>{{ listDetailToko.regionName }}</td>
+                                    <td>Email</td>
+                                    <td>{{ listDetailToko.email }}</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="width:15%;">Kota / Kabupaten</td>
+                                    <td>{{ listDetailToko.cityName }}</td>
+                                    <td>
+                                           
+                                                    <div class="styled-select yellow rounded">
+                                                            <select name="city"   [(ngModel)]="city" #selectedCategory  (change)="Selected(city)" [ngModelOptions]="{standalone: true}"   class="input-style-text-100">
+                                                                <option  disabled selected>{{ city }}</option>
+                                                                <!-- <option  disabled selected>Silahkan Pilih Action</option> -->
+                                                              <option *ngFor="let option of list" [ngValue]="option.statusCode">{{ option.status }}
+                                                              </option>
+                                                          </select>
+                                                          </div>
+                                           
+                                    </td>
+                                    <td>
+                                            <button class="button-hide-borderB"  (click)="getValueFromSelect()" [disabled]="checkIfButtonWasPressed === false" ><img class="small-image-for-save" src="assets/images/save_1.png"> Save</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:15%;">Kecamatan</td>
+                                    <td>{{listDetailToko.districtName}}</td>
+                                <div *ngIf="aaaa === 'RJ' || aaaa === 'RV' ">
+                                      
+                                <textarea rows="4" cols="50" [formControl]="descripReject" placeholder="Explenation"></textarea>
+                                </div>
+                                </tr>
+                                <tr>
+                                    <td style="width:15%;">Postal Code</td>
+                                    <td>{{ listDetailToko.postal }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </ng-container>
+        </ng-template>
+
+        
     </tbody>
 </table>
+
+        <div class="paging">
+            <ul>
+                <li>
+                    <a (click)="setPage(1)" [ngClass]="{disabled:param1 == 1}">First</a>
+                </li>
+                <li>
+                    <a (click)="setPage(param1, -1)" [ngClass]="{disabled:(param1-1) < 1}">Previous</a>
+                </li>
+                <li *ngFor="let p of pages">
+                    <a (click)="setPage(p)" [ngClass]="param1 == p?'current-page':''">{{p}}</a>
+                </li>
+                <li>
+                    <a (click)="setPage(param1, +1)" [ngClass]="{disabled:param1 == lastPages}">Next</a>
+                </li>
+                <li>
+                    <a (click)="setPage(lastPages)" [ngClass]="{disabled:param1 == lastPages}">Last</a>
+                </li>
+            </ul>
+        </div>
+    </nb-card>

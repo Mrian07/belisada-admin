@@ -2,12 +2,14 @@ table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
+    border: 0;
 }
 
 td, th {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
+    border: 0;
 }
 .search-input-text {
     text-align: center;
@@ -20,6 +22,12 @@ td, th {
     list-style: disc;
     list-style-position: inside;
     color: red;
+}
+
+.text-header {
+  text-align: left;
+  font-size: 38px;
+  border-bottom: 1px solid;
 }
 
 
@@ -181,6 +189,53 @@ div { margin: 20px; }
 .button-hide-borderB {
     border: none;
     background: none;
+}
+
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.paging ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: center;
+}
+.paging li {
+  display: inline-block;
+}
+.paging a {
+  border: 1px solid #999;
+  padding: 3px 10px;
+  margin: 0 3px;
+}
+.paging a.current-page {
+  border: 1px solid #cde;
+  background: #def;
+  color: #999;
+  cursor: default;
+}
+.paging a:not(.disabled):not(.current-page):hover {
+  color: #abc;
+  cursor: pointer;
+  border-color: #cde;
+}
+.paging a.disabled {
+  color: #ccc;
+  cursor: default;
 }
 
 
