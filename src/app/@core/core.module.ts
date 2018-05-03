@@ -9,6 +9,7 @@ import { DataModule } from './data/data.module';
 import { AnalyticsService } from './utils/analytics.service';
 import { AuthenticationService } from './services/authentication/authentication.service';
 import { Configuration } from './config/configuration';
+import { ManageBuyerService } from './services/manage-buyer/manage-buyer.service';
 import { ManageStoreService } from './services/manage-store/manage-store.service';
 
 const socialLinks = [
@@ -79,6 +80,7 @@ const NB_CORE_PROVIDERS = [
 const BELISADA_PROVIDERS = [
   AuthenticationService,
   Configuration,
+  ManageBuyerService,
   ManageStoreService
 ]
 
