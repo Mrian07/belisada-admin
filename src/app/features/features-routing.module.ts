@@ -9,6 +9,10 @@ const routes: Routes = [{
     {
       path: 'store',
       loadChildren: './manage-store/manage-store.module#ManageStoreModule',
+    },
+    {
+      path: 'profile',
+      loadChildren: './profile/profile.module#ProfileModule',
     }
   ]
 }];
