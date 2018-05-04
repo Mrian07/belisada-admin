@@ -82,7 +82,7 @@ export class AccountComponent implements OnInit {
           swal(
             'Alert',
             result.message,
-            'success',
+            'error',
           );
         } else{
           swal(
