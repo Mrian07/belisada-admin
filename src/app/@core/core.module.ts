@@ -1,3 +1,4 @@
+import { ProfileService } from './services/profile/profile.service';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NbAuthModule, NbDummyAuthProvider } from '@nebular/auth';
@@ -79,6 +80,7 @@ const NB_CORE_PROVIDERS = [
 
 const BELISADA_PROVIDERS = [
   AuthenticationService,
+  ProfileService,
   Configuration,
   ManageBuyerService,
   ManageStoreService
