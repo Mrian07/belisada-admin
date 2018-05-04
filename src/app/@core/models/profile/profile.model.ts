@@ -17,6 +17,7 @@ export class Profile {
   gender: string;
   mStoreId: number;
   isEmployee: boolean;
+  imageAvatar: any;
   constructor() {}
 }
 
@@ -38,6 +39,12 @@ export class ChangePasswordRequest {
   newPassword: string;  
   oldPassword: string;
   message: string;
+  status: number;
+  constructor() {}
+}
+
+export class Avatar {
+  imageAvatar: string;  
   status: number;
   constructor() {}
 }
