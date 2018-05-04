@@ -1,64 +1,83 @@
 
-<div class="row">
-  <div class="col-md-12 col-lg-6">
-
-    <div class="list-profile">
-        Nama: {{name}}
-    </div>
-    <div class="list-profile">
-        Email: {{email}}
-    </div>
-    <div class="list-profile">
-        Phone: {{phone}}
-    </div>
-    <br>
-    <button type="button" class="btn btn-primary btn-with-icon btn-profile" (click)="changePassword()">
-      <i class="ion-key"></i>
-      <span>Ubah Password</span>
-    </button>
-
-    <div *ngIf="isChangePass==true" class="form-profile">
-      
-        <form [formGroup]="profileFormGroup" (submit)="onSubmit()">
-            <div class="form-group">
-                <input formControlName="oldPassword" class="form-control"
-                    placeholder="Password Lama" type="password" [ngClass]="{
-                        'invalid-form-control': profileFormGroup.controls.oldPassword.invalid && profileFormGroup.controls.oldPassword.dirty,
-                        'success-form-control': profileFormGroup.controls.oldPassword.valid && profileFormGroup.controls.oldPassword.dirty
-                    }">
-                <!-- <small *ngIf="profileFormGroup.controls.password.invalid && profileFormGroup.controls.password.dirty" class="invalid-form">
-                    Old [assword is required!
-                </small> -->
-            </div>
-            <div class="form-group">
-                <input formControlName="newPassword" class="form-control"
-                    placeholder="Password Baru" type="password" [ngClass]="{
-                        'invalid-form-control': profileFormGroup.controls.newPassword.invalid && profileFormGroup.controls.newPassword.dirty,
-                        'success-form-control': profileFormGroup.controls.newPassword.valid && profileFormGroup.controls.newPassword.dirty
-                    }">
-                <!-- <small *ngIf="profileFormGroup.controls.new_password.invalid && profileFormGroup.controls.new_password.dirty" class="invalid-form">
-                    New password is required!
-                </small> -->
-            </div>
-            <div class="form-group">
-                <input formControlName="repeatNewPassword" class="form-control"
-                    placeholder="Ulangi Password" type="password" [ngClass]="{
-                        'invalid-form-control': profileFormGroup.controls.repeatNewPassword.invalid && profileFormGroup.controls.repeatNewPassword.dirty,
-                        'success-form-control': profileFormGroup.controls.repeatNewPassword.valid && profileFormGroup.controls.repeatNewPassword.dirty
-                    }">
-                <small *ngIf="profileFormGroup.controls.repeat_new_password.invalid && profileFormGroup.controls.repeat_new_password.dirty" class="invalid-form">
-                    Repeat new password is required!
-                </small>
-            </div>
-            <button type="submit" class="btn btn-hero-info btn-profile" [disabled]="profileFormGroup.invalid">Simpan</button> <button type="submit" class="btn btn-hero-danger btn-profile" (click)="cancel()">Batal</button>
-        </form>
+<nb-card>
+    <nb-card-header>
+        Profile
+    </nb-card-header>
+  
+    <nb-card-body>
+    <div class="row">
+        <div class="col-md-12 col-lg-6">
         
-
-
-    </div>
+            <div class="list-profile">
+                Nama: {{name}}
+            </div>
+            <div class="list-profile">
+                Email: {{email}}
+            </div>
+            <div class="list-profile">
+                Phone: {{phone}}
+            </div>
+            <br>
+            <button type="button" class="btn btn-primary btn-with-icon btn-profile" (click)="changePassword()">
+            <i class="ion-key"></i>
+            <span>Ubah Password</span>
+            </button>
+        
+            <div *ngIf="isChangePass==true" class="form-profile">
+                <form [formGroup]="profileFormGroup" (submit)="onSubmit()">
+                    <div class="form-group">
+                        <input formControlName="oldPassword" class="form-control"
+                            placeholder="Password Lama" type="password" [ngClass]="{
+                                'invalid-form-control': profileFormGroup.controls.oldPassword.invalid && profileFormGroup.controls.oldPassword.dirty,
+                                'success-form-control': profileFormGroup.controls.oldPassword.valid && profileFormGroup.controls.oldPassword.dirty
+                            }">
+                    </div>
+                    <div class="form-group">
+                        <input formControlName="newPassword" class="form-control"
+                            placeholder="Password Baru" type="password" [ngClass]="{
+                                'invalid-form-control': profileFormGroup.controls.newPassword.invalid && profileFormGroup.controls.newPassword.dirty,
+                                'success-form-control': profileFormGroup.controls.newPassword.valid && profileFormGroup.controls.newPassword.dirty
+                            }">
+                    </div>
+                    <div class="form-group">
+                        <input formControlName="repeatNewPassword" class="form-control"
+                            placeholder="Ulangi Password" type="password" [ngClass]="{
+                                'invalid-form-control': profileFormGroup.controls.repeatNewPassword.invalid && profileFormGroup.controls.repeatNewPassword.dirty,
+                                'success-form-control': profileFormGroup.controls.repeatNewPassword.valid && profileFormGroup.controls.repeatNewPassword.dirty
+                            }">
+                    </div>
+                    <button type="submit" class="btn btn-hero-info btn-profile" [disabled]="profileFormGroup.invalid">Simpan</button> <button type="submit" class="btn btn-hero-danger btn-profile" (click)="cancel()">Batal</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-6">
+            <h3>Avatar</h3>
     
-  </div>
-  <div class="col-md-12 col-lg-6">
-      <h3>Profile</h3>
-  </div>
-</div>
+            <div class="image">
+                    <!-- <div class="picture" style.background-image="url('{{userImgAvatar}}')" (load)="setCanvas($event,'imageAvatar')" #avaImg></div> -->
+                <img src="{{userImgAvatar}}" alt="Profile Picture" class="img-avatar" (load)="setCanvas($event,'imageAvatar')" #avaImg />
+            </div>
+            <div class="upload-btn-wrapper">
+                <button class="btn btn-hero-primary">Ubah Avatar</button>
+                <input type="file" name="myfile" (change)="setUrl($event, avaImg)"/>
+            </div>
+
+
+
+            <!-- <nb-card-body>
+                <div class="picture" style.background-image="assets/images/kristy.png"></div>
+            
+                <div class="details">
+                    <div class="title">
+                    React Native UI Kitten
+                    </div>
+                    <div class="description">
+                    React Native UI Kitten is a framework that contains a set of commonly used UI components styled in a similar way. The most awesome thing: you can change themes on the fly by just passing a different set of variables. 100% native. Give our kitten a try!
+                    </div>
+                </div>
+            </nb-card-body> -->
+        </div>
+        </div>
+                  
+    </nb-card-body>
+</nb-card>
