@@ -1,9 +1,11 @@
 
-
-    <div class="list" *ngIf="listToko"> <nb-card>
-            <span class="text-header">Store Approval</span>
-            <table>
-                <nb-card-body>
+<nb-card>
+        <nb-card-header>
+                Store Approval
+            </nb-card-header>
+            <nb-card-body>
+            <table class="table table-bordered">
+               
         
                     <thead>
                         <tr>
@@ -118,8 +120,9 @@
                         </ng-template>
         
                     </tbody>
-                </nb-card-body>
+                
             </table>
+       
         
             <div class="paging">
                     <ul>
@@ -140,5 +143,5 @@
                         </li>
                     </ul>
                 </div>
-        </nb-card> </div>
-    <div *ngIf="!listToko"> Loading.......... </div>
+            </nb-card-body>
+        </nb-card>
