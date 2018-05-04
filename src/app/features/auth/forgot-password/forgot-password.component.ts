@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ForgotPassword } from './../../../@core/models/authentication/authentication.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LocalStorageEnum } from './../../../@core/enum/local-storage.enum';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'forgot-password',
@@ -43,11 +44,15 @@ export class ForgotPasswordComponent implements OnInit {
       if (result.status === 1) {
         this.isProses=true;
       } else{
-        alert(result.message);
+        swal(
+          'Alert',
+          result.message,
+          'error',
+        );
       }
     },
     error => {
-      // swal('belisada.co.id', 'unknown error', 'error');
+        swal('belisada.co.id', 'unknown error', 'error');
       }
     );
   }
