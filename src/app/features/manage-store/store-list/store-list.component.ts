@@ -50,6 +50,13 @@ export class StoreListComponent {
   param: any;
   param1: string;
 param2: string;
+registerDat: any;
+search: any;
+namaOwner: any;
+status: any;
+verifiedByName: any;
+title: any;
+listOfItems: any;
 
   // listToko: IsiData[];
   listToko: List = new List();
@@ -92,8 +99,10 @@ param2: string;
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.lastPages) { return false; }
-    this.router.navigate(['/store/list'], { queryParams: { page: page}, queryParamsHandling: 'merge' });
-    window.scrollTo(0, 0);window.location.reload();
+    this.router.navigate(['/store/list'], { queryParams: { page: page}});
+    window.scrollTo(0, 0);
+    window.location.reload();
+    
   }
   private getList() {
     this.manage.getList().subscribe(x => {
@@ -111,6 +120,13 @@ param2: string;
     this.manage.getListToko(paramm).subscribe(dataToko => {
       this.listToko = dataToko;
       this.lastPages = dataToko.pageCount;
+          this.start = (this.currentPage - 1) * this.limit;
+          this.end = this.start + this.limit;
+          this.pages = [];
+          if (this.end > this.total) {
+            this.end = this.total;
+          }
+          this.lastPages = dataToko.pageCount;
       for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
         if (r > 0 && r <= this.lastPages) {
           this.pages.push(r);
@@ -131,21 +147,33 @@ param2: string;
     this.postingPut(postData);
   }
   private postingPut(postData: { statusCode: string; note: string; storeId: string; }) {
-    this.manage.postToko(postData).subscribe(postDa => {
-      swal({
-        title: 'Are you sure?',
-        text: 'You wont be able to revert this!',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-        console.log('tidak berhasil')
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes!',
+      cancelButtonText: 'No, cancel!',
+      confirmButtonClass: 'btn btn-success',
+      cancelButtonClass: 'btn btn-danger',
+      buttonsStyling: false,
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        const newLocal = this.manage.postToko(postData).subscribe(postDa => {
         });
+      } else if (
+        // Read more about handling dismissals
+        result.dismiss === swal.DismissReason.cancel
+      ) {
+        console.log('');
+      }
+    });
       this.city = 'Silahkan Pilih Action';
       
-    });
+   
   }
 
   private newMethod() {
