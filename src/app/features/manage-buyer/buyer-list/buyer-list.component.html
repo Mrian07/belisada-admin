@@ -4,18 +4,49 @@
     </nb-card-header>
 
     <nb-card-body>
-        <table>
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Email Address</th>
                     <th>Date Joined <i class="fa fa-undo"></i></th>
                     <th>Status <i class="fa fa-align-left"></i></th>
-                    <th>Approved by <i class="fa fa-user"></i></th>
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td><input class="form-control" placeholder="Search Name" [(ngModel)]="buyer.name"></td>
+                    <td><input class="form-control" placeholder="Search Email Address" [(ngModel)]="buyer.email"></td>
+                    <td><input class="form-control" placeholder="Search Date Joined" [(ngModel)]="buyer.dateOfJoin"></td>
+                    <td><input class="form-control" placeholder="Search Status" [(ngModel)]="buyer.status"></td>
+                </tr>
+                <tr *ngFor="let item of buyerPaging.data">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.dateOfJoin }}</td>
+                    <td>-</td>
+                </tr>
             </tbody>
         </table>
+
+        <div class="paging">
+            <ul>
+                <li>
+                    <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
+                </li>
+                <li>
+                    <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
+                </li>
+                <li *ngFor="let p of pages">
+                    <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
+                </li>
+                <li>
+                    <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+                </li>
+                <li>
+                    <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+                </li>
+            </ul>
+        </div>
     </nb-card-body>
 </nb-card>
