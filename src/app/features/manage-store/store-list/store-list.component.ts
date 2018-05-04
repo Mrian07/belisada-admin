@@ -39,7 +39,6 @@ export class StoreListComponent {
   storeId: number;
   pager: any = {};
   listing: any;
-  currentPage = 1;
   lastPages: number;
   start = 0;
   end = 0;
@@ -58,6 +57,8 @@ export class StoreListComponent {
   title: any;
   listOfItems: any;
   loading = true;
+  currentPage: any;;
+  lastPage: number;
 
   // listToko: IsiData[];
   listToko: List = new List();
@@ -75,13 +76,31 @@ export class StoreListComponent {
   }
 
   ngOnInit() {
-    this.routeFirst();
-    this.routeSecond();
-    this.getDataToko(this.param);
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      this.pages = [];
+      this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
+      const queryParams = {
+        page: this.currentPage,
+      }
+      this.newMethod_1(queryParams);
+    });
+    // this.getDataToko(this.param);
     this.descripReject = new FormControl();
     this.city = 'Silahkan Pilih Action';
     this.collapsed1;
     this.loadData();
+  }
+
+  private newMethod_1(queryParams: { page: number; }) {
+    this.manage.getListToko(queryParams).subscribe(response => {
+      this.listToko = response;
+      this.lastPage = this.listToko.pageCount;
+      for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
+        if (r > 0 && r <= this.listToko.pageCount) {
+          this.pages.push(r);
+        }
+      }
+    });
   }
 
   private routeSecond() {
@@ -171,7 +190,8 @@ export class StoreListComponent {
     }).then((result) => {
       if (result.value) {
         const newLocal = this.manage.postToko(postData).subscribe(postDa => {
-          this.getDataToko(this.param);
+          this.getDataToko(this.currentPage);
+          // this.newMethod_1(this.currentPage);
         });
       } else if (
         // Read more about handling dismissals

@@ -51,7 +51,11 @@
                                         {{obj.ownerStore}}
                                     </td>
                                     <td>
-                                        <span> {{obj.status}} </span>
+                                                <i class="fa fa-circle circle-blue" *ngIf="obj.status === 'NEED APPROVAL'"></i>
+                                                <i class="fa fa-circle circle-green" *ngIf="obj.status === 'APPROVED'"></i>
+                                                <i class="fa fa-circle circle-red" *ngIf="obj.status === 'REJECTED'"></i>
+                                                <i class="fa fa-circle circle-yellow" *ngIf="obj.status === 'REVISE'"></i>
+                                            {{obj.status}}
                                     </td>
         
                                     <td>{{obj.verifiedByName}}</td>
@@ -118,23 +122,23 @@
             </table>
         
             <div class="paging">
-                <ul>
-                    <li>
-                        <a (click)="setPage(1)" [ngClass]="{disabled:param1 == 1}">First</a>
-                    </li>
-                    <li>
-                        <a (click)="setPage(param1, -1)" [ngClass]="{disabled:(param1-1) < 1}">Previous</a>
-                    </li>
-                    <li *ngFor="let p of pages">
-                        <a (click)="setPage(p)" [ngClass]="param1 == p?'current-page':''">{{p}}</a>
-                    </li>
-                    <li>
-                        <a (click)="setPage(param1, +1)" [ngClass]="{disabled:param1 == lastPages}">Next</a>
-                    </li>
-                    <li>
-                        <a (click)="setPage(lastPages)" [ngClass]="{disabled:param1 == lastPages}">Last</a>
-                    </li>
-                </ul>
-            </div>
+                    <ul>
+                        <li>
+                            <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
+                        </li>
+                        <li>
+                            <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
+                        </li>
+                        <li *ngFor="let p of pages">
+                            <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
+                        </li>
+                        <li>
+                            <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+                        </li>
+                        <li>
+                            <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+                        </li>
+                    </ul>
+                </div>
         </nb-card> </div>
     <div *ngIf="!listToko"> Loading.......... </div>
