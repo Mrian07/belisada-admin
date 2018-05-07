@@ -59,7 +59,7 @@ export class StoreListComponent {
   loading = true;
   currentPage: any;;
   lastPage: number;
-
+  registerDateSorting: boolean = false;
   // listToko: IsiData[];
   listToko: List = new List();
   listDetailToko: detailToko = new detailToko();
@@ -81,6 +81,7 @@ export class StoreListComponent {
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
       const queryParams = {
         page: this.currentPage,
+        itemperpage: 10
       }
       this.newMethod_1(queryParams);
     });
@@ -103,15 +104,15 @@ export class StoreListComponent {
     });
   }
 
-  private routeSecond() {
-    this.param = this.activatedRoute.snapshot.queryParams["page"];
-  }
+  // private routeSecond() {
+  //   this.param = this.activatedRoute.snapshot.queryParams["page"];
+  // }
 
-  private routeFirst() {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.param1 = params['page'];
-    });
-  }
+  // private routeFirst() {
+  //   this.activatedRoute.queryParams.subscribe(params => {
+  //     this.param1 = params['page'];
+  //   });
+  // }
 
   loadData() {
     this.getList();

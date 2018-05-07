@@ -13,9 +13,8 @@
                     <thead>
                         <tr>
                             <th>Register Date <i class="fa fa-calendar"></i></th>
-                            <th *ngIf="checkSort === false; else login" (click)="funcSortArray()">Nama Toko <i class="fa fa-undo"></i></th>
-                            <!-- Click funcSortArray jika ingin sorting -->
-                            <ng-template #login>
+                            <th *ngIf="checkSort === false; else sortingNmToko" (click)="funcSortArray()">Nama Toko <i class="fa fa-undo"></i></th>
+                            <ng-template #sortingNmToko>
                                 <th (click)="functionArrayBenar()">Nama Toko <i class="fa fa-undo"></i></th>
                             </ng-template>
         
