@@ -36,6 +36,7 @@ export class BuyerListComponent implements OnInit {
       }
       this.manageBuyerService.getBuyerList(queryParams).subscribe(response => {
         this.buyerPaging = response;
+        console.log('this.buyerPaging.data: ', this.buyerPaging.data);
         this.lastPage = this.buyerPaging.pageCount;
         for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
           if (r > 0 && r <= this.buyerPaging.pageCount) {
