@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Login } from './../../../@core/models/authentication/authentication.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LocalStorageEnum } from './../../../@core/enum/local-storage.enum';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'login',
@@ -37,7 +38,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('this.signinFormGroup: ', this.signinFormGroup.value);
     const login: Login = this.signinFormGroup.value;
     this.authenticationService.doLogin(login).subscribe(
     result => {      
@@ -47,11 +47,15 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem(LocalStorageEnum.TOKEN_KEY, result.token);
         this.router.navigate(['/pages/dashboard']);
       } else{
-        alert(result.message);
+        swal(
+          'Alert',
+          result.message,
+          'error',
+        );
       }
     },
     error => {
-      // swal('belisada.co.id', 'unknown error', 'error');
+       swal('belisada.co.id', 'unknown error', 'error');
       }
     );
   }

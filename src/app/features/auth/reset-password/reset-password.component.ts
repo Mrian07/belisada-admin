@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ResetPassword } from './../../../@core/models/authentication/authentication.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LocalStorageEnum } from './../../../@core/enum/local-storage.enum';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'reset-password',
@@ -25,7 +26,6 @@ export class ResetPasswordComponent implements OnInit {
     this.createFormControl();
     this.route.queryParams.subscribe( params => {
       this.data.key = params.key;
-      // console.log('key:', params.key);
     });
   }
 
@@ -55,34 +55,21 @@ export class ResetPasswordComponent implements OnInit {
             if (result.status === 1) {
               this.isProses=true;
             } else{
-              alert(result.message);
+              swal(
+                'Alert',
+                result.message,
+                'error',
+              );
             }
           },
           error => {
-            // swal('belisada.co.id', 'unknown error', 'error');
+             swal('belisada.co.id', 'unknown error', 'error');
             }
           );
       }
 
       
     }
-
-
-    // const forgotPassword: ForgotPassword = this.formGroup.value;
-    // this.authenticationService.doForgotPassword(forgotPassword).subscribe(
-    // result => {     
-    //   console.log(result); 
-    //   // Handle result
-    //   if (result.status === 1) {
-    //     this.isProses=true;
-    //   } else{
-    //     alert(result.message);
-    //   }
-    // },
-    // error => {
-    //   // swal('belisada.co.id', 'unknown error', 'error');
-    //   }
-    // );
   }
 
 

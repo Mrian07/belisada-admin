@@ -19,6 +19,10 @@ export class AccountComponent implements OnInit {
 
   newPassword: string;
   repeatPassword: string;
+  fm: any = {};
+  userImgAvatar: string;
+  updateImg: Boolean = false;
+  imageDataUrl: string;
 
   constructor(
     private fb: FormBuilder,
@@ -43,9 +47,11 @@ export class AccountComponent implements OnInit {
   loadData(){
     this.profileService.getProfile().subscribe(
       result => {     
+        console.log('ini photo',result);
         this.name = result.name;
         this.email = result.email;
         this.phone = result.phone;
+        this.userImgAvatar = result.imageAvatar ? result.imageAvatar : '/assets/images/kristy.png';
       },
       error => {
         swal('belisada.co.id', 'unknown error', 'error');
@@ -76,7 +82,7 @@ export class AccountComponent implements OnInit {
           swal(
             'Alert',
             result.message,
-            'success',
+            'error',
           );
         } else{
           swal(
@@ -92,6 +98,58 @@ export class AccountComponent implements OnInit {
       );
     }
     
+  }
+
+  setCanvas(e, imageAvatar) {
+    if (!this.updateImg) { return false; }
+    const cnv = document.createElement('canvas');
+    const el = e.target;
+    const w = el.width;
+    const h = el.height;
+
+    cnv.width = w;
+    cnv.height = h;
+    cnv.getContext('2d').drawImage(el, 0, 0, w, h);
+
+    this.fm[imageAvatar] = cnv.toDataURL('image/jpeg', 0.5).slice(23).replace(' ', '+');
+
+    const request = {
+      imageAvatar: this.imageDataUrl
+    }
+
+    this.profileService.uploadAvatar(request).subscribe(data => {
+      if(data.status==1){
+        swal(
+          'Success',
+          'Upload Photo berhasil',
+          'success'
+        )
+      }else{
+        swal(
+          'Error',
+          'Upload Photo gagal',
+          'error'
+        )
+      }
+        
+    });
+
+  }
+
+  setUrl(event, img) {
+    const fr = new FileReader();
+    const f = event.target.files[0];
+    const that = this;
+    console.log('image:', f);
+
+    if (!f.type.match(/image.*/)) { return alert('Not valid image file'); }
+    fr.onload = function() {
+      that.updateImg = true;
+      img.src = fr.result;
+      that.imageDataUrl = fr.result;
+      console.log('apa',fr.result)
+    };
+    fr.readAsDataURL(f);
   }
 
 }
