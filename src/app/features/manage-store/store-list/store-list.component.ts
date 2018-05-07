@@ -242,6 +242,14 @@ export class StoreListComponent {
       else return 0;
     });
   }
+
+  approvedBy(tes) {
+    this.listToko.data.sort((a, b) => {
+      if (a.verifiedByName < b.verifiedByName) return -1;
+      else if (a.verifiedByName > b.verifiedByName) return 1;
+      else return 0;
+    });
+  }
   public openCloseRow(idReserva: number): void {
 
     if (this.rowSelected === -1) {

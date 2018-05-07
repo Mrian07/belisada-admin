@@ -6,8 +6,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-layout-default',
     children: [
       {
-        title: 'Login',
-        link: '/auth/login',
+        title: 'list',
+        link: '/store/list',
       },
       {
         title: 'Register',

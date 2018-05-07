@@ -4,6 +4,9 @@
                 Store Approval
             </nb-card-header>
             <nb-card-body>
+                <div class="table-responsive">
+
+              
             <table class="table">
                
         
@@ -19,7 +22,7 @@
                             <!-- <th (click)="funcSortArray()">Nama Toko <i class="fa fa-undo"></i></th> -->
                             <th>Nama Pemilik <i class="fa fa-undo"></i></th>
                             <th>Status <i class="fa fa-align-left"></i></th>
-                            <th>Approved by <i class="fa fa-user"></i></th>
+                            <th (click)="approvedBy()">Approved by <i class="fa fa-user"></i></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,6 +125,7 @@
                     </tbody>
                 
             </table>
+        </div>
        
         
             <div class="paging">
