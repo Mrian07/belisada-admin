@@ -12,14 +12,18 @@
         
                     <thead>
                         <tr>
-                            <th>Register Date <i class="fa fa-calendar"></i></th>
+                            <th *ngIf="registerDateSorting === false; else sortingDate" (click)="funcSortDateArray()">Register Date <i class="fa fa-calendar"></i></th>
+                            <ng-template #sortingDate>
+                                <th (click)="funcSortDateArrayBenar()">Register Date <i class="fa fa-calendar"></i></th>
+                            </ng-template>
                             <th *ngIf="checkSort === false; else sortingNmToko" (click)="funcSortArray()">Nama Toko <i class="fa fa-undo"></i></th>
                             <ng-template #sortingNmToko>
                                 <th (click)="functionArrayBenar()">Nama Toko <i class="fa fa-undo"></i></th>
                             </ng-template>
-        
-                            <!-- <th (click)="funcSortArray()">Nama Toko <i class="fa fa-undo"></i></th> -->
-                            <th>Nama Pemilik <i class="fa fa-undo"></i></th>
+                            <th *ngIf="namaPemilikSorting === false; else sortingNamaPemilik" (click)="funcNamaPemilikArray()">Nama Pemilik <i class="fa fa-undo"></i></th>
+                            <ng-template #sortingNamaPemilik>
+                                <th (click)="funcSortNamaPemilikBenar()">Nama Pemilik <i class="fa fa-undo"></i></th>
+                            </ng-template>
                             <th>Status <i class="fa fa-align-left"></i></th>
                             <th (click)="approvedBy()">Approved by <i class="fa fa-user"></i></th>
                         </tr>

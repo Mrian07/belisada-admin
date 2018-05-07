@@ -60,6 +60,7 @@ export class StoreListComponent {
   currentPage: any;;
   lastPage: number;
   registerDateSorting: boolean = false;
+  namaPemilikSorting: boolean = false;
   // listToko: IsiData[];
   listToko: List = new List();
   listDetailToko: detailToko = new detailToko();
@@ -103,16 +104,6 @@ export class StoreListComponent {
       }
     });
   }
-
-  // private routeSecond() {
-  //   this.param = this.activatedRoute.snapshot.queryParams["page"];
-  // }
-
-  // private routeFirst() {
-  //   this.activatedRoute.queryParams.subscribe(params => {
-  //     this.param1 = params['page'];
-  //   });
-  // }
 
   loadData() {
     this.getList();
@@ -224,8 +215,28 @@ export class StoreListComponent {
   funcSortArray() {
     this.checkSort = true;
     this.constSudahTeracak = this.byName(this.listToko);
-    // console.log('ini seharusnya acak',this.byName(this.listToko.data))
   }
+
+  funcSortDateArray() {
+    this.registerDateSorting = true;
+    this.constSudahTeracak = this.registerDateSort(this.listToko);
+  }
+  funcSortDateArrayBenar() {
+    this.registerDateSorting = false;
+    this.constSudahTeracak = this.registerDateArrayBenar(this.listToko);
+  }
+
+  funcNamaPemilikArray() {
+    this.namaPemilikSorting = true;
+    this.constSudahTeracak = this.namaPemilikDataArray(this.listToko);
+    console.log(this.namaPemilikSorting);
+  }
+
+  funcSortNamaPemilikBenar() {
+    this.namaPemilikSorting = false;
+    this.constSudahTeracak = this.namaPemilikDataArrayBenar(this.listToko);
+  }
+
   sortIt(arr) {
     return arr.sort((a, b) => a.replace(/[a-z]+/) - b.replace(/[a-z]+/));
   }
@@ -251,6 +262,39 @@ export class StoreListComponent {
       else return 0;
     });
   }
+
+  registerDateSort(tes) {
+    this.listToko.data.sort((a, b) => {
+      if (a.registeredDate < b.registeredDate) return -1;
+      else if (a.registeredDate > b.registeredDate) return 1;
+      else return 0;
+    });
+  }
+
+  registerDateArrayBenar(tes) {
+    this.listToko.data.sort((a, b) => {
+      if (a.registeredDate < b.registeredDate) return 1;
+      else if (a.registeredDate > b.registeredDate) return -1;
+      else return 0;
+    });
+  }
+
+  namaPemilikDataArray(tes) {
+    this.listToko.data.sort((a, b) => {
+      if (a.ownerStore < b.ownerStore) return +1;
+      else if (a.ownerStore > b.ownerStore) return 1;
+      else return 0;
+    });
+  }
+
+  namaPemilikDataArrayBenar(tes) {
+    this.listToko.data.sort((a, b) => {
+      if (a.ownerStore < b.ownerStore) return 1;
+      else if (a.ownerStore > b.ownerStore) return -1;
+      else return 0;
+    });
+  }
+
   public openCloseRow(idReserva: number): void {
 
     if (this.rowSelected === -1) {
