@@ -1,3 +1,4 @@
+import { Status } from './../../../@core/models/brand/brand.model';
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert2';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -16,6 +17,8 @@ export class BrandListComponent implements OnInit {
   currentPage: number;
   lastPage: number;
   pages: any = [];
+
+  status: boolean
 
   constructor(
     private brandService: BrandService,
@@ -69,4 +72,19 @@ export class BrandListComponent implements OnInit {
     window.scrollTo(0, 0);
   }
 
+  changeStatus(id,status){
+    if(status==false){
+      this.status = true;
+    }else{
+      this.status = false;
+    }
+    const data = { "brandId": id, "isActive":this.status }
+
+    this.brandService.changeStatus(data).subscribe(response => {
+      console.log(response);
+      this.loadData();
+    });
+
+
+  }
 }

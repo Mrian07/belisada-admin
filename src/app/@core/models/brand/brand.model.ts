@@ -1,16 +1,3 @@
-export class Create {
-    name: string;  
-    imageUrl: any;
-    isActive: string;
-    constructor() {}
-}
-
-export class Output {
-    status: number;  
-    message: string;
-    constructor() {}
-}
-
 export class List {
     dataCount: number;  
     pageCount: number;
@@ -25,3 +12,23 @@ export class Brand {
     imageUrl: string;
     isActive: boolean;
 }
+
+export class ChangeStatus {
+    brandId: number;
+    isActive: boolean;
+}
+
+// export class Create {
+//     name: string;  
+//     imageUrl: any;
+//     isActive: string;
+//     constructor() {}
+// }
+
+// export class Output {
+//     status: number;  
+//     message: string;
+//     constructor() {}
+// }
+
+

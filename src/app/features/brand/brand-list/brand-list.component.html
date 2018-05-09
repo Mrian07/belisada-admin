@@ -24,8 +24,22 @@
               <tr *ngFor="let item of list.data">
                   <td><img src="{{ item.imageUrl }}" border="0" width="100"></td>
                   <td>{{ item.name }}</td>
-                  <td><div *ngIf="item.isActive==true">Active</div><div *ngIf="item.isActive==false">Inactive</div></td>
-                  <td><i class="fa fa-edit"></i> Edit | <i class="fa fa-times-circle"></i> Disable</td>
+                  <td><span *ngIf="item.isActive==true" class="active">Active</span><span *ngIf="item.isActive==false" class="disable">Inactive</span></td>
+                  <td>
+                    <!-- <i class="fa fa-edit"></i> Edit | <span (click)="inactive(item.number)"><i class="fa fa-times-circle"></i> Disable</span> -->
+
+                    <div class="btn-group btn-group-toggle btn-divided-group" data-toggle="buttons">
+                      <label ngbButtonLabel class="btn btn-primary">
+                        <input ngbButton type="checkbox"><i class="fa fa-edit"></i> Edit
+                      </label>
+                      <label ngbButtonLabel class="btn btn-primary" (click)="changeStatus(item.brandId,item.isActive)">
+                        <div *ngIf="item.isActive==true"><i class="fa fa-times-circle"></i> Disable</div>
+                        <div *ngIf="item.isActive==false"><i class="fa fa-times-circle"></i> Active</div>
+                      </label>
+                    </div>
+
+
+                  </td>
               </tr>
           </tbody>
       </table>

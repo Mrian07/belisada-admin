@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpHeaders } from '@angular/common/http/src/headers';
 import { Router } from '@angular/router';
-import {List } from '../../models/brand/brand.model';
+import {List, ChangeStatus } from '../../models/brand/brand.model';
 
 import 'rxjs/add/operator/map';
 @Injectable()
@@ -26,10 +26,10 @@ export class BrandService {
       .map(resp => resp as List);
   }
 
-  // changePassword(data){
-  //   return this.http.put(this.configuration.apiURL + '/account/changepassword', data)
-  //   .map(resp => resp as ChangePasswordRequest);
-  // }
+  changeStatus(data){
+    return this.http.put(this.configuration.apiURL + '/manage/brand/active', data)
+    .map(resp => resp as ChangeStatus);
+  }
 
   // uploadAvatar(data){
   //   return this.http.put(this.configuration.apiURL + '/profile/avatar/update', data)
