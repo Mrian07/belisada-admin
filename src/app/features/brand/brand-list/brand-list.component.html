@@ -1,0 +1,52 @@
+<nb-card>
+  <nb-card-header>
+      Brand List
+  </nb-card-header>
+
+  <nb-card-body>
+      <table class="table table-bordered">
+          <thead>
+              <tr>
+                  <th>Image</th>
+                  <th>Brand</th>
+                  <th>Status</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              <!-- <tr>
+                  <td><input class="form-control" placeholder="Search Name" [(ngModel)]="buyer.name"></td>
+                  <td><input class="form-control" placeholder="Search Email Address" [(ngModel)]="buyer.email"></td>
+                  <td><input class="form-control" placeholder="Search Date Joined" [(ngModel)]="buyer.dateOfJoin"></td>
+                  <td><input class="form-control" placeholder="Search Status" [(ngModel)]="buyer.status"></td>
+              </tr> -->
+              <tr *ngFor="let item of list.data">
+                  <td><img src="{{ item.imageUrl }}" border="0" width="100"></td>
+                  <td>{{ item.name }}</td>
+                  <td><div *ngIf="item.isActive==true">Active</div><div *ngIf="item.isActive==false">Inactive</div></td>
+                  <td>-</td>
+              </tr>
+          </tbody>
+      </table>
+
+      <div class="paging">
+          <ul>
+              <li>
+                  <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
+              </li>
+              <li>
+                  <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
+              </li>
+              <li *ngFor="let p of pages">
+                  <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
+              </li>
+              <li>
+                  <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+              </li>
+              <li>
+                  <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+              </li>
+          </ul>
+      </div>
+  </nb-card-body>
+</nb-card>

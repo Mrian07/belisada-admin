@@ -1,0 +1,28 @@
+.paging ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+.paging li {
+    display: inline-block;
+}
+.paging a {
+    border: 1px solid #999;
+    padding: 3px 10px;
+    margin: 0 3px;
+}
+.paging a.current-page {
+    border: 1px solid #cde;
+    background: #def;
+    color: #999;
+    cursor: default;
+}
+.paging a:not(.disabled):not(.current-page):hover {
+    color: #abc;
+    cursor: pointer;
+    border-color: #cde;
+}
+.paging a.disabled {
+    color: #ccc;
+    cursor: default;
+}

@@ -1,3 +1,4 @@
+import { BrandService } from './services/brand/brand.service';
 import { ProfileService } from './services/profile/profile.service';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -81,6 +82,7 @@ const NB_CORE_PROVIDERS = [
 const BELISADA_PROVIDERS = [
   AuthenticationService,
   ProfileService,
+  BrandService,
   Configuration,
   ManageBuyerService,
   ManageStoreService
