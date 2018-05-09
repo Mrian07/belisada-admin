@@ -9,34 +9,41 @@
           <thead>
               <tr>
                   <th>Image</th>
-                  <th>Brand</th>
-                  <th>Status</th>
+                  <th (click)="sortBrand()" class="sort">Brand <i class="fa fa-sort"></i></th>
+                  <th (click)="sortStatus()" class="sort">Status <i class="fa fa-sort"></i></th>
                   <th>Action</th>
               </tr>
           </thead>
           <tbody>
               <tr *ngFor="let item of list.data">
-                  <td><img src="{{ item.imageUrl }}" border="0" width="100"></td>
+                  <td><img src="{{ item.imageUrl }}" border="0" width="100" #avaImg>
+                  
+                    <div *ngIf="idEdit==item.brandId">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn btn-info btn-tn" style="cursor: pointer;">Ganti Gambar</button>
+                            <input type="file" name="imageUrl" (change)="setUrl($event, avaImg)"/>
+                        </div>
+                    </div>
+                  </td>
                   <td>
                     <div *ngIf="idEdit!=item.brandId">{{item.name}}</div>
                     <input type="text" *ngIf="idEdit==item.brandId" [(ngModel)]="name">
-                    <input type="hidden" *ngIf="idEdit==item.brandId" [(ngModel)]="isActive">
                   </td>
                   <td><span *ngIf="item.isActive==true" class="active">Active</span><span *ngIf="item.isActive==false" class="disable">Inactive</span></td>
                   <td>
                     <div class="btn-group btn-group-toggle btn-divided-group" data-toggle="buttons" *ngIf="idEdit!=item.brandId">
-                      <label ngbButtonLabel class="btn btn-primary" (click)="edit(item)">
+                      <label ngbButtonLabel class="btn btn-primary btn-tn" (click)="edit(item)">
                         <i class="fa fa-edit"></i> Edit
                       </label>
-                      <label ngbButtonLabel class="btn btn-primary" (click)="changeStatus(item.brandId,item.isActive)">
+                      <label ngbButtonLabel class="btn btn-primary btn-tn" (click)="changeStatus(item.brandId,item.isActive)">
                         <div *ngIf="item.isActive==true"><i class="fa fa-times-circle"></i> Disable</div>
                         <div *ngIf="item.isActive==false"><i class="fa fa-times-circle"></i> Active</div>
                       </label>
                     </div>
-                    <label ngbButtonLabel class="btn btn-success" (click)="save(item.brandId)"  *ngIf="idEdit==item.brandId">
+                    <label ngbButtonLabel class="btn btn-success btn-tn" (click)="save(item.brandId)"  *ngIf="idEdit==item.brandId">
                       <i class="fa fa-edit"></i> Save
                     </label>
-                    <label ngbButtonLabel class="btn btn-danger" (click)="cancel()"  *ngIf="idEdit==item.brandId">
+                    <label ngbButtonLabel class="btn btn-danger btn-tn" (click)="cancel()"  *ngIf="idEdit==item.brandId">
                       <i class="fa fa-edit"></i> Cancel
                     </label>
                   </td>

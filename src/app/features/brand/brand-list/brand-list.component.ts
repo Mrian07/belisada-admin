@@ -22,6 +22,14 @@ export class BrandListComponent implements OnInit {
   name: any = {};
   isActive: any = {};
 
+  updateImg: Boolean = false;
+  base64Img: string;
+
+  imageUrl: string;
+  message: string;
+  sortUrut: string;
+  sortName: string;
+
   constructor(
     private brandService: BrandService,
     private router: Router,
@@ -33,13 +41,36 @@ export class BrandListComponent implements OnInit {
     this.loadData();
   }
 
+  sortBrand(){
+    if(this.sortUrut=='DESC'){
+      this.sortUrut='ASC';
+    }else{
+      this.sortUrut='DESC';
+    }
+    this.sortName='name';
+    this.loadData();
+  }
+
+  sortStatus(){
+    if(this.sortUrut=='DESC'){
+      this.sortUrut='ASC';
+    }else{
+      this.sortUrut='DESC';
+    }
+    this.sortName='isActive';
+    this.loadData();
+  }
+
   loadData(){    
+    console.log('apa:', this.sortUrut);
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
       const queryParams = {
         page: this.currentPage,
-        itemperpage: 10
+        itemperpage: 10,
+        ob: this.sortName,
+        ot: this.sortUrut
       }
       this.brandService.getList(queryParams).subscribe(response => {
         this.list = response;
@@ -63,20 +94,20 @@ export class BrandListComponent implements OnInit {
   edit(item){
     this.idEdit = item.brandId;
     this.name = item.name;
+    // this.item.imageUrl = item.imageUrl;
     this.isActive = item.isActive;
   }
 
   save(id){
-    console.log(this.name, this.isActive);
     this.idEdit= null;
-
+    // this.imageUrl = this.base64Img;
     const data = {
       "name": this.name,
 			"brandId": id,
 			"isActive": this.isActive,
-			"imageUrl":"",
+			"imageUrl": this.base64Img,
     }
-
+    console.log(data);
     this.brandService.edit(data).subscribe(response => {
       console.log(response);
       this.loadData();
@@ -85,20 +116,50 @@ export class BrandListComponent implements OnInit {
   }
 
   changeStatus(id,status){
+
     if(status==false){
       this.status = true;
+      this.message = "Apakah anda yakin? Karena semua produk dengan brand ini akan ditampilkan."
     }else{
       this.status = false;
+      this.message = "Apakah anda yakin? Karena semua produk dengan brand ini akan disembunyikan."
     }
-    const data = { "brandId": id, "isActive":this.status }
 
-    this.brandService.changeStatus(data).subscribe(response => {
-      this.loadData();
+    swal({
+      title: 'Alert',
+      type: 'warning',
+      text: this.message,
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.value) {
+        const data = { "brandId": id, "isActive":this.status }
+        this.brandService.changeStatus(data).subscribe(response => {
+          this.loadData();
+        });
+      }
     });
+
+    
+    
   }
 
   cancel(){
     this.idEdit= null;
     this.loadData();
   }
+
+  setUrl(event, img) {
+    const fr = new FileReader();
+    const f = event.target.files[0];
+    const that = this;
+    // this.onViewDesc = false;
+    if (!f.type.match(/image.*/)) { return alert('Not valid image file'); }
+    fr.onload = function() {
+      that.updateImg = true;
+      that.base64Img = fr.result;
+      img.src = fr.result;
+    };
+    fr.readAsDataURL(f);
+  }
+
 }
