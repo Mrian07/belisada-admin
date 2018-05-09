@@ -4,6 +4,7 @@
   </nb-card-header>
 
   <nb-card-body>
+      <p><button type="button" class="btn btn-success btn-rectangle" (click)="changePassword()">ADD BRAND</button></p>
       <table class="table table-bordered">
           <thead>
               <tr>
@@ -24,7 +25,7 @@
                   <td><img src="{{ item.imageUrl }}" border="0" width="100"></td>
                   <td>{{ item.name }}</td>
                   <td><div *ngIf="item.isActive==true">Active</div><div *ngIf="item.isActive==false">Inactive</div></td>
-                  <td>-</td>
+                  <td><i class="fa fa-edit"></i> Edit | <i class="fa fa-times-circle"></i> Disable</td>
               </tr>
           </tbody>
       </table>
