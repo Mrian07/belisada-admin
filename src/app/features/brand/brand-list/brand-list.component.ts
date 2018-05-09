@@ -1,4 +1,3 @@
-import { Status } from './../../../@core/models/brand/brand.model';
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert2';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -18,7 +17,10 @@ export class BrandListComponent implements OnInit {
   lastPage: number;
   pages: any = [];
 
-  status: boolean
+  status: boolean;
+  idEdit: any;
+  name: any = {};
+  isActive: any = {};
 
   constructor(
     private brandService: BrandService,
@@ -27,22 +29,11 @@ export class BrandListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.idEdit= null;
     this.loadData();
   }
 
-  loadData(){
-    // this.brandService.getList().subscribe(
-    //   result => {
-    //     this.list = result.data;
-    //     console.log('ini photo', result.data);
-    //     // this.userImgAvatar = result.imageAvatar ? result.imageAvatar : '/assets/images/kristy.png';
-    //   },
-    //   error => {
-    //     swal('belisada.co.id', 'unknown error', 'error');
-    //     }
-    //   );
-
-
+  loadData(){    
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
@@ -52,7 +43,6 @@ export class BrandListComponent implements OnInit {
       }
       this.brandService.getList(queryParams).subscribe(response => {
         this.list = response;
-        console.log('this.list.data: ', this.list.data);
         this.lastPage = this.list.pageCount;
         for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
           if (r > 0 && r <= this.list.pageCount) {
@@ -61,8 +51,6 @@ export class BrandListComponent implements OnInit {
         }
       });
     });
-
-
   }
 
   setPage(page: number, increment?: number) {
@@ -70,6 +58,30 @@ export class BrandListComponent implements OnInit {
     if (page < 1 || page > this.list.pageCount) { return false; }
     this.router.navigate(['/brand/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
+  }
+
+  edit(item){
+    this.idEdit = item.brandId;
+    this.name = item.name;
+    this.isActive = item.isActive;
+  }
+
+  save(id){
+    console.log(this.name, this.isActive);
+    this.idEdit= null;
+
+    const data = {
+      "name": this.name,
+			"brandId": id,
+			"isActive": this.isActive,
+			"imageUrl":"",
+    }
+
+    this.brandService.edit(data).subscribe(response => {
+      console.log(response);
+      this.loadData();
+    });
+
   }
 
   changeStatus(id,status){
@@ -81,10 +93,12 @@ export class BrandListComponent implements OnInit {
     const data = { "brandId": id, "isActive":this.status }
 
     this.brandService.changeStatus(data).subscribe(response => {
-      console.log(response);
       this.loadData();
     });
+  }
 
-
+  cancel(){
+    this.idEdit= null;
+    this.loadData();
   }
 }

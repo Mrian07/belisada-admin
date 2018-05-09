@@ -18,6 +18,15 @@ export class ChangeStatus {
     isActive: boolean;
 }
 
+export class edit {
+    name: string;
+    brandId: number;
+    isActive: boolean;
+    imageUrl: string;
+    status: number;  
+    message: string;
+}
+
 // export class Create {
 //     name: string;  
 //     imageUrl: any;
