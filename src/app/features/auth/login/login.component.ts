@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
       if (result.status === 1) {
         localStorage.setItem(LocalStorageEnum.TOKEN_KEY, result.token);
         sessionStorage.setItem(LocalStorageEnum.TOKEN_KEY, result.token);
-        this.router.navigate(['/pages/dashboard']);
+        this.router.navigate(['/dashboard']);
       } else{
         swal(
           'Alert',
