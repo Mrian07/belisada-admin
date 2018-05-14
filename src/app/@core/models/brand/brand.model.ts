@@ -18,7 +18,15 @@ export class ChangeStatus {
     isActive: boolean;
 }
 
-export class edit {
+export class Add {
+    name: string;
+    isActive: boolean;
+    imageUrl: string;
+    status: number;  
+    message: string;
+}
+
+export class Edit {
     name: string;
     brandId: number;
     isActive: boolean;

@@ -1,3 +1,4 @@
+import { ShareMessageService } from './services/share-message/share-message.service';
 import { BrandService } from './services/brand/brand.service';
 import { ProfileService } from './services/profile/profile.service';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
@@ -85,7 +86,8 @@ const BELISADA_PROVIDERS = [
   BrandService,
   Configuration,
   ManageBuyerService,
-  ManageStoreService
+  ManageStoreService,
+  ShareMessageService
 ]
 
 @NgModule({

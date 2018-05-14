@@ -1,3 +1,19 @@
-<p>
-  brand-add works!
-</p>
+<div class="row">
+  <div class="col-sm-3">
+    <div class="bImage">
+      <!-- {{ item.imageUrl }} -->
+      <img src="{{ imageUrl }}" border="0" width="100" #avaImg class="img-upload">
+      <!-- <img src="assets/images/empty.png" border="0" *ngIf="imageUrl==''"> -->
+      <br>
+      <div class="upload-btn-wrapper">
+          <!-- <img src="assets/images/empty.png" border="0" class="btn btn-default btn-tn" style="cursor: pointer;"> -->
+          <button class="btn btn-default btn-tn btn-color">Cari Gambar</button>
+          <input type="file" name="imageUrl" (change)="setUrl($event, avaImg)"/>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <p><input type="text" [(ngModel)]="name" class="form-control" placeholder="Nama brand"></p>
+    <p><button type="button" class="btn btn-warning btn-tn" (click)="save()">Tambah Brand</button></p>
+  </div>
+</div>

@@ -3,6 +3,7 @@ import swal from 'sweetalert2';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BrandService } from './../../../@core/services/brand/brand.service';
 import { List } from '../../../@core/models/brand/brand.model';
+import { ShareMessageService } from './../../../@core/services/share-message/share-message.service';
 
 @Component({
   selector: 'brand-list',
@@ -30,7 +31,11 @@ export class BrandListComponent implements OnInit {
   sortUrut: string;
   sortName: string;
 
+  isAdd: boolean;
+  flag: string;
+
   constructor(
+    public shareMessageService: ShareMessageService,
     private brandService: BrandService,
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -39,6 +44,26 @@ export class BrandListComponent implements OnInit {
   ngOnInit() {
     this.idEdit= null;
     this.loadData();
+    this.isAdd = false;
+    this.flagAddShipping();
+  }
+
+  flagAddShipping() {
+    this.shareMessageService.currentMessage.subscribe(respon => {
+      this.flag = respon;
+      if (this.flag === 'add-brand') {
+        this.isAdd = false;
+        this.loadData();
+      }
+    });
+  }
+
+  addBrand(){
+    this.isAdd = true;
+  }
+
+  addBrandCancel(){
+    this.isAdd = false;
   }
 
   sortBrand(){
@@ -62,7 +87,6 @@ export class BrandListComponent implements OnInit {
   }
 
   loadData(){    
-    console.log('apa:', this.sortUrut);
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
@@ -99,20 +123,44 @@ export class BrandListComponent implements OnInit {
   }
 
   save(id){
-    this.idEdit= null;
-    // this.imageUrl = this.base64Img;
-    const data = {
-      "name": this.name,
-			"brandId": id,
-			"isActive": this.isActive,
-			"imageUrl": this.base64Img,
-    }
-    console.log(data);
-    this.brandService.edit(data).subscribe(response => {
-      console.log(response);
-      this.loadData();
-    });
 
+
+    if(this.name=='' || this.name==undefined)
+    {
+      swal(
+            'Alert',
+            'Nama tidak boleh kosong',
+            'error',
+          );
+    }else{
+      this.idEdit= null;
+      // this.imageUrl = this.base64Img;
+      const data = {
+        "name": this.name,
+        "brandId": id,
+        "isActive": this.isActive,
+        "imageUrl": this.base64Img,
+      }
+      this.brandService.edit(data).subscribe(response => {
+        if(response.status==1){
+          swal(
+            'Alert',
+            response.message,
+            'success',
+          );          
+        }else{
+          swal(
+            'Alert',
+            response.message,
+            'error',
+          );
+        }
+        this.loadData();
+      });
+  
+    }
+
+  
   }
 
   changeStatus(id,status){
@@ -138,9 +186,6 @@ export class BrandListComponent implements OnInit {
         });
       }
     });
-
-    
-    
   }
 
   cancel(){

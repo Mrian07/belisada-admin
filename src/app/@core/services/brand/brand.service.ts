@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpHeaders } from '@angular/common/http/src/headers';
 import { Router } from '@angular/router';
-import {List, ChangeStatus, edit } from '../../models/brand/brand.model';
+import {List, ChangeStatus, Edit, Add} from '../../models/brand/brand.model';
 
 import 'rxjs/add/operator/map';
 @Injectable()
@@ -33,7 +33,12 @@ export class BrandService {
 
   edit(data){
     return this.http.put(this.configuration.apiURL + '/manage/brand/update', data)
-    .map(resp => resp as edit);
+    .map(resp => resp as Edit);
+  }
+
+  add(data){
+    return this.http.post(this.configuration.apiURL + '/manage/brand/create', data)
+    .map(resp => resp as Add);
   }
 
   // uploadAvatar(data){
