@@ -34,6 +34,9 @@ export class BrandListComponent implements OnInit {
   isAdd: boolean;
   flag: string;
 
+  statusSorting: boolean = false;
+  brandSorting: boolean = false;
+
   constructor(
     public shareMessageService: ShareMessageService,
     private brandService: BrandService,
@@ -73,7 +76,8 @@ export class BrandListComponent implements OnInit {
       this.sortUrut='DESC';
     }
     this.sortName='name';
-    this.loadData();
+    this.router.navigate(['/brand/list'], { queryParams: {page: this.currentPage, ob: this.sortName, ot: this.sortUrut}, queryParamsHandling: 'merge' });
+    // this.loadData();
   }
 
   sortStatus(){
@@ -83,8 +87,21 @@ export class BrandListComponent implements OnInit {
       this.sortUrut='DESC';
     }
     this.sortName='isActive';
-    this.loadData();
+    this.router.navigate(['/brand/list'], { queryParams: {page: this.currentPage, ob: this.sortName, ot: this.sortUrut}, queryParamsHandling: 'merge' });
+    // this.loadData();
+
+    // this.statusSorting = true;
+    // this.constSudahTeracak = this.regStatusSort(this.listToko);
   }
+
+  // regStatusSort(tes) {
+  //   this.listToko.data.sort((a, b) => {
+  //     if (a.registeredDate < b.registeredDate) return 1;
+  //     else if (a.registeredDate > b.registeredDate) return -1;
+  //     else return 0;
+  //   });
+  // }
+
 
   loadData(){    
     this.activatedRoute.queryParams.subscribe((params: Params) => {
@@ -97,6 +114,10 @@ export class BrandListComponent implements OnInit {
         ot: this.sortUrut
       }
       this.brandService.getList(queryParams).subscribe(response => {
+
+
+console.log("hasilnya:", response);
+
         this.list = response;
         this.lastPage = this.list.pageCount;
         for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
@@ -111,7 +132,7 @@ export class BrandListComponent implements OnInit {
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.list.pageCount) { return false; }
-    this.router.navigate(['/brand/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
+    this.router.navigate(['/brand/list'], { queryParams: {page: page, ob: this.sortName, ot: this.sortUrut}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }
 
