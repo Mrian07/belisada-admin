@@ -11,7 +11,6 @@ import { ShareMessageService } from './../../../@core/services/share-message/sha
   styleUrls: ['./brand-list.component.scss']
 })
 export class BrandListComponent implements OnInit {
-  // list: Brand[];
   list: List = new List();
 
   currentPage: number;
@@ -33,9 +32,6 @@ export class BrandListComponent implements OnInit {
 
   isAdd: boolean;
   flag: string;
-
-  statusSorting: boolean = false;
-  brandSorting: boolean = false;
 
   constructor(
     public shareMessageService: ShareMessageService,
@@ -77,7 +73,6 @@ export class BrandListComponent implements OnInit {
     }
     this.sortName='name';
     this.router.navigate(['/brand/list'], { queryParams: {page: this.currentPage, ob: this.sortName, ot: this.sortUrut}, queryParamsHandling: 'merge' });
-    // this.loadData();
   }
 
   sortStatus(){
@@ -88,19 +83,7 @@ export class BrandListComponent implements OnInit {
     }
     this.sortName='isActive';
     this.router.navigate(['/brand/list'], { queryParams: {page: this.currentPage, ob: this.sortName, ot: this.sortUrut}, queryParamsHandling: 'merge' });
-    // this.loadData();
-
-    // this.statusSorting = true;
-    // this.constSudahTeracak = this.regStatusSort(this.listToko);
   }
-
-  // regStatusSort(tes) {
-  //   this.listToko.data.sort((a, b) => {
-  //     if (a.registeredDate < b.registeredDate) return 1;
-  //     else if (a.registeredDate > b.registeredDate) return -1;
-  //     else return 0;
-  //   });
-  // }
 
 
   loadData(){    
@@ -114,10 +97,6 @@ export class BrandListComponent implements OnInit {
         ot: this.sortUrut
       }
       this.brandService.getList(queryParams).subscribe(response => {
-
-
-console.log("hasilnya:", response);
-
         this.list = response;
         this.lastPage = this.list.pageCount;
         for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
@@ -139,12 +118,10 @@ console.log("hasilnya:", response);
   edit(item){
     this.idEdit = item.brandId;
     this.name = item.name;
-    // this.item.imageUrl = item.imageUrl;
     this.isActive = item.isActive;
   }
 
   save(id){
-
 
     if(this.name=='' || this.name==undefined)
     {
@@ -218,7 +195,6 @@ console.log("hasilnya:", response);
     const fr = new FileReader();
     const f = event.target.files[0];
     const that = this;
-    // this.onViewDesc = false;
     if (!f.type.match(/image.*/)) { return alert('Not valid image file'); }
     fr.onload = function() {
       that.updateImg = true;
