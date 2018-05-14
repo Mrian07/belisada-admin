@@ -13,7 +13,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Store',
-    icon: 'nb-layout-default',
+    icon: 'fa fa-archive',
     children: [
       {
         title: 'list',
@@ -28,6 +28,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'List',
         link: '/buyer/list',
+      }
+    ],
+  },
+  {
+    title: 'Brand',
+    icon: 'nb-layout-default',
+    children: [
+      {
+        title: 'List',
+        link: '/brand/list',
       }
     ],
   },

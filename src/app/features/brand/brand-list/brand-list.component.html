@@ -1,0 +1,67 @@
+<nb-card>
+  <nb-card-header>
+      Brand List
+  </nb-card-header>
+
+  <nb-card-body>
+      <p><button type="button" class="btn btn-success btn-rectangle" (click)="changePassword()">ADD BRAND</button></p>
+      <table class="table table-bordered">
+          <thead>
+              <tr>
+                  <th>Image</th>
+                  <th>Brand</th>
+                  <th>Status</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of list.data">
+                  <td><img src="{{ item.imageUrl }}" border="0" width="100"></td>
+                  <td>
+                    <div *ngIf="idEdit!=item.brandId">{{item.name}}</div>
+                    <input type="text" *ngIf="idEdit==item.brandId" [(ngModel)]="name">
+                    <input type="hidden" *ngIf="idEdit==item.brandId" [(ngModel)]="isActive">
+                  </td>
+                  <td><span *ngIf="item.isActive==true" class="active">Active</span><span *ngIf="item.isActive==false" class="disable">Inactive</span></td>
+                  <td>
+                    <div class="btn-group btn-group-toggle btn-divided-group" data-toggle="buttons" *ngIf="idEdit!=item.brandId">
+                      <label ngbButtonLabel class="btn btn-primary" (click)="edit(item)">
+                        <i class="fa fa-edit"></i> Edit
+                      </label>
+                      <label ngbButtonLabel class="btn btn-primary" (click)="changeStatus(item.brandId,item.isActive)">
+                        <div *ngIf="item.isActive==true"><i class="fa fa-times-circle"></i> Disable</div>
+                        <div *ngIf="item.isActive==false"><i class="fa fa-times-circle"></i> Active</div>
+                      </label>
+                    </div>
+                    <label ngbButtonLabel class="btn btn-success" (click)="save(item.brandId)"  *ngIf="idEdit==item.brandId">
+                      <i class="fa fa-edit"></i> Save
+                    </label>
+                    <label ngbButtonLabel class="btn btn-danger" (click)="cancel()"  *ngIf="idEdit==item.brandId">
+                      <i class="fa fa-edit"></i> Cancel
+                    </label>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+
+      <div class="paging">
+          <ul>
+              <li>
+                  <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
+              </li>
+              <li>
+                  <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
+              </li>
+              <li *ngFor="let p of pages">
+                  <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
+              </li>
+              <li>
+                  <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+              </li>
+              <li>
+                  <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+              </li>
+          </ul>
+      </div>
+  </nb-card-body>
+</nb-card>
