@@ -4,7 +4,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Dashboard',
     icon: 'nb-home',
-    link: '/pages/dashboard',
+    link: '/dashboard',
     home: true,
   },
   {
@@ -13,7 +13,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Store',
-    icon: 'fa fa-archive',
+    icon: 'nb-layout-default',
     children: [
       {
         title: 'list',

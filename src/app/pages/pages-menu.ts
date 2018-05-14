@@ -31,4 +31,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
       }
     ],
   },
+  {
+    title: 'Brand',
+    icon: 'nb-layout-default',
+    children: [
+      {
+        title: 'List',
+        link: '/brand/list',
+      }
+    ],
+  },
 ];
