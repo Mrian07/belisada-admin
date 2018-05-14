@@ -16,11 +16,7 @@ const routes: Routes = [
       {
         path: 'brand-add',
         component: BrandAddComponent,
-      },
-      // {
-      //   path: 'reset-password',
-      //   component: ResetPasswordComponent,
-      // }
+      }
     ],
   }
 ];

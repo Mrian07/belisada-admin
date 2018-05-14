@@ -25,19 +25,6 @@ export class BrandAddComponent implements OnInit {
     this.imageUrl = "assets/images/empty.png";
   }
 
-  addBrand(){
-    const data = {
-      "name": this.name,
-			"isActive": 'false',
-			"imageUrl": this.base64Img,
-    }
-
-    this.brandService.add(data).subscribe(response => {
-      console.log(response);
-      // this.loadData();
-    });
-  }
-
   save(){
     if(this.base64Img=='' || this.base64Img==undefined)
     {

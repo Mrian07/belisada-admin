@@ -132,7 +132,6 @@ export class BrandListComponent implements OnInit {
           );
     }else{
       this.idEdit= null;
-      // this.imageUrl = this.base64Img;
       const data = {
         "name": this.name,
         "brandId": id,
@@ -155,9 +154,7 @@ export class BrandListComponent implements OnInit {
         }
         this.loadData();
       });
-  
     }
-
   
   }
 
