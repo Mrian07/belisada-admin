@@ -1,3 +1,5 @@
+import { ShareMessageService } from './services/share-message/share-message.service';
+import { BrandService } from './services/brand/brand.service';
 import { ProfileService } from './services/profile/profile.service';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -13,8 +15,6 @@ import { Configuration } from './config/configuration';
 import { ManageBuyerService } from './services/manage-buyer/manage-buyer.service';
 import { ManageStoreService } from './services/manage-store/manage-store.service';
 import { ManageProductService } from './services/manage-product/manage-product.service';
-import { WikipediaService } from '../features/manage-product/list-product/list-product.component';
-
 const socialLinks = [
   {
     url: 'https://github.com/akveo/nebular',
@@ -83,11 +83,12 @@ const NB_CORE_PROVIDERS = [
 const BELISADA_PROVIDERS = [
   AuthenticationService,
   ProfileService,
+  BrandService,
   Configuration,
   ManageBuyerService,
   ManageStoreService,
-  WikipediaService,
-  ManageProductService
+  ManageProductService,
+  ShareMessageService
 ]
 
 @NgModule({

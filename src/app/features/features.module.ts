@@ -6,11 +6,13 @@ import { FeaturesComponent } from './features.component';
 import { ThemeModule } from '../@theme/theme.module';
 import { SearchPipe } from '../@theme/pipes';
 import { ModalComponent } from '../pages/ui-features/modals/modal/modal.component';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   imports: [
     CommonModule,
     ThemeModule,
+    DashboardModule,
     FeaturesRoutingModule,
   ],
   declarations: [FeaturesComponent, ModalComponent],

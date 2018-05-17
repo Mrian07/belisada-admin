@@ -8,14 +8,17 @@ export class ManageProduct {
     thumbnailUrl: string;
 
 }
- export class aksjdaklsjdkasjd {
-    userId: number;
-    id: number;
-    title: string;
-    body: string;
-    filter;
-    
- }
+ 
+export class ListBrand {
+    data: IsiDataBrand[];
+    pageCount: number;
+  }
+  export class IsiDataBrand {
+    brandId: number;
+    name: string;
+    imageUrl: string;
+    isActive: boolean;
+  }
 
  export class revise {
     statusCode: string;

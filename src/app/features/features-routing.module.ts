@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FeaturesComponent } from './features.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [{
   path: '',
   component: FeaturesComponent,
   children: [
+    {
+      path: 'dashboard',
+      component: DashboardComponent,
+    },
     {
       path: 'store',
       loadChildren: './manage-store/manage-store.module#ManageStoreModule',
@@ -14,6 +19,10 @@ const routes: Routes = [{
       path: 'profile',
       loadChildren: './profile/profile.module#ProfileModule',
 
+    },
+    {
+      path: 'brand',
+      loadChildren: './brand/brand.module#BrandModule',
     },
     {
       path: 'buyer',

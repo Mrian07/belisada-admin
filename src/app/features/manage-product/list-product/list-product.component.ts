@@ -2,7 +2,7 @@ import { Component, OnInit,ViewChild, Injectable, ElementRef, Input } from '@ang
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { ManageProductService } from '../../../@core/services/manage-product/manage-product.service';
-import { ManageProduct, aksjdaklsjdkasjd, revise } from '../../../@core/models/manage-product/manage-product';
+import { ManageProduct, revise, ListBrand } from '../../../@core/models/manage-product/manage-product';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {Observable} from 'rxjs';
 
@@ -16,32 +16,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import swal from 'sweetalert2';
 import { ModalComponent } from '../../../pages/ui-features/modals/modal/modal.component';
+import { BrandService } from '../../../@core/services/brand/brand.service';
+import { List } from '../../../@core/models/brand/brand.model';
+import { concat } from 'rxjs/operator/concat';
 
-const WIKI_URL = 'https://en.wikipedia.org/w/api.php';
-const PARAMS = new HttpParams({
-  fromObject: {
-    action: 'opensearch',
-    format: 'json',
-    origin: '*'
-  }
-});
-@Injectable()
-export class WikipediaService {
-  constructor(private http: HttpClient) {}
-
-  search(term: string) {
-    if (term === '') {
-      return ([]);
-    }
-
-    return this.http
-      .get(WIKI_URL, {
-        params: PARAMS.set('search', term)
-      }).pipe(
-        map(response => response[1])
-      );
-  }
-}
 
 @Component({
 selector: 'list-product',
@@ -60,7 +38,9 @@ export class ListProductComponent implements OnInit {
   value: boolean = false;
   selected: string;
   current: number = 1;
-  brands = [];
+  list3: List = new List();
+  
+  brands : any[];
   searching = false;
   searchFailed = false;
   // list: ListingItem = new ListingItem();
@@ -85,13 +65,13 @@ export class ListProductComponent implements OnInit {
   }
 
 
-  limit: number = 3;
+  limit: number = 100;
   querySearch: string;
   onTextFocus: Boolean = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   @ViewChild('instance') instance: NgbTypeahead;
   public rowSelected: number;
-  constructor(private modalService: NgbModal, private prodService: ManageProductService, private _service: WikipediaService, private el: ElementRef, private manage: ManageStoreService, private fb: FormBuilder) {}
+  constructor(private modalService: NgbModal, private prodService: ManageProductService, private el: ElementRef, private manage: ManageStoreService,  private brandService: BrandService, private fb: FormBuilder) {}
   ngOnInit() {
     this.newMethod();
     this.myForm = this.fb.group({
@@ -197,19 +177,19 @@ export class ListProductComponent implements OnInit {
     // console.log(this.isSubscribe);
 
   }
+  
   onScrollDown () {
-    const scr = this.el.nativeElement.querySelector('#drick-scroll-container');
-    console.log('scr.scrollHeight: ', scr.scrollHeight);
-    console.log('scr.style.height: ', scr.clientHeight);
-    console.log('scr.scrollTop: ', scr.scrollTop);
-    if (scr.scrollHeight - scr.clientHeight == scr.scrollTop) {
+   
+    const scr =  window.document.querySelector('#drick-scroll-container')
+    if (scr.scrollHeight - scr.clientHeight === scr.scrollTop) {
       const queryParams = {
-        current: this.current += 1,
-        limit: this.limit,
-        q: this.querySearch === undefined ? '' : this.querySearch
+        page: this.current += 1,
+        itemperpage: this.limit,
+        name: this.querySearch === undefined ? '' : this.querySearch
       }
-      this.prodService.getData1(queryParams).subscribe(response => {
-        this.brands = this.brands.concat(response);
+      this.brandService.getList(queryParams).subscribe(response => {
+        this.list3 = response;
+        console.log('asd',response);
       });
     };
   }
@@ -218,12 +198,13 @@ export class ListProductComponent implements OnInit {
   searchBrand() {
     this.querySearch = this.txtSearch;
     const queryParams = {
-      current: this.current = 1,
-      limit: this.limit,
-      q: this.querySearch === undefined ? '' : this.querySearch
+      page: this.current = 1,
+      itemperpage: this.limit,
+      name: this.querySearch === undefined ? '' : this.querySearch
     }
-    this.prodService.getData1(queryParams).subscribe(response => {
-      this.brands = response;
+
+    this.brandService.getList(queryParams).subscribe(response => {
+      this.list3 = response;
     });
   }
 
@@ -248,7 +229,7 @@ export class ListProductComponent implements OnInit {
 
   selectBrand(brand) {
     console.log(brand.body);
-    this.txtSearch = brand.body;
+    this.txtSearch = brand.name;
     this.productBrandId = brand.m_productbrand_id;
   }
 

@@ -76,8 +76,8 @@
                                         id="drick-scroll-container"
                                         (scroll)="onScrollDown()">
                                         <ul class="drick-select-list">
-                                            <li *ngFor="let i of brands" (click)="selectBrand(i)">
-                                                {{i.body}}
+                                            <li *ngFor="let i of list3.data" (click)="selectBrand(i)">
+                                                {{i.name}}
                                             </li>
                                         </ul>
                                     </div>
