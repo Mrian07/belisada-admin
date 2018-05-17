@@ -17,7 +17,7 @@ export class ManageStoreService {
     return this.http.get<any>('https://jsonplaceholder.typicode.com/users');
 }
 getList(): Observable<ListingItem>  {
-return this.http.get(this.configuration.apiURL + '/status/store/approval')
+return this.http.get('http://192.168.0.8:8080/belisada-admin/manage/reference?code=SSA&isactive=true')
 .map(resp => resp as ListingItem);
 }
 

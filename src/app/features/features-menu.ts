@@ -21,4 +21,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
       }
     ],
   },
+  {
+    title: 'Product',
+    icon: 'nb-layout-default',
+    children: [
+      {
+        title: 'List',
+        link: '/product/list',
+      }
+    ],
+  },
+  
 ];

@@ -50,7 +50,7 @@
                         <ng-template #please>
                             <ng-container *ngFor="let obj of listToko.data | searchPipe:'name':search  | searchPipe:'registeredDate':registerDat | searchPipe:'ownerStore':namaOwner | searchPipe:'status':status | searchPipe:'verifiedByName':verifiedByName">
                                 <tr (click)="openCloseRow(obj.storeId)" (click)="getCharacter(obj.storeId)">
-                                    <td>{{obj.registeredDate}}</td>
+                                    <td>{{ rubah(obj.registeredDate)}}</td>
                                     <td>
                                         {{obj.name}}
                                     </td>
@@ -130,24 +130,24 @@
         </div>
        
         
-            <div class="paging">
-                    <ul>
-                        <li>
-                            <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
-                        </li>
-                        <li>
-                            <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
-                        </li>
-                        <li *ngFor="let p of pages">
-                            <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
-                        </li>
-                        <li>
-                            <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
-                        </li>
-                        <li>
-                            <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
-                        </li>
-                    </ul>
-                </div>
+        <div class="paging">
+                <ul>
+                    <li>
+                        <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
+                    </li>
+                    <li>
+                        <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
+                    </li>
+                    <li *ngFor="let p of pages">
+                        <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
+                    </li>
+                    <li>
+                        <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+                    </li>
+                    <li>
+                        <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+                    </li>
+                </ul>
+            </div>
             </nb-card-body>
         </nb-card>

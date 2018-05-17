@@ -12,6 +12,8 @@ import { AuthenticationService } from './services/authentication/authentication.
 import { Configuration } from './config/configuration';
 import { ManageBuyerService } from './services/manage-buyer/manage-buyer.service';
 import { ManageStoreService } from './services/manage-store/manage-store.service';
+import { ManageProductService } from './services/manage-product/manage-product.service';
+import { WikipediaService } from '../features/manage-product/list-product/list-product.component';
 
 const socialLinks = [
   {
@@ -83,7 +85,9 @@ const BELISADA_PROVIDERS = [
   ProfileService,
   Configuration,
   ManageBuyerService,
-  ManageStoreService
+  ManageStoreService,
+  WikipediaService,
+  ManageProductService
 ]
 
 @NgModule({
