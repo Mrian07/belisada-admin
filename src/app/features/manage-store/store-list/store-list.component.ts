@@ -108,21 +108,34 @@ export class StoreListComponent {
   loadData() {
     this.getList();
   }
-  setPage(page: number, increment ? : number) {
-    if (increment) {
-      page = +page + increment;
-    }
-    if (page < 1 || page > this.lastPages) {
-      return false;
-    }
-    this.router.navigate(['/store/list'], {
-      queryParams: {
-        page: page
-      }
-    });
-    window.scrollTo(0, 0);
 
+  rubah(e){
+    const r = 
+    e.replace(new RegExp('/', 'g'), '-');
+    return r;
   }
+  setPage(page: number, increment?: number) {
+    if (increment) { page = +page + increment; }
+    if (page < 1 || page > this.listToko.pageCount) { return false; }
+    this.router.navigate(['/store/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
+    window.scrollTo(0, 0);
+  }
+
+  // setPage(page: number, increment ? : number) {
+  //   if (increment) {
+  //     page = +page + increment;
+  //   }
+  //   if (page < 1 || page > this.lastPages) {
+  //     return false;
+  //   }
+  //   this.router.navigate(['/store/list'], {
+  //     queryParams: {
+  //       page: page
+  //     }
+  //   });
+  //   window.scrollTo(0, 0);
+
+  // }
   private getList() {
     this.manage.getList().subscribe(x => {
       this.list = x;
@@ -229,7 +242,6 @@ export class StoreListComponent {
   funcNamaPemilikArray() {
     this.namaPemilikSorting = true;
     this.constSudahTeracak = this.namaPemilikDataArray(this.listToko);
-    console.log(this.namaPemilikSorting);
   }
 
   funcSortNamaPemilikBenar() {

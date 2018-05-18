@@ -31,6 +31,10 @@ const routes: Routes = [{
     {
       path: 'buyer',
       loadChildren: './manage-buyer/manage-buyer.module#ManageBuyerModule',
+    },
+    {
+      path: 'product',
+      loadChildren: './manage-product/manage-product.module#ManageProductModule',
     }
   ]
 }];

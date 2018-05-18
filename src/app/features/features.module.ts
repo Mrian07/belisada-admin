@@ -5,6 +5,7 @@ import { FeaturesRoutingModule } from './features-routing.module';
 import { FeaturesComponent } from './features.component';
 import { ThemeModule } from '../@theme/theme.module';
 import { SearchPipe } from '../@theme/pipes';
+import { ModalComponent } from '../pages/ui-features/modals/modal/modal.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
@@ -14,6 +15,9 @@ import { DashboardModule } from './dashboard/dashboard.module';
     DashboardModule,
     FeaturesRoutingModule,
   ],
-  declarations: [FeaturesComponent]
+  declarations: [FeaturesComponent, ModalComponent],
+  entryComponents: [
+    ModalComponent
+  ],
 })
 export class FeaturesModule { }

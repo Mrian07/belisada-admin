@@ -1,0 +1,256 @@
+<nb-card>
+        <nb-card-header>
+            Product
+        </nb-card-header>
+        <nb-card-body>
+    
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let obj of data | slice:1:9">
+                        <tr (click)="open(content,obj.id)">
+                            <td>{{obj.id}}</td>
+    
+                        </tr>
+                        <tr *ngIf="rowSelected==obj.id">
+                            <td></td>
+                            <td colspan="4">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:15%;">Comment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let q of obj.comments">
+                                            <td style="width:15%;">{{q}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+    
+                        <ng-template #content let-c="close" let-d="dismiss">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Modal title</h4>
+                                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>{{ obj.body }}</p>
+                                <p>Foto Product</p>
+                                <img class="image-small" src="{{obj.url}}">
+                                <img class="image-small" src="{{obj.url}}">
+                                <img class="image-small" src="{{obj.url}}">
+                                <img class="image-small" src="{{obj.url}}">
+                                <img class="image-small" src="{{obj.url}}">
+                                <br>
+                                <span>Brand</span>
+                                <!-- <div class="drick-select-container">
+                                    <div class="ui icon input parent">
+                                        <input class="drick-select__text" [ngClass]="{'active':onTextFocus}" type="text" [(ngModel)]="txtSearch" (keyup)="searchBrand()" (focus)="onTextFocus = true" (focusout)="onFocusOut()" placeholder="Select one">
+                                        <i class="drick-select__icon caret nb-arrow-down"></i>
+                                    </div>
+                                    <div class="drick-select-container--toggle" [ngClass]="{'active':onTextFocus}" id="drick-scroll-container" (scroll)="onScrollDown()">
+                                        <ul class="drick-select-list">
+                                            <li *ngFor="let i of brands" (click)="selectBrand(i)">
+                                                {{i.body}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div> -->
+
+                                <div class="drick-select-container">
+                                    <div class="ui icon input parent">
+                                        <input class="drick-select__text" [ngClass]="{'active':onTextFocus}" type="text" [(ngModel)]="txtSearch"
+                                            (keyup)="searchBrand()"
+                                            (focus)="onTextFocus = true" (focusout)="onFocusOut()" placeholder="Select one">
+                                            <i class="drick-select__icon caret nb-arrow-down"></i>
+                                    </div>
+                                    <div class="drick-select-container--toggle" [ngClass]="{'active':onTextFocus}"
+                                        id="drick-scroll-container"
+                                        (scroll)="onScrollDown()">
+                                        <ul class="drick-select-list">
+                                            <li *ngFor="let i of list3.data" (click)="selectBrand(i)">
+                                                {{i.name}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <br>
+                                <span>Kategory</span>
+                                <div class="wrapper">
+                                    <div>
+                                        <div class="form-group">
+                                            <select class="form-control" id="exampleFormControlSelect1">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+    
+                                    </div>
+                                    <div>
+                                        <select class="form-control" id="exampleFormControlSelect1">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select class="form-control" id="exampleFormControlSelect1">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </div>
+                                </div>
+    
+                                <span>deskripsi product</span>
+                                <div class="input-group">
+    
+                                    <textarea class="form-control" aria-label="With textarea" readonly></textarea>
+                                </div>
+    
+                                <span>spesifikasi</span>
+                                <div class="wrapper2">
+                                    <div>
+                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="{{ obj.title }}" readonly>
+                                    </div>
+                                    <div>
+                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" value="{{ obj.title }}" aria-describedby="basic-addon1" readonly>
+                                    </div>
+                                    <div>
+                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" value="{{ obj.title }}" aria-describedby="basic-addon1" readonly>
+                                    </div>
+                                    <div>
+                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" value="{{ obj.title }}" aria-describedby="basic-addon1" readonly>
+                                    </div>
+                                    <div>
+                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" value="{{ obj.title }}" aria-describedby="basic-addon1" readonly>
+                                    </div>
+                                </div>
+    
+                                <table border="0" cellpadding="10">
+                                    <tr>
+                                        <td>Kondisi Barang</td>
+                                        <td>
+                                            <input type="checkbox" [(ngModel)]="isChecked" (change)="checkValue(isChecked?'A':'B')" disabled /> Barang Baru
+                                        </td>
+                                        <td>Berat Barang</td>
+                                        <td>Rp. 1231231231</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Harga Barang</td>
+                                        <td>Rp. 1231231231</td>
+                                        <td>Dimensi Barang</td>
+                                        <td>Rp. 1231231231</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Stock Barang</td>
+                                        <td>123</td>
+                                        <td>Metode Pengiriman</td>
+                                        <td>
+                                           <!-- <p> ini {{ sel }}</p> -->
+                                            <div class="row press">
+                                                    <span>asdadasdsa</span><input type="checkbox" id="checked" class="cbx hidden" checked disabled/>
+                                                    <label for="checked" class="lbl"></label>
+                                                  </div>
+    
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                                        <div class="row press">
+                                                          <input type="checkbox" id="checked" class="cbx hidden" checked disabled/>
+                                                          <label for="checked" class="lbl"></label>
+                                                        </div>
+                                                         <div class="row">
+                                                          <input type="checkbox" id="checked_disabled" class="cbx hidden" disabled/>
+                                                          <label for="checked_disabled" class="lbl"></label>
+                                                        </div>
+                                            <!-- instant delivery {{ sel }}
+                                            <label class="switch" disabled *ngIf="sel == 3">
+                                                <input type="checkbox" disabled>
+                                                <span class="slider round" disabled></span>
+                                            </label>
+                                            <label class="switch" disabled *ngIf="sel == 3 || sel == 2">
+                                                <input type="checkbox" checked disabled>
+                                                <span class="slider round" disabled></span>
+                                            </label> -->
+    
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <ng-container *ngFor="let option of list | slice:1">
+                                                <button class="button-approve" (click)="Selected(option.statusCode)" *ngIf="option.status === 'APPROVED'">
+                                                    <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
+                                                    {{ option.status }}
+                                                </button>
+                                                <button class="button-revise" (click)="Selected(option.statusCode)" (click)="showDialog = !showDialog" *ngIf="option.status === 'REVISE'">
+                                                    <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
+                                                    {{ option.status }}
+                                                </button>
+                                                <button class="button-rejected" (click)="Selected(option.statusCode)" *ngIf="option.status === 'REJECTED'">
+                                                    <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
+                                                    {{ option.status }}
+                                                </button>
+                                            </ng-container>
+                                        </td>
+                                    </tr>
+                                </table>
+    
+                            </div>
+    
+                            <modal [(visible)]="showDialog">
+                                <form [formGroup]="myForm">
+                                    <div class="padding-for-body" *ngFor="let data of a">
+                                        <input type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }}</span>
+                                        <br>
+                                    </div>
+                                    <br>
+                                    <textarea class="form-control" formControlName="tulisan" placeholder="Catatan Tambahan" aria-label="With textarea"></textarea>
+                                    <pre>Form values: {{myForm.value | json}}</pre>
+                                </form>
+    
+                                <button class="button-revise revise-right" (click)="oke(data.statusId, $event.target.checked)">
+    
+                                    REVISE
+                                </button>
+    
+                                <button (click)="showDialog = !showDialog" class="btn">Close</button>
+                            </modal>
+                         
+                           
+                            <!-- <button class="btn btn-outline-primary mb-2 mr-2" (click)="openSm(content)">Small modal</button> -->
+    
+                            <!-- <div class="modal-footer">
+                                <button type="button" class="btn-outline-dark" (click)="c('Close click')">Close</button>
+                            </div> -->
+                        </ng-template>
+                    </ng-container>
+                </tbody>
+            </table>
+        </nb-card-body>
+    </nb-card>
+
+
+  
