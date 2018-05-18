@@ -35,17 +35,5 @@ export class Edit {
     message: string;
 }
 
-// export class Create {
-//     name: string;  
-//     imageUrl: any;
-//     isActive: string;
-//     constructor() {}
-// }
-
-// export class Output {
-//     status: number;  
-//     message: string;
-//     constructor() {}
-// }
 
 

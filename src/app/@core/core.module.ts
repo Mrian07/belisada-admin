@@ -1,3 +1,4 @@
+import { CategoryService } from './services/category/category.service';
 import { ShareMessageService } from './services/share-message/share-message.service';
 import { BrandService } from './services/brand/brand.service';
 import { ProfileService } from './services/profile/profile.service';
@@ -87,7 +88,8 @@ const BELISADA_PROVIDERS = [
   Configuration,
   ManageBuyerService,
   ManageStoreService,
-  ShareMessageService
+  ShareMessageService,
+  CategoryService
 ]
 
 @NgModule({
