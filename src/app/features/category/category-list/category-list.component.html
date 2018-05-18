@@ -75,10 +75,10 @@
         </button>
     </div>
     <div class="modal-body">
-        parenc1: <input type="text" [(ngModel)]="parentC1"><br>
-        parenc2: <input type="text" [(ngModel)]="parentC2"><br>
-        <input type="text" [(ngModel)]="typeAdd">
-        <input type="text" [(ngModel)]="idAdd">
+        <input type="hidden" [(ngModel)]="parentC1">
+        <input type="hidden" [(ngModel)]="parentC2">
+        <input type="hidden" [(ngModel)]="typeAdd">
+        <input type="hidden" [(ngModel)]="idAdd">
         <div class="form-group">
             <label for="usr">Name ID:</label>
             <input type="text" [(ngModel)]="nameAdd" class="form-control" placeholder="Nama">
