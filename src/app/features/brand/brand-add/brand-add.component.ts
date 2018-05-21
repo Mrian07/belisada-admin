@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert2';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+// import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShareMessageService } from './../../../@core/services/share-message/share-message.service';
 import { BrandService } from './../../../@core/services/brand/brand.service';
 
