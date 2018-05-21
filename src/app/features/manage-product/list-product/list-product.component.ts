@@ -2,7 +2,7 @@ import { Component, OnInit,ViewChild, Injectable, ElementRef, Input } from '@ang
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { ManageProductService } from '../../../@core/services/manage-product/manage-product.service';
-import { ManageProduct, revise, ListBrand } from '../../../@core/models/manage-product/manage-product';
+import { ManageProduct, revise, ListBrand, listingCategory } from '../../../@core/models/manage-product/manage-product';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {Observable} from 'rxjs';
 
@@ -17,9 +17,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import swal from 'sweetalert2';
 import { ModalComponent } from '../../../pages/ui-features/modals/modal/modal.component';
 import { BrandService } from '../../../@core/services/brand/brand.service';
-import { List } from '../../../@core/models/brand/brand.model';
-import { concat } from 'rxjs/operator/concat';
-
+import { List, Brand } from '../../../@core/models/brand/brand.model';
+import { interval } from 'rxjs/observable/interval';
+import { of } from 'rxjs/observable/of';
 
 @Component({
 selector: 'list-product',
@@ -32,6 +32,7 @@ export class ListProductComponent implements OnInit {
   modalHeader: string;
   myForm: FormGroup;
   form: FormGroup;
+  
   closeResult: string;
   data: ManageProduct[];
   model: any;
@@ -40,7 +41,7 @@ export class ListProductComponent implements OnInit {
   current: number = 1;
   list3: List = new List();
   
-  brands : any[];
+  brands: Brand[] = [];
   searching = false;
   searchFailed = false;
   // list: ListingItem = new ListingItem();
@@ -52,18 +53,18 @@ export class ListProductComponent implements OnInit {
   test: boolean = true;
   isSubscribe = new FormControl(false);
   select: any;
-  a: revise;
-  ll: boolean;
+  a: revise[];
+  ll: boolean = false;
 
   ss: any[];
+  ticks =0;
 
-  user = {
-    skills: [
-      { name: 'JS',  selected: true, id: 12 },
-      { name: 'CSS',  selected: false, id: 2 },
-    ]
-  }
 
+  public getC1: FormGroup;
+  c1: listingCategory[];
+
+  public getc2: FormGroup;
+  c2: listingCategory[];
 
   limit: number = 100;
   querySearch: string;
@@ -71,9 +72,26 @@ export class ListProductComponent implements OnInit {
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   @ViewChild('instance') instance: NgbTypeahead;
   public rowSelected: number;
-  constructor(private modalService: NgbModal, private prodService: ManageProductService, private el: ElementRef, private manage: ManageStoreService,  private brandService: BrandService, private fb: FormBuilder) {}
+
+  check: boolean;
+
+
+  constructor(private modalService: NgbModal,
+     private prodService: ManageProductService, 
+     private el: ElementRef, 
+     private manage: 
+     ManageStoreService,  
+     private brandService: BrandService, 
+     private fb: FormBuilder) {}
+
   ngOnInit() {
     this.newMethod();
+    this.getC1 = this.fb.group({
+      c1: new FormControl(null, Validators.required),
+  });
+  this.getc2 = this.fb.group({
+    c2: new FormControl(null)
+  });
     this.myForm = this.fb.group({
       useremail: this.fb.array([]),
       tulisan: new FormControl
@@ -87,18 +105,35 @@ export class ListProductComponent implements OnInit {
       console.log(asd);
     });
     this.isChecked = true;
+  
+    this.getC1.get('c1').valueChanges.subscribe(val => {
+      this.getDataC2(val)
+  });
+
+   
+  this.getDataC1();
   }
 
-  get skills() {
-    return this.form.get('skills');
-  }
-
-  buildSkills() {
-    const arr = this.user.skills.map(skill => {
-      return this.fb.control(skill.selected);
+  getDataC1() {
+    this.prodService.getDataCategoryC1().subscribe(data => {
+        this.c1 = data;
+        console.log(data);
     });
-    return this.fb.array(arr);
   }
+  
+  getDataC2(id) {
+    this.prodService.getDataCategoryC2(id).subscribe(data =>{
+      this.c2 = data;
+      console.log(data);
+    });
+  }
+
+
+
+
+  
+
+
   open(content, e) {
     let options: NgbModalOptions = {
       backdrop: false,
@@ -129,17 +164,6 @@ export class ListProductComponent implements OnInit {
     console.log(val);
   }
 
-  search = (text$: Observable < string > ) =>
-    text$.pipe(
-      debounceTime(200),
-      map(term => term === '' ? [] :
-        this.data.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-    );
-
-  formatter = (x: {
-    title: string
-  }) => x.title;
-
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -162,15 +186,18 @@ export class ListProductComponent implements OnInit {
   checkValue(event: any) {
     console.log(event);
   }
+
   Existing() {
     // this.value = true;
     this.value = !this.value;
   }
+
   openVerticallyCentered(content) {
     this.modalService.open(content, {
       size: 'sm'
     });
   }
+
   changeValue() {
     console.log(this.isSubscribe.value);
     this.isSubscribe = new FormControl(!this.isSubscribe.value);
@@ -188,7 +215,8 @@ export class ListProductComponent implements OnInit {
         name: this.querySearch === undefined ? '' : this.querySearch
       }
       this.brandService.getList(queryParams).subscribe(response => {
-        this.list3 = response;
+        this.brands = this.brands.concat(response.data)
+        // this.list3 = concat(interval(1000), of(response));
         console.log('asd',response);
       });
     };
@@ -204,7 +232,7 @@ export class ListProductComponent implements OnInit {
     }
 
     this.brandService.getList(queryParams).subscribe(response => {
-      this.list3 = response;
+      this.brands = response.data;
     });
   }
 
@@ -247,34 +275,38 @@ export class ListProductComponent implements OnInit {
       emailFormArray.removeAt(index);
       email = isChecked;
       this.ll = isChecked;
-      console.log(this.ll)
+      console.log('asdasdsadsad',this.ll)
 
     }
   }
+
+
   
 
-
-
   oke() {
-   
+    
     // this.ss = this.ll;
     localStorage.setItem('aaaa', JSON.stringify(this.myForm.value));
    
     // window.location.reload();s
     console.log(this.myForm.value)
-     this.myForm.reset({
-      "useremail": [],
-     });
-//      this.myForm.reset({
-//       'city': 'London',
-//       'structure':{
-//         'Parallel': 1,
-//         'Hierarchical': 1,
-//         'Stable': 1,
-//  }); 
-
+    this.myForm.setControl('useremail', new FormArray([]));
+     this.myForm.reset();
+     this.check = false;
     
+     console.log('this check',this.check);
+    //  this.check = true;
+  
+    console.log('a')
+    console.log('b')
+    console.log('c')
+    // this.newMethod_1();
   }
+  private newMethod_1() {
+    this.check = true;
+    console.log(this.check);
+  }
+
   private newMethod() {
     // this.listService.getList().subscribe(res=>this.list=res);
     this.manage.getList().subscribe(x => {

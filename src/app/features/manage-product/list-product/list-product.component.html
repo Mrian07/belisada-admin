@@ -76,7 +76,7 @@
                                         id="drick-scroll-container"
                                         (scroll)="onScrollDown()">
                                         <ul class="drick-select-list">
-                                            <li *ngFor="let i of list3.data" (click)="selectBrand(i)">
+                                            <li *ngFor="let i of brands" (click)="selectBrand(i)">
                                                 {{i.name}}
                                             </li>
                                         </ul>
@@ -86,25 +86,37 @@
                                 <span>Kategory</span>
                                 <div class="wrapper">
                                     <div>
-                                        <div class="form-group">
-                                            <select class="form-control" id="exampleFormControlSelect1">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
+                                        <form [formGroup]="getC1">
+                                                <div class="form-group">
+                                                        <select formControlName="c1" class="form-control" id="exampleFormControlSelect1">
+                                                                <option [ngValue]="null" disabled selected>C1</option>
+                                                                <option *ngFor="let option of c1.data" [ngValue]="option.categoryId" placeholder="Pilih kota">
+                                                                    {{ option.name }}
+                                                                </option>
+                                                            </select>
+                                                </div>
+                                        </form>
+                                        
     
                                     </div>
                                     <div>
-                                        <select class="form-control" id="exampleFormControlSelect1">
+                                            <form [formGroup]="getc2">
+                                                    <div class="form-group">
+                                                            <select formControlName="c2" class="form-control" id="exampleFormControlSelect1">
+                                                                    <option [ngValue]="null" disabled selected>C1</option>
+                                                                    <option *ngFor="let option of c2" [ngValue]="option.categoryId" placeholder="Pilih kota">
+                                                                        {{ option.name }}
+                                                                    </option>
+                                                                </select>
+                                                    </div>
+                                            </form>
+                                        <!-- <select class="form-control" id="exampleFormControlSelect1">
                                             <option>1</option>
                                             <option>2</option>
                                             <option>3</option>
                                             <option>4</option>
                                             <option>5</option>
-                                        </select>
+                                        </select> -->
                                     </div>
                                     <div>
                                         <select class="form-control" id="exampleFormControlSelect1">
@@ -164,7 +176,7 @@
                                         <td>
                                            <!-- <p> ini {{ sel }}</p> -->
                                             <div class="row press">
-                                                    <span>asdadasdsa</span><input type="checkbox" id="checked" class="cbx hidden" checked disabled/>
+                                                <input type="checkbox" id="checked" class="cbx hidden" checked disabled/>
                                                     <label for="checked" class="lbl"></label>
                                                   </div>
     
@@ -222,20 +234,45 @@
     
                             <modal [(visible)]="showDialog">
                                 <form [formGroup]="myForm">
-                                    <div class="padding-for-body" *ngFor="let data of a">
-                                        <input type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }}</span>
+                                    <!-- <div class="padding-for-body" *ngFor="let data of a">
+                                            
+                                        <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }}</span>
+                                        <br>
+                                    </div> -->
+
+                                 
+
+                                    <div *ngIf="check === false; else login">
+                                        <div class="padding-for-body" *ngFor="let data of a">
+                                            <!-- <input type="checkbox" name="useremail" formControlName="useremail"
+                                            (change)="$event.target.checked ? (this.myForm.controls.useremail.setValue(data.statusId)) : false" >   -->
+                                        <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }}</span>
+                                     
+                                       
                                         <br>
                                     </div>
+                                    adajksdkadkasdkaskdlasl
+                                    </div>
+                                    <ng-template #login>
+                                        <div class="padding-for-body" *ngFor="let data of a">
+                                        <!-- <input type="checkbox" name="useremail" formControlName="useremail"
+                                        (change)="$event.target.checked ? (this.myForm.controls.useremail.setValue(data.statusId)) : false" >   -->
+                                    <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }}</span>
+                                    <br>
+                                </div></ng-template>
                                     <br>
                                     <textarea class="form-control" formControlName="tulisan" placeholder="Catatan Tambahan" aria-label="With textarea"></textarea>
                                     <pre>Form values: {{myForm.value | json}}</pre>
                                 </form>
     
-                                <button class="button-revise revise-right" (click)="oke(data.statusId, $event.target.checked)">
+                                <button class="button-revise revise-right" (click)="oke(data.statusId, $event.target.checked)" >
+                                   
     
-                                    REVISE
+                                    REVISE 
                                 </button>
     
+                                <button (click)="newMethod_1()">reset</button>
+                                asdasdasd {{ll}}
                                 <button (click)="showDialog = !showDialog" class="btn">Close</button>
                             </modal>
                          
@@ -251,6 +288,3 @@
             </table>
         </nb-card-body>
     </nb-card>
-
-
-  
