@@ -37,6 +37,17 @@
 //     color: #4f9ff3;
 // }
 
+.scroll-cat{
+    overflow-y: scroll;
+    height: 600px;
+    padding:5px;
+    // position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: -17px;
+}
+
 .inactive{
     background: #f37f7f
 }

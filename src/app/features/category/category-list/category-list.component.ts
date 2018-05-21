@@ -90,7 +90,8 @@ export class CategoryListComponent implements OnInit {
 
   loadData(){    
     const queryParams = {
-      type: 'C1'
+      type: 'C1',
+      all:'true'
     }
     this.categoryService.getCategory(queryParams).subscribe(response => {
       this.typeCat = "c1";
@@ -100,10 +101,10 @@ export class CategoryListComponent implements OnInit {
 
   srcCat2(id){
     const queryParams = {
-      parentid: id
+      parentid: id,
+      all:'true'
     }
-    this.categoryService.getCategory(queryParams).subscribe(response => {
-      console.log('hasil c2:', response.dataCount);   
+    this.categoryService.getCategory(queryParams).subscribe(response => {  
       this.isStatus();  
       this.isC2=true;
       this.typeCat2 = "c2";
@@ -122,10 +123,10 @@ export class CategoryListComponent implements OnInit {
   srcCat3(id){
     
     const queryParams = {
-      parentid: id
+      parentid: id,
+      all:'true'
     }
     this.categoryService.getCategory(queryParams).subscribe(response => {
-      console.log('hasil c3:', response);   
       this.isStatus();  
       this.isC2=true;
       this.isC3=true;
