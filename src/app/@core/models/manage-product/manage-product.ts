@@ -41,6 +41,12 @@ export class ListBrand {
     verifiedByName: string;
   }
 
+  export class deetailProd {
+    message: string;
+    status : number;
+    data: detailListingProduct[];
+  }
+
   export class detailListingProduct {
     productId: number;
     name: string;

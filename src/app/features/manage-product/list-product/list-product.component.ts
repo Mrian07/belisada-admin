@@ -2,7 +2,7 @@ import { Component, OnInit,ViewChild, Injectable, ElementRef, Input } from '@ang
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { ManageProductService } from '../../../@core/services/manage-product/manage-product.service';
-import { ManageProduct, revise, ListBrand, listingCategory } from '../../../@core/models/manage-product/manage-product';
+import { ManageProduct, revise, ListBrand, listingCategory, listingProduct, detailListingProduct, deetailProd } from '../../../@core/models/manage-product/manage-product';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {Observable} from 'rxjs';
 
@@ -20,6 +20,9 @@ import { BrandService } from '../../../@core/services/brand/brand.service';
 import { List, Brand } from '../../../@core/models/brand/brand.model';
 import { interval } from 'rxjs/observable/interval';
 import { of } from 'rxjs/observable/of';
+import { CategoryService } from '../../../@core/services/category/category.service';
+import { ListCategory } from '../../../@core/models/category/category.model';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
 selector: 'list-product',
@@ -40,11 +43,13 @@ export class ListProductComponent implements OnInit {
   selected: string;
   current: number = 1;
   list3: List = new List();
-  
+
+  brandList: List = new List();
   brands: Brand[] = [];
+
+
   searching = false;
   searchFailed = false;
-  // list: ListingItem = new ListingItem();
   list: ListingItem;
   txtSearch: string;
   productBrandId: number;
@@ -61,10 +66,14 @@ export class ListProductComponent implements OnInit {
 
 
   public getC1: FormGroup;
-  c1: listingCategory[];
+  c1: listingCategory = new listingCategory();
 
   public getc2: FormGroup;
-  c2: listingCategory[];
+  c2: listingCategory = new listingCategory();
+
+  public getc3: FormGroup;
+  c3: listingCategory = new listingCategory();
+
 
   limit: number = 100;
   querySearch: string;
@@ -75,65 +84,140 @@ export class ListProductComponent implements OnInit {
 
   check: boolean;
 
+  typeCat: string;
+  typeCat2: string;
+  typeCat3: string;
+  titlePopUp: string;
+  
+  parentC1: number;
+  parentC2: number;
+  listCat1: ListCategory = new ListCategory();
+  listCat2: ListCategory = new ListCategory();
+  listCat3: ListCategory = new ListCategory();
+  isAdd: boolean;
+
+  isC2: boolean;
+  isC3: boolean;
+
+
+  isDataC1: boolean;
+  isDataC2: boolean;
+
+  pages: any = [];
+  currentPage: any;
+  lastPage: number;
+
+  listProduct: listingProduct = new listingProduct();
+
+  listDetailProd: detailListingProduct[] = [];
 
   constructor(private modalService: NgbModal,
      private prodService: ManageProductService, 
      private el: ElementRef, 
      private manage: 
      ManageStoreService,  
+    private categoryService: CategoryService,
      private brandService: BrandService, 
-     private fb: FormBuilder) {}
+     private fb: FormBuilder,
+     private activatedRoute: ActivatedRoute) {
+      this.brandList.data = [];
+     }
 
   ngOnInit() {
+    this.loadData();
     this.newMethod();
-    this.getC1 = this.fb.group({
-      c1: new FormControl(null, Validators.required),
-  });
-  this.getc2 = this.fb.group({
-    c2: new FormControl(null)
-  });
-    this.myForm = this.fb.group({
-      useremail: this.fb.array([]),
-      tulisan: new FormControl
-    });
-    this.prodService.getData().subscribe(response => {
-      this.data = response;
-
-    });
-    this.prodService.getDataListRevie().subscribe(asd => {
-      this.a = asd;
-      console.log(asd);
-    });
+    this.form_All();
+    
     this.isChecked = true;
   
     this.getC1.get('c1').valueChanges.subscribe(val => {
       this.getDataC2(val)
   });
 
+  this.getc2.get('c2').valueChanges.subscribe(val => {
+    this.getDataC3(val)
+});
+
    
   this.getDataC1();
+  
+  }
+
+  private loadData() {
+    this.prodService.getDataListRevie().subscribe(asd => {
+      this.a = asd;
+      console.log(asd);
+    });
+
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      this.pages = [];
+      this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
+      const queryParams = {
+        page: this.currentPage,
+        itemperpage: 10
+      };
+      this.prodService.getDataListing(queryParams).subscribe(response => {
+        this.listProduct = response;
+        console.log(this.listProduct);
+        this.lastPage = this.listProduct.pageCount;
+        for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
+          if (r > 0 && r <= this.listProduct.pageCount) {
+            this.pages.push(r);
+          }
+        }
+      });
+    });
+  }
+
+  private form_All() {
+    this.getC1 = this.fb.group({
+      c1: new FormControl(null, Validators.required),
+    });
+    this.getc2 = this.fb.group({
+      c2: new FormControl(null)
+    });
+    this.getc3 = this.fb.group({
+      c3: new FormControl(null)
+    });
+    this.myForm = this.fb.group({
+      useremail: this.fb.array([]),
+      tulisan: new FormControl
+    });
   }
 
   getDataC1() {
-    this.prodService.getDataCategoryC1().subscribe(data => {
+       const queryParams = {
+      type: 'C1',
+      all:'true'
+    }
+    this.categoryService.getCategory(queryParams).subscribe(data => {
         this.c1 = data;
         console.log(data);
     });
   }
   
   getDataC2(id) {
-    this.prodService.getDataCategoryC2(id).subscribe(data =>{
+    const queryParams = {
+      parentid: id,
+      all:'true'
+    }
+    this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
-      console.log(data);
+      console.log(this.c2);
     });
   }
 
-
-
-
+  getDataC3(id) {
+    const queryParams = {
+      parentid: id,
+      all:'true'
+    }
+    this.categoryService.getCategory(queryParams).subscribe(data =>{
+      this.c3 = data;
+      // console.log(this.c2);
+    });
+  }
   
-
-
   open(content, e) {
     let options: NgbModalOptions = {
       backdrop: false,
@@ -141,17 +225,14 @@ export class ListProductComponent implements OnInit {
     }
     this.modalService.open(content, options);
     console.log(e);
+    this.prodService.getDetailProduct(e).subscribe(detail => {
+      this.listDetailProd = detail.data;
+      console.log(detail);
+    })
     this.sel = e;
 
   }
-  openForMe(content) {
-    let options: NgbModalOptions = {
-      backdrop: false,
-      size: 'lg'
-    }
-    this.modalService.open(content, options);
 
-  }
 
 
 
@@ -206,20 +287,36 @@ export class ListProductComponent implements OnInit {
   }
   
   onScrollDown () {
-   
-    const scr =  window.document.querySelector('#drick-scroll-container')
-    if (scr.scrollHeight - scr.clientHeight === scr.scrollTop) {
+    const scr = window.document.querySelector('#drick-scroll-container');
+    console.log('scr.scrollHeight: ', scr.scrollHeight);
+    console.log('scr.clientHeight: ', scr.clientHeight);
+    console.log('scr.scrollTop: ', scr.scrollTop);
+    if (scr.scrollHeight - scr.clientHeight === Math.round(scr.scrollTop)) {
       const queryParams = {
         page: this.current += 1,
         itemperpage: this.limit,
         name: this.querySearch === undefined ? '' : this.querySearch
-      }
+      };
       this.brandService.getList(queryParams).subscribe(response => {
-        this.brands = this.brands.concat(response.data)
-        // this.list3 = concat(interval(1000), of(response));
-        console.log('asd',response);
+        this.brandList.data = this.brandList.data.concat(response.data);
       });
-    };
+    }
+    // const scr =  window.document.querySelector('#drick-scroll-container')
+    // console.log(scr)
+    // console.log('scr.scrollHeight: ', scr.scrollHeight);
+    // console.log('scr.style.height: ', scr.clientHeight);
+    // console.log('scr.scrollTop: ', scr.scrollTop);
+    // if (scr.scrollHeight - scr.clientHeight === Math.round(scr.scrollTop)) {
+    //   const queryParams = {
+    //     page: this.current += 1,
+    //     itemperpage: this.limit,
+    //     name: this.querySearch === undefined ? '' : this.querySearch
+    //   }
+    //   this.brandService.getList(queryParams).subscribe(response => {
+    //     this.brands = this.brands.concat(response.data)
+    //     console.log('asd',response.data);
+    //   });
+    // };
   }
   
 
@@ -229,11 +326,20 @@ export class ListProductComponent implements OnInit {
       page: this.current = 1,
       itemperpage: this.limit,
       name: this.querySearch === undefined ? '' : this.querySearch
-    }
-
+    };
     this.brandService.getList(queryParams).subscribe(response => {
-      this.brands = response.data;
+      this.brandList = response;
     });
+    // this.querySearch = this.txtSearch;
+    // const queryParams = {
+    //   page: this.current = 1,
+    //   itemperpage: this.limit,
+    //   name: this.querySearch === undefined ? '' : this.querySearch
+    // }
+
+    // this.brandService.getList(queryParams).subscribe(response => {
+    //   this.brands = response.data;
+    // });
   }
 
   
