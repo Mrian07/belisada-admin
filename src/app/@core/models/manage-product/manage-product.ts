@@ -103,6 +103,14 @@ export class ListBrand {
     
   }
 
+  export class putProduct {
+    brandId: number;
+    categoryThreeId: number;
+    note: string;
+    productId: number;
+    statusCode: string;
+  }
+
   export class dataListingCategory {
     categoryId: number;
     name: string;

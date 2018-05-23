@@ -2,7 +2,7 @@ import { Component, OnInit,ViewChild, Injectable, ElementRef, Input } from '@ang
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { ManageProductService } from '../../../@core/services/manage-product/manage-product.service';
-import { ManageProduct, revise, ListBrand, listingCategory, listingProduct, detailListingProduct, deetailProd } from '../../../@core/models/manage-product/manage-product';
+import { ManageProduct, revise, ListBrand, listingCategory, listingProduct, detailListingProduct, deetailProd, dataListingCategory } from '../../../@core/models/manage-product/manage-product';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {Observable} from 'rxjs';
 
@@ -22,7 +22,7 @@ import { interval } from 'rxjs/observable/interval';
 import { of } from 'rxjs/observable/of';
 import { CategoryService } from '../../../@core/services/category/category.service';
 import { ListCategory } from '../../../@core/models/category/category.model';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
 selector: 'list-product',
@@ -51,7 +51,7 @@ export class ListProductComponent implements OnInit {
   searching = false;
   searchFailed = false;
   list: ListingItem;
-  txtSearch: string;
+  txtSearch: any;
   productBrandId: number;
   isChecked: boolean;
   sel: any;
@@ -63,10 +63,24 @@ export class ListProductComponent implements OnInit {
 
   ss: any[];
   ticks =0;
+  
+  /* method post
+  */
+  brandId : number;
+  cat3Value: number;
+  prodId: number;
+  statusCode: string;
+  /* akhir dari method post
+  */
+
 
 
   public getC1: FormGroup;
   c1: listingCategory = new listingCategory();
+  c1Data: detailListingProduct[];
+
+  selectedCategory: any;
+
 
   public getc2: FormGroup;
   c2: listingCategory = new listingCategory();
@@ -119,7 +133,8 @@ export class ListProductComponent implements OnInit {
     private categoryService: CategoryService,
      private brandService: BrandService, 
      private fb: FormBuilder,
-     private activatedRoute: ActivatedRoute) {
+     private activatedRoute: ActivatedRoute,
+     private router: Router) {
       this.brandList.data = [];
      }
 
@@ -129,24 +144,24 @@ export class ListProductComponent implements OnInit {
     this.form_All();
     
     this.isChecked = true;
+    this.getDataC1();
   
     this.getC1.get('c1').valueChanges.subscribe(val => {
       this.getDataC2(val)
   });
 
-  this.getc2.get('c2').valueChanges.subscribe(val => {
+  this.getC1.get('c2').valueChanges.subscribe(val => {
     this.getDataC3(val)
+    console.log('val c3',val);
 });
-
-   
-  this.getDataC1();
+ 
   
   }
 
   private loadData() {
     this.prodService.getDataListRevie().subscribe(asd => {
       this.a = asd;
-      console.log(asd);
+      console.log('datanya',asd);
     });
 
     this.activatedRoute.queryParams.subscribe((params: Params) => {
@@ -158,20 +173,23 @@ export class ListProductComponent implements OnInit {
       };
       this.prodService.getDataListing(queryParams).subscribe(response => {
         this.listProduct = response;
-        console.log(this.listProduct);
         this.lastPage = this.listProduct.pageCount;
         for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
           if (r > 0 && r <= this.listProduct.pageCount) {
             this.pages.push(r);
           }
         }
+        
       });
     });
+    this.searchBrand();
   }
 
   private form_All() {
     this.getC1 = this.fb.group({
       c1: new FormControl(null, Validators.required),
+      c2: new FormControl(null),
+      c3: new FormControl(null)
     });
     this.getc2 = this.fb.group({
       c2: new FormControl(null)
@@ -192,7 +210,7 @@ export class ListProductComponent implements OnInit {
     }
     this.categoryService.getCategory(queryParams).subscribe(data => {
         this.c1 = data;
-        console.log(data);
+        console.log(this.c1);
     });
   }
   
@@ -203,7 +221,6 @@ export class ListProductComponent implements OnInit {
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
-      console.log(this.c2);
     });
   }
 
@@ -214,27 +231,91 @@ export class ListProductComponent implements OnInit {
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c3 = data;
-      // console.log(this.c2);
+      this.isC2=true;
+      this.isC3=true;
+      this.typeCat3 = "c3";
+      this.parentC2 = id;
+      console.log('this.c3',this.c3);
     });
   }
+  searchBrand() {
+    const querySearch = this.txtSearch;
+    console.log('qs:', querySearch);
+    const queryParams = {
+      page: this.current = 1,
+      itemperpage: this.limit,
+      name: this.querySearch === undefined ? '' : this.querySearch
+    };
+    this.brandService.getList(queryParams).subscribe(response => {
+      this.brandList = response;
+    });
+  }
+
   
-  open(content, e) {
+
+  selectBrand(brand) {
+    console.log(brand.brandId);
+    this.brandId = brand.brandId;
+    this.txtSearch = brand.name;
+    this.productBrandId = brand.m_productbrand_id;
+  }
+  
+  open(content, e, bId, cat1, cat2, cat3) {
     let options: NgbModalOptions = {
       backdrop: false,
       size: 'lg'
     }
     this.modalService.open(content, options);
     console.log(e);
+    this.prodId = e;
     this.prodService.getDetailProduct(e).subscribe(detail => {
       this.listDetailProd = detail.data;
-      console.log(detail);
     })
+    console.log('brandid' , bId);
+    this.brandId = bId;
+    console.log('cat1', cat1);
+    console.log('cat2', cat2);
+    console.log('ca3', cat3);
+    this.cat3Value = cat3;
+
+    const cat1Ni: number = this.c1.data.find(x => x.categoryId === cat1 && cat2 && cat3).categoryId;
+    
+    this.getC1.patchValue({
+      c1: cat1Ni,
+      c2:cat1Ni,
+      c3:cat1Ni
+    });
+    
+      this.brandInit();
+    this.txtSearch = this.brandList.data.find(x => x.brandId === bId).name;
+    console.log( this.txtSearch)
+
+   
+
+    // console.log('oke', b);
+
+    console.log('ini cat1',cat1Ni)
+    // const okeOce = this.brands.find(x => x.brandId == bId);
+      // this.txtSearch = okeOce;
+      console.log(this.brands.find(x => x.brandId == bId))
     this.sel = e;
 
   }
 
 
+  brandInit() {
+    const a = {
+      page: this.current = 1,
+      itemperpage: this.limit,
+      name: this.querySearch === undefined ? '' : this.querySearch,
+      all: true
+    };
+    this.brandService.getList(a).subscribe(response => {
+      this.brandList = response;
+    });
 
+
+  }
 
   checkClicked(val) {
     if (val) {
@@ -288,9 +369,7 @@ export class ListProductComponent implements OnInit {
   
   onScrollDown () {
     const scr = window.document.querySelector('#drick-scroll-container');
-    console.log('scr.scrollHeight: ', scr.scrollHeight);
-    console.log('scr.clientHeight: ', scr.clientHeight);
-    console.log('scr.scrollTop: ', scr.scrollTop);
+   
     if (scr.scrollHeight - scr.clientHeight === Math.round(scr.scrollTop)) {
       const queryParams = {
         page: this.current += 1,
@@ -301,52 +380,28 @@ export class ListProductComponent implements OnInit {
         this.brandList.data = this.brandList.data.concat(response.data);
       });
     }
-    // const scr =  window.document.querySelector('#drick-scroll-container')
-    // console.log(scr)
-    // console.log('scr.scrollHeight: ', scr.scrollHeight);
-    // console.log('scr.style.height: ', scr.clientHeight);
-    // console.log('scr.scrollTop: ', scr.scrollTop);
-    // if (scr.scrollHeight - scr.clientHeight === Math.round(scr.scrollTop)) {
-    //   const queryParams = {
-    //     page: this.current += 1,
-    //     itemperpage: this.limit,
-    //     name: this.querySearch === undefined ? '' : this.querySearch
-    //   }
-    //   this.brandService.getList(queryParams).subscribe(response => {
-    //     this.brands = this.brands.concat(response.data)
-    //     console.log('asd',response.data);
-    //   });
-    // };
   }
   
 
-  searchBrand() {
-    this.querySearch = this.txtSearch;
-    const queryParams = {
-      page: this.current = 1,
-      itemperpage: this.limit,
-      name: this.querySearch === undefined ? '' : this.querySearch
-    };
-    this.brandService.getList(queryParams).subscribe(response => {
-      this.brandList = response;
-    });
-    // this.querySearch = this.txtSearch;
-    // const queryParams = {
-    //   page: this.current = 1,
-    //   itemperpage: this.limit,
-    //   name: this.querySearch === undefined ? '' : this.querySearch
-    // }
+  
 
-    // this.brandService.getList(queryParams).subscribe(response => {
-    //   this.brands = response.data;
-    // });
-  }
 
   
   Selected(value: any) {
     // this.checkIfButtonWasPressed = true;
     this.select = value;
     console.log(value);
+
+    const a = {
+      brandId : this.brandId,
+      categoryThreeId : this.cat3Value,
+      productId : this.prodId,
+      statusCode: this.select
+    };
+    this.prodService.postToko(a).subscribe(postDa => {
+      console.log('berhasil bos');
+    });
+    console.log('ini isinya',a)
 
     if (value == 7) {  
        console.log('12312321')
@@ -361,15 +416,11 @@ export class ListProductComponent implements OnInit {
     });
   }
 
-  selectBrand(brand) {
-    console.log(brand.body);
-    this.txtSearch = brand.name;
-    this.productBrandId = brand.m_productbrand_id;
-  }
+ 
 
   onChange(email: any, isChecked: boolean) {
     const emailFormArray = < FormArray > this.myForm.controls.useremail;
-
+    
     if (isChecked) {
       emailFormArray.push(new FormControl(email));
       this.ss = email;
@@ -387,7 +438,12 @@ export class ListProductComponent implements OnInit {
   }
 
 
-  
+  setPage(page: number, increment?: number) {
+    if (increment) { page = +page + increment; }
+    if (page < 1 || page > this.listProduct.pageCount) { return false; }
+    this.router.navigate(['/product/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
+    window.scrollTo(0, 0);
+  }
 
   oke() {
     
@@ -399,13 +455,6 @@ export class ListProductComponent implements OnInit {
     this.myForm.setControl('useremail', new FormArray([]));
      this.myForm.reset();
      this.check = false;
-    
-     console.log('this check',this.check);
-    //  this.check = true;
-  
-    console.log('a')
-    console.log('b')
-    console.log('c')
     // this.newMethod_1();
   }
   private newMethod_1() {

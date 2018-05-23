@@ -7,13 +7,21 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Date</th>
+                        <th>Added Date</th>
+                        <th>Nama Toko</th>
+                        <th>Nama Produk</th>
+                        <th>Status</th>
+                        <th>Approved By</th>
                     </tr>
                 </thead>
                 <tbody>
                     <ng-container *ngFor="let obj of listProduct.data">
-                        <tr (click)="open(content,obj.productId)">
+                        <tr (click)="open(content,obj.productId, obj.brandId, obj.categoryOneId, obj.categoryTwoId, obj.categoryThreeId)">
                             <td>{{obj.createdDate}}</td>
+                            <td>{{ obj.storeName }}</td>
+                            <td>{{ obj.name }}</td>
+                            <td>{{ obj.status }}</td>
+                            <td> {{ obj.verifiedByName }}</td>
     
                         </tr>
                         <tr *ngIf="rowSelected==obj.productId">
@@ -71,6 +79,7 @@
                                         <input class="drick-select__text" [ngClass]="{'active':onTextFocus}" type="text" [(ngModel)]="txtSearch"
                                             (keyup)="searchBrand()"
                                             (focus)="onTextFocus = true" (focusout)="onFocusOut()" placeholder="Select one">
+                                           
                                             <i class="drick-select__icon caret nb-arrow-down"></i>
                                     </div>
                                     <div class="drick-select-container--toggle" [ngClass]="{'active':onTextFocus}"
@@ -84,10 +93,11 @@
                                     </div>
                                 </div>
                                 <br>
+                                <form [formGroup]="getC1">
                                 <span>Kategory</span>
                                 <div class="wrapper">
                                     <div>
-                                        <form [formGroup]="getC1">
+                                       
                                                 <div class="form-group">
                                                         <select formControlName="c1" class="form-control" id="exampleFormControlSelect1">
                                                                 <option [ngValue]="null" disabled selected>C1</option>
@@ -96,12 +106,12 @@
                                                                 </option>
                                                             </select>
                                                 </div>
-                                        </form>
+                                       
                                         
     
                                     </div>
                                     <div>
-                                            <form [formGroup]="getc2">
+                                            <!-- <form [formGroup]="getc2"> -->
                                                     <div class="form-group">
                                                             <select formControlName="c2" class="form-control" id="exampleFormControlSelect1">
                                                                     <option [ngValue]="null" disabled selected>C1</option>
@@ -110,11 +120,11 @@
                                                                     </option>
                                                                 </select>
                                                     </div>
-                                            </form>
+                                            <!-- </form> -->
                                        
                                     </div>
                                     <div>
-                                            <form [formGroup]="getc3">
+                                            <!-- <form [formGroup]="getc3"> -->
                                                     <div class="form-group">
                                                             <select formControlName="c3" class="form-control" id="exampleFormControlSelect1">
                                                                     <option [ngValue]="null" disabled selected>C1</option>
@@ -123,9 +133,10 @@
                                                                     </option>
                                                                 </select>
                                                     </div>
-                                            </form>
+                                            <!-- </form> -->
                                     </div>
                                 </div>
+                            </form>
     
                                 <span>deskripsi product</span>
                                 <div class="input-group">
@@ -225,7 +236,8 @@
                                         <div class="padding-for-body" *ngFor="let data of a">
                                             <!-- <input type="checkbox" name="useremail" formControlName="useremail"
                                             (change)="$event.target.checked ? (this.myForm.controls.useremail.setValue(data.statusId)) : false" >   -->
-                                        <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }}</span>
+                                        <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }} {{ data.isActive }}  {{ data.statusId }} </span>
+                                      
                                      
                                        
                                         <br>
@@ -235,15 +247,16 @@
                                         <div class="padding-for-body" *ngFor="let data of a">
                                         <!-- <input type="checkbox" name="useremail" formControlName="useremail"
                                         (change)="$event.target.checked ? (this.myForm.controls.useremail.setValue(data.statusId)) : false" >   -->
-                                    <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }}</span>
+                                    <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }} {{ data.status }} {{ data.isActive }}  {{ data.statusId }}</span>
                                     <br>
-                                </div></ng-template>
+                                </div>
+                            </ng-template>
                                     <br>
                                     <textarea class="form-control" formControlName="tulisan" placeholder="Catatan Tambahan" aria-label="With textarea"></textarea>
                                     <pre>Form values: {{myForm.value | json}}</pre>
                                 </form>
     
-                                <button class="button-revise revise-right" (click)="oke(data.statusId, $event.target.checked)" >
+                                <button class="button-revise revise-right" (click)="oke()" >
                                    
     
                                     REVISE 
@@ -264,5 +277,25 @@
                     </ng-container>
                 </tbody>
             </table>
+             
+        <div class="paging">
+            <ul>
+                <li>
+                    <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
+                </li>
+                <li>
+                    <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
+                </li>
+                <li *ngFor="let p of pages">
+                    <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
+                </li>
+                <li>
+                    <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+                </li>
+                <li>
+                    <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+                </li>
+            </ul>
+        </div>
         </nb-card-body>
     </nb-card>
