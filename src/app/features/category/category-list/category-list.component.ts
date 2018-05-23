@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ShareMessageService } from './../../../@core/services/share-message/share-message.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { CategoryService } from './../../../@core/services/category/category.service';
-import { ListCategory } from '../../../@core/models/category/category.model';
+import { ListCategory, ListSpec } from '../../../@core/models/category/category.model';
 import swal from 'sweetalert2';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
@@ -17,6 +17,7 @@ export class CategoryListComponent implements OnInit {
   listCat1: ListCategory = new ListCategory();
   listCat2: ListCategory = new ListCategory();
   listCat3: ListCategory = new ListCategory();
+  listSpec: ListSpec = new ListSpec();
 
   currentPage: number;
   lastPage: number;
@@ -36,6 +37,7 @@ export class CategoryListComponent implements OnInit {
 
   isC2: boolean;
   isC3: boolean;
+  isSpec: boolean;
   popAdd: boolean;
 
   typeCat: string;
@@ -56,6 +58,7 @@ export class CategoryListComponent implements OnInit {
 
   isDataC1: boolean;
   isDataC2: boolean;
+  isDataSpec: boolean;
 
   constructor(
     public shareMessageService: ShareMessageService,
@@ -138,6 +141,33 @@ export class CategoryListComponent implements OnInit {
         this.isDataC2=true;
       }else{
         this.isDataC2=false;
+      }
+      
+    });
+  }
+
+  srcSpec(id){
+    const queryParams = {
+      categoryid: id
+    }
+    this.categoryService.getSpec(queryParams).subscribe(response => {
+
+      console.log('respon: ',response);
+      this.isStatus();  
+      this.isC2=true;
+      this.isC3=true;
+      this.isSpec=true;
+
+      
+
+      // this.typeCat3 = "c3";
+      // this.parentC2 = id;
+      if(response){
+        this.listSpec = response;
+        // this.isC2=true;
+        this.isDataSpec=true;
+      }else{
+        this.isDataSpec=false;
       }
       
     });

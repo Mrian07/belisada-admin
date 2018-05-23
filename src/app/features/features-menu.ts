@@ -52,6 +52,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
+    title: 'Spec',
+    icon: 'nb-layout-default',
+    children: [
+      {
+        title: 'List',
+        link: '/spec/list',
+      }
+    ],
+  },
+  {
     title: 'Category',
     icon: 'nb-layout-default',
     children: [
