@@ -6,7 +6,7 @@
   <nb-card-body>
 
     <div class="row">
-        <div class="col-md-12 col-lg-4">
+        <div class="col-md-12 col-lg-3">
             <h3>Category C1</h3>
             <div class="scroll-cat">
                 <div *ngFor="let itemC1 of listCat1.data" class="menu-cat1" [ngClass]="{'inactive':itemC1.isActive === false}">
@@ -25,7 +25,7 @@
             </div>
             
         </div>
-        <div class="col-md-12 col-lg-4">
+        <div class="col-md-12 col-lg-3">
             <h3 *ngIf="isC2 == true">Category C2</h3>
             
             <div class="menu-cat2 scroll-cat" *ngIf="isC2 == true">
@@ -47,13 +47,13 @@
             </div>
         
         </div>
-        <div class="col-md-12 col-lg-4">
+        <div class="col-md-12 col-lg-3">
             <h3 *ngIf="isC3 == true">Category C3</h3>
             <div class="menu-cat2 scroll-cat" *ngIf="isC3 == true">
                 <div *ngIf="isDataC2==true">
                     <div *ngFor="let itemC3 of listCat3.data" class="sub-menu-cat2" [ngClass]="{'inactive':itemC3.isActive === false}">
                         <div class="row">
-                            <div class="col-md-9 col-lg-9">
+                            <div class="col-md-9 col-lg-9" (click)="srcSpec(itemC3.categoryId)">
                                 {{itemC3.name}} 
                             </div>
                             <div class="col-md-3 col-lg-3 edit-cat" (click)="editCategory(content,typeCat3,itemC3.categoryId,itemC3.name,itemC3.nameEn,itemC3.isActive)">
@@ -64,6 +64,26 @@
                 </div>
                 <div class="btn-add-c2" (click)="addCategory3(content,parentC2)">
                     <i class="fa fa-plus blue-icon"></i> Add New C2
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-3">
+            <h3 *ngIf="isSpec == true">Spesifikasi</h3>
+            <div class="menu-spec scroll-cat" *ngIf="isSpec == true">
+                <div *ngIf="isDataSpec==true">
+                    <div *ngFor="let spec of listSpec" class="sub-menu-cat2" [ngClass]="{'inactive':spec.isActive === false}">
+                        <div class="row">
+                            <div class="col-md-9 col-lg-9">
+                                {{spec.name}} 
+                            </div>
+                            <div class="col-md-3 col-lg-3 edit-cat" (click)="editSpec(content,typeCat3,itemC3.categoryId,itemC3.name,itemC3.nameEn,itemC3.isActive)">
+                                <i class="fa fa-pencil fa-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-add-c2" (click)="addSpec(content,parentC2)">
+                    <i class="fa fa-plus blue-icon"></i> Add Spec
                 </div>
             </div>
         </div>

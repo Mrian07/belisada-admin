@@ -93,6 +93,13 @@
     display: block;
 }
 
+.menu-spec:hover .edit-cat{
+    // background: #f6f6f6;
+    cursor: pointer;
+    font-weight: bold;
+    display: block;
+}
+
 .sub-menu-cat2{
     padding:8px;
 }
@@ -132,6 +139,10 @@
 
 .menu-cat2{
     border: 1px solid #0085ad;
+}
+
+.menu-spec{
+    border: 1px solid #dddddd;
 }
 
 // .sub-menu-cat2{

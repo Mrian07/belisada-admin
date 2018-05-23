@@ -29,6 +29,10 @@ const routes: Routes = [{
       loadChildren: './category/category.module#CategoryModule',
     },
     {
+      path: 'spec',
+      loadChildren: './spec/spec.module#SpecModule',
+    },
+    {
       path: 'buyer',
       loadChildren: './manage-buyer/manage-buyer.module#ManageBuyerModule',
     },
