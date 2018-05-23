@@ -11,12 +11,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngFor="let obj of data | slice:1:9">
-                        <tr (click)="open(content,obj.id)">
-                            <td>{{obj.id}}</td>
+                    <ng-container *ngFor="let obj of listProduct.data">
+                        <tr (click)="open(content,obj.productId)">
+                            <td>{{obj.createdDate}}</td>
     
                         </tr>
-                        <tr *ngIf="rowSelected==obj.id">
+                        <tr *ngIf="rowSelected==obj.productId">
                             <td></td>
                             <td colspan="4">
                                 <table class="table table-striped">
@@ -35,6 +35,7 @@
                         </tr>
     
                         <ng-template #content let-c="close" let-d="dismiss">
+                           {{listDetailProd.brandId}}
                             <div class="modal-header">
                                 <h4 class="modal-title">Modal title</h4>
                                 <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -76,7 +77,7 @@
                                         id="drick-scroll-container"
                                         (scroll)="onScrollDown()">
                                         <ul class="drick-select-list">
-                                            <li *ngFor="let i of list3.data" (click)="selectBrand(i)">
+                                            <li *ngFor="let i of brandList.data" (click)="selectBrand(i)">
                                                 {{i.name}}
                                             </li>
                                         </ul>
@@ -86,49 +87,58 @@
                                 <span>Kategory</span>
                                 <div class="wrapper">
                                     <div>
-                                        <div class="form-group">
-                                            <select class="form-control" id="exampleFormControlSelect1">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
+                                        <form [formGroup]="getC1">
+                                                <div class="form-group">
+                                                        <select formControlName="c1" class="form-control" id="exampleFormControlSelect1">
+                                                                <option [ngValue]="null" disabled selected>C1</option>
+                                                                <option *ngFor="let option of c1.data" [ngValue]="option.categoryId" placeholder="Pilih kota">
+                                                                    {{ option.name }}
+                                                                </option>
+                                                            </select>
+                                                </div>
+                                        </form>
+                                        
     
                                     </div>
                                     <div>
-                                        <select class="form-control" id="exampleFormControlSelect1">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
+                                            <form [formGroup]="getc2">
+                                                    <div class="form-group">
+                                                            <select formControlName="c2" class="form-control" id="exampleFormControlSelect1">
+                                                                    <option [ngValue]="null" disabled selected>C1</option>
+                                                                    <option *ngFor="let option of c2.data" [ngValue]="option.categoryId" placeholder="Pilih kota">
+                                                                        {{ option.name }}
+                                                                    </option>
+                                                                </select>
+                                                    </div>
+                                            </form>
+                                       
                                     </div>
                                     <div>
-                                        <select class="form-control" id="exampleFormControlSelect1">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
+                                            <form [formGroup]="getc3">
+                                                    <div class="form-group">
+                                                            <select formControlName="c3" class="form-control" id="exampleFormControlSelect1">
+                                                                    <option [ngValue]="null" disabled selected>C1</option>
+                                                                    <option *ngFor="let option of c3.data" [ngValue]="option.categoryId" placeholder="Pilih kota">
+                                                                        {{ option.name }}
+                                                                    </option>
+                                                                </select>
+                                                    </div>
+                                            </form>
                                     </div>
                                 </div>
     
                                 <span>deskripsi product</span>
                                 <div class="input-group">
     
-                                    <textarea class="form-control" aria-label="With textarea" readonly></textarea>
+                                    <textarea class="form-control" aria-label="With textarea" readonly>{{ listDetailProd.description }}</textarea>
                                 </div>
     
                                 <span>spesifikasi</span>
                                 <div class="wrapper2">
-                                    <div>
-                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="{{ obj.title }}" readonly>
+                                    <div *ngFor="let item of listDetailProd.specification">
+                                        <input  type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="{{ item.name }}" readonly>
                                     </div>
-                                    <div>
+                                    <!-- <div>
                                         <input type="text" class="form-control" placeholder="Username" aria-label="Username" value="{{ obj.title }}" aria-describedby="basic-addon1" readonly>
                                     </div>
                                     <div>
@@ -139,62 +149,43 @@
                                     </div>
                                     <div>
                                         <input type="text" class="form-control" placeholder="Username" aria-label="Username" value="{{ obj.title }}" aria-describedby="basic-addon1" readonly>
-                                    </div>
+                                    </div> -->
                                 </div>
     
                                 <table border="0" cellpadding="10">
                                     <tr>
                                         <td>Kondisi Barang</td>
                                         <td>
-                                            <input type="checkbox" [(ngModel)]="isChecked" (change)="checkValue(isChecked?'A':'B')" disabled /> Barang Baru
+                                            <input type="checkbox" [(ngModel)]="isChecked" (change)="checkValue(isChecked?'A':'B')" disabled /> {{ listDetailProd.classificationValue }}
                                         </td>
                                         <td>Berat Barang</td>
-                                        <td>Rp. 1231231231</td>
+                                        <td>{{ listDetailProd.weight }}</td>
                                     </tr>
                                     <tr>
                                         <td>Harga Barang</td>
-                                        <td>Rp. 1231231231</td>
+                                        <td>Rp. {{ listDetailProd.pricelist| number }}</td>
                                         <td>Dimensi Barang</td>
-                                        <td>Rp. 1231231231</td>
+                                        <td>{{  listDetailProd.volume }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Stock Barang</td>
-                                        <td>123</td>
-                                        <td>Metode Pengiriman</td>
-                                        <td>
+                                        <td class="verticalAli">Stock Barang</td>
+                                        <td class="verticalAli">{{ listDetailProd.qty }}</td>
+                                        <td class="verticalAli">Metode Pengiriman</td>
+                                        <td> <div class="row press" *ngFor="let courier of listDetailProd.couriers">
+                                            <ng-template [ngIf]="courier.isUse === true" [ngIfElse]="iUseFalse" >
+                                                    {{ courier.name }} &nbsp; <input type="checkbox" id="checked" class="cbx hidden" checked disabled/>
+                                                    &nbsp; <label for="checked" class="lbl"></label>
+                                            </ng-template>
+                                               
+                                                <ng-template #iUseFalse>
+                                                        {{ courier.name }} &nbsp; <input type="checkbox" id="checked_disabled" class="cbx hidden" disabled/>
+                                                        &nbsp; <label for="checked_disabled" class="lbl"></label></ng-template>
+                                                </div></td>
+                                       
                                            <!-- <p> ini {{ sel }}</p> -->
-                                            <div class="row press">
-                                                    <span>asdadasdsa</span><input type="checkbox" id="checked" class="cbx hidden" checked disabled/>
-                                                    <label for="checked" class="lbl"></label>
-                                                  </div>
-    
-                                        </td>
+                                            
                                     </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
-                                                        <div class="row press">
-                                                          <input type="checkbox" id="checked" class="cbx hidden" checked disabled/>
-                                                          <label for="checked" class="lbl"></label>
-                                                        </div>
-                                                         <div class="row">
-                                                          <input type="checkbox" id="checked_disabled" class="cbx hidden" disabled/>
-                                                          <label for="checked_disabled" class="lbl"></label>
-                                                        </div>
-                                            <!-- instant delivery {{ sel }}
-                                            <label class="switch" disabled *ngIf="sel == 3">
-                                                <input type="checkbox" disabled>
-                                                <span class="slider round" disabled></span>
-                                            </label>
-                                            <label class="switch" disabled *ngIf="sel == 3 || sel == 2">
-                                                <input type="checkbox" checked disabled>
-                                                <span class="slider round" disabled></span>
-                                            </label> -->
-    
-                                        </td>
-                                    </tr>
+                                  
                                     <tr>
                                         <td></td>
                                         <td></td>
@@ -222,20 +213,44 @@
     
                             <modal [(visible)]="showDialog">
                                 <form [formGroup]="myForm">
-                                    <div class="padding-for-body" *ngFor="let data of a">
-                                        <input type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }}</span>
+                                    <!-- <div class="padding-for-body" *ngFor="let data of a">
+                                            
+                                        <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }}</span>
+                                        <br>
+                                    </div> -->
+
+                                 
+
+                                    <div *ngIf="check === false; else login">
+                                        <div class="padding-for-body" *ngFor="let data of a">
+                                            <!-- <input type="checkbox" name="useremail" formControlName="useremail"
+                                            (change)="$event.target.checked ? (this.myForm.controls.useremail.setValue(data.statusId)) : false" >   -->
+                                        <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }}</span>
+                                     
+                                       
                                         <br>
                                     </div>
+                                    </div>
+                                    <ng-template #login>
+                                        <div class="padding-for-body" *ngFor="let data of a">
+                                        <!-- <input type="checkbox" name="useremail" formControlName="useremail"
+                                        (change)="$event.target.checked ? (this.myForm.controls.useremail.setValue(data.statusId)) : false" >   -->
+                                    <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }}</span>
+                                    <br>
+                                </div></ng-template>
                                     <br>
                                     <textarea class="form-control" formControlName="tulisan" placeholder="Catatan Tambahan" aria-label="With textarea"></textarea>
                                     <pre>Form values: {{myForm.value | json}}</pre>
                                 </form>
     
-                                <button class="button-revise revise-right" (click)="oke(data.statusId, $event.target.checked)">
+                                <button class="button-revise revise-right" (click)="oke(data.statusId, $event.target.checked)" >
+                                   
     
-                                    REVISE
+                                    REVISE 
                                 </button>
     
+                                <button (click)="newMethod_1()">reset</button>
+                                asdasdasd {{ll}}
                                 <button (click)="showDialog = !showDialog" class="btn">Close</button>
                             </modal>
                          
@@ -251,6 +266,3 @@
             </table>
         </nb-card-body>
     </nb-card>
-
-
-  

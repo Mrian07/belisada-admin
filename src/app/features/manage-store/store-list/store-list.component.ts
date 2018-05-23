@@ -57,7 +57,7 @@ export class StoreListComponent {
   title: any;
   listOfItems: any;
   loading = true;
-  currentPage: any;;
+  currentPage: any;
   lastPage: number;
   registerDateSorting: boolean = false;
   namaPemilikSorting: boolean = false;
