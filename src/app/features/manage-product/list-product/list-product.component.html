@@ -203,7 +203,7 @@
                                         <td></td>
                                         <td>
                                             <ng-container *ngFor="let option of list | slice:1">
-                                                <button class="button-approve" (click)="Selected(option.statusCode)" *ngIf="option.status === 'APPROVED'">
+                                                <button class="button-approve" (click)="Selected(option.statusCode, listDetailProd.version)" *ngIf="option.status === 'APPROVED'">
                                                     <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
                                                     {{ option.status }}
                                                 </button>
@@ -211,7 +211,7 @@
                                                     <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
                                                     {{ option.status }}
                                                 </button>
-                                                <button class="button-rejected" (click)="Selected(option.statusCode)" *ngIf="option.status === 'REJECTED'">
+                                                <button class="button-rejected" (click)="Selected(option.statusCode, listDetailProd.version)" *ngIf="option.status === 'REJECTED'">
                                                     <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
                                                     {{ option.status }}
                                                 </button>
@@ -224,55 +224,28 @@
     
                             <modal [(visible)]="showDialog">
                                 <form [formGroup]="myForm">
-                                    <!-- <div class="padding-for-body" *ngFor="let data of a">
-                                            
-                                        <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }}</span>
-                                        <br>
-                                    </div> -->
-
-                                 
-
                                     <div *ngIf="check === false; else login">
                                         <div class="padding-for-body" *ngFor="let data of a">
-                                            <!-- <input type="checkbox" name="useremail" formControlName="useremail"
-                                            (change)="$event.target.checked ? (this.myForm.controls.useremail.setValue(data.statusId)) : false" >   -->
-                                        <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }} {{ data.isActive }}  {{ data.statusId }} </span>
-                                      
-                                     
-                                       
+                                        <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }} </span>
                                         <br>
                                     </div>
                                     </div>
                                     <ng-template #login>
                                         <div class="padding-for-body" *ngFor="let data of a">
-                                        <!-- <input type="checkbox" name="useremail" formControlName="useremail"
-                                        (change)="$event.target.checked ? (this.myForm.controls.useremail.setValue(data.statusId)) : false" >   -->
-                                    <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }} {{ data.status }} {{ data.isActive }}  {{ data.statusId }}</span>
+                                    <input [checked]=false  type="checkbox" (change)="onChange(data.statusId, $event.target.checked)"> <span>{{ data.status }}</span>
                                     <br>
                                 </div>
                             </ng-template>
                                     <br>
                                     <textarea class="form-control" formControlName="tulisan" placeholder="Catatan Tambahan" aria-label="With textarea"></textarea>
-                                    <pre>Form values: {{myForm.value | json}}</pre>
                                 </form>
     
-                                <button class="button-revise revise-right" (click)="oke()" >
-                                   
-    
+                                <button class="button-revise revise-right" (click)="oke(listDetailProd.version)" >
                                     REVISE 
                                 </button>
-    
                                 <button (click)="newMethod_1()">reset</button>
-                                asdasdasd {{ll}}
                                 <button (click)="showDialog = !showDialog" class="btn">Close</button>
                             </modal>
-                         
-                           
-                            <!-- <button class="btn btn-outline-primary mb-2 mr-2" (click)="openSm(content)">Small modal</button> -->
-    
-                            <!-- <div class="modal-footer">
-                                <button type="button" class="btn-outline-dark" (click)="c('Close click')">Close</button>
-                            </div> -->
                         </ng-template>
                     </ng-container>
                 </tbody>
