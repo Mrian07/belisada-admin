@@ -77,6 +77,8 @@ export class ListProductComponent implements OnInit {
  end = 0;
  total = 0;
  limits = 12;
+ cat1Ni : number;
+ const2 : number;
 
 
   public getC1: FormGroup;
@@ -161,11 +163,15 @@ export class ListProductComponent implements OnInit {
     this.getDataC1();
   
     this.getC1.get('c1').valueChanges.subscribe(val => {
-      this.getDataC2(val)
+      // this.getDataC2(val)
+      this.cat1Ni = val;
+      console.log('get c1',this.cat1Ni);
   });
 
   this.getC1.get('c2').valueChanges.subscribe(val => {
-    this.getDataC3(val)
+    // this.getDataC3(this.const2)
+
+
 });
 this.getC1.get('c2').valueChanges.subscribe(val => {});
  
@@ -186,6 +192,15 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     };
   
   }
+
+  setC2(set) {
+    const postalId: number = this.c1.data.find(x => x.categoryId === set).categoryId;
+    this.getC1.patchValue({
+      c2: postalId
+    });
+    console.log(postalId);
+  }
+
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.listProduct.pageCount) { return false; }
@@ -276,23 +291,28 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     });
   }
   
-  getDataC2(id) {
+  getDataC2(id, cb) {
     const queryParams = {
       parentid: id,
       all:'true'
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
+      cb();
     });
   }
 
-  getDataC3(id) {
+  getDataC3(id, callback) {
     const queryParams = {
       parentid: id,
-      all:'true'
+      all:'true',
+      type: "C3"
     }
+    console.log('ini id nya si parent id getdata c3', id)
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c3 = data;
+      console.log(this.c3);
+      callback();
       this.isC2=true;
       this.isC3=true;
       this.typeCat3 = "c3";
@@ -310,8 +330,7 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     const queryParams = {
       page: this.current = 1,
       itemperpage: this.limit,
-      name: this.querySearch === undefined ? '' : this.querySearch,
-      isactive: true
+      name: this.querySearch === undefined ? '' : this.querySearch
     };
     this.brandService.getList(queryParams).subscribe(response => {
       this.brandList = response;
@@ -337,15 +356,35 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
       this.listDetailProd = detail.data;
     })
     this.brandId = bId;
+    console.log('cat2',cat2);
     this.cat3Value = cat3;
+    // const cat1Ni: number = this.c1.data.find(x => x.categoryId === cat1 && cat2 && cat3).categoryId;
+     this.cat1Ni = this.c1.data.find(x => x.categoryId === cat1).categoryId;
+    // const const2: number = this.c2.data.find(x => x.categoryId === cat2).categoryId;
+    console.log('c2: ', this.c2);
+    console.log('cat1Ni: ', cat1);
+    console.log('cat3', cat3);
+    console.log('ini catni1',this.cat1Ni)
 
-    const cat1Ni: number = this.c1.data.find(x => x.categoryId === cat1 && cat2 && cat3).categoryId;
-    
-    this.getC1.patchValue({
-      c1: cat1Ni,
-      c2:cat1Ni,
-      c3:cat1Ni
-    });
+    this.getDataC2(this.cat1Ni, () => {
+       this.const2 = this.c2.data.find(x => x.categoryId === cat2).categoryId;
+      console.log('const2: ', this.const2);
+      this.getC1.patchValue({
+        c1: this.cat1Ni,
+        c2: this.const2
+      });
+    })
+
+    this.getDataC3(cat2, () => {
+      const const3: number = this.c3.data.find(x => x.categoryId === cat3).categoryId;
+      console.log('const3: ', const3);
+      this.getC1.patchValue({
+        c1: this.cat1Ni,
+        c3: const3
+      });
+    })
+    // const cat2Ni: number = this
+    console.log('asdasdsadas',this.cat1Ni);
     this.brandInit();
     this.txtSearch = this.brandList.data.find(x => x.brandId === bId).name;
     this.sel = e;
@@ -358,8 +397,7 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
       page: this.current = 1,
       itemperpage: this.limit,
       name: this.querySearch === undefined ? '' : this.querySearch,
-      all: true,
-      isactive: true
+      all: true
     };
     this.brandService.getList(a).subscribe(response => {
       this.brandList = response;
@@ -470,11 +508,12 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
 
 
   }
-  openSm(content) {
-    this.modalService.open(content, {
-      size: 'sm'
-    });
-  }
+
+  // openSm(content) {
+  //   this.modalService.open(content, {
+  //     size: 'sm'
+  //   });
+  // }
 
  
 

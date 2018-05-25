@@ -99,28 +99,25 @@
                                     <div>
                                        
                                                 <div class="form-group">
-                                                        <select formControlName="c1" class="form-control" id="exampleFormControlSelect1">
+                                                        <select formControlName="c1" class="form-control" id="exampleFormControlSelect1" >
                                                                 <option [ngValue]="null" disabled selected>C1</option>
                                                                 <option *ngFor="let option of c1.data" [ngValue]="option.categoryId" placeholder="Pilih kota">
                                                                     {{ option.name }}
                                                                 </option>
                                                             </select>
                                                 </div>
-                                       
                                         
     
                                     </div>
                                     <div>
-                                            <!-- <form [formGroup]="getc2"> -->
                                                     <div class="form-group">
-                                                            <select formControlName="c2" class="form-control" id="exampleFormControlSelect1">
+                                                            <select formControlName="c2" class="form-control" id="exampleFormControlSelect1" >
                                                                     <option [ngValue]="null" disabled selected>C1</option>
                                                                     <option *ngFor="let option of c2.data" [ngValue]="option.categoryId" placeholder="Pilih kota">
                                                                         {{ option.name }}
                                                                     </option>
                                                                 </select>
                                                     </div>
-                                            <!-- </form> -->
                                        
                                     </div>
                                     <div>
@@ -180,7 +177,7 @@
                                     </tr>
                                     <tr>
                                         <td class="verticalAli">Stock Barang</td>
-                                        <td class="verticalAli">{{ listDetailProd.qty }}</td>
+                                        <td class="verticalAli">{{ listDetailProd.qtyTypeValue }}</td>
                                         <td class="verticalAli">Metode Pengiriman</td>
                                         <td> <div class="row press" *ngFor="let courier of listDetailProd.couriers">
                                             <ng-template [ngIf]="courier.isUse === true" [ngIfElse]="iUseFalse" >
