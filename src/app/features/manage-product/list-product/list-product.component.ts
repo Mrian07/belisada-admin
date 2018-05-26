@@ -78,7 +78,10 @@ export class ListProductComponent implements OnInit {
  total = 0;
  limits = 12;
  cat1Ni : number;
+ ok;
  const2 : number;
+ const3 : number;
+ let;
 
 
   public getC1: FormGroup;
@@ -162,17 +165,17 @@ export class ListProductComponent implements OnInit {
     this.isChecked = true;
     this.getDataC1();
   
-    this.getC1.get('c1').valueChanges.subscribe(val => {
-      // this.getDataC2(val)
-      this.cat1Ni = val;
-      console.log('get c1',this.cat1Ni);
-  });
+  //   this.getC1.get('c1').valueChanges.subscribe(val => {
+  //     this.ok = val;
+  //     console.log('get c1',this.ok);
+  // });
 
-  this.getC1.get('c2').valueChanges.subscribe(val => {
-    // this.getDataC3(this.const2)
+//   this.getC1.get('c2').valueChanges.subscribe(val => {
+//     // this.getDataC3(this.const2)
+//     console.log('value di getc1 untuk c2', val)
 
 
-});
+// });
 this.getC1.get('c2').valueChanges.subscribe(val => {});
  
   
@@ -289,15 +292,17 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     this.categoryService.getCategory(queryParams).subscribe(data => {
         this.c1 = data;
     });
+  console.log(this.cat1Ni);
   }
   
   getDataC2(id, cb) {
     const queryParams = {
-      parentid: id,
+      parentid: this.cat1Ni,
       all:'true'
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
+      console.log('id nya ini kasjdlajs',id);
       cb();
     });
   }
@@ -346,6 +351,14 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
   }
   
   open(content, e, bId, cat1, cat2, cat3) {
+    this.getC1.get('c1').valueChanges.subscribe(val => {
+      // this.getDataC2(val)
+      this.ok = val;
+      console.log('get c1',this.ok);
+  
+    console.log('sebelom cat1 ni di panggil sama si find',this.ok);
+    
+  });
     let options: NgbModalOptions = {
       backdrop: false,
       size: 'lg'
@@ -358,6 +371,7 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     this.brandId = bId;
     console.log('cat2',cat2);
     this.cat3Value = cat3;
+  
     // const cat1Ni: number = this.c1.data.find(x => x.categoryId === cat1 && cat2 && cat3).categoryId;
      this.cat1Ni = this.c1.data.find(x => x.categoryId === cat1).categoryId;
     // const const2: number = this.c2.data.find(x => x.categoryId === cat2).categoryId;
@@ -365,15 +379,19 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     console.log('cat1Ni: ', cat1);
     console.log('cat3', cat3);
     console.log('ini catni1',this.cat1Ni)
+  
 
     this.getDataC2(this.cat1Ni, () => {
        this.const2 = this.c2.data.find(x => x.categoryId === cat2).categoryId;
       console.log('const2: ', this.const2);
+      console.log('this.cat1Ni : in get datac2',this.cat1Ni)
       this.getC1.patchValue({
         c1: this.cat1Ni,
         c2: this.const2
       });
     })
+    
+   
 
     this.getDataC3(cat2, () => {
       const const3: number = this.c3.data.find(x => x.categoryId === cat3).categoryId;
@@ -389,6 +407,55 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     this.txtSearch = this.brandList.data.find(x => x.brandId === bId).name;
     this.sel = e;
 
+  }
+
+  ininich(a) {
+    console.log('asdasd');
+    this.cat1Ni = this.c1.data.find(x => x.categoryId === a).categoryId;
+    console.log(this.cat1Ni);
+    this.getC1.patchValue({
+      c1: this.cat1Ni
+    });
+    console.log(this.c2.data)
+    this.getDataC2(a, () => {
+      this.const2 = this.c2.data.find(x => x.categoryId === a).categoryId;
+      this.getC1.patchValue({
+        c2: this.const2
+      });
+   })
+   
+
+  
+    console.log('asdasdasda',a)
+  }
+
+  inic2(b){
+    this.getC1.get('c2').valueChanges.subscribe(val => {
+      // this.getDataC3(this.const2)
+      console.log('value di getc1 untuk c2', val)
+  
+  
+  });
+    this.let = b;
+    this.getDataC3(b, () => {
+      const const3: number = this.c3.data.find(x => x.categoryId === b).categoryId;
+      console.log('const3: ', const3);
+      this.getC1.patchValue({
+        c1: this.cat1Ni,
+        c2: this.const2,
+      });
+    })
+    console.log(this.c3.data)
+  //   this.getDataC3(b, () => {
+  //     this.const3 = this.c3.data.find(x => x.categoryId === b).categoryId;
+  //    console.log('constoke: oke oce nih ', this.const3);
+  //  })
+    console.log('b',b);
+  }
+
+  iniC3(c){
+    this.cat3Value = c;
+    console.log('ini untuk c3 um',this.cat3Value)
   }
 
 
