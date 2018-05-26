@@ -148,6 +148,7 @@ export class ListProductComponent implements OnInit {
      }
 
   ngOnInit() {
+    console.clear();
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
@@ -412,18 +413,20 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
   ininich(a) {
     console.log('asdasd');
     this.cat1Ni = this.c1.data.find(x => x.categoryId === a).categoryId;
-    console.log(this.cat1Ni);
+    console.log('ini cat1',this.cat1Ni);
     this.getC1.patchValue({
       c1: this.cat1Ni
     });
-    console.log(this.c2.data)
+    console.log('csok oce ni', this.c2.data)
     this.getDataC2(a, () => {
-      this.const2 = this.c2.data.find(x => x.categoryId === a).categoryId;
-      this.getC1.patchValue({
-        c2: this.const2
-      });
+      // this.const2 = this.c2.data.find(x => x.categoryId === a).categoryId;
+     console.log('const2: ', this.const2);
+     console.log('this.cat1Ni : in get datac2',this.cat1Ni)
+     this.getC1.patchValue({
+      //  c1: this.cat1Ni,
+       c2: a
+     });
    })
-   
 
   
     console.log('asdasdasda',a)
@@ -438,11 +441,11 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
   });
     this.let = b;
     this.getDataC3(b, () => {
-      const const3: number = this.c3.data.find(x => x.categoryId === b).categoryId;
-      console.log('const3: ', const3);
+      // const const3: number = this.c3.data.find(x => x.categoryId === b).categoryId;
+      // console.log('const3: ', const3);
       this.getC1.patchValue({
         c1: this.cat1Ni,
-        c2: this.const2,
+        // c2: this.const3,
       });
     })
     console.log(this.c3.data)

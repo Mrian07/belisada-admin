@@ -10,5 +10,6 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://dev-cms.belisada.id/api'
+  // apiUrl: 'https://dev-cms.belisada.id/api'
+  apiUrl : 'http://43.243.141.117:8080/belisada-admin'
 };
