@@ -31,7 +31,6 @@ styleUrls: ['./list-product.component.scss']
 })
 export class ListProductComponent implements OnInit {
   @Input() name;
-  public posts: Post[];
   modalHeader: string;
   myForm: FormGroup;
   form: FormGroup;
@@ -70,9 +69,16 @@ export class ListProductComponent implements OnInit {
   cat3Value: number;
   prodId: number;
   statusCode: string;
+  version: number;
   /* akhir dari method post
   */
-
+  
+ start = 0;
+ end = 0;
+ total = 0;
+ limits = 12;
+ cat1Ni : number;
+ const2 : number;
 
 
   public getC1: FormGroup;
@@ -139,6 +145,16 @@ export class ListProductComponent implements OnInit {
      }
 
   ngOnInit() {
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      this.pages = [];
+      this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
+      const queryParams = {
+        page: this.currentPage,
+        itemperpage: 10
+      }
+      this.dataTes(queryParams);
+    });
+    this.brandInit();
     this.loadData();
     this.newMethod();
     this.form_All();
@@ -147,13 +163,17 @@ export class ListProductComponent implements OnInit {
     this.getDataC1();
   
     this.getC1.get('c1').valueChanges.subscribe(val => {
-      this.getDataC2(val)
+      // this.getDataC2(val)
+      this.cat1Ni = val;
+      console.log('get c1',this.cat1Ni);
   });
 
   this.getC1.get('c2').valueChanges.subscribe(val => {
-    this.getDataC3(val)
-    console.log('val c3',val);
+    // this.getDataC3(this.const2)
+
+
 });
+this.getC1.get('c2').valueChanges.subscribe(val => {});
  
   
   }
@@ -161,28 +181,86 @@ export class ListProductComponent implements OnInit {
   private loadData() {
     this.prodService.getDataListRevie().subscribe(asd => {
       this.a = asd;
-      console.log('datanya',asd);
     });
+    // this.brandInit();
+  }
 
-    this.activatedRoute.queryParams.subscribe((params: Params) => {
-      this.pages = [];
-      this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
-      const queryParams = {
-        page: this.currentPage,
-        itemperpage: 10
-      };
-      this.prodService.getDataListing(queryParams).subscribe(response => {
-        this.listProduct = response;
-        this.lastPage = this.listProduct.pageCount;
-        for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
-          if (r > 0 && r <= this.listProduct.pageCount) {
-            this.pages.push(r);
-          }
-        }
-        
-      });
+  private newMethod_2() {
+    return {
+      page: this.currentPage,
+      itemperpage: 10
+    };
+  
+  }
+
+  setC2(set) {
+    const postalId: number = this.c1.data.find(x => x.categoryId === set).categoryId;
+    this.getC1.patchValue({
+      c2: postalId
     });
-    this.searchBrand();
+    console.log(postalId);
+  }
+
+  setPage(page: number, increment?: number) {
+    if (increment) { page = +page + increment; }
+    if (page < 1 || page > this.listProduct.pageCount) { return false; }
+    this.router.navigate(['/product/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
+    window.scrollTo(0, 0);
+  }
+
+
+  // private getProduct(queryParams: { page: any; itemperpage: number; }) {
+  //   this.prodService.getDataListing(queryParams).subscribe(response => {
+  //     this.listProduct = response;
+  //     // this.lastPage = this.listProduct.pageCount;
+  //     this.lastPage = this.listProduct.pageCount;
+  //     this.start = (this.currentPage - 1) * this.limits;
+  //     this.end = this.start + this.limits;
+  //     this.pages = [];
+  //     if (this.end > this.total) {
+  //       this.end = this.total;
+  //     }
+  //     this.lastPage = this.listProduct.pageCount;
+  //     for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
+  //       if (r > 0 && r <= this.lastPage) {
+  //         this.pages.push(r);
+  //       }
+  //     }
+      
+  //   });
+  // }
+  getProduct(param) {
+
+    const paramm = {
+      page: param
+    }
+    this.prodService.getDataListing(paramm).subscribe(dataToko => {
+      this.listProduct = dataToko;
+      this.lastPage = dataToko.pageCount;
+      this.start = (this.currentPage - 1) * this.limit;
+      this.end = this.start + this.limit;
+      this.pages = [];
+      if (this.end > this.total) {
+        this.end = this.total;
+      }
+      this.lastPage = dataToko.pageCount;
+      for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
+        if (r > 0 && r <= this.lastPage) {
+          this.pages.push(r);
+        }
+      }
+    });
+  }
+  private dataTes(queryParams: { page: number; }) {
+    this.prodService.getDataListing(queryParams).subscribe(response => {
+      this.listProduct = response;
+      this.lastPage = this.listProduct.pageCount;
+      for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
+        if (r > 0 && r <= this.listProduct.pageCount) {
+          this.pages.push(r);
+        }
+      }
+    });
   }
 
   private form_All() {
@@ -210,37 +288,45 @@ export class ListProductComponent implements OnInit {
     }
     this.categoryService.getCategory(queryParams).subscribe(data => {
         this.c1 = data;
-        console.log(this.c1);
     });
   }
   
-  getDataC2(id) {
+  getDataC2(id, cb) {
     const queryParams = {
       parentid: id,
       all:'true'
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
+      cb();
     });
   }
 
-  getDataC3(id) {
+  getDataC3(id, callback) {
     const queryParams = {
       parentid: id,
-      all:'true'
+      all:'true',
+      type: "C3"
     }
+    console.log('ini id nya si parent id getdata c3', id)
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c3 = data;
+      console.log(this.c3);
+      callback();
       this.isC2=true;
       this.isC3=true;
       this.typeCat3 = "c3";
       this.parentC2 = id;
-      console.log('this.c3',this.c3);
     });
   }
+
+ 
+  onFocusOut() {
+    setTimeout(() => { this.onTextFocus = false }, 200)
+  }
+
   searchBrand() {
-    const querySearch = this.txtSearch;
-    console.log('qs:', querySearch);
+    this.querySearch = this.txtSearch;
     const queryParams = {
       page: this.current = 1,
       itemperpage: this.limit,
@@ -254,7 +340,6 @@ export class ListProductComponent implements OnInit {
   
 
   selectBrand(brand) {
-    console.log(brand.brandId);
     this.brandId = brand.brandId;
     this.txtSearch = brand.name;
     this.productBrandId = brand.m_productbrand_id;
@@ -266,38 +351,42 @@ export class ListProductComponent implements OnInit {
       size: 'lg'
     }
     this.modalService.open(content, options);
-    console.log(e);
     this.prodId = e;
     this.prodService.getDetailProduct(e).subscribe(detail => {
       this.listDetailProd = detail.data;
     })
-    console.log('brandid' , bId);
     this.brandId = bId;
-    console.log('cat1', cat1);
-    console.log('cat2', cat2);
-    console.log('ca3', cat3);
+    console.log('cat2',cat2);
     this.cat3Value = cat3;
+    // const cat1Ni: number = this.c1.data.find(x => x.categoryId === cat1 && cat2 && cat3).categoryId;
+     this.cat1Ni = this.c1.data.find(x => x.categoryId === cat1).categoryId;
+    // const const2: number = this.c2.data.find(x => x.categoryId === cat2).categoryId;
+    console.log('c2: ', this.c2);
+    console.log('cat1Ni: ', cat1);
+    console.log('cat3', cat3);
+    console.log('ini catni1',this.cat1Ni)
 
-    const cat1Ni: number = this.c1.data.find(x => x.categoryId === cat1 && cat2 && cat3).categoryId;
-    
-    this.getC1.patchValue({
-      c1: cat1Ni,
-      c2:cat1Ni,
-      c3:cat1Ni
-    });
-    
-      this.brandInit();
+    this.getDataC2(this.cat1Ni, () => {
+       this.const2 = this.c2.data.find(x => x.categoryId === cat2).categoryId;
+      console.log('const2: ', this.const2);
+      this.getC1.patchValue({
+        c1: this.cat1Ni,
+        c2: this.const2
+      });
+    })
+
+    this.getDataC3(cat2, () => {
+      const const3: number = this.c3.data.find(x => x.categoryId === cat3).categoryId;
+      console.log('const3: ', const3);
+      this.getC1.patchValue({
+        c1: this.cat1Ni,
+        c3: const3
+      });
+    })
+    // const cat2Ni: number = this
+    console.log('asdasdsadas',this.cat1Ni);
+    this.brandInit();
     this.txtSearch = this.brandList.data.find(x => x.brandId === bId).name;
-    console.log( this.txtSearch)
-
-   
-
-    // console.log('oke', b);
-
-    console.log('ini cat1',cat1Ni)
-    // const okeOce = this.brands.find(x => x.brandId == bId);
-      // this.txtSearch = okeOce;
-      console.log(this.brands.find(x => x.brandId == bId))
     this.sel = e;
 
   }
@@ -317,53 +406,8 @@ export class ListProductComponent implements OnInit {
 
   }
 
-  checkClicked(val) {
-    if (val) {
-      this.test = false;
-    } else {
-      this.test = true;
-    }
-    console.log(val);
-  }
-
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-  
-  
-
-  onFocusOut() {
-    setTimeout(() => {
-      this.onTextFocus = false
-    }, 200)
-  }
-
-  checkValue(event: any) {
-    console.log(event);
-  }
-
-  Existing() {
-    // this.value = true;
-    this.value = !this.value;
-  }
-
-  openVerticallyCentered(content) {
-    this.modalService.open(content, {
-      size: 'sm'
-    });
-  }
-
   changeValue() {
-    console.log(this.isSubscribe.value);
     this.isSubscribe = new FormControl(!this.isSubscribe.value);
-    // console.log(this.isSubscribe);
 
   }
   
@@ -387,34 +431,89 @@ export class ListProductComponent implements OnInit {
 
 
   
-  Selected(value: any) {
-    // this.checkIfButtonWasPressed = true;
+  Selected(value: any, ver: any) {
     this.select = value;
-    console.log(value);
+    this.version = ver;
 
     const a = {
       brandId : this.brandId,
       categoryThreeId : this.cat3Value,
       productId : this.prodId,
-      statusCode: this.select
+      statusCode: this.select,
+      version: this.version
     };
-    this.prodService.postToko(a).subscribe(postDa => {
-      console.log('berhasil bos');
-    });
-    console.log('ini isinya',a)
-
-    if (value == 7) {  
-       console.log('12312321')
+    if (value == 'AP') {  
+        {
+          swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!',
+            cancelButtonText: 'No, cancel!',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            reverseButtons: true
+          }).then((result) => {
+            if (result.value) {
+              const newLocal = this.prodService.postToko(a).subscribe(postDa => {
+                this.getProduct(this.currentPage);
+              });
+            } else if (
+              // Read more about handling dismissals
+              result.dismiss === swal.DismissReason.cancel
+            ) {
+              alert('bb')
+            }
+          });
+      
+      
+        }
+    }
+    if (value === 'RJ') {
+        {
+          swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!',
+            cancelButtonText: 'No, cancel!',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            reverseButtons: true
+          }).then((result) => {
+            if (result.value) {
+              const newLocal = this.prodService.postToko(a).subscribe(postDa => {
+                this.getProduct(this.currentPage);
+              });
+            } else if (
+              // Read more about handling dismissals
+              result.dismiss === swal.DismissReason.cancel
+            ) {
+              alert('aaaa')
+            }
+          });
+      
+      
+        }
     }
 
 
 
   }
-  openSm(content) {
-    this.modalService.open(content, {
-      size: 'sm'
-    });
-  }
+
+  // openSm(content) {
+  //   this.modalService.open(content, {
+  //     size: 'sm'
+  //   });
+  // }
 
  
 
@@ -424,42 +523,64 @@ export class ListProductComponent implements OnInit {
     if (isChecked) {
       emailFormArray.push(new FormControl(email));
       this.ss = email;
-      //  this.ll = isChecked;
-      console.log('is', isChecked)
 
     } else {
       let index = emailFormArray.controls.findIndex(x => x.value == email)
       emailFormArray.removeAt(index);
       email = isChecked;
       this.ll = isChecked;
-      console.log('asdasdsadsad',this.ll)
 
     }
   }
 
 
-  setPage(page: number, increment?: number) {
-    if (increment) { page = +page + increment; }
-    if (page < 1 || page > this.listProduct.pageCount) { return false; }
-    this.router.navigate(['/product/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
-    window.scrollTo(0, 0);
-  }
-
-  oke() {
-    
-    // this.ss = this.ll;
-    localStorage.setItem('aaaa', JSON.stringify(this.myForm.value));
-   
-    // window.location.reload();s
-    console.log(this.myForm.value)
+  
+  oke(verc) {
+     const p =  {
+      approvalProductIssue: this.myForm.value.useremail,
+      version: verc,
+      brandId : this.brandId,
+      categoryThreeId : this.cat3Value,
+      productId : this.prodId,
+      statusCode: this.select,
+      note: this.myForm.value.tulisan
+     }
+     {
+      swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!',
+        cancelButtonText: 'No, cancel!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          const newLocal = this.prodService.postToko(p).subscribe(postDa => {
+            this.getProduct(this.currentPage);
+          });
+        } else if (
+          // Read more about handling dismissals
+          result.dismiss === swal.DismissReason.cancel
+        ) {
+          alert('bb')
+        }
+      });
+  
+  
+    }
     this.myForm.setControl('useremail', new FormArray([]));
      this.myForm.reset();
      this.check = false;
-    // this.newMethod_1();
   }
+  
   private newMethod_1() {
     this.check = true;
-    console.log(this.check);
   }
 
   private newMethod() {
@@ -486,17 +607,4 @@ export class ListProductComponent implements OnInit {
     }
   }
 
-}
-export class Post {
-  constructor(
-    public id: number,
-    public date: string,
-    public subject: string,
-    public numComents: number,
-    public comments: string[]
-  ) {}
-}
-export interface type {
-  id: number;
-  text: string;
 }
