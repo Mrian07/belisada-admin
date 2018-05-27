@@ -20,9 +20,13 @@
                             <td>{{obj.createdDate}}</td>
                             <td>{{ obj.storeName }}</td>
                             <td>{{ obj.name }}</td>
-                            <td>{{ obj.status }}</td>
+                            <td>
+                                    <i class="fa fa-circle circle-green" *ngIf="obj.status === 'APPROVED'"></i>
+                                    <i class="fa fa-circle circle-red" *ngIf="obj.status === 'REJECTED'"></i>
+                                    <i class="fa fa-circle circle-yellow" *ngIf="obj.status === 'REVISE'"></i>    
+                                {{ obj.status }}
+                            </td>
                             <td> {{ obj.verifiedByName }}</td>
-    
                         </tr>
                         <tr *ngIf="rowSelected==obj.productId">
                             <td></td>
@@ -43,7 +47,6 @@
                         </tr>
     
                         <ng-template #content let-c="close" let-d="dismiss">
-                           {{listDetailProd.brandId}}
                             <div class="modal-header">
                                 <h4 class="modal-title">Approval Product</h4>
                                 <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -60,20 +63,6 @@
                                 <img class="image-small" src="{{obj.url}}">
                                 <br>
                                 <span>Brand</span>
-                                <!-- <div class="drick-select-container">
-                                    <div class="ui icon input parent">
-                                        <input class="drick-select__text" [ngClass]="{'active':onTextFocus}" type="text" [(ngModel)]="txtSearch" (keyup)="searchBrand()" (focus)="onTextFocus = true" (focusout)="onFocusOut()" placeholder="Select one">
-                                        <i class="drick-select__icon caret nb-arrow-down"></i>
-                                    </div>
-                                    <div class="drick-select-container--toggle" [ngClass]="{'active':onTextFocus}" id="drick-scroll-container" (scroll)="onScrollDown()">
-                                        <ul class="drick-select-list">
-                                            <li *ngFor="let i of brands" (click)="selectBrand(i)">
-                                                {{i.body}}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div> -->
-
                                 <div class="drick-select-container">
                                     <div class="ui icon input parent">
                                         <input class="drick-select__text" [ngClass]="{'active':onTextFocus}" type="text" [(ngModel)]="txtSearch"
@@ -121,7 +110,6 @@
                                        
                                     </div>
                                     <div>
-                                            <!-- <form [formGroup]="getc3"> -->
                                                     <div class="form-group">
                                                             <select formControlName="c3" class="form-control" id="exampleFormControlSelect1" (change)="iniC3(getC1.value.c3)">
                                                                     <option [ngValue]="null" disabled selected>C1</option>
@@ -130,7 +118,6 @@
                                                                     </option>
                                                                 </select>
                                                     </div>
-                                            <!-- </form> -->
                                     </div>
                                 </div>
                             </form>
@@ -146,18 +133,6 @@
                                     <div *ngFor="let item of listDetailProd.specification">
                                         <input  type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="{{ item.name }}" readonly>
                                     </div>
-                                    <!-- <div>
-                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" value="{{ obj.title }}" aria-describedby="basic-addon1" readonly>
-                                    </div>
-                                    <div>
-                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" value="{{ obj.title }}" aria-describedby="basic-addon1" readonly>
-                                    </div>
-                                    <div>
-                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" value="{{ obj.title }}" aria-describedby="basic-addon1" readonly>
-                                    </div>
-                                    <div>
-                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" value="{{ obj.title }}" aria-describedby="basic-addon1" readonly>
-                                    </div> -->
                                 </div>
     
                                 <table border="0" cellpadding="10">
