@@ -296,6 +296,18 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
   console.log(this.cat1Ni);
   }
   
+  getDatac2Oke(id) {
+    const queryParams = {
+      parentid: id,
+      all:'true'
+    }
+    this.categoryService.getCategory(queryParams).subscribe(data =>{
+      this.c2 = data;
+      console.log('data nya si get data oke oce',data);
+      // cb();
+    });
+  }
+
   getDataC2(id, cb) {
     const queryParams = {
       parentid: this.cat1Ni,
@@ -411,25 +423,39 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
   }
 
   ininich(a) {
-    console.log('asdasd');
-    this.cat1Ni = this.c1.data.find(x => x.categoryId === a).categoryId;
-    console.log('ini cat1',this.cat1Ni);
-    this.getC1.patchValue({
-      c1: this.cat1Ni
-    });
-    console.log('csok oce ni', this.c2.data)
-    this.getDataC2(a, () => {
-      // this.const2 = this.c2.data.find(x => x.categoryId === a).categoryId;
-     console.log('const2: ', this.const2);
-     console.log('this.cat1Ni : in get datac2',this.cat1Ni)
-     this.getC1.patchValue({
-      //  c1: this.cat1Ni,
-       c2: a
-     });
-   })
 
-  
-    console.log('asdasdasda',a)
+    this.cat1Ni = 111
+    this.c2.data = [];
+    console.log('asdasd');
+    const cat1Ni = this.c1.data.find(x => x.categoryId === a).categoryId;
+    console.log('ini cat1',this.cat1Ni);
+    // this.getC1.patchValue({
+    //   c1: this.cat1Ni,
+    //   c2: a
+    // });
+    console.log('csok oce ni', this.c2.data)
+
+    const queryParams = {
+      parentid: a,
+      all:'true'
+    }
+    this.categoryService.getCategory(queryParams).subscribe(data =>{
+      this.c2 = data;
+      console.log('data nya si get data oke oce',data);
+      // cb();
+    });
+
+    const oke = {
+      parentid: a,
+      all:'true',
+      type: "C3"
+    }
+
+    this.categoryService.getCategory(oke).subscribe(data =>{
+      this.c3 = data;
+      console.log(this.c3);
+    });
+    
   }
 
   inic2(b){
@@ -444,7 +470,7 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
       // const const3: number = this.c3.data.find(x => x.categoryId === b).categoryId;
       // console.log('const3: ', const3);
       this.getC1.patchValue({
-        c1: this.cat1Ni,
+        // c1: this.cat1Ni,
         // c2: this.const3,
       });
     })
