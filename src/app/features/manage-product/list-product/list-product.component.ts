@@ -148,7 +148,6 @@ export class ListProductComponent implements OnInit {
      }
 
   ngOnInit() {
-    console.clear();
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
@@ -165,19 +164,6 @@ export class ListProductComponent implements OnInit {
     
     this.isChecked = true;
     this.getDataC1();
-  
-  //   this.getC1.get('c1').valueChanges.subscribe(val => {
-  //     this.ok = val;
-  //     console.log('get c1',this.ok);
-  // });
-
-//   this.getC1.get('c2').valueChanges.subscribe(val => {
-//     // this.getDataC3(this.const2)
-//     console.log('value di getc1 untuk c2', val)
-
-
-// });
-this.getC1.get('c2').valueChanges.subscribe(val => {});
  
   
   }
@@ -186,7 +172,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     this.prodService.getDataListRevie().subscribe(asd => {
       this.a = asd;
     });
-    // this.brandInit();
   }
 
   private newMethod_2() {
@@ -197,14 +182,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
   
   }
 
-  setC2(set) {
-    const postalId: number = this.c1.data.find(x => x.categoryId === set).categoryId;
-    this.getC1.patchValue({
-      c2: postalId
-    });
-    console.log(postalId);
-  }
-
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.listProduct.pageCount) { return false; }
@@ -212,27 +189,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     window.scrollTo(0, 0);
   }
 
-
-  // private getProduct(queryParams: { page: any; itemperpage: number; }) {
-  //   this.prodService.getDataListing(queryParams).subscribe(response => {
-  //     this.listProduct = response;
-  //     // this.lastPage = this.listProduct.pageCount;
-  //     this.lastPage = this.listProduct.pageCount;
-  //     this.start = (this.currentPage - 1) * this.limits;
-  //     this.end = this.start + this.limits;
-  //     this.pages = [];
-  //     if (this.end > this.total) {
-  //       this.end = this.total;
-  //     }
-  //     this.lastPage = this.listProduct.pageCount;
-  //     for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
-  //       if (r > 0 && r <= this.lastPage) {
-  //         this.pages.push(r);
-  //       }
-  //     }
-      
-  //   });
-  // }
   getProduct(param) {
 
     const paramm = {
@@ -293,7 +249,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     this.categoryService.getCategory(queryParams).subscribe(data => {
         this.c1 = data;
     });
-  console.log(this.cat1Ni);
   }
   
   getDatac2Oke(id) {
@@ -303,8 +258,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
-      console.log('data nya si get data oke oce',data);
-      // cb();
     });
   }
 
@@ -315,7 +268,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
-      console.log('id nya ini kasjdlajs',id);
       cb();
     });
   }
@@ -326,10 +278,8 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
       all:'true',
       type: "C3"
     }
-    console.log('ini id nya si parent id getdata c3', id)
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c3 = data;
-      console.log(this.c3);
       callback();
       this.isC2=true;
       this.isC3=true;
@@ -367,9 +317,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     this.getC1.get('c1').valueChanges.subscribe(val => {
       // this.getDataC2(val)
       this.ok = val;
-      console.log('get c1',this.ok);
-  
-    console.log('sebelom cat1 ni di panggil sama si find',this.ok);
     
   });
     let options: NgbModalOptions = {
@@ -382,22 +329,11 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
       this.listDetailProd = detail.data;
     })
     this.brandId = bId;
-    console.log('cat2',cat2);
     this.cat3Value = cat3;
-  
-    // const cat1Ni: number = this.c1.data.find(x => x.categoryId === cat1 && cat2 && cat3).categoryId;
      this.cat1Ni = this.c1.data.find(x => x.categoryId === cat1).categoryId;
-    // const const2: number = this.c2.data.find(x => x.categoryId === cat2).categoryId;
-    console.log('c2: ', this.c2);
-    console.log('cat1Ni: ', cat1);
-    console.log('cat3', cat3);
-    console.log('ini catni1',this.cat1Ni)
-  
 
     this.getDataC2(this.cat1Ni, () => {
        this.const2 = this.c2.data.find(x => x.categoryId === cat2).categoryId;
-      console.log('const2: ', this.const2);
-      console.log('this.cat1Ni : in get datac2',this.cat1Ni)
       this.getC1.patchValue({
         c1: this.cat1Ni,
         c2: this.const2
@@ -408,14 +344,11 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
 
     this.getDataC3(cat2, () => {
       const const3: number = this.c3.data.find(x => x.categoryId === cat3).categoryId;
-      console.log('const3: ', const3);
       this.getC1.patchValue({
         c1: this.cat1Ni,
         c3: const3
       });
     })
-    // const cat2Ni: number = this
-    console.log('asdasdsadas',this.cat1Ni);
     this.brandInit();
     this.txtSearch = this.brandList.data.find(x => x.brandId === bId).name;
     this.sel = e;
@@ -426,14 +359,7 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
 
     this.cat1Ni = 111
     this.c2.data = [];
-    console.log('asdasd');
     const cat1Ni = this.c1.data.find(x => x.categoryId === a).categoryId;
-    console.log('ini cat1',this.cat1Ni);
-    // this.getC1.patchValue({
-    //   c1: this.cat1Ni,
-    //   c2: a
-    // });
-    console.log('csok oce ni', this.c2.data)
 
     const queryParams = {
       parentid: a,
@@ -441,8 +367,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
-      console.log('data nya si get data oke oce',data);
-      // cb();
     });
 
     const oke = {
@@ -453,38 +377,24 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
 
     this.categoryService.getCategory(oke).subscribe(data =>{
       this.c3 = data;
-      console.log(this.c3);
     });
     
   }
 
   inic2(b){
     this.getC1.get('c2').valueChanges.subscribe(val => {
-      // this.getDataC3(this.const2)
-      console.log('value di getc1 untuk c2', val)
   
   
   });
     this.let = b;
     this.getDataC3(b, () => {
-      // const const3: number = this.c3.data.find(x => x.categoryId === b).categoryId;
-      // console.log('const3: ', const3);
       this.getC1.patchValue({
-        // c1: this.cat1Ni,
-        // c2: this.const3,
       });
     })
-    console.log(this.c3.data)
-  //   this.getDataC3(b, () => {
-  //     this.const3 = this.c3.data.find(x => x.categoryId === b).categoryId;
-  //    console.log('constoke: oke oce nih ', this.const3);
-  //  })
-    console.log('b',b);
   }
 
   iniC3(c){
     this.cat3Value = c;
-    console.log('ini untuk c3 um',this.cat3Value)
   }
 
 
@@ -562,7 +472,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
               // Read more about handling dismissals
               result.dismiss === swal.DismissReason.cancel
             ) {
-              alert('bb')
             }
           });
       
@@ -593,7 +502,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
               // Read more about handling dismissals
               result.dismiss === swal.DismissReason.cancel
             ) {
-              alert('aaaa')
             }
           });
       
@@ -604,15 +512,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
 
 
   }
-
-  // openSm(content) {
-  //   this.modalService.open(content, {
-  //     size: 'sm'
-  //   });
-  // }
-
- 
-
   onChange(email: any, isChecked: boolean) {
     const emailFormArray = < FormArray > this.myForm.controls.useremail;
     
