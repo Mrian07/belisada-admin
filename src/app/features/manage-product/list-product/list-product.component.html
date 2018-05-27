@@ -125,13 +125,13 @@
                                 <span>deskripsi product</span>
                                 <div class="input-group">
     
-                                    <textarea class="form-control" aria-label="With textarea" readonly>{{ listDetailProd.description }}</textarea>
+                                    <textarea class="form-control bgGrey" aria-label="With textarea" readonly>{{ listDetailProd.description }}</textarea>
                                 </div>
     
                                 <span>spesifikasi</span>
                                 <div class="wrapper2">
                                     <div *ngFor="let item of listDetailProd.specification">
-                                        <input  type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="{{ item.name }}" readonly>
+                                        <input  type="text" class="form-control bgGrey " placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="{{ item.name }}" readonly>
                                     </div>
                                 </div>
     
