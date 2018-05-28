@@ -66,7 +66,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-layout-default',
     children: [
       {
-        title: 'Category',
+        title: 'List',
         link: '/category/list',
       }
     ],

@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild, Injectable, ElementRef, Input } from '@angular/core';
+import { Component, OnInit,ViewChild, Injectable, ElementRef, Input, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { ManageProductService } from '../../../@core/services/manage-product/manage-product.service';
@@ -29,7 +29,7 @@ selector: 'list-product',
 templateUrl: './list-product.component.html',
 styleUrls: ['./list-product.component.scss']
 })
-export class ListProductComponent implements OnInit {
+export class ListProductComponent implements OnInit, OnDestroy {
   @Input() name;
   modalHeader: string;
   myForm: FormGroup;
@@ -77,6 +77,11 @@ export class ListProductComponent implements OnInit {
  end = 0;
  total = 0;
  limits = 12;
+ cat1Ni : number;
+ ok;
+ const2 : number;
+ const3 : number;
+ let;
 
 
   public getC1: FormGroup;
@@ -159,15 +164,6 @@ export class ListProductComponent implements OnInit {
     
     this.isChecked = true;
     this.getDataC1();
-  
-    this.getC1.get('c1').valueChanges.subscribe(val => {
-      this.getDataC2(val)
-  });
-
-  this.getC1.get('c2').valueChanges.subscribe(val => {
-    this.getDataC3(val)
-});
-this.getC1.get('c2').valueChanges.subscribe(val => {});
  
   
   }
@@ -176,7 +172,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     this.prodService.getDataListRevie().subscribe(asd => {
       this.a = asd;
     });
-    // this.brandInit();
   }
 
   private newMethod_2() {
@@ -186,6 +181,7 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     };
   
   }
+
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.listProduct.pageCount) { return false; }
@@ -193,27 +189,12 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     window.scrollTo(0, 0);
   }
 
+  rubah(e){
+    const r = 
+    e.replace(new RegExp('/', 'g'), ' - ');
+    return r;
+  }
 
-  // private getProduct(queryParams: { page: any; itemperpage: number; }) {
-  //   this.prodService.getDataListing(queryParams).subscribe(response => {
-  //     this.listProduct = response;
-  //     // this.lastPage = this.listProduct.pageCount;
-  //     this.lastPage = this.listProduct.pageCount;
-  //     this.start = (this.currentPage - 1) * this.limits;
-  //     this.end = this.start + this.limits;
-  //     this.pages = [];
-  //     if (this.end > this.total) {
-  //       this.end = this.total;
-  //     }
-  //     this.lastPage = this.listProduct.pageCount;
-  //     for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
-  //       if (r > 0 && r <= this.lastPage) {
-  //         this.pages.push(r);
-  //       }
-  //     }
-      
-  //   });
-  // }
   getProduct(param) {
 
     const paramm = {
@@ -276,7 +257,7 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     });
   }
   
-  getDataC2(id) {
+  getDatac2Oke(id) {
     const queryParams = {
       parentid: id,
       all:'true'
@@ -286,13 +267,26 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     });
   }
 
-  getDataC3(id) {
+  getDataC2(id, cb) {
     const queryParams = {
-      parentid: id,
+      parentid: this.cat1Ni,
       all:'true'
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
+      this.c2 = data;
+      cb();
+    });
+  }
+
+  getDataC3(id, callback) {
+    const queryParams = {
+      parentid: id,
+      all:'true',
+      type: "C3"
+    }
+    this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c3 = data;
+      callback();
       this.isC2=true;
       this.isC3=true;
       this.typeCat3 = "c3";
@@ -310,8 +304,7 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     const queryParams = {
       page: this.current = 1,
       itemperpage: this.limit,
-      name: this.querySearch === undefined ? '' : this.querySearch,
-      isactive: true
+      name: this.querySearch === undefined ? '' : this.querySearch
     };
     this.brandService.getList(queryParams).subscribe(response => {
       this.brandList = response;
@@ -327,6 +320,11 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
   }
   
   open(content, e, bId, cat1, cat2, cat3) {
+    this.getC1.get('c1').valueChanges.subscribe(val => {
+      // this.getDataC2(val)
+      this.ok = val;
+    
+  });
     let options: NgbModalOptions = {
       backdrop: false,
       size: 'lg'
@@ -338,18 +336,71 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     })
     this.brandId = bId;
     this.cat3Value = cat3;
+     this.cat1Ni = this.c1.data.find(x => x.categoryId === cat1).categoryId;
 
-    const cat1Ni: number = this.c1.data.find(x => x.categoryId === cat1 && cat2 && cat3).categoryId;
+    this.getDataC2(this.cat1Ni, () => {
+       this.const2 = this.c2.data.find(x => x.categoryId === cat2).categoryId;
+      this.getC1.patchValue({
+        c1: this.cat1Ni,
+        c2: this.const2
+      });
+    })
     
-    this.getC1.patchValue({
-      c1: cat1Ni,
-      c2:cat1Ni,
-      c3:cat1Ni
-    });
+   
+
+    this.getDataC3(cat2, () => {
+      const const3: number = this.c3.data.find(x => x.categoryId === cat3).categoryId;
+      this.getC1.patchValue({
+        c1: this.cat1Ni,
+        c3: const3
+      });
+    })
     this.brandInit();
     this.txtSearch = this.brandList.data.find(x => x.brandId === bId).name;
     this.sel = e;
 
+  }
+
+  ininich(a) {
+
+    this.cat1Ni = 111
+    this.c2.data = [];
+    const cat1Ni = this.c1.data.find(x => x.categoryId === a).categoryId;
+
+    const queryParams = {
+      parentid: a,
+      all:'true'
+    }
+    this.categoryService.getCategory(queryParams).subscribe(data =>{
+      this.c2 = data;
+    });
+
+    const oke = {
+      parentid: a,
+      all:'true',
+      type: "C3"
+    }
+
+    this.categoryService.getCategory(oke).subscribe(data =>{
+      this.c3 = data;
+    });
+    
+  }
+
+  inic2(b){
+    this.getC1.get('c2').valueChanges.subscribe(val => {
+  
+  
+  });
+    this.let = b;
+    this.getDataC3(b, () => {
+      this.getC1.patchValue({
+      });
+    })
+  }
+
+  iniC3(c){
+    this.cat3Value = c;
   }
 
 
@@ -358,8 +409,7 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
       page: this.current = 1,
       itemperpage: this.limit,
       name: this.querySearch === undefined ? '' : this.querySearch,
-      all: true,
-      isactive: true
+      all: true
     };
     this.brandService.getList(a).subscribe(response => {
       this.brandList = response;
@@ -428,7 +478,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
               // Read more about handling dismissals
               result.dismiss === swal.DismissReason.cancel
             ) {
-              alert('bb')
             }
           });
       
@@ -459,7 +508,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
               // Read more about handling dismissals
               result.dismiss === swal.DismissReason.cancel
             ) {
-              alert('aaaa')
             }
           });
       
@@ -470,14 +518,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
 
 
   }
-  openSm(content) {
-    this.modalService.open(content, {
-      size: 'sm'
-    });
-  }
-
- 
-
   onChange(email: any, isChecked: boolean) {
     const emailFormArray = < FormArray > this.myForm.controls.useremail;
     
@@ -496,7 +536,7 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
 
 
   
-  oke(verc) {
+  oke(verc, besc) {
      const p =  {
       approvalProductIssue: this.myForm.value.useremail,
       version: verc,
@@ -524,6 +564,7 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
         if (result.value) {
           const newLocal = this.prodService.postToko(p).subscribe(postDa => {
             this.getProduct(this.currentPage);
+            this.check = false;
           });
         } else if (
           // Read more about handling dismissals
@@ -537,7 +578,8 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     }
     this.myForm.setControl('useremail', new FormArray([]));
      this.myForm.reset();
-     this.check = false;
+     this.check = true;
+    
   }
   
   private newMethod_1() {
@@ -551,9 +593,6 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
     });
   }
 
-  closeModal() {
-    // this.activeModal.close();
-  }
   public openCloseRow(idReserva: number): void {
 
     if (this.rowSelected === -1) {
@@ -567,5 +606,14 @@ this.getC1.get('c2').valueChanges.subscribe(val => {});
 
     }
   }
+
+  ngOnDestroy() {
+    this.brandInit();
+    this.loadData();
+    this.newMethod();
+    this.form_All();
+    this.getDataC1();
+    console.log('destroy nih')
+  } 
 
 }

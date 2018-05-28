@@ -17,12 +17,16 @@
                 <tbody>
                     <ng-container *ngFor="let obj of listProduct.data">
                         <tr (click)="open(content,obj.productId, obj.brandId, obj.categoryOneId, obj.categoryTwoId, obj.categoryThreeId)">
-                            <td>{{obj.createdDate}}</td>
+                            <td>{{ rubah(obj.createdDate)}}</td>
                             <td>{{ obj.storeName }}</td>
                             <td>{{ obj.name }}</td>
-                            <td>{{ obj.status }}</td>
+                            <td>
+                                    <i class="fa fa-circle circle-green" *ngIf="obj.status === 'APPROVED'"></i>
+                                    <i class="fa fa-circle circle-red" *ngIf="obj.status === 'REJECTED'"></i>
+                                    <i class="fa fa-circle circle-yellow" *ngIf="obj.status === 'REVISE'"></i>    
+                                {{ obj.status }}
+                            </td>
                             <td> {{ obj.verifiedByName }}</td>
-    
                         </tr>
                         <tr *ngIf="rowSelected==obj.productId">
                             <td></td>
@@ -43,14 +47,13 @@
                         </tr>
     
                         <ng-template #content let-c="close" let-d="dismiss">
-                           {{listDetailProd.brandId}}
-                            <div class="modal-header">
-                                <h4 class="modal-title">Modal title</h4>
+                            <div class="modal-header bgGrey">
+                                <h4 class="modal-title">Approval Product</h4>
                                 <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body bgGrey">
                                 <p>{{ obj.body }}</p>
                                 <p>Foto Product</p>
                                 <img class="image-small" src="{{obj.url}}">
@@ -60,20 +63,6 @@
                                 <img class="image-small" src="{{obj.url}}">
                                 <br>
                                 <span>Brand</span>
-                                <!-- <div class="drick-select-container">
-                                    <div class="ui icon input parent">
-                                        <input class="drick-select__text" [ngClass]="{'active':onTextFocus}" type="text" [(ngModel)]="txtSearch" (keyup)="searchBrand()" (focus)="onTextFocus = true" (focusout)="onFocusOut()" placeholder="Select one">
-                                        <i class="drick-select__icon caret nb-arrow-down"></i>
-                                    </div>
-                                    <div class="drick-select-container--toggle" [ngClass]="{'active':onTextFocus}" id="drick-scroll-container" (scroll)="onScrollDown()">
-                                        <ul class="drick-select-list">
-                                            <li *ngFor="let i of brands" (click)="selectBrand(i)">
-                                                {{i.body}}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div> -->
-
                                 <div class="drick-select-container">
                                     <div class="ui icon input parent">
                                         <input class="drick-select__text" [ngClass]="{'active':onTextFocus}" type="text" [(ngModel)]="txtSearch"
@@ -99,41 +88,36 @@
                                     <div>
                                        
                                                 <div class="form-group">
-                                                        <select formControlName="c1" class="form-control" id="exampleFormControlSelect1">
+                                                        <select formControlName="c1" class="form-control" id="exampleFormControlSelect1" (change)="ininich(getC1.value.c1)" >
                                                                 <option [ngValue]="null" disabled selected>C1</option>
                                                                 <option *ngFor="let option of c1.data" [ngValue]="option.categoryId" placeholder="Pilih kota">
                                                                     {{ option.name }}
                                                                 </option>
                                                             </select>
                                                 </div>
-                                       
                                         
     
                                     </div>
                                     <div>
-                                            <!-- <form [formGroup]="getc2"> -->
                                                     <div class="form-group">
-                                                            <select formControlName="c2" class="form-control" id="exampleFormControlSelect1">
+                                                            <select formControlName="c2" class="form-control" id="exampleFormControlSelect1" (change)="inic2(getC1.value.c2)"  >
                                                                     <option [ngValue]="null" disabled selected>C1</option>
                                                                     <option *ngFor="let option of c2.data" [ngValue]="option.categoryId" placeholder="Pilih kota">
                                                                         {{ option.name }}
                                                                     </option>
                                                                 </select>
                                                     </div>
-                                            <!-- </form> -->
                                        
                                     </div>
                                     <div>
-                                            <!-- <form [formGroup]="getc3"> -->
                                                     <div class="form-group">
-                                                            <select formControlName="c3" class="form-control" id="exampleFormControlSelect1">
+                                                            <select formControlName="c3" class="form-control" id="exampleFormControlSelect1" (change)="iniC3(getC1.value.c3)">
                                                                     <option [ngValue]="null" disabled selected>C1</option>
                                                                     <option *ngFor="let option of c3.data" [ngValue]="option.categoryId" placeholder="Pilih kota">
                                                                         {{ option.name }}
                                                                     </option>
                                                                 </select>
                                                     </div>
-                                            <!-- </form> -->
                                     </div>
                                 </div>
                             </form>
@@ -141,26 +125,14 @@
                                 <span>deskripsi product</span>
                                 <div class="input-group">
     
-                                    <textarea class="form-control" aria-label="With textarea" readonly>{{ listDetailProd.description }}</textarea>
+                                    <textarea class="form-control bgGrey" aria-label="With textarea" disabled>{{ listDetailProd.description }}</textarea>
                                 </div>
     
                                 <span>spesifikasi</span>
                                 <div class="wrapper2">
                                     <div *ngFor="let item of listDetailProd.specification">
-                                        <input  type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="{{ item.name }}" readonly>
+                                        <input  type="text" class="form-control bgGrey " placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="{{ item.name }}" disabled>
                                     </div>
-                                    <!-- <div>
-                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" value="{{ obj.title }}" aria-describedby="basic-addon1" readonly>
-                                    </div>
-                                    <div>
-                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" value="{{ obj.title }}" aria-describedby="basic-addon1" readonly>
-                                    </div>
-                                    <div>
-                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" value="{{ obj.title }}" aria-describedby="basic-addon1" readonly>
-                                    </div>
-                                    <div>
-                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" value="{{ obj.title }}" aria-describedby="basic-addon1" readonly>
-                                    </div> -->
                                 </div>
     
                                 <table border="0" cellpadding="10">
@@ -180,7 +152,7 @@
                                     </tr>
                                     <tr>
                                         <td class="verticalAli">Stock Barang</td>
-                                        <td class="verticalAli">{{ listDetailProd.qty }}</td>
+                                        <td class="verticalAli">{{ listDetailProd.qtyTypeValue }}</td>
                                         <td class="verticalAli">Metode Pengiriman</td>
                                         <td> <div class="row press" *ngFor="let courier of listDetailProd.couriers">
                                             <ng-template [ngIf]="courier.isUse === true" [ngIfElse]="iUseFalse" >
@@ -243,7 +215,6 @@
                                 <button class="button-revise revise-right" (click)="oke(listDetailProd.version)" >
                                     REVISE 
                                 </button>
-                                <button (click)="newMethod_1()">reset</button>
                                 <button (click)="showDialog = !showDialog" class="btn">Close</button>
                             </modal>
                         </ng-template>

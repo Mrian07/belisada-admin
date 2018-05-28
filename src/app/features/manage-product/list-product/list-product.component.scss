@@ -1,3 +1,22 @@
+.circle-blue {
+    color: blue;
+  }
+  .circle-green {
+    color: green;
+  }
+  .circle-red {
+    color: red;
+  }
+  .circle-yellow {
+    color: yellow;
+  }
+
+  
+.bgGrey {
+    background: #eee;
+}
+
+
 .image-small {
     width: 100px;
     padding-top: 10px
@@ -456,4 +475,8 @@
   .paging a.disabled {
     color: #ccc;
     cursor: default;
+  }
+
+  .none-cursor {
+      cursor: none;
   }
