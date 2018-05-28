@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild, Injectable, ElementRef, Input } from '@angular/core';
+import { Component, OnInit,ViewChild, Injectable, ElementRef, Input, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { ManageProductService } from '../../../@core/services/manage-product/manage-product.service';
@@ -29,7 +29,7 @@ selector: 'list-product',
 templateUrl: './list-product.component.html',
 styleUrls: ['./list-product.component.scss']
 })
-export class ListProductComponent implements OnInit {
+export class ListProductComponent implements OnInit, OnDestroy {
   @Input() name;
   modalHeader: string;
   myForm: FormGroup;
@@ -187,6 +187,12 @@ export class ListProductComponent implements OnInit {
     if (page < 1 || page > this.listProduct.pageCount) { return false; }
     this.router.navigate(['/product/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
+  }
+
+  rubah(e){
+    const r = 
+    e.replace(new RegExp('/', 'g'), ' - ');
+    return r;
   }
 
   getProduct(param) {
@@ -530,7 +536,7 @@ export class ListProductComponent implements OnInit {
 
 
   
-  oke(verc) {
+  oke(verc, besc) {
      const p =  {
       approvalProductIssue: this.myForm.value.useremail,
       version: verc,
@@ -558,6 +564,7 @@ export class ListProductComponent implements OnInit {
         if (result.value) {
           const newLocal = this.prodService.postToko(p).subscribe(postDa => {
             this.getProduct(this.currentPage);
+            this.check = false;
           });
         } else if (
           // Read more about handling dismissals
@@ -571,7 +578,8 @@ export class ListProductComponent implements OnInit {
     }
     this.myForm.setControl('useremail', new FormArray([]));
      this.myForm.reset();
-     this.check = false;
+     this.check = true;
+    
   }
   
   private newMethod_1() {
@@ -585,9 +593,6 @@ export class ListProductComponent implements OnInit {
     });
   }
 
-  closeModal() {
-    // this.activeModal.close();
-  }
   public openCloseRow(idReserva: number): void {
 
     if (this.rowSelected === -1) {
@@ -601,5 +606,14 @@ export class ListProductComponent implements OnInit {
 
     }
   }
+
+  ngOnDestroy() {
+    this.brandInit();
+    this.loadData();
+    this.newMethod();
+    this.form_All();
+    this.getDataC1();
+    console.log('destroy nih')
+  } 
 
 }
