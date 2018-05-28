@@ -64,10 +64,24 @@ export class ListSpec{
 }
 
 export class AddSpec{
+    attributeId: number;
+    categoryId:number;
+    message: string;
+    status: number;
+}
+
+export class EditSpec{
     name: string;
     description: string;
     attributeId: number;
-    isMandatory: string;
-    isInstanceAttribute: string;
+    isMandatory: boolean;
+    isInstanceAttribute: boolean;
+}
+
+export class DeleteSpec {
+    attributeId: number;
+    categoryId: number;
+    message: string;
+    status: number;
 }
 
