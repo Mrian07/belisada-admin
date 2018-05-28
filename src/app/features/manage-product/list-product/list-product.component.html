@@ -47,13 +47,13 @@
                         </tr>
     
                         <ng-template #content let-c="close" let-d="dismiss">
-                            <div class="modal-header">
+                            <div class="modal-header bgGrey">
                                 <h4 class="modal-title">Approval Product</h4>
                                 <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body bgGrey">
                                 <p>{{ obj.body }}</p>
                                 <p>Foto Product</p>
                                 <img class="image-small" src="{{obj.url}}">
@@ -125,13 +125,13 @@
                                 <span>deskripsi product</span>
                                 <div class="input-group">
     
-                                    <textarea class="form-control bgGrey" aria-label="With textarea" readonly>{{ listDetailProd.description }}</textarea>
+                                    <textarea class="form-control bgGrey" aria-label="With textarea" disabled>{{ listDetailProd.description }}</textarea>
                                 </div>
     
                                 <span>spesifikasi</span>
                                 <div class="wrapper2">
                                     <div *ngFor="let item of listDetailProd.specification">
-                                        <input  type="text" class="form-control bgGrey " placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="{{ item.name }}" readonly>
+                                        <input  type="text" class="form-control bgGrey " placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="{{ item.name }}" disabled>
                                     </div>
                                 </div>
     
