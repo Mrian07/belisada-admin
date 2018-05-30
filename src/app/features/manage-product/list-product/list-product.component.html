@@ -56,8 +56,14 @@
                             <div class="modal-body bgGrey">
                                 <p>{{ obj.body }}</p>
                                 <p>Foto Product</p>
-                                <img *ngFor="let foto of listDetailProd.imageUrl" class="image-small" src="{{foto}}">
-                                <!-- <p *ngFor="let foto of listDetailProd.imageUrl">{{ foto }}</p> -->
+                                        <img id="image" *ngFor="let foto of listDetailProd.imageUrl" (click)="hanya(foto)" (click)="isCollapsed = !isCollapsed"
+                                        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"  class="image-small" src="{{foto}}">
+                                   
+                                  <div id="collapseExample" [ngbCollapse]="!isCollapsed">
+                                    <div class="card">
+                                       <img class="fotoTogle" src="{{futu}}">
+                                    </div>
+                                  </div>
                                 <br>
                                 <span>Brand</span>
                                 <div class="drick-select-container">
@@ -101,7 +107,7 @@
                                     <div>
                                                     <div class="form-group">
                                                             <select formControlName="c2" class="form-control" id="exampleFormControlSelect1" (change)="inic2(getC1.value.c2)"  >
-                                                                    <option [ngValue]="null" disabled selected>C1</option>
+                                                                    <option [ngValue]="null" disabled selected>C2</option>
                                                                     <option *ngFor="let option of c2.data" [ngValue]="option.categoryId" placeholder="Pilih kota">
                                                                         {{ option.name }}
                                                                     </option>
@@ -112,7 +118,7 @@
                                     <div>
                                                     <div class="form-group">
                                                             <select formControlName="c3" class="form-control" id="exampleFormControlSelect1" (change)="iniC3(getC1.value.c3)">
-                                                                    <option [ngValue]="null" disabled selected>C1</option>
+                                                                    <option [ngValue]="null" disabled selected>C3</option>
                                                                     <option *ngFor="let option of c3.data" [ngValue]="option.categoryId" placeholder="Pilih kota">
                                                                         {{ option.name }}
                                                                     </option>
