@@ -1,15 +1,12 @@
 
 <nb-card>
-        <nb-card-header>
-                Store Approval
-            </nb-card-header>
-            <nb-card-body>
-                <div class="table-responsive">
-
-              
+    <nb-card-header>
+        Store Approval
+    </nb-card-header>
+    <nb-card-body>
+        <!-- awalnya seperti ini: <div class="table-responsive table-striped"> -->
+        <div class="table-striped">
             <table class="table">
-               
-        
                     <thead>
                         <tr>
                             <th *ngIf="registerDateSorting === false; else sortingDate" (click)="funcSortDateArray()">Register Date <i class="fa fa-calendar"></i></th>
@@ -31,17 +28,17 @@
                     <tbody>
                         <tr>
                             <td>
-                                <input placeholder="search tanggal" [(ngModel)]="registerDat"> </td>
+                                <input placeholder="search tanggal" [(ngModel)]="registerDat" class="form-control"> </td>
                             <td>
-                                <input placeholder="search Nama toko" [(ngModel)]="search"> </td>
+                                <input placeholder="search Nama toko" [(ngModel)]="search" class="form-control"> </td>
                             <td>
-                                <input placeholder="search Nama Owner" [(ngModel)]="namaOwner">
+                                <input placeholder="search Nama Owner" [(ngModel)]="namaOwner" class="form-control">
                             </td>
                             <td>
-                                <input placeholder="search status" [(ngModel)]="status">
+                                <input placeholder="search status" [(ngModel)]="status" class="form-control">
                             </td>
                             <td>
-                                <input placeholder="search approvedBy" [(ngModel)]="verifiedByName">
+                                <input placeholder="search approvedBy" [(ngModel)]="verifiedByName" class="form-control">
                             </td>
                         </tr>
                         <div *ngIf="title; else please">
@@ -58,10 +55,10 @@
                                         {{obj.ownerStore}}
                                     </td>
                                     <td>
-                                                <i class="fa fa-circle circle-blue" *ngIf="obj.status === 'NEED APPROVAL'"></i>
-                                                <i class="fa fa-circle circle-green" *ngIf="obj.status === 'APPROVED'"></i>
-                                                <i class="fa fa-circle circle-red" *ngIf="obj.status === 'REJECTED'"></i>
-                                                <i class="fa fa-circle circle-yellow" *ngIf="obj.status === 'REVISE'"></i>
+                                        <i class="fa fa-circle circle-blue" *ngIf="obj.status === 'NEED APPROVAL'"></i>
+                                        <i class="fa fa-circle circle-green" *ngIf="obj.status === 'APPROVED'"></i>
+                                        <i class="fa fa-circle circle-red" *ngIf="obj.status === 'REJECTED'"></i>
+                                        <i class="fa fa-circle circle-yellow" *ngIf="obj.status === 'REVISE'"></i>
                                             {{obj.status}}
                                     </td>
         
@@ -131,23 +128,23 @@
        
         
         <div class="paging">
-                <ul>
-                    <li>
-                        <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
-                    </li>
-                    <li>
-                        <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
-                    </li>
-                    <li *ngFor="let p of pages">
-                        <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
-                    </li>
-                    <li>
-                        <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
-                    </li>
-                    <li>
-                        <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
-                    </li>
-                </ul>
-            </div>
-            </nb-card-body>
-        </nb-card>
+            <ul>
+                <li>
+                    <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
+                </li>
+                <li>
+                    <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
+                </li>
+                <li *ngFor="let p of pages">
+                    <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
+                </li>
+                <li>
+                    <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+                </li>
+                <li>
+                    <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+                </li>
+            </ul>
+        </div>
+    </nb-card-body>
+</nb-card>

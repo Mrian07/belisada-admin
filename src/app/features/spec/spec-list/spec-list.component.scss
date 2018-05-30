@@ -7,9 +7,10 @@
     display: inline-block;
 }
 .paging a {
-    border: 1px solid #999;
+    border: 1px solid #ebeef2;
     padding: 3px 10px;
     margin: 0 3px;
+    border-radius: 5px;
 }
 .paging a.current-page {
     border: 1px solid #cde;
@@ -66,4 +67,21 @@
 
 .btn-color{
     color: #000000;
+}
+
+.table-bordered thead tr th{
+    border:1px solid #ebeef2;
+    font-family: Exo;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #2a2a2a;
+}
+
+.table-bordered tbody tr td{
+    border:1px solid #ebeef2;
+}
+
+.table-bordered tbody tr:hover{
+    background:#fbfbfb;
 }
