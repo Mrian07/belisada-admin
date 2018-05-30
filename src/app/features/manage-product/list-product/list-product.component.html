@@ -56,11 +56,8 @@
                             <div class="modal-body bgGrey">
                                 <p>{{ obj.body }}</p>
                                 <p>Foto Product</p>
-                                <img class="image-small" src="{{obj.url}}">
-                                <img class="image-small" src="{{obj.url}}">
-                                <img class="image-small" src="{{obj.url}}">
-                                <img class="image-small" src="{{obj.url}}">
-                                <img class="image-small" src="{{obj.url}}">
+                                <img *ngFor="let foto of listDetailProd.imageUrl" class="image-small" src="{{foto}}">
+                                <!-- <p *ngFor="let foto of listDetailProd.imageUrl">{{ foto }}</p> -->
                                 <br>
                                 <span>Brand</span>
                                 <div class="drick-select-container">
@@ -77,6 +74,9 @@
                                         <ul class="drick-select-list">
                                             <li *ngFor="let i of brandList.data" (click)="selectBrand(i)">
                                                 {{i.name}}
+                                            </li>
+                                            <li *ngIf="(brandList.data.length === 0)">
+                                                Brand tidak ditemukan
                                             </li>
                                         </ul>
                                     </div>

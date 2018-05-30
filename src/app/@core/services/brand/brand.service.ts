@@ -17,9 +17,10 @@ export class BrandService {
   //   .map(resp => resp as List);
   // }
 
+
   getList(queryParams: Object): Observable<List> {
     let params = new HttpParams();
-    Object.keys(queryParams).forEach(function(k){
+    Object.keys(queryParams).forEach(function(k) {
       params = params.append(k, queryParams[k]);
     });
     return this.http.get(this.configuration.apiURL + '/manage/brand', {params: params})
