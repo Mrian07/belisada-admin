@@ -76,18 +76,17 @@
                             <div class="col-md-9 col-lg-9">
                                 {{spec.name}} 
                             </div>
-                            <div class="col-md-3 col-lg-3 edit-cat" (click)="editSpec(content,typeCat3,itemC3.categoryId,itemC3.name,itemC3.nameEn,itemC3.isActive)">
+                            <div class="col-md-3 col-lg-3 edit-cat" (click)="deleteSpec(spec.attributeId, parentC3)">
                                 <i class="fa fa-pencil fa-lg"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="btn-add-c2" (click)="addSpec(content,parentC2)">
+                <div class="btn-add-c2" (click)="addSpec(content,parentC3)">
                     <i class="fa fa-plus blue-icon"></i> Add Spec
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
   </nb-card-body>
@@ -102,17 +101,26 @@
     <div class="modal-body">
         <input type="hidden" [(ngModel)]="parentC1">
         <input type="hidden" [(ngModel)]="parentC2">
+        <input type="hidden" [(ngModel)]="parentC3">
+        <input type="hidden" [(ngModel)]="parentSpec">
         <input type="hidden" [(ngModel)]="typeAdd">
         <input type="hidden" [(ngModel)]="idAdd">
-        <div class="form-group">
+        <div class="form-group" *ngIf="typeAdd == 'spec'">
+            <label for="usr">Name:</label>
+            <input type="text" [(ngModel)]="nameAdd" class="form-control" (keyup)="autoSrc()" placeholder="Name">
+            <div *ngFor="let itemAuto of listAutoSrc.data">
+               <div class="autoSrc" (click)="pilih(itemAuto.name,itemAuto.attributeId)">{{itemAuto.name}}</div>
+            </div>
+        </div>
+        <div class="form-group" *ngIf="typeAdd != 'spec'">
             <label for="usr">Name ID:</label>
-            <input type="text" [(ngModel)]="nameAdd" class="form-control" placeholder="Nama">
+            <input type="text" [(ngModel)]="nameAdd" class="form-control" placeholder="Name">
         </div>
-        <div class="form-group">
+        <div class="form-group" *ngIf="typeAdd != 'spec'">
             <label for="pwd">Nama En:</label>
-            <input type="text" [(ngModel)]="nameEnAdd" class="form-control" placeholder="Nama En">
+            <input type="text" [(ngModel)]="nameEnAdd" class="form-control" placeholder="Name En">
         </div>
-        <div class="form-group" *ngIf="idAdd">
+        <div class="form-group" *ngIf="idAdd && (typeAdd != 'spec')">
             <label for="pwd">Aktif:</label>
             <select [(ngModel)]="isActive" class="form-control">
                 <option value="true">Iya</option>
@@ -126,5 +134,7 @@
         <button class="btn btn-lg btn-outline-primary" (click)="update()" *ngIf="actionCat=='edit'">Update</button>
     </div>
 </ng-template>
+
+
 
       

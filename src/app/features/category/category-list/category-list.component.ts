@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ShareMessageService } from './../../../@core/services/share-message/share-message.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { CategoryService } from './../../../@core/services/category/category.service';
-import { ListCategory, ListSpec } from '../../../@core/models/category/category.model';
+import { ListCategory, ListSpec, DeleteSpec } from '../../../@core/models/category/category.model';
 import swal from 'sweetalert2';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
@@ -18,6 +18,8 @@ export class CategoryListComponent implements OnInit {
   listCat2: ListCategory = new ListCategory();
   listCat3: ListCategory = new ListCategory();
   listSpec: ListSpec = new ListSpec();
+
+  listAutoSrc: any = [];
 
   currentPage: number;
   lastPage: number;
@@ -47,6 +49,8 @@ export class CategoryListComponent implements OnInit {
   
   parentC1: number;
   parentC2: number;
+  parentC3: number;
+  parentSpec: number;
 
   idAdd: number;
   nameAdd: string;
@@ -152,16 +156,13 @@ export class CategoryListComponent implements OnInit {
     }
     this.categoryService.getSpec(queryParams).subscribe(response => {
 
-      console.log('respon: ',response);
       this.isStatus();  
       this.isC2=true;
       this.isC3=true;
       this.isSpec=true;
 
-      
-
       // this.typeCat3 = "c3";
-      // this.parentC2 = id;
+      this.parentC3 = id;
       if(response){
         this.listSpec = response;
         // this.isC2=true;
@@ -171,6 +172,22 @@ export class CategoryListComponent implements OnInit {
       }
       
     });
+  }
+
+  autoSrc(){
+    const queryParams = {
+      name: this.nameAdd
+    }
+    this.categoryService.srcSpec(queryParams).subscribe(response => {
+      console.log('hasil', response);
+     this.listAutoSrc=response;
+    });
+  }
+
+  pilih(name, id){
+    this.parentSpec = id;
+    this.nameAdd=name;
+    this.listAutoSrc= {};
   }
 
   addCategory(content){
@@ -207,77 +224,131 @@ export class CategoryListComponent implements OnInit {
     this.modalRef = this.modalService.open(content);
   }
 
+  addSpec(content,parentC3){
+    this.titlePopUp = "Spesifikasi";
+    this.parentC3 = parentC3;
+    this.nameAdd = null;
+    this.nameEnAdd = null;
+    this.idAdd = null;
+    this.typeAdd = 'spec';
+    this.actionCat = "add";
+    this.isSpec=true;
+    this.modalRef = this.modalService.open(content);
+  }
+
   save(){
     
-    if(this.nameAdd=='' || this.nameAdd==undefined || this.nameEnAdd=='' || this.nameEnAdd==undefined)
-    {
-      swal(
-            'Alert',
-            'Penyimpanan gagal silakan isi semua kolom',
-            'error',
-          );
+    if(this.typeAdd=='c1' || this.typeAdd=='c2' || this.typeAdd=='c3'){
+
+      if(this.nameAdd=='' || this.nameAdd==undefined || this.nameEnAdd=='' || this.nameEnAdd==undefined)
+      {
+        swal(
+          'Alert',
+          'Penyimpanan gagal silakan isi semua kolom',
+          'error',
+        );
+      }else{
+
+        if(this.typeAdd=='c1'){
+          
+          const data = {
+            "name": this.nameAdd,
+            "nameEn": this.nameEnAdd,
+            "type": this.typeAdd,
+          }
+  
+          this.categoryService.addCategory(data).subscribe(response => {
+  
+            swal(
+              'Alert',
+              response.message,
+              'success',
+            );
+            this.modalRef.close();
+            this.loadData();
+          });
+  
+        }else if(this.typeAdd=='c2'){
+  
+          const data = {
+            "parentId": this.parentC1,
+            "name": this.nameAdd,
+            "nameEn": this.nameEnAdd,
+            "type": this.typeAdd,
+          }
+  
+          this.categoryService.addCategory(data).subscribe(response => {
+  
+            swal(
+              'Alert',
+              response.message,
+              'success',
+            );
+            this.modalRef.close();
+            this.srcCat2(this.parentC2);
+          });
+  
+        }else if(this.typeAdd=='c3'){
+  
+          const data = {
+            "parentId": this.parentC2,
+            "name": this.nameAdd,
+            "nameEn": this.nameEnAdd,
+            "type": this.typeAdd,
+          }
+  
+          this.categoryService.addCategory(data).subscribe(response => {
+  
+            swal(
+              'Alert',
+              response.message,
+              'success',
+            );
+            this.modalRef.close();
+            this.srcCat3(this.parentC2);
+          });
+  
+        }
+
+
+      }
+
     }else{
 
-      if(this.typeAdd=='c1'){
-
+      if(this.nameAdd==''){
+        swal(
+          'Alert',
+          'Penyimpanan gagal silakan isi nama spesifikasi',
+          'error',
+        );
+      }else{
+        
         const data = {
-          "name": this.nameAdd,
-          "nameEn": this.nameEnAdd,
-          "type": this.typeAdd,
+          "attributeId": this.parentSpec,
+          "categoryId": this.parentC3,
         }
 
-        this.categoryService.addCategory(data).subscribe(response => {
-
-          swal(
-            'Alert',
-            response.message,
-            'success',
-          );
+        this.categoryService.addSpec(data).subscribe(response => {
+          if(response.status==1){
+            swal(
+              'Alert',
+              response.message,
+              'success',
+            );
+          }else{
+            swal(
+              'Alert',
+              response.message,
+              'error',
+            );
+          }
+          
           this.modalRef.close();
-          this.loadData();
-        });
-
-      }else if(this.typeAdd=='c2'){
-
-        const data = {
-          "parentId": this.parentC1,
-          "name": this.nameAdd,
-          "nameEn": this.nameEnAdd,
-          "type": this.typeAdd,
-        }
-
-        this.categoryService.addCategory(data).subscribe(response => {
-
-          swal(
-            'Alert',
-            response.message,
-            'success',
-          );
-          this.modalRef.close();
-          this.srcCat2(this.parentC2);
-        });
-
-      }else if(this.typeAdd=='c3'){
-
-        const data = {
-          "parentId": this.parentC2,
-          "name": this.nameAdd,
-          "nameEn": this.nameEnAdd,
-          "type": this.typeAdd,
-        }
-
-        this.categoryService.addCategory(data).subscribe(response => {
-
-          swal(
-            'Alert',
-            response.message,
-            'success',
-          );
-          this.modalRef.close();
-          this.srcCat3(this.parentC2);
+          this.srcSpec(this.parentC3);
         });
 
       }
+
     }
 
   }
@@ -299,51 +370,154 @@ export class CategoryListComponent implements OnInit {
     this.actionCat = "edit";
   }
 
-  update(){
-    if(this.nameAdd=='' || this.nameAdd==undefined || this.nameEnAdd=='' || this.nameEnAdd==undefined)
-    {
-      swal(
-            'Alert',
-            'Penyimpanan gagal silakan isi semua kolom',
-            'error',
-          );
-    }else{
-      const data = {
-        "categoryId": this.idAdd,
-        "name": this.nameAdd,
-        "nameEn": this.nameEnAdd,
-        "type": this.typeAdd,
-        "isActive": this.isActive,
-      }
+  // editSpec(content,attributeId,name){
+  //   this.nameAdd = name;
+  //   this.idAdd = attributeId;
+  //   this.modalRef = this.modalService.open(content);
+  //   this.actionCat = "edit";
+  //   this.typeAdd = 'spec';
+  // }
 
-      const data2 = {
-        "categoryId": this.idAdd,
-        "isActive": this.isActive,
-      }
+  deleteSpec(attributeId, categoryId){
 
-      this.categoryService.updateCategory(data).subscribe(response => {
-
-        this.categoryService.activeCategory(data2).subscribe(response => {
-        
-          swal(
-            'Alert',
-            response.message,
-            'success',
-          );
-
-          this.modalRef.close();
-          if(this.typeAdd=='c1'){
-            this.loadData();
-          }else if(this.typeAdd=='c2'){
-            this.srcCat2(this.parentC1);
-          }else if(this.typeAdd=='c3'){
-            this.srcCat3(this.parentC2);
+    swal({
+      title: 'Alert',
+      text: "Apakah spesifikasi ini akan dihapus!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Delete'
+    }).then((result) => {
+      if (result.value) {
+      
+        const data = {
+          "attributeId": attributeId,
+          "categoryId": categoryId,
+        }
+        console.log('data: ', data);
+        this.categoryService.delSpec(data).subscribe(response => {
+      
+          if(response.status==1) {
+            swal(
+              'Alert',
+              response.message,
+              'success',
+            );
+          }else{
+            swal(
+              'Alert',
+              response.message,
+              'error',
+            );
           }
-          
-
+          this.srcSpec(categoryId);
         });
-      });
+
+      }
+    })
+
+
     
+
+  }
+
+  update(){
+
+    if(this.typeAdd=='c1' || this.typeAdd=='c2' || this.typeAdd=='c3'){
+
+      if(this.nameAdd=='' || this.nameAdd==undefined || this.nameEnAdd=='' || this.nameEnAdd==undefined)
+      {
+        swal(
+              'Alert',
+              'Penyimpanan gagal silakan isi semua kolom',
+              'error',
+            );
+
+      }else{
+        const data = {
+          "categoryId": this.idAdd,
+          "name": this.nameAdd,
+          "nameEn": this.nameEnAdd,
+          "type": this.typeAdd,
+          "isActive": this.isActive,
+        }
+  
+        const data2 = {
+          "categoryId": this.idAdd,
+          "isActive": this.isActive,
+        }
+  
+        this.categoryService.updateCategory(data).subscribe(response => {
+  
+          this.categoryService.activeCategory(data2).subscribe(response => {
+          
+            swal(
+              'Alert',
+              response.message,
+              'success',
+            );
+  
+            this.modalRef.close();
+            if(this.typeAdd=='c1'){
+              this.loadData();
+            }else if(this.typeAdd=='c2'){
+              this.srcCat2(this.parentC1);
+            }else if(this.typeAdd=='c3'){
+              this.srcCat3(this.parentC2);
+            }
+            
+  
+          });
+        });
+      
+      }
+
+    }else{
+
+      if(this.nameAdd=='' || this.nameAdd==undefined)
+      {
+        swal(
+              'Alert',
+              'Penyimpanan gagal silakan isi nama spesifikasi',
+              'error',
+            );
+            
+      }else{
+        const data = {
+          "name": this.nameAdd,
+          "attributeId": this.idAdd,
+          "isMandatory":false,
+          "isInstanceAttribute":false
+        }
+
+        this.categoryService.updateSpec(data).subscribe(response => {
+  
+          // this.categoryService.activeCategory(data2).subscribe(response => {
+          
+          //   swal(
+          //     'Alert',
+          //     response.message,
+          //     'success',
+          //   );
+  
+          //   this.modalRef.close();
+          //   if(this.typeAdd=='c1'){
+          //     this.loadData();
+          //   }else if(this.typeAdd=='c2'){
+          //     this.srcCat2(this.parentC1);
+          //   }else if(this.typeAdd=='c3'){
+          //     this.srcCat3(this.parentC2);
+          //   }
+            
+  
+          // });
+        });
+      
+      }
+
     }
+
+    
   }
 }
