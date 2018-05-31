@@ -33,14 +33,14 @@
     border-radius:5px;
     background: #e96544;
     padding:5px;
-    color: #000000;
+    color: #ffffff;
 }
 
 .active{
     border-radius:5px;
     background: #44e944;
     padding:5px;
-    color: #000000;
+    color: #ffffff;
 }
 
 .upload-btn-wrapper {
@@ -85,4 +85,9 @@
 
 .table-bordered tbody tr:hover{
     background:#fbfbfb;
+}
+
+.align-center{
+    text-align: center;
+    color: #ffffff;
 }

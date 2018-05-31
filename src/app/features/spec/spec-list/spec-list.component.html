@@ -25,7 +25,7 @@
                       <div *ngIf="idEdit!=item.attributeId">{{item.name}}</div> 
                       <input type="text" *ngIf="idEdit==item.attributeId" [(ngModel)]="name" class="form-control">
                   </td>
-                  <td><span *ngIf="item.isActive==true" class="active">Active</span><span *ngIf="item.isActive==false" class="disable">Inactive</span></td>
+                  <td class="align-center"><span *ngIf="item.isActive==true" class="active">Active</span><span *ngIf="item.isActive==false" class="disable">Inactive</span></td>
                   <td>
                       <div class="btn-group btn-group-toggle btn-divided-group" data-toggle="buttons" *ngIf="idEdit!=item.attributeId">
                       <label ngbButtonLabel class="btn btn-primary btn-tn" (click)="edit(item)">
