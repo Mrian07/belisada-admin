@@ -19,7 +19,8 @@
 
 .image-small {
     width: 100px;
-    padding-top: 10px
+    padding-top: 10px;
+    margin-right: 15px;
 }
 .high {
   margin-top: 10px;
@@ -201,6 +202,7 @@
 }
 
 .drick-select__text {
+z-index: -9999;
     width: 100%;
 
     &.active {
@@ -497,4 +499,22 @@
 
   .table-bordered tbody tr:hover{
       background:#fbfbfb;
+  }
+
+.fotoTogle {
+  height: 320px;
+}
+
+  .pop-out
+  {
+      transition: transform .5s;
+      z-index: 1;
+  }
+
+  .pop-out:hover
+  {
+      -ms-transform: scale(1.5, 1.5);
+      -webkit-transform: scale(4, 4);
+      transform: scale(5, 5);
+      
   }

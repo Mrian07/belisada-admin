@@ -82,7 +82,8 @@ export class ListProductComponent implements OnInit, OnDestroy {
  const2 : number;
  const3 : number;
  let;
-
+  futu;
+  public isCollapsed = false;
 
   public getC1: FormGroup;
   c1: listingCategory = new listingCategory();
@@ -613,7 +614,11 @@ export class ListProductComponent implements OnInit, OnDestroy {
     this.newMethod();
     this.form_All();
     this.getDataC1();
-    console.log('destroy nih')
   } 
+
+  hanya(e) {
+    this.futu = e;
+    console.log(e);
+  }
 
 }
