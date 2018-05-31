@@ -11,6 +11,7 @@ export class Brand {
     name: string;
     imageUrl: string;
     isActive: boolean;
+    brandName;
 }
 
 export class ChangeStatus {

@@ -109,6 +109,8 @@ export class ListBrand {
     note: string;
     productId: number;
     statusCode: string;
+    message?: string;
+    status?: string;
   }
 
   export class dataListingCategory {

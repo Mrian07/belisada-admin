@@ -100,7 +100,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
 
   limit: number = 100;
-  querySearch: string;
+  querySearch: any;
   onTextFocus: Boolean = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   @ViewChild('instance') instance: NgbTypeahead;
@@ -119,6 +119,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   listCat2: ListCategory = new ListCategory();
   listCat3: ListCategory = new ListCategory();
   isAdd: boolean;
+  brandName;
 
   isC2: boolean;
   isC3: boolean;
@@ -149,6 +150,8 @@ export class ListProductComponent implements OnInit, OnDestroy {
      }
 
   ngOnInit() {
+    
+    this.brandInit();
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
@@ -158,7 +161,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
       }
       this.dataTes(queryParams);
     });
-    this.brandInit();
+   
     this.loadData();
     this.newMethod();
     this.form_All();
@@ -297,35 +300,39 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
  
   onFocusOut() {
+    
     setTimeout(() => { this.onTextFocus = false }, 200)
   }
 
-  searchBrand() {
+  searchBrand(e) {
+    //  this.txtSearch = this.brandList.data.find(x => x.brandId === e).name;
     this.querySearch = this.txtSearch;
     const queryParams = {
       page: this.current = 1,
       itemperpage: this.limit,
-      name: this.querySearch === undefined ? '' : this.querySearch
+      name: this.querySearch === undefined ? '' : this.querySearch,
     };
     this.brandService.getList(queryParams).subscribe(response => {
       this.brandList = response;
     });
   }
 
-  
-
   selectBrand(brand) {
+    
     this.brandId = brand.brandId;
     this.txtSearch = brand.name;
     this.productBrandId = brand.m_productbrand_id;
   }
   
-  open(content, e, bId, cat1, cat2, cat3) {
-    this.getC1.get('c1').valueChanges.subscribe(val => {
-      // this.getDataC2(val)
-      this.ok = val;
+
+  
+  open(content, e, bId, cat1, cat2, cat3, BN) {
+    console.log(this.txtSearch)
+    console.log('BN', BN);
+    this.brandName = BN;
+    this.txtSearch = BN;
     
-  });
+    this.brandInit();
     let options: NgbModalOptions = {
       backdrop: false,
       size: 'lg'
@@ -336,6 +343,10 @@ export class ListProductComponent implements OnInit, OnDestroy {
       this.listDetailProd = detail.data;
     })
     this.brandId = bId;
+    console.log(bId)
+    this.txtSearch = this.brandList.data.find(x => x.brandId === bId).name;
+    console.log('this.brandList.data.find(x => x.brandId === this.brandId).name;', this.brandList.data.find(x => x.brandId === this.brandId).name)
+    console.log(this.txtSearch)
     this.cat3Value = cat3;
      this.cat1Ni = this.c1.data.find(x => x.categoryId === cat1).categoryId;
 
@@ -356,13 +367,15 @@ export class ListProductComponent implements OnInit, OnDestroy {
         c3: const3
       });
     })
-    this.brandInit();
-    this.txtSearch = this.brandList.data.find(x => x.brandId === bId).name;
+    // this.brandInit();
+    
+   
     this.sel = e;
 
   }
+  
 
-  ininich(a) {
+  c1Change(a) {
 
     this.cat1Ni = 111
     this.c2.data = [];
@@ -388,7 +401,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
     
   }
 
-  inic2(b){
+  c2Change(b){
     this.getC1.get('c2').valueChanges.subscribe(val => {
   
   
@@ -474,6 +487,12 @@ export class ListProductComponent implements OnInit, OnDestroy {
             if (result.value) {
               const newLocal = this.prodService.postToko(a).subscribe(postDa => {
                 this.getProduct(this.currentPage);
+                swal(
+                  postDa.message
+                )
+               
+                
+                
               });
             } else if (
               // Read more about handling dismissals
@@ -504,6 +523,9 @@ export class ListProductComponent implements OnInit, OnDestroy {
             if (result.value) {
               const newLocal = this.prodService.postToko(a).subscribe(postDa => {
                 this.getProduct(this.currentPage);
+                swal(
+                  postDa.message 
+                )
               });
             } else if (
               // Read more about handling dismissals
@@ -516,8 +538,9 @@ export class ListProductComponent implements OnInit, OnDestroy {
         }
     }
 
-
-
+    this.txtSearch = '';
+    console.log('brand name on selected',this.brandName)
+    this.brandList;
   }
   onChange(email: any, isChecked: boolean) {
     const emailFormArray = < FormArray > this.myForm.controls.useremail;
@@ -566,6 +589,9 @@ export class ListProductComponent implements OnInit, OnDestroy {
           const newLocal = this.prodService.postToko(p).subscribe(postDa => {
             this.getProduct(this.currentPage);
             this.check = false;
+            swal(
+              postDa.message 
+            )
           });
         } else if (
           // Read more about handling dismissals
@@ -580,6 +606,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
     this.myForm.setControl('useremail', new FormArray([]));
      this.myForm.reset();
      this.check = true;
+     this.txtSearch = '';
     
   }
   
