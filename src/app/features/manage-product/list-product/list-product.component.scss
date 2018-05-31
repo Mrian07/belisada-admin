@@ -459,9 +459,10 @@ z-index: -9999;
     display: inline-block;
   }
   .paging a {
-    border: 1px solid #999;
+    border: 1px solid #ebeef2;
     padding: 3px 10px;
     margin: 0 3px;
+    border-radius: 5px;
   }
   .paging a.current-page {
     border: 1px solid #cde;
@@ -483,14 +484,22 @@ z-index: -9999;
       cursor: none;
   }
 
+  .table-bordered thead tr th{
+    border:1px solid #ebeef2;
+    font-family: Exo;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #2a2a2a;
+  }
 
-  // dibawh adalah css untuk bermain dengan image
-//   #image {
-//     // width: 100%;
-// }
-// #image:hover {
-//     width: 100%;
-// }
+  .table-bordered tbody tr td{
+      border:1px solid #ebeef2;
+  }
+
+  .table-bordered tbody tr:hover{
+      background:#fbfbfb;
+  }
 
 .fotoTogle {
   height: 320px;
@@ -509,4 +518,3 @@ z-index: -9999;
       transform: scale(5, 5);
       
   }
-  
