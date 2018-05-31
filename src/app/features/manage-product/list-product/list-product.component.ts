@@ -344,8 +344,10 @@ export class ListProductComponent implements OnInit, OnDestroy {
     })
     this.brandId = bId;
     console.log(bId)
-    this.txtSearch = this.brandList.data.find(x => x.brandId === bId).name;
-    console.log('this.brandList.data.find(x => x.brandId === this.brandId).name;', this.brandList.data.find(x => x.brandId === this.brandId).name)
+
+    /* dibawah adalah cara mencari brand id menggunakan find tolong jangan di hapus takut takut berguna */
+    // this.txtSearch = this.brandList.data.find(x => x.brandId === bId).name;
+    // console.log('this.brandList.data.find(x => x.brandId === this.brandId).name;', this.brandList.data.find(x => x.brandId === this.brandId).name)
     console.log(this.txtSearch)
     this.cat3Value = cat3;
      this.cat1Ni = this.c1.data.find(x => x.categoryId === cat1).categoryId;
@@ -422,8 +424,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
     const a = {
       page: this.current = 1,
       itemperpage: this.limit,
-      name: this.querySearch === undefined ? '' : this.querySearch,
-      all: true
+      name: this.querySearch === undefined ? '' : this.querySearch
     };
     this.brandService.getList(a).subscribe(response => {
       this.brandList = response;
@@ -537,9 +538,6 @@ export class ListProductComponent implements OnInit, OnDestroy {
       
         }
     }
-
-    this.txtSearch = '';
-    console.log('brand name on selected',this.brandName)
     this.brandList;
   }
   onChange(email: any, isChecked: boolean) {
