@@ -21,7 +21,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of list.data">
-                    <td><img src="{{ item.imageUrl }}" border="0" width="100" #avaImg>
+                    <td><img src="{{ item.imageUrl }}" border="0" height="100" #avaImg>
                         
                         <div *ngIf="idEdit==item.brandId">
                             <br>
@@ -35,7 +35,7 @@
                         <div *ngIf="idEdit!=item.brandId">{{item.name}}</div>
                         <input type="text" *ngIf="idEdit==item.brandId" [(ngModel)]="name" class="form-control">
                     </td>
-                    <td><span *ngIf="item.isActive==true" class="active">Active</span><span *ngIf="item.isActive==false" class="disable">Inactive</span></td>
+                    <td class="align-center"><span *ngIf="item.isActive==true" class="active">Active</span><span *ngIf="item.isActive==false" class="disable">Inactive</span></td>
                     <td>
                         <div class="btn-group btn-group-toggle btn-divided-group" data-toggle="buttons" *ngIf="idEdit!=item.brandId">
                         <label ngbButtonLabel class="btn btn-primary btn-tn" (click)="edit(item)">
