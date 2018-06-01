@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FeaturesComponent } from './features.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SearchPipe } from '../@theme/pipes';
 
 const routes: Routes = [{
   path: '',

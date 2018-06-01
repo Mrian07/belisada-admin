@@ -19,6 +19,6 @@ import { ThemeModule } from '../../@theme/theme.module';
     ReactiveFormsModule,
     // DropdownButtonsComponent
   ],
-  declarations: [ManageStoreComponent, StoreListComponent, StoreContohComponent,SearchPipe,filterOne]
+  declarations: [ManageStoreComponent, StoreListComponent, StoreContohComponent]
 })
 export class ManageStoreModule { }

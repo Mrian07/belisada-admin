@@ -16,13 +16,15 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr>
-                    <td><input class="form-control" placeholder="Search Name" [(ngModel)]="buyer.name"></td>
-                    <td><input class="form-control" placeholder="Search Email Address" [(ngModel)]="buyer.email"></td>
-                    <td><input class="form-control" placeholder="Search Date Joined" [(ngModel)]="buyer.dateOfJoin"></td>
-                    <td><input class="form-control" placeholder="Search Status" [(ngModel)]="buyer.status"></td>
-                </tr> -->
-                <tr *ngFor="let item of buyerPaging.data">
+                <tr>
+                    <td><input class="form-control" placeholder="Search Name" [(ngModel)]="search"></td>
+                    <td><input class="form-control" placeholder="Search Email Address" [(ngModel)]="emailAddress"></td>
+                    <td><input class="form-control" placeholder="Search Date Joined" [(ngModel)]="dateJoin"></td>
+                    <td><input class="form-control" placeholder="Search Gender" [(ngModel)]="gender"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr *ngFor="let item of buyerPaging.data | searchPipe:'name':search | searchPipe:'email':emailAddress | searchPipe:'dateOfJoin':dateJoin | searchPipe:'gender':gender" >
                     <td>{{ item.name }}</td>
                     <td>{{ item.email }}</td>
                     <td>{{ item.dateOfJoin }}</td>

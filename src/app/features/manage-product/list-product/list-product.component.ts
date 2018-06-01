@@ -327,8 +327,6 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
   
   open(content, e, bId, cat1, cat2, cat3, BN) {
-    console.log(this.txtSearch)
-    console.log('BN', BN);
     this.brandName = BN;
     this.txtSearch = BN;
     
@@ -343,12 +341,10 @@ export class ListProductComponent implements OnInit, OnDestroy {
       this.listDetailProd = detail.data;
     })
     this.brandId = bId;
-    console.log(bId)
 
     /* dibawah adalah cara mencari brand id menggunakan find tolong jangan di hapus takut takut berguna */
     // this.txtSearch = this.brandList.data.find(x => x.brandId === bId).name;
     // console.log('this.brandList.data.find(x => x.brandId === this.brandId).name;', this.brandList.data.find(x => x.brandId === this.brandId).name)
-    console.log(this.txtSearch)
     this.cat3Value = cat3;
      this.cat1Ni = this.c1.data.find(x => x.categoryId === cat1).categoryId;
 
@@ -643,7 +639,6 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
   hanya(e) {
     this.futu = e;
-    console.log(e);
   }
 
 }
