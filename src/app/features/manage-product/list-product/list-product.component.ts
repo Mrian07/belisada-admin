@@ -402,16 +402,37 @@ export class ListProductComponent implements OnInit, OnDestroy {
   }
 
   c2Change(b){
-    this.getC1.get('c2').valueChanges.subscribe(val => {
+    this.cat1Ni = 111
+    this.c3.data = [];
+    // const cat1Ni = this.c1.data.find(x => x.categoryId === b).categoryId;
+
+    const queryParams = {
+      parentid: b,
+      all:'true'
+    }
+    this.categoryService.getCategory(queryParams).subscribe(data =>{
+      this.c2 = data;
+    });
+
+    const oke = {
+      parentid: b,
+      all:'true',
+      type: "C3"
+    }
+
+    this.categoryService.getCategory(oke).subscribe(data =>{
+      this.c3 = data;
+    });
+  //   this.getC1.get('c2').valueChanges.subscribe(val => {
   
   
-  });
-    this.let = b;
-    this.getDataC3(b, () => {
-      this.getC1.patchValue({
-      });
-    })
-  }
+  // });
+  //   this.let = b;
+  //   this.getDataC3(b, () => {
+  //     this.getC1.patchValue({
+  //     });
+  //   })
+   }
 
   iniC3(c){
     this.cat3Value = c;
@@ -446,7 +467,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
         page: this.current += 1,
         itemperpage: this.limit,
         name: this.querySearch === undefined ? '' : this.querySearch,
-        isactive: true
+        isactive: true,
       };
       this.brandService.getList(queryParams).subscribe(response => {
         this.brandList.data = this.brandList.data.concat(response.data);
