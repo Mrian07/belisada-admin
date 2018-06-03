@@ -311,6 +311,8 @@ export class ListProductComponent implements OnInit, OnDestroy {
       page: this.current = 1,
       itemperpage: this.limit,
       name: this.querySearch === undefined ? '' : this.querySearch,
+      isactive: true
+
     };
     this.brandService.getList(queryParams).subscribe(response => {
       this.brandList = response;
@@ -420,7 +422,9 @@ export class ListProductComponent implements OnInit, OnDestroy {
     const a = {
       page: this.current = 1,
       itemperpage: this.limit,
-      name: this.querySearch === undefined ? '' : this.querySearch
+      name: this.querySearch === undefined ? '' : this.querySearch,
+      isactive:true
+
     };
     this.brandService.getList(a).subscribe(response => {
       this.brandList = response;
@@ -441,7 +445,8 @@ export class ListProductComponent implements OnInit, OnDestroy {
       const queryParams = {
         page: this.current += 1,
         itemperpage: this.limit,
-        name: this.querySearch === undefined ? '' : this.querySearch
+        name: this.querySearch === undefined ? '' : this.querySearch,
+        isactive: true
       };
       this.brandService.getList(queryParams).subscribe(response => {
         this.brandList.data = this.brandList.data.concat(response.data);

@@ -20,7 +20,12 @@
               </tr>
           </thead>
           <tbody>
-              <tr *ngFor="let item of list.data">
+                <tr>
+                        <td><input class="form-control" placeholder="Search Name" [(ngModel)]="search"></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+              <tr *ngFor="let item of list.data | searchPipe:'name':search ">
                   <td>
                       <div *ngIf="idEdit!=item.attributeId">{{item.name}}</div> 
                       <input type="text" *ngIf="idEdit==item.attributeId" [(ngModel)]="name" class="form-control">
