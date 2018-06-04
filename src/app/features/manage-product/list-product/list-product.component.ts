@@ -5,6 +5,7 @@ import { ManageProductService } from '../../../@core/services/manage-product/man
 import { ManageProduct, revise, ListBrand, listingCategory, listingProduct, detailListingProduct, deetailProd, dataListingCategory } from '../../../@core/models/manage-product/manage-product';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {Observable} from 'rxjs';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, filter, merge} from 'rxjs/operators';
@@ -120,6 +121,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   listCat3: ListCategory = new ListCategory();
   isAdd: boolean;
   brandName;
+  modalRef: NgbModalRef;
 
   isC2: boolean;
   isC3: boolean;
@@ -337,7 +339,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
       backdrop: false,
       size: 'lg'
     }
-    this.modalService.open(content, options);
+    this.modalRef = this.modalService.open(content, { size: 'lg' });
     this.prodId = e;
     this.prodService.getDetailProduct(e).subscribe(detail => {
       this.listDetailProd = detail.data;
@@ -513,6 +515,8 @@ export class ListProductComponent implements OnInit, OnDestroy {
                 swal(
                   postDa.message
                 )
+
+          this.modalRef.close();
                
                 
                 
@@ -549,6 +553,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
                 swal(
                   postDa.message 
                 )
+                this.modalRef.close();
               });
             } else if (
               // Read more about handling dismissals
@@ -612,6 +617,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
             swal(
               postDa.message 
             )
+            this.modalRef.close();
           });
         } else if (
           // Read more about handling dismissals
