@@ -108,6 +108,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   public rowSelected: number;
 
   check: boolean;
+  results = [];
 
   typeCat: string;
   typeCat2: string;
@@ -159,7 +160,8 @@ export class ListProductComponent implements OnInit, OnDestroy {
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
       const queryParams = {
         page: this.currentPage,
-        itemperpage: 10
+        itemperpage: 10,
+        ob : 'custom'
       }
       this.dataTes(queryParams);
     });
@@ -172,6 +174,27 @@ export class ListProductComponent implements OnInit, OnDestroy {
     this.getDataC1();
  
   
+  }
+
+  searchK(event) {
+    const key = event.target.value;
+    console.log(key);
+    const queryParams = {
+      page: this.currentPage,
+      itemperpage: 10,
+      name: key,
+      ob : 'custom'
+    }
+    console.log(event);
+    if (key === '' || event.key === 'Enter') {
+      this.prodService.getDataListing(queryParams).subscribe(response => {
+        this.listProduct = response;
+      });
+    } else {
+      this.prodService.getDataListing(queryParams).subscribe(data => {
+        this.listProduct = data;
+      });
+    }
   }
 
   private loadData() {

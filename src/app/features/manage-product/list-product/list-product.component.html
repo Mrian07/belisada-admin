@@ -16,13 +16,13 @@
                 </thead>
                 <tbody>
                         <tr>
-                                <td><input class="form-control" placeholder="Search Name" [(ngModel)]="createdDate"></td>
-                                <td><input class="form-control" placeholder="Search Name" [(ngModel)]="storeName"></td>
-                                <td><input class="form-control" placeholder="Search Name" [(ngModel)]="name"></td>
+                                <td><input class="form-control" placeholder="Search Created Data" [(ngModel)]="createdDate"></td>
+                                <td><input class="form-control"  placeholder="Search Store Name" [(ngModel)]="storeName"></td>
+                                <td><input class="form-control" placeholder="Search Name" (keyup)="searchK($event)"></td>
                                 <td></td>
                                 <td></td>
                             </tr>
-                    <ng-container *ngFor="let obj of listProduct.data | searchPipe:'createdDate':createdDate  | searchPipe:'storeName':storeName | searchPipe:'name':name">
+                    <ng-container *ngFor="let obj of listProduct.data | searchPipe:'createdDate':createdDate  | searchPipe:'storeName':storeName">
                         <tr (click)="open(content,obj.productId, obj.brandId, obj.categoryOneId, obj.categoryTwoId, obj.categoryThreeId, obj.brandName)">
                             <td>{{ rubah(obj.createdDate)}}</td>
                             <td>{{ obj.storeName }}</td>
