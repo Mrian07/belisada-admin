@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
 
   user: any;
 
-  userMenu = [{ title: 'Profile', link:'/profile' }, { title: 'Log out' , link:'#' }];
+  userMenu = [{ title: 'Profile', link:'/profile' }, { title: 'Log out' , link: '/profile/logout' }];
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
