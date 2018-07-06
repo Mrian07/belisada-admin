@@ -20,6 +20,8 @@ export class BuyerListComponent implements OnInit {
 
   status: boolean;
 
+  private rowSelected: number;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -37,6 +39,7 @@ export class BuyerListComponent implements OnInit {
         itemperpage: 10
       }
       this.manageBuyerService.getBuyerList(queryParams).subscribe(response => {
+        console.log('isi', response);
         this.buyerPaging = response;
         this.lastPage = this.buyerPaging.pageCount;
         for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
@@ -66,4 +69,18 @@ export class BuyerListComponent implements OnInit {
     });
 
   }
+
+  public openCloseRow(idReserva: number): void {
+    
+    if (this.rowSelected === -1) {
+      this.rowSelected = idReserva
+    } else {
+      if (this.rowSelected == idReserva) {
+        this.rowSelected = -1
+      } else {
+        this.rowSelected = idReserva
+      }
+    }
+  }
+
 }
