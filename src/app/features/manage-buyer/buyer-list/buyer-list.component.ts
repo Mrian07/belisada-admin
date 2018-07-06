@@ -18,6 +18,8 @@ export class BuyerListComponent implements OnInit {
   lastPage: number;
   pages: any = [];
 
+  status: boolean;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -36,7 +38,6 @@ export class BuyerListComponent implements OnInit {
       }
       this.manageBuyerService.getBuyerList(queryParams).subscribe(response => {
         this.buyerPaging = response;
-        console.log('this.buyerPaging.data: ', this.buyerPaging.data);
         this.lastPage = this.buyerPaging.pageCount;
         for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
           if (r > 0 && r <= this.buyerPaging.pageCount) {
@@ -52,5 +53,17 @@ export class BuyerListComponent implements OnInit {
     if (page < 1 || page > this.buyerPaging.pageCount) { return false; }
     this.router.navigate(['/buyer/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
+  }
+
+  action(id,status){
+    const data = {
+      isSuspended: status,
+      userId: id
+    }
+
+    this.manageBuyerService.suspendBuyer(data).subscribe(response => {
+      this.ngOnInit();
+    });
+
   }
 }

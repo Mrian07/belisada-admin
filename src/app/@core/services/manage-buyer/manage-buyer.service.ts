@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Configuration } from '../../config/configuration';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BuyerPaging } from '../../models/manage-buyer/manage-buyer.model';
+import { BuyerPaging, SuspendBuyer } from '../../models/manage-buyer/manage-buyer.model';
 
 @Injectable()
 export class ManageBuyerService {
@@ -17,5 +17,10 @@ export class ManageBuyerService {
     });
     return this.http.get(this.configuration.apiURL + '/manage/buyer', {params: params})
       .map(resp => resp as BuyerPaging);
+  }
+
+  suspendBuyer(data): Observable<SuspendBuyer> {
+    return this.http.put(this.configuration.apiURL + '/manage/buyer/suspended', data)
+    .map(response => response as SuspendBuyer);
   }
 }

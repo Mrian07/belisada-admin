@@ -30,7 +30,10 @@
                     <td>{{ item.dateOfJoin }}</td>
                     <td>{{ item.gender }}</td>
                     <td>{{ item.spent }}</td>
-                    <td>-</td>
+                    <td>
+                        <label ngbButtonLabel class="btn btn-danger btn-tn" (click)="action(item.userId,'true')" *ngIf="item.isSuspended==false"><i class="fa fa-times-circle"></i> Suspended</label>
+                        <label ngbButtonLabel class="btn btn-success btn-tn" (click)="action(item.userId,'false')" *ngIf="item.isSuspended==true"><i class="fa fa-check-circle"></i> Unsuspended</label>
+                    </td>
                 </tr>
             </tbody>
         </table>
