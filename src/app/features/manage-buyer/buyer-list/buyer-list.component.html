@@ -29,7 +29,7 @@
                 </div>
                 <ng-template #please>
                     <ng-container *ngFor="let item of buyerPaging.data | searchPipe:'name':search | searchPipe:'email':emailAddress | searchPipe:'dateOfJoin':dateJoin | searchPipe:'gender':gender">
-                        <tr (click)="openCloseRow(item.userId)" (click)="getCharacter(item.userId)">
+                        <tr (click)="openCloseRow(item.userId)">
                             <td>{{ item.name }}</td>
                             <td>{{ item.email }}</td>
                             <td>{{ item.dateOfJoin }}</td>
@@ -53,11 +53,11 @@
                                             <td>Tanggal Daftar: {{ item.dateOfJoin }}<br>
                                                 Nama: {{ item.name }}<br>
                                                 Email: {{ item.email }}<br>
-                                                Tanggal Lahir: ...<br>
+                                                Tanggal Lahir: {{ item.dateOfBirth }}<br>
                                                 Jenis Kelamin: {{ item.gender }}<br>
-                                                Handphone:.... <br>
-                                                Alamat:....<br>
-                                                Suspenden:....<br>
+                                                Handphone: {{ item.phone }}<br>
+                                                Alamat: {{ item.primaryAddress }}<br>
+                                                Suspenden: {{ item.isSuspended }}<br>
                                             </td>
                                         </tr>
                                     </tbody>    
