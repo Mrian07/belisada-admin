@@ -62,7 +62,7 @@ export class ManageProductService {
   }
  
   getDataListRevie():Observable<revise[]> {
-    return this.http.get(this.configuration.apiURL + '/manage/reference?code=API')
+    return this.http.get(this.configuration.apiURL + '/manage/reference?code=API&isactive=true')
     .map(res => res as revise[]);
   }
 
