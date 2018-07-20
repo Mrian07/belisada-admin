@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ManageProduct, revise, ListBrand, listingCategory, listingProduct, detailListingProduct, deetailProd, putProduct } from '../../models/manage-product/manage-product';
 import { Configuration } from '../../config/configuration';
+
 @Injectable()
 export class ManageProductService {
 
@@ -69,5 +70,6 @@ export class ManageProductService {
   postToko(data): Observable<putProduct> {
     return this.http.put(this.configuration.apiURL + '/manage/product/approval/update', data)
     .map(response => response as putProduct);
-}
+  }
+
 }

@@ -3,6 +3,8 @@ import swal from 'sweetalert2';
 import { ShareMessageService } from './../../../@core/services/share-message/share-message.service';
 import { SpecService } from './../../../@core/services/spec/spec.service';
 
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+
 @Component({
   selector: 'spec-add',
   templateUrl: './spec-add.component.html',
@@ -10,15 +12,24 @@ import { SpecService } from './../../../@core/services/spec/spec.service';
 })
 export class SpecAddComponent implements OnInit {
 
+  public signUpForm: FormGroup;
+  name: string;
+
   constructor(
     public shareMessageService: ShareMessageService,
-    public specService: SpecService
+    public specService: SpecService,
+    public form: FormBuilder,
   ) { }
 
   ngOnInit() {
+    this.buildForm();
   }
 
-  name: string;
+  public buildForm() {
+    this.signUpForm = this.form.group({
+      name: ['', [Validators.required]]
+    });
+  }
 
   save(){
     if(this.name=='' || this.name==undefined){

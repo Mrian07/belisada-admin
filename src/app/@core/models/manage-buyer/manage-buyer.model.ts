@@ -13,3 +13,8 @@ export class BuyerPaging {
     dataCount: number;
     pageCount: number;
 }
+
+export class SuspendBuyer{
+    isSuspended: boolean;
+    userId: number;
+}

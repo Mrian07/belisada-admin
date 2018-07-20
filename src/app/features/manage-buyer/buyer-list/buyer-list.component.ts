@@ -18,6 +18,10 @@ export class BuyerListComponent implements OnInit {
   lastPage: number;
   pages: any = [];
 
+  status: boolean;
+
+  private rowSelected: number;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -35,8 +39,8 @@ export class BuyerListComponent implements OnInit {
         itemperpage: 10
       }
       this.manageBuyerService.getBuyerList(queryParams).subscribe(response => {
+        console.log('isi', response);
         this.buyerPaging = response;
-        console.log('this.buyerPaging.data: ', this.buyerPaging.data);
         this.lastPage = this.buyerPaging.pageCount;
         for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
           if (r > 0 && r <= this.buyerPaging.pageCount) {
@@ -53,4 +57,30 @@ export class BuyerListComponent implements OnInit {
     this.router.navigate(['/buyer/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }
+
+  action(id,status){
+    const data = {
+      isSuspended: status,
+      userId: id
+    }
+
+    this.manageBuyerService.suspendBuyer(data).subscribe(response => {
+      this.ngOnInit();
+    });
+
+  }
+
+  public openCloseRow(idReserva: number): void {
+    
+    if (this.rowSelected === -1) {
+      this.rowSelected = idReserva
+    } else {
+      if (this.rowSelected == idReserva) {
+        this.rowSelected = -1
+      } else {
+        this.rowSelected = idReserva
+      }
+    }
+  }
+
 }

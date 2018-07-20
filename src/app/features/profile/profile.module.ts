@@ -6,6 +6,7 @@ import { ProfileComponent } from './profile.component';
 import { AccountComponent } from './account/account.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../@theme/theme.module';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { ThemeModule } from '../../@theme/theme.module';
     ReactiveFormsModule,
     ProfileRoutingModule
   ],
-  declarations: [ProfileComponent, AccountComponent]
+  declarations: [ProfileComponent, AccountComponent, LogoutComponent]
 })
 export class ProfileModule { }
