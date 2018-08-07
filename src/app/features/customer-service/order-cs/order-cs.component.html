@@ -1,0 +1,64 @@
+<div class="frame-title">
+  <div>
+    Produk
+  </div>
+  <div>
+    Qty
+  </div>
+  <div>
+    Jumlah uang
+  </div>
+  <div>
+    Status
+  </div>
+  <div>
+    Jasa Pengiriman
+  </div>
+</div>
+<div class="frame-contain" *ngFor="let item of listOrder">
+  <div class="nm-buyer">
+      <div class="row">
+        <div class="col-6">
+       {{ item.storeName }}
+        </div>
+        <div class="col-6 right">
+          No Pesanan :  {{ item.orderNumber }}
+        </div>
+      </div>
+    </div>
+  <div class="cont-buyer">
+    <div class="frame-cont">
+        <div>
+          <div class="cart" *ngFor="let itemChild of item.cartItems">
+            <div>
+              <img class="w__image--for-item-chiled" [src]='imagenich+itemChild.imageUrl' border="0" width="100">
+            </div>
+            <div>
+              <span class="nm-item"> {{ itemChild.name }}</span>
+              <span class="sku-item"> {{ itemChild.sku }}</span>
+            </div>
+            <div class="qty-item">
+               x {{ itemChild.quantity }}
+            </div>
+          </div>
+        </div>
+        <div>
+          <span class="uang-item"> {{ item.subTotal | currency:'Rp ' }}</span>
+          <span class="small-text"> {{ item.paymentMethod }}</span>
+        </div>
+        <div>
+          <span class="blue-text"> {{ item.statusOrder }}</span>
+          <span class="small-text"> {{ item.statusPlaceHolderOrderSeller }}</span>
+        </div>
+        <div>
+            <span class="nm-item-courier"> {{ item.courierCode }} <span class="print-order"> {{ item.courierService }}</span></span>
+            <!-- <span class="small-text">Cetak Label Pengiriman</span> -->
+        </div>
+        <div>
+            <div class="btn-order">
+              Hubungi Seller
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

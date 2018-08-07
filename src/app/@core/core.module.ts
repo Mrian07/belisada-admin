@@ -1,3 +1,4 @@
+import { OrderSeService } from './services/order-service/order-se.service';
 import { SpecService } from './services/spec/spec.service';
 import { CategoryService } from './services/category/category.service';
 import { ShareMessageService } from './services/share-message/share-message.service';
@@ -93,6 +94,7 @@ const BELISADA_PROVIDERS = [
   CategoryService,
   ManageProductService,
   SpecService,
+  OrderSeService
 ]
 
 @NgModule({
