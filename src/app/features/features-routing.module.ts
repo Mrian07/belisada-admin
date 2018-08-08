@@ -42,7 +42,7 @@ const routes: Routes = [{
       loadChildren: './manage-product/manage-product.module#ManageProductModule',
     },
     {
-      path: 'cs',
+      path: 'order',
       loadChildren: './customer-service/customer.module#CsModule',
     }
   ]

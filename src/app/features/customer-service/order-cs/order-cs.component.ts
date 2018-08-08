@@ -20,7 +20,7 @@ export class OrderCsComponent implements OnInit {
   ngOnInit() {
     this.orderSe.getList().subscribe(respon => {
       this.listOrder = respon.content;
-      console.log('asdasdasd', respon.content);
+      console.log('asdasdasd', respon);
     });
 
   }

@@ -1,6 +1,6 @@
 .frame-title{
   display: grid;
-  grid-template-columns: 330px 80px 159px 140px 1fr;
+  grid-template-columns: 330px 80px 351px 212px 1fr;
   margin-top:20px;
   font-size: 12px;
 }
@@ -92,3 +92,12 @@
 .w__image--for-item-chiled {
   padding-bottom: 5px;
 }
+@media screen and (max-width: 1440px) {
+  .frame-title{
+    display: grid;
+    grid-template-columns: 333px 80px 182px 140px 1fr;
+    margin-top:20px;
+    font-size: 12px;
+  }
+}
+
