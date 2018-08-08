@@ -1,6 +1,7 @@
 export class Transaction {
   content: Content[];
   grandTotal: number;
+  totalPages: number;
 }
 
 export class Content {

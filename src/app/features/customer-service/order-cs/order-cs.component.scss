@@ -92,6 +92,56 @@
 .w__image--for-item-chiled {
   padding-bottom: 5px;
 }
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+.pagination a:hover:not(.active) {background-color: #ddd;}
+.paging {
+  padding-bottom: 3%;
+    margin-top: 3%;
+}
+.paging ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: center;
+}
+.paging li {
+  display: inline-block;
+}
+.paging a {
+  border: 1px solid #ebeef2;
+  padding: 3px 10px;
+  margin: 0 3px;
+  border-radius: 5px;
+}
+.paging a.current-page {
+  border: 1px solid #cde;
+  background: #def;
+  color: #999;
+  cursor: default;
+}
+.paging a:not(.disabled):not(.current-page):hover {
+  color: #abc;
+  cursor: pointer;
+  border-color: #cde;
+}
+.paging a.disabled {
+  color: #ccc;
+  cursor: default;
+}
 @media screen and (max-width: 1440px) {
   .frame-title{
     display: grid;
@@ -100,4 +150,5 @@
     font-size: 12px;
   }
 }
+
 
