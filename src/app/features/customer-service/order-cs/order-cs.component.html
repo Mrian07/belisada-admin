@@ -1,4 +1,4 @@
-<div class="frame-title">
+<!-- <div class="frame-title">
   <div>
     Produk
   </div>
@@ -52,7 +52,6 @@
         </div>
         <div>
             <span class="nm-item-courier"> {{ item.courierCode }} <span class="print-order"> {{ item.courierService }}</span></span>
-            <!-- <span class="small-text">Cetak Label Pengiriman</span> -->
         </div>
         <div>
             <div class="btn-order">
@@ -80,4 +79,148 @@
           <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
       </li>
   </ul>
+</div> -->
+
+
+<!-- <div *ngIf="isLoading==true">
+  <div class="load-wrapp">
+      <div class="load-4">
+          <p>Loading...</p>
+          <div class="ring-1"></div>
+      </div>
+  </div>
+</div> -->
+
+<!-- <div *ngIf="isEmpty==true">
+Saat ini belum ada pesanan.
+</div> -->
+
+<div *ngFor="let item of listOrder">
+<div (click)="openOS(openDetail, item.transactionId)"  class="os-head">
+    <div class="row row-atur">
+      <div class="col-3">
+          <div class="text-order">
+            {{ item.expiredTime }}
+          </div>
+      </div>
+      <div class="col-6">
+          <!-- <div class="text-rek" (click)="showDialogRek = !showDialogRek">Lihat Nomor Rekening Belisada <fa-icon [icon]="['fas', 'credit-card']"></fa-icon></div> -->
+      </div>
+      <div class="col-3">
+
+      </div>
+    </div>
+    <div class="row row-atur">
+      <div class="col-3">
+          <div class="text-payid">Payment ID:  {{ item.paymentNumber  }}</div>
+      </div>
+      <div class="col-7">
+
+          <div class="text-payinfo">Payment: <span id="text-tunggu"> {{ item.paymentMethod }}</span>
+          </div>
+      </div>
+      <div class="col-2">
+        <div class="text-progress">{{ item.status }}</div>
+      </div>
+    </div>
 </div>
+<div *ngIf="openDetail==true && transactionId==item.transactionId" class="os-body">
+
+  <table border="0" width="100%" *ngFor="let itemCart of item.transaction" >
+    <tr *ngFor="let itemList of itemCart.cart">
+      <td valign="top" width="20%">
+        <span class="order-id">ORDER ID: {{ itemList.orderNumber }}</span>
+        <table border="0" width="100%">
+          <tr *ngFor="let itemListProduct of itemList.cartItems">
+            <td valign="top" width="40%">
+                <div class="img-item"><img [src]="imagenich + itemListProduct.imageUrl" border="0"></div>
+            </td>
+            <td valign="top" width="60%">
+                <div class="item-colom"> {{ itemListProduct.name }} x{{ itemListProduct.quantity }}</div>
+                <div class="item-colom"> {{ itemListProduct.total | currency:'Rp ' }}</div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td valign="top" width="35%">
+        <div class="item-colom-border">
+          <div class="row">
+            <div class="col-6">
+              Nama Penerima: <br><label>  {{ itemList.namaPenerima }}</label>
+            </div>
+            <div class="col-6">
+              No Handphone: <br><label> {{ itemList.phonePenerima }}</label>
+            </div>
+          </div>
+
+          Alamat:<br><label> {{ itemList.alamatPenerima }}</label>
+
+        </div>
+      </td>
+      <td valign="top" width="15%">
+        <div class="item-colom">
+          <div class="row">
+            <div class="col-12">
+              <label>No Resi: {{ itemList.noResi }}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <label>Status: {{ itemList.statusOrder }}</label>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td width="40%">
+        <span class="btn-konfirm">
+          Hubungi Seller
+        </span>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+<div class="paging">
+  <ul>
+      <li>
+          <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
+      </li>
+      <li>
+          <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
+      </li>
+      <li *ngFor="let p of pages">
+          <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
+      </li>
+      <li>
+          <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+      </li>
+      <li>
+          <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+      </li>
+  </ul>
+</div>
+
+
+<modal [(visible)]="showDialog" class="frameDialog">
+<div class="modal-body">
+
+  <div>
+
+    <div class="title-modal">Upload Bukti Transfer Anda</div>
+
+    <div class="image">
+      <!-- <img src="{{imgBuktiTransfer}}" alt="Profile Picture" class="img-avatar" (load)="setCanvas($event,'imgBuktiTransfer')" #avaImg /> -->
+    </div>
+
+    <div class="upload-btn-wrapper" >
+        <div class="btn-konfirm">Pilih Bukti Transfer</div>
+    </div>
+    <div class="btn-upload">Klik disini untuk unggah bukti transfer</div>
+
+  </div>
+  <div class="isSuccess">
+      <div class="title-modal">Upload Bukti Transfer Berhasil</div>
+      <div class="text-success">berhasil.</div>
+  </div>
+</div>
+</modal>

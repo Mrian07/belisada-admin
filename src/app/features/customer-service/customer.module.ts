@@ -1,3 +1,4 @@
+import { ModalComponent } from './../manage-product/modal/modal.component';
 import { customerSroutingmodule } from './customer-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,6 +15,6 @@ import { OrderCsComponent } from './order-cs/order-cs.component';
     ReactiveFormsModule,
     customerSroutingmodule
   ],
-  declarations: [CustomerSComponent,OrderCsComponent]
+  declarations: [CustomerSComponent,OrderCsComponent,ModalComponent]
 })
 export class CsModule { }

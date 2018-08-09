@@ -14,6 +14,8 @@ export class OrderCsComponent implements OnInit {
   pages: any = [];
   currentPage: any;
   lastPage: number;
+  openDetail: boolean;
+  transactionId: number;
 
   constructor(
     private orderSe: OrderSeService,
@@ -38,17 +40,19 @@ export class OrderCsComponent implements OnInit {
   }
 
 
+
   private getData(queryParams: { page: any; itemperpage: number; }) {
     this.orderSe.getList(queryParams).subscribe(respon => {
       this.listOrder = respon.content;
       this.lastPage = respon.totalPages;
+      console.log('asdasdasd', respon.content);
       for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
         if (r > 0 && r <= this.lastPage) {
           this.pages.push(r);
         }
       }
       console.log('queryParams', queryParams);
-      console.log('asdasdasd', respon);
+
     });
 
   }
@@ -57,5 +61,14 @@ export class OrderCsComponent implements OnInit {
     if (page < 1 || page > this.lastPage) { return false; }
     this.router.navigate(['/order/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
+  }
+  openOS(status, transactionId) {
+    if (status === true) {
+      this.transactionId = transactionId;
+      this.openDetail = false;
+    } else {
+      this.transactionId = transactionId;
+      this.openDetail = true;
+    }
   }
 }

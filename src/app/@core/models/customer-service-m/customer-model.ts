@@ -5,6 +5,7 @@ export class Transaction {
 }
 
 export class Content {
+  transactionId: number;
   alamatPenerima: string;
   alamatSebagai: string;
   asuransi: number;
@@ -26,7 +27,7 @@ export class Content {
   paymentMethod: string;
   paymentNumber: string;
   phonePenerima: string;
-
+  transaction: transaction[];
   shipNumber: string;
   shippingAddressId: number;
   statusOrder: string;
@@ -39,6 +40,43 @@ export class Content {
   total: number;
   totalWeight: number;
   useAsuransi: boolean;
+}
+export class transaction {
+  cart: cart[];
+  grandTotal: number;
+}
+export class cart {
+  alamatPenerima: string;
+  alamatSebagai: string;
+  asuransi: number;
+  cartItems: CartItems[];
+  courierCode: string;
+  courierName: string;
+  courierPrice: number;
+  courierService: string;
+  destinationId: number;
+  invoiceNumber: string;
+  namaPenerima: string;
+  noResi: string;
+  orderNumber: string;
+  originId: number;
+  paymentMethod: string;
+  paymentNumber: string;
+  phonePenerima: string;
+  shipNumber: string;
+  shippingAddressId: number;
+  statusOrder: string;
+  statusOrderCode: string;
+  statusTracking: string;
+  storeId: number;
+  storeName: string;
+  storeUrl: string;
+  subTotal: number;
+  total: number;
+  totalWeight: number;
+  useAsuransi: boolean;
+
+
 }
 
 export class Destinations {

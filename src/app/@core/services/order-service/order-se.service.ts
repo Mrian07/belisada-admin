@@ -16,7 +16,7 @@ export class OrderSeService {
     Object.keys(queryParams).forEach(function(k){
       params = params.append(k, queryParams[k]);
     });
-    return this.http.get(this.configuration.apiURL + '/order', {params: params})
+    return this.http.get(this.configuration.apiURL + '/order/v2', {params: params})
     .map(resp => resp as Transaction);
     }
 }
