@@ -137,7 +137,7 @@ Saat ini belum ada pesanan.
             </td>
             <td valign="top" width="60%">
                 <div class="item-colom"> {{ itemListProduct.name }} x{{ itemListProduct.quantity }}</div>
-                <div class="item-colom"> {{ itemListProduct.total | currency:'Rp ' }}</div>
+                <div class="item-colom"> {{ itemListProduct.subtotal | currency:'Rp ' }}</div>
             </td>
           </tr>
         </table>
@@ -171,7 +171,29 @@ Saat ini belum ada pesanan.
           </div>
         </div>
       </td>
-      <td width="40%">
+      <td valign="top" width="15%">
+        <div class="item-colom">
+          <div class="row">
+            <div class="col-12">
+              <label>Metode Pengiriman: {{ itemList.courierCode }}</label>
+            </div>
+          </div>
+        </div>
+        <div class="item-colom">
+          <div class="row">
+            <div class="col-12">
+              <label>Total Berat: {{ itemList.totalWeight }} gr</label>
+            </div>
+          </div>
+        </div>
+      </td>
+
+      <td width="20%">
+          <div class="row">
+              <div class="col-12">
+                <label>Total Berat: {{ itemList.courierPrice | currency:'Rp ' }}</label>
+              </div>
+            </div>
         <span class="btn-konfirm">
           Hubungi Seller
         </span>
