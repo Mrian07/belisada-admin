@@ -35,7 +35,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   modalHeader: string;
   myForm: FormGroup;
   form: FormGroup;
-  
+
   closeResult: string;
   data: ManageProduct[];
   model: any;
@@ -63,7 +63,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
   ss: any[];
   ticks =0;
-  
+
   /* method post
   */
   brandId : number;
@@ -73,7 +73,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   version: number;
   /* akhir dari method post
   */
-  
+
  start = 0;
  end = 0;
  total = 0;
@@ -114,7 +114,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   typeCat2: string;
   typeCat3: string;
   titlePopUp: string;
-  
+
   parentC1: number;
   parentC2: number;
   listCat1: ListCategory = new ListCategory();
@@ -140,12 +140,12 @@ export class ListProductComponent implements OnInit, OnDestroy {
   listDetailProd: detailListingProduct[] = [];
 
   constructor(private modalService: NgbModal,
-     private prodService: ManageProductService, 
-     private el: ElementRef, 
-     private manage: 
-     ManageStoreService,  
+     private prodService: ManageProductService,
+     private el: ElementRef,
+     private manage:
+     ManageStoreService,
     private categoryService: CategoryService,
-     private brandService: BrandService, 
+     private brandService: BrandService,
      private fb: FormBuilder,
      private activatedRoute: ActivatedRoute,
      private router: Router) {
@@ -153,7 +153,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
      }
 
   ngOnInit() {
-    
+
     this.brandInit();
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
@@ -165,15 +165,15 @@ export class ListProductComponent implements OnInit, OnDestroy {
       }
       this.dataTes(queryParams);
     });
-   
+
     this.loadData();
     this.newMethod();
     this.form_All();
-    
+
     this.isChecked = true;
     this.getDataC1();
- 
-  
+
+
   }
 
   searchK(event) {
@@ -208,7 +208,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
       page: this.currentPage,
       itemperpage: 10
     };
-  
+
   }
 
   setPage(page: number, increment?: number) {
@@ -219,7 +219,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   }
 
   rubah(e){
-    const r = 
+    const r =
     e.replace(new RegExp('/', 'g'), ' - ');
     return r;
   }
@@ -279,17 +279,17 @@ export class ListProductComponent implements OnInit, OnDestroy {
   getDataC1() {
        const queryParams = {
       type: 'C1',
-      all:'true'
+      isActive: 'true'
     }
     this.categoryService.getCategory(queryParams).subscribe(data => {
         this.c1 = data;
     });
   }
-  
+
   getDatac2Oke(id) {
     const queryParams = {
       parentid: id,
-      all:'true'
+      isActive: 'true'
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
@@ -299,7 +299,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   getDataC2(id, cb) {
     const queryParams = {
       parentid: this.cat1Ni,
-      all:'true'
+      isActive: 'true'
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
@@ -310,7 +310,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   getDataC3(id, callback) {
     const queryParams = {
       parentid: id,
-      all:'true',
+      isActive: 'true',
       type: "C3"
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
@@ -323,9 +323,9 @@ export class ListProductComponent implements OnInit, OnDestroy {
     });
   }
 
- 
+
   onFocusOut() {
-    
+
     setTimeout(() => { this.onTextFocus = false }, 200)
   }
 
@@ -345,18 +345,18 @@ export class ListProductComponent implements OnInit, OnDestroy {
   }
 
   selectBrand(brand) {
-    
+
     this.brandId = brand.brandId;
     this.txtSearch = brand.name;
     this.productBrandId = brand.m_productbrand_id;
   }
-  
 
-  
+
+
   open(content, e, bId, cat1, cat2, cat3, BN) {
     this.brandName = BN;
     this.txtSearch = BN;
-    
+
     this.brandInit();
     let options: NgbModalOptions = {
       backdrop: false,
@@ -382,8 +382,8 @@ export class ListProductComponent implements OnInit, OnDestroy {
         c2: this.const2
       });
     })
-    
-   
+
+
 
     this.getDataC3(cat2, () => {
       const const3: number = this.c3.data.find(x => x.categoryId === cat3).categoryId;
@@ -393,12 +393,12 @@ export class ListProductComponent implements OnInit, OnDestroy {
       });
     })
     // this.brandInit();
-    
-   
+
+
     this.sel = e;
 
   }
-  
+
 
   c1Change(a) {
 
@@ -423,7 +423,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
     this.categoryService.getCategory(oke).subscribe(data =>{
       this.c3 = data;
     });
-    
+
   }
 
   c2Change(b){
@@ -449,8 +449,8 @@ export class ListProductComponent implements OnInit, OnDestroy {
       this.c3 = data;
     });
   //   this.getC1.get('c2').valueChanges.subscribe(val => {
-  
-  
+
+
   // });
   //   this.let = b;
   //   this.getDataC3(b, () => {
@@ -483,10 +483,10 @@ export class ListProductComponent implements OnInit, OnDestroy {
     this.isSubscribe = new FormControl(!this.isSubscribe.value);
 
   }
-  
+
   onScrollDown () {
     const scr = window.document.querySelector('#drick-scroll-container');
-   
+
     if (scr.scrollHeight - scr.clientHeight === Math.round(scr.scrollTop)) {
       const queryParams = {
         page: this.current += 1,
@@ -499,12 +499,12 @@ export class ListProductComponent implements OnInit, OnDestroy {
       });
     }
   }
-  
-
-  
 
 
-  
+
+
+
+
   Selected(value: any, ver: any) {
     this.select = value;
     this.version = ver;
@@ -516,7 +516,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
       statusCode: this.select,
       version: this.version
     };
-    if (value == 'AP') {  
+    if (value == 'AP') {
         {
           swal({
             title: 'Are you sure?',
@@ -540,9 +540,9 @@ export class ListProductComponent implements OnInit, OnDestroy {
                 )
 
           this.modalRef.close();
-               
-                
-                
+
+
+
               });
             } else if (
               // Read more about handling dismissals
@@ -550,8 +550,8 @@ export class ListProductComponent implements OnInit, OnDestroy {
             ) {
             }
           });
-      
-      
+
+
         }
     }
     if (value === 'RJ') {
@@ -574,7 +574,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
               const newLocal = this.prodService.postToko(a).subscribe(postDa => {
                 this.getProduct(this.currentPage);
                 swal(
-                  postDa.message 
+                  postDa.message
                 )
                 this.modalRef.close();
               });
@@ -584,15 +584,15 @@ export class ListProductComponent implements OnInit, OnDestroy {
             ) {
             }
           });
-      
-      
+
+
         }
     }
     this.brandList;
   }
   onChange(email: any, isChecked: boolean) {
     const emailFormArray = < FormArray > this.myForm.controls.useremail;
-    
+
     if (isChecked) {
       emailFormArray.push(new FormControl(email));
       this.ss = email;
@@ -607,7 +607,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   }
 
 
-  
+
   oke(verc, besc) {
      const p =  {
       approvalProductIssue: this.myForm.value.useremail,
@@ -638,7 +638,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
             this.getProduct(this.currentPage);
             this.check = false;
             swal(
-              postDa.message 
+              postDa.message
             )
             this.modalRef.close();
           });
@@ -649,16 +649,16 @@ export class ListProductComponent implements OnInit, OnDestroy {
           alert('bb')
         }
       });
-  
-  
+
+
     }
     this.myForm.setControl('useremail', new FormArray([]));
      this.myForm.reset();
      this.check = true;
      this.txtSearch = '';
-    
+
   }
-  
+
   private newMethod_1() {
     this.check = true;
   }
@@ -690,7 +690,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
     this.newMethod();
     this.form_All();
     this.getDataC1();
-  } 
+  }
 
   hanya(e) {
     this.futu = e;
