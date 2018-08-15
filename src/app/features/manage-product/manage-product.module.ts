@@ -6,7 +6,7 @@ import { ListProductComponent } from './list-product/list-product.component';
 import { ProductComponent } from './product.component';
 import { ThemeModule } from '../../@theme/theme.module';
 import { FormsModule } from '../../pages/forms/forms.module';
-import { ModalComponent } from './modal/modal.component';
+// import { ModalMPComponent } from './modal/modal-mp.component';
 
 @NgModule({
   imports: [
@@ -15,6 +15,6 @@ import { ModalComponent } from './modal/modal.component';
     FormsModule,
     ManageProductRoutingModule
   ],
-  declarations: [ListProductComponent, ProductComponent, ModalComponent]
+  declarations: [ListProductComponent, ProductComponent]
 })
 export class ManageProductModule { }

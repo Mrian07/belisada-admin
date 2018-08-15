@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 })
 export class SpecAddComponent implements OnInit {
 
-  public signUpForm: FormGroup;
+  public myForm: FormGroup;
   name: string;
 
   constructor(
@@ -26,9 +26,13 @@ export class SpecAddComponent implements OnInit {
   }
 
   public buildForm() {
-    this.signUpForm = this.form.group({
+    this.myForm = this.form.group({
       name: ['', [Validators.required]]
     });
+  }
+
+  register(myForm) {
+    console.log('myForm: ', myForm);
   }
 
   save(){

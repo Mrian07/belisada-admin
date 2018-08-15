@@ -267,7 +267,7 @@ export class StoreListComponent {
     });
   }
 
-  approvedBy(tes) {
+  approvedBy() {
     this.listToko.data.sort((a, b) => {
       if (a.verifiedByName < b.verifiedByName) return -1;
       else if (a.verifiedByName > b.verifiedByName) return 1;

@@ -1,75 +1,75 @@
 <nb-card>
-  <nb-card-header>
-      Spec List
-  </nb-card-header>
+    <nb-card-header>
+        Spec List
+    </nb-card-header>
 
-  <nb-card-body>
-      
-      <p><button type="button" class="btn btn-success btn-rectangle" *ngIf="isAdd!=true" (click)="addList()">ADD BRAND</button>
-          <button type="button" class="btn btn-danger btn-rectangle" *ngIf="isAdd==true" (click)="addListCancel()">CANCEL</button></p>
-      <div *ngIf="isAdd==true"><spec-add></spec-add></div>
-      
+    <nb-card-body>
+        <p>
+            <button type="button" class="btn btn-success btn-rectangle" *ngIf="isAdd!=true" (click)="addList()">ADD BRAND</button>
+            <button type="button" class="btn btn-danger btn-rectangle" *ngIf="isAdd==true" (click)="addListCancel()">CANCEL</button>
+        </p>
+        <div *ngIf="isAdd==true"><spec-add></spec-add></div>
 
-      <table class="table table-bordered table-striped">
-          <thead>
-              <tr>
-                  <th>Nama</th>
-                  <!-- <th (click)="sortBrand()" class="sort">Brand <i class="fa fa-sort"></i></th>-->
-                  <th (click)="sortStatus()" class="sort">Status <i class="fa fa-sort"></i></th>
-                  <th>Action</th>
-              </tr>
-          </thead>
-          <tbody>
+        <table class="table table-bordered table-striped">
+            <thead>
                 <tr>
-                        <td><input class="form-control" placeholder="Search Name" [(ngModel)]="search"></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-              <tr *ngFor="let item of list.data | searchPipe:'name':search ">
-                  <td>
-                      <div *ngIf="idEdit!=item.attributeId">{{item.name}}</div> 
-                      <input type="text" *ngIf="idEdit==item.attributeId" [(ngModel)]="name" class="form-control">
-                  </td>
-                  <td class="align-center"><span *ngIf="item.isActive==true" class="active">Active</span><span *ngIf="item.isActive==false" class="disable">Inactive</span></td>
-                  <td>
-                      <div class="btn-group btn-group-toggle btn-divided-group" data-toggle="buttons" *ngIf="idEdit!=item.attributeId">
-                      <label ngbButtonLabel class="btn btn-primary btn-tn" (click)="edit(item)">
-                          <i class="fa fa-edit"></i> Edit
-                      </label>
-                      <label ngbButtonLabel class="btn btn-primary btn-tn" (click)="changeStatus(item.attributeId,item.isActive)">
-                          <div *ngIf="item.isActive==true"><i class="fa fa-times-circle"></i> Disable</div>
-                          <div *ngIf="item.isActive==false"><i class="fa fa-times-circle"></i> Active</div>
-                      </label>
-                      </div>
-                      <label ngbButtonLabel class="btn btn-success btn-tn" (click)="save(item.attributeId)"  *ngIf="idEdit==item.attributeId">
-                      <i class="fa fa-edit"></i> Save
-                      </label>
-                      <label ngbButtonLabel class="btn btn-danger btn-tn" (click)="cancel()"  *ngIf="idEdit==item.attributeId">
-                      <i class="fa fa-edit"></i> Cancel
-                      </label>
-                  </td>
-              </tr>
-          </tbody>
-      </table>
+                    <th>Nama</th>
+                    <!-- <th (click)="sortBrand()" class="sort">Brand <i class="fa fa-sort"></i></th>-->
+                    <th (click)="sortStatus()" class="sort">Status <i class="fa fa-sort"></i></th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input class="form-control" placeholder="Search Name" [(ngModel)]="search"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr *ngFor="let item of list.data | searchPipe:'name':search ">
+                    <td>
+                        <div *ngIf="idEdit!=item.attributeId">{{item.name}}</div> 
+                        <input type="text" *ngIf="idEdit==item.attributeId" [(ngModel)]="name" class="form-control">
+                    </td>
+                    <td class="align-center"><span *ngIf="item.isActive==true" class="active">Active</span><span *ngIf="item.isActive==false" class="disable">Inactive</span></td>
+                    <td>
+                        <div class="btn-group btn-group-toggle btn-divided-group" data-toggle="buttons" *ngIf="idEdit!=item.attributeId">
+                            <label ngbButtonLabel class="btn btn-primary btn-tn" (click)="edit(item)">
+                                <i class="fa fa-edit"></i> Edit
+                            </label>
+                            <label ngbButtonLabel class="btn btn-primary btn-tn" (click)="changeStatus(item.attributeId,item.isActive)">
+                                <div *ngIf="item.isActive==true"><i class="fa fa-times-circle"></i> Disable</div>
+                                <div *ngIf="item.isActive==false"><i class="fa fa-times-circle"></i> Active</div>
+                            </label>
+                        </div>
+                        <label ngbButtonLabel class="btn btn-success btn-tn" (click)="save(item.attributeId)"  *ngIf="idEdit==item.attributeId">
+                            <i class="fa fa-edit"></i> Save
+                        </label>
+                        <label ngbButtonLabel class="btn btn-danger btn-tn" (click)="cancel()"  *ngIf="idEdit==item.attributeId">
+                            <i class="fa fa-edit"></i> Cancel
+                        </label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-      <div class="paging">
-          <ul>
-              <li>
-                  <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
-              </li>
-              <li>
-                  <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
-              </li>
-              <li *ngFor="let p of pages">
-                  <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
-              </li>
-              <li>
-                  <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
-              </li>
-              <li>
-                  <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
-              </li>
-          </ul>
-      </div>
-  </nb-card-body>
+        <div class="paging">
+            <ul>
+                <li>
+                    <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
+                </li>
+                <li>
+                    <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
+                </li>
+                <li *ngFor="let p of pages">
+                    <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
+                </li>
+                <li>
+                    <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+                </li>
+                <li>
+                    <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+                </li>
+            </ul>
+        </div>
+    </nb-card-body>
 </nb-card>

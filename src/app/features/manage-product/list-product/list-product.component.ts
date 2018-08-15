@@ -74,15 +74,15 @@ export class ListProductComponent implements OnInit, OnDestroy {
   /* akhir dari method post
   */
 
- start = 0;
- end = 0;
- total = 0;
- limits = 12;
- cat1Ni : number;
- ok;
- const2 : number;
- const3 : number;
- let;
+  start = 0;
+  end = 0;
+  total = 0;
+  limits = 12;
+  cat1Ni : number;
+  ok;
+  const2 : number;
+  const3 : number;
+  let;
   futu;
   public isCollapsed = false;
 
@@ -139,18 +139,21 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
   listDetailProd: detailListingProduct[] = [];
 
+  createdDate: string;
+  storeName: string;
+
   constructor(private modalService: NgbModal,
-     private prodService: ManageProductService,
-     private el: ElementRef,
-     private manage:
-     ManageStoreService,
+    private prodService: ManageProductService,
+    private el: ElementRef,
+    private manage:
+    ManageStoreService,
     private categoryService: CategoryService,
-     private brandService: BrandService,
-     private fb: FormBuilder,
-     private activatedRoute: ActivatedRoute,
-     private router: Router) {
-      this.brandList.data = [];
-     }
+    private brandService: BrandService,
+    private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private router: Router) {
+    this.brandList.data = [];
+    }
 
   ngOnInit() {
 

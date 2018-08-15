@@ -16,6 +16,7 @@ export class OrderCsComponent implements OnInit {
   lastPage: number;
   openDetail: boolean;
   transactionId: number;
+  showDialog: boolean;
 
   constructor(
     private orderSe: OrderSeService,

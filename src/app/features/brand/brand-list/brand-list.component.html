@@ -4,11 +4,13 @@
     </nb-card-header>
 
     <nb-card-body>
-        
-        <p><button type="button" class="btn btn-success btn-rectangle" *ngIf="isAdd!=true" (click)="addBrand()">ADD BRAND</button>
-            <button type="button" class="btn btn-danger btn-rectangle" *ngIf="isAdd==true" (click)="addBrandCancel()">CANCEL</button></p>
-        <div *ngIf="isAdd==true"><brand-add></brand-add></div>
-        
+        <p>
+            <button type="button" class="btn btn-success btn-rectangle" *ngIf="isAdd!=true" (click)="addBrand()">ADD BRAND</button>
+            <button type="button" class="btn btn-danger btn-rectangle" *ngIf="isAdd==true" (click)="addBrandCancel()">CANCEL</button>
+        </p>
+        <div *ngIf="isAdd==true">
+            <brand-add></brand-add>
+        </div>
 
         <table class="table table-bordered table-striped">
             <thead>
@@ -20,17 +22,16 @@
                 </tr>
             </thead>
             <tbody>
-                    <tr>
-                        <td></td>
-                            <td><input class="form-control" placeholder="Search Name" [(ngModel)]="nameSearch"></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                          
-                        </tr>
+                <tr>
+                    <td></td>
+                    <td><input class="form-control" placeholder="Search Name" [(ngModel)]="nameSearch"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
                 <tr *ngFor="let item of list.data | searchPipe:'name':nameSearch ">
-                    <td><img src="{{ item.imageUrl }}" border="0" height="100" #avaImg>
-                        
+                    <td>
+                        <img src="{{ item.imageUrl }}" border="0" height="100" #avaImg>
                         <div *ngIf="idEdit==item.brandId">
                             <br>
                             <div class="upload-btn-wrapper">
@@ -46,19 +47,19 @@
                     <td class="align-center"><span *ngIf="item.isActive==true" class="active">Active</span><span *ngIf="item.isActive==false" class="disable">Inactive</span></td>
                     <td>
                         <div class="btn-group btn-group-toggle btn-divided-group" data-toggle="buttons" *ngIf="idEdit!=item.brandId">
-                        <label ngbButtonLabel class="btn btn-primary btn-tn" (click)="edit(item)">
-                            <i class="fa fa-edit"></i> Edit
-                        </label>
-                        <label ngbButtonLabel class="btn btn-primary btn-tn" (click)="changeStatus(item.brandId,item.isActive)">
-                            <div *ngIf="item.isActive==true"><i class="fa fa-times-circle"></i> Disable</div>
-                            <div *ngIf="item.isActive==false"><i class="fa fa-times-circle"></i> Active</div>
-                        </label>
+                            <label ngbButtonLabel class="btn btn-primary btn-tn" (click)="edit(item)">
+                                <i class="fa fa-edit"></i> Edit
+                            </label>
+                            <label ngbButtonLabel class="btn btn-primary btn-tn" (click)="changeStatus(item.brandId,item.isActive)">
+                                <div *ngIf="item.isActive==true"><i class="fa fa-times-circle"></i> Disable</div>
+                                <div *ngIf="item.isActive==false"><i class="fa fa-times-circle"></i> Active</div>
+                            </label>
                         </div>
                         <label ngbButtonLabel class="btn btn-success btn-tn" (click)="save(item.brandId)"  *ngIf="idEdit==item.brandId">
-                        <i class="fa fa-edit"></i> Save
+                            <i class="fa fa-edit"></i> Save
                         </label>
                         <label ngbButtonLabel class="btn btn-danger btn-tn" (click)="cancel()"  *ngIf="idEdit==item.brandId">
-                        <i class="fa fa-edit"></i> Cancel
+                            <i class="fa fa-edit"></i> Cancel
                         </label>
                     </td>
                 </tr>

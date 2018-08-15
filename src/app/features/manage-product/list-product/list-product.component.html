@@ -208,7 +208,7 @@
     
                             </div>
     
-                            <modal [(visible)]="showDialog">
+                            <modal-mp [(visible)]="showDialog">
                                 <form [formGroup]="myForm">
                                     <div *ngIf="check === false; else login">
                                         <div class="padding-for-body" *ngFor="let data of a">
@@ -230,12 +230,11 @@
                                     REVISE 
                                 </button>
                                 <button (click)="showDialog = !showDialog" class="btn">Close</button>
-                            </modal>
+                            </modal-mp>
                         </ng-template>
                     </ng-container>
                 </tbody>
             </table>
-             
         <div class="paging">
             <ul>
                 <li>

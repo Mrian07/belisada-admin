@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, Output, OnChanges, EventEmitter, HostListener } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
-import { Subscription, Observable } from 'rxjs';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { trigger, style, animate, transition } from '@angular/animations';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss'],
+  selector: 'modal-mp',
+  templateUrl: './modal-mp.component.html',
+  styleUrls: ['./modal-mp.component.scss'],
   animations: [
     trigger('dialog', [
       transition('void => *', [
@@ -18,12 +18,12 @@ import { Subscription, Observable } from 'rxjs';
     ])
   ]
 })
-export class ModalComponent implements OnInit {
+export class ModalMPComponent implements OnInit {
   @Input() closable = true;
   @Input() visible: boolean;
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) { 
-   if(event.key === "Escape"){
+  if(event.key === "Escape"){
     this.visible = false;
     this.visibleChange.emit(this.visible);
   }
@@ -45,8 +45,5 @@ export class ModalComponent implements OnInit {
       this.visible = false;
       this.visibleChange.emit(this.visible);
     }
-    
-    
   }
-
 }

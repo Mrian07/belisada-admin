@@ -20,6 +20,12 @@ export class BuyerListComponent implements OnInit {
 
   status: boolean;
 
+  search: string;
+  emailAddress: string;
+  dateJoin: string;
+  gender: string;
+  title: boolean;
+
   private rowSelected: number;
 
   constructor(

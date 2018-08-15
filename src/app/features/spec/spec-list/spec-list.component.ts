@@ -33,6 +33,8 @@ export class SpecListComponent implements OnInit {
   isAdd: boolean;
   flag: string;
 
+  search: string;
+
   constructor(
     public shareMessageService: ShareMessageService,
     private specService: SpecService,
@@ -144,31 +146,31 @@ export class SpecListComponent implements OnInit {
   }
 
   changeStatus(id,status){
-    
-        if(status==false){
-          this.status = true;
-          this.message = "Apakah anda yakin? Karena semua produk dengan brand ini akan ditampilkan."
-        }else{
-          this.status = false;
-          this.message = "Apakah anda yakin? Karena semua produk dengan brand ini akan disembunyikan."
+    if(status==false){
+      this.status = true;
+      this.message = "Apakah anda yakin? Karena semua produk dengan brand ini akan ditampilkan."
+    }else{
+      this.status = false;
+      this.message = "Apakah anda yakin? Karena semua produk dengan brand ini akan disembunyikan."
+    }
+
+    swal({
+      title: 'Alert',
+      type: 'warning',
+      text: this.message,
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.value) {
+        const data = { 
+          "attributeId": id, 
+          "isActive":this.status
         }
-    
-        swal({
-          title: 'Alert',
-          type: 'warning',
-          text: this.message,
-          showCancelButton: true,
-        }).then((result) => {
-          if (result.value) {
-            const data = { 
-              "attributeId": id, 
-              "isActive":this.status
-            }
-            this.specService.changeStatus(data).subscribe(response => {
-              this.loadData();
-            });
-          }
+        this.specService.changeStatus(data).subscribe(response => {
+          this.loadData();
         });
       }
+    });
+  }
 
+  sortStatus() {}
 }

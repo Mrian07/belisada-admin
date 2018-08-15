@@ -20,6 +20,9 @@ export class CategoryAddComponent implements OnInit {
   ngOnInit() {
   }
 
+  save(){
+  }
+
   // save(){
   //   if(this.name=='' || this.name==undefined){
   //     swal(

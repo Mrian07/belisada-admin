@@ -1,4 +1,4 @@
-import { ModalComponent } from './../manage-product/modal/modal.component';
+// import { ModalMPComponent } from './../manage-product/modal/modal-mp.component';
 import { customerSroutingmodule } from './customer-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,6 @@ import { OrderCsComponent } from './order-cs/order-cs.component';
     ReactiveFormsModule,
     customerSroutingmodule
   ],
-  declarations: [CustomerSComponent,OrderCsComponent,ModalComponent]
+  declarations: [CustomerSComponent, OrderCsComponent]
 })
 export class CsModule { }

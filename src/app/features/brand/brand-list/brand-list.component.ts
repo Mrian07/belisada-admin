@@ -16,6 +16,7 @@ export class BrandListComponent implements OnInit {
   currentPage: number;
   lastPage: number;
   pages: any = [];
+  nameSearch: string;
 
   status: boolean;
   idEdit: any;
