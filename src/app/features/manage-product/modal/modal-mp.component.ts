@@ -21,8 +21,9 @@ import { Subscription } from 'rxjs';
 export class ModalMPComponent implements OnInit {
   @Input() closable = true;
   @Input() visible: boolean;
+  @Input() maxwidth: number;
   @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) { 
+  handleKeyboardEvent(event: KeyboardEvent) {
   if(event.key === "Escape"){
     this.visible = false;
     this.visibleChange.emit(this.visible);

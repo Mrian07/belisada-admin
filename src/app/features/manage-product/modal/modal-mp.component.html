@@ -1,4 +1,4 @@
-<div (keyup)="onKeydown($event)" [@dialog] *ngIf="visible" class="dialog">
+<div (keyup)="onKeydown($event)" [ngStyle]="{'max-width.px':maxwidth}" [@dialog] *ngIf="visible" class="dialog">
   <ng-content></ng-content>
   <button *ngIf="closable" (click)="close()" aria-label="Close" class="dialog__close-btn">X</button>
 </div>

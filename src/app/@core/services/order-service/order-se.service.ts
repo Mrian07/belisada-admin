@@ -1,4 +1,4 @@
-import { Transaction } from './../../models/customer-service-m/customer-model';
+import { Transaction, GetDataTransacition } from './../../models/customer-service-m/customer-model';
 import { Observable } from 'rxjs/Observable';
 import { Configuration } from './../../config/configuration';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -19,4 +19,18 @@ export class OrderSeService {
     return this.http.get(this.configuration.apiURL + '/order/v2', {params: params})
     .map(resp => resp as Transaction);
     }
+    getTransaction(queryParams): Observable<GetDataTransacition>  {
+      let params = new HttpParams();
+      Object.keys(queryParams).forEach(function(k){
+        params = params.append(k, queryParams[k]);
+      });
+      return this.http.get(this.configuration.apiURL + '/order/order/confirmation/banktransfer' , {params: params})
+      .map(resp => resp as GetDataTransacition);
+      }
+      getStatusReasson() {
+        return this.http.get(this.configuration.apiURL + '/status/reason');
+      }
+      paymentSucceful(data) {
+        return this.http.post(this.configuration.apiURL + '/order/order/confirmation/paymentissuccessful' , data);
+      }
 }

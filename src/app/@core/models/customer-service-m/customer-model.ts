@@ -4,6 +4,26 @@ export class Transaction {
   totalPages: number;
 }
 
+export class GetDataTransacition {
+status: number;
+message: number;
+data: GetDataTranscationList;
+}
+
+export class GetDataTranscationList {
+  accountName: string;
+  accountNumber: string;
+  paymentNumber: string;
+  transferFrom: string;
+  news: string;
+  nominal: any;
+  transerDate: string;
+  createdOrder: string;
+  buyerName: string;
+  grandTotal: number;
+  orders: any[];
+}
+
 export class Content {
   transactionId: number;
   alamatPenerima: string;
@@ -18,7 +38,7 @@ export class Content {
   createdOrder: string;
   destinationId: number;
   destinations: Destinations[];
-  invoiceNumber:string;
+  invoiceNumber: string;
   statusPlaceHolderOrderSeller: string;
   namaPenerima: string;
   noResi: string;
@@ -27,6 +47,7 @@ export class Content {
   paymentMethod: string;
   paymentNumber: string;
   phonePenerima: string;
+  expiredTime: any;
   transaction: transaction[];
   shipNumber: string;
   shippingAddressId: number;

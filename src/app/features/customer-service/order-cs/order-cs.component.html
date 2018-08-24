@@ -1,206 +1,137 @@
-<!-- <div class="frame-title">
-  <div>
-    Produk
-  </div>
-  <div>
-    Qty
-  </div>
-  <div>
-    Jumlah uang
-  </div>
-  <div>
-    Status
-  </div>
-  <div>
-    Jasa Pengiriman
-  </div>
-</div>
-<div class="frame-contain" *ngFor="let item of listOrder">
-  <div class="nm-buyer">
-      <div class="row">
-        <div class="col-6">
-       {{ item.storeName }}
-        </div>
-        <div class="col-6 right">
-          No Pesanan :  {{ item.orderNumber }}
-        </div>
-      </div>
+<div class="frame-menu">
+    <div [ngClass]="(tabOrder=='ALL')?'btn-tab__active':'btn-tab__noActive'"  (click)="tab('ALL')">
+      Semua
     </div>
-  <div class="cont-buyer">
-    <div class="frame-cont">
-        <div>
-          <div class="cart" *ngFor="let itemChild of item.cartItems">
-            <div>
-              <img class="w__image--for-item-chiled" [src]='imagenich+itemChild.imageUrl' border="0" width="100">
+    <div [ngClass]="(tabOrder=='228')?'btn-tab__active':'btn-tab__noActive'"  (click)="tab('228')" >
+      Belum Bayar
+    </div>
+    <div  [ngClass]="(tabOrder=='233')?'btn-tab__active':'btn-tab__noActive'"  (click)="tab('233')">
+      Harus Bayar
+    </div>
+    <div [ngClass]="(tabOrder=='229')?'btn-tab__active':'btn-tab__noActive'"  (click)="tab('229')">
+     Pembatalan
+    </div>
+    <div [ngClass]="(tabOrder=='230')?'btn-tab__active':'btn-tab__noActive'"  (click)="tab('230')">
+     Need Confrimation
+    </div>
+  </div>
+<div>
+  <div *ngFor="let item of listOrder">
+      <div (click)="openOS(openDetail, item.transactionId)"  class="os-head">
+          <div class="row row-atur">
+            <div class="col-3">
+                <div class="text-order">
+                  {{ item.expiredTime }}
+                </div>
             </div>
-            <div>
-              <span class="nm-item"> {{ itemChild.name }}</span>
-              <span class="sku-item"> {{ itemChild.sku }}</span>
+            <div class="col-6">
+                <!-- <div class="text-rek" (click)="showDialogRek = !showDialogRek">Lihat Nomor Rekening Belisada <fa-icon [icon]="['fas', 'credit-card']"></fa-icon></div> -->
             </div>
-            <div class="qty-item">
-               x {{ itemChild.quantity }}
+            <div class="col-3">
+
             </div>
           </div>
-        </div>
-        <div>
-          <span class="uang-item"> {{ item.subTotal | currency:'Rp ' }}</span>
-          <span class="small-text"> {{ item.paymentMethod }}</span>
-        </div>
-        <div>
-          <span class="blue-text"> {{ item.statusOrder }}</span>
-          <span class="small-text"> {{ item.statusPlaceHolderOrderSeller }}</span>
-        </div>
-        <div>
-            <span class="nm-item-courier"> {{ item.courierCode }} <span class="print-order"> {{ item.courierService }}</span></span>
-        </div>
-        <div>
-            <div class="btn-order">
-              Hubungi Seller
+          <div class="row row-atur">
+            <div class="col-3">
+                <div class="text-payid">Payment ID:  {{ item.paymentNumber  }}</div>
             </div>
-        </div>
-    </div>
-  </div>
-</div>
-<div class="paging">
-  <ul>
-      <li>
-          <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
-      </li>
-      <li>
-          <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
-      </li>
-      <li *ngFor="let p of pages">
-          <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
-      </li>
-      <li>
-          <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
-      </li>
-      <li>
-          <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
-      </li>
-  </ul>
-</div> -->
+            <div class="col-7">
 
-
-<!-- <div *ngIf="isLoading==true">
-  <div class="load-wrapp">
-      <div class="load-4">
-          <p>Loading...</p>
-          <div class="ring-1"></div>
-      </div>
-  </div>
-</div> -->
-
-<!-- <div *ngIf="isEmpty==true">
-Saat ini belum ada pesanan.
-</div> -->
-
-<div *ngFor="let item of listOrder">
-<div (click)="openOS(openDetail, item.transactionId)"  class="os-head">
-    <div class="row row-atur">
-      <div class="col-3">
-          <div class="text-order">
-            {{ item.expiredTime }}
+                <div class="text-payinfo">Payment: <span id="text-tunggu"> {{ item.paymentMethod }}</span>
+                </div>
+            </div>
+            <div class="col-2">
+              <div class="text-progress">{{ item.status }}</div>
+            </div>
           </div>
       </div>
-      <div class="col-6">
-          <!-- <div class="text-rek" (click)="showDialogRek = !showDialogRek">Lihat Nomor Rekening Belisada <fa-icon [icon]="['fas', 'credit-card']"></fa-icon></div> -->
-      </div>
-      <div class="col-3">
+      <div *ngIf="openDetail==true && transactionId==item.transactionId" class="os-body">
 
-      </div>
-    </div>
-    <div class="row row-atur">
-      <div class="col-3">
-          <div class="text-payid">Payment ID:  {{ item.paymentNumber  }}</div>
-      </div>
-      <div class="col-7">
-
-          <div class="text-payinfo">Payment: <span id="text-tunggu"> {{ item.paymentMethod }}</span>
-          </div>
-      </div>
-      <div class="col-2">
-        <div class="text-progress">{{ item.status }}</div>
-      </div>
-    </div>
-</div>
-<div *ngIf="openDetail==true && transactionId==item.transactionId" class="os-body">
-
-  <table border="0" width="100%" *ngFor="let itemCart of item.transaction" >
-    <tr *ngFor="let itemList of itemCart.cart">
-      <td valign="top" width="20%">
-        <span class="order-id">ORDER ID: {{ itemList.orderNumber }}</span>
-        <table border="0" width="100%">
-          <tr *ngFor="let itemListProduct of itemList.cartItems">
-            <td valign="top" width="40%">
-                <div class="img-item"><img [src]="imagenich + itemListProduct.imageUrl" border="0"></div>
+        <table border="0" width="100%" *ngFor="let itemCart of item.transaction" >
+          <tr *ngFor="let itemList of itemCart.cart">
+            <td valign="top" width="20%">
+              <span class="order-id">ORDER ID: {{ itemList.orderNumber }}</span>
+              <table border="0" width="100%">
+                <tr *ngFor="let itemListProduct of itemList.cartItems">
+                  <td valign="top" width="40%">
+                      <div class="img-item"><img [src]="imagenich + itemListProduct.imageUrl" border="0"></div>
+                  </td>
+                  <td valign="top" width="60%">
+                      <div class="item-colom"> {{ itemListProduct.name }} x{{ itemListProduct.quantity }}</div>
+                      <div class="item-colom">  {{ itemListProduct.subtotal | currency:'Rp ' }}</div>
+                  </td>
+                </tr>
+              </table>
             </td>
-            <td valign="top" width="60%">
-                <div class="item-colom"> {{ itemListProduct.name }} x{{ itemListProduct.quantity }}</div>
-                <div class="item-colom"> {{ itemListProduct.subtotal | currency:'Rp ' }}</div>
+            <td valign="top" width="35%">
+              <div class="item-colom-border">
+                <div class="row">
+                  <div class="col-6">
+                    Nama Penerima: <br><label>  {{ itemList.namaPenerima }}</label>
+                  </div>
+                  <div class="col-6">
+                    No Handphone: <br><label> {{ itemList.phonePenerima }}</label>
+                  </div>
+                </div>
+
+                Alamat:<br><label> {{ itemList.alamatPenerima }}</label>
+
+              </div>
+            </td>
+            <td valign="top" width="15%">
+              <div class="item-colom">
+                <div class="row">
+                  <div class="col-12">
+                    <label>No Resi: {{ itemList.noResi }}</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label>Status: {{ itemList.statusOrder }}</label>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td valign="top" width="15%">
+              <div class="item-colom">
+                <div class="row">
+                  <div class="col-12">
+                    <label>Metode Pengiriman: {{ itemList.courierCode }}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="item-colom">
+                <div class="row">
+                  <div class="col-12">
+                    <label>Total Berat: {{ itemList.totalWeight }} gr</label>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td width="20%">
+                <div class="row">
+                    <div class="col-12">
+                      <label>Ongkos Kirim: {{ itemList.courierPrice | currency:'Rp ' }}</label>
+                    </div>
+                  </div>
+              <span class="btn-konfirm">
+                Hubungi Seller
+              </span>
+
+            </td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>
+                <span class="btn-konfirm" (click)="showDialog = !showDialog" (click)="ok(item.paymentNumber)">
+                    Confirm Transfer
+                   </span>
             </td>
           </tr>
         </table>
-      </td>
-      <td valign="top" width="35%">
-        <div class="item-colom-border">
-          <div class="row">
-            <div class="col-6">
-              Nama Penerima: <br><label>  {{ itemList.namaPenerima }}</label>
-            </div>
-            <div class="col-6">
-              No Handphone: <br><label> {{ itemList.phonePenerima }}</label>
-            </div>
-          </div>
-
-          Alamat:<br><label> {{ itemList.alamatPenerima }}</label>
-
-        </div>
-      </td>
-      <td valign="top" width="15%">
-        <div class="item-colom">
-          <div class="row">
-            <div class="col-12">
-              <label>No Resi: {{ itemList.noResi }}</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <label>Status: {{ itemList.statusOrder }}</label>
-            </div>
-          </div>
-        </div>
-      </td>
-      <td valign="top" width="15%">
-        <div class="item-colom">
-          <div class="row">
-            <div class="col-12">
-              <label>Metode Pengiriman: {{ itemList.courierCode }}</label>
-            </div>
-          </div>
-        </div>
-        <div class="item-colom">
-          <div class="row">
-            <div class="col-12">
-              <label>Total Berat: {{ itemList.totalWeight }} gr</label>
-            </div>
-          </div>
-        </div>
-      </td>
-
-      <td width="20%">
-          <div class="row">
-              <div class="col-12">
-                <label>Ongkos Kirim: {{ itemList.courierPrice | currency:'Rp ' }}</label>
-              </div>
-            </div>
-        <span class="btn-konfirm">
-          Hubungi Seller
-        </span>
-      </td>
-    </tr>
-  </table>
-</div>
+      </div>
+  </div>
 </div>
 <div class="paging">
   <ul>
@@ -222,27 +153,67 @@ Saat ini belum ada pesanan.
   </ul>
 </div>
 
+<modal-mp maxwidth="920" [(visible)]="showDialog" class="frameDialog">
+  <div class="body--on__popuP">
+    <div class="text-payment__id">Payment ID</div>
+    <div class="text--align_center text-payment__id">Tanggal Transfer</div>
+    <div>{{ getDataTranscation.paymentNumber }}</div>
+    <div *ngIf="getDataTranscation.transerDate === '';else JikadAdaTanggalTf" class="text--align_center"> belum ada data</div>
+    <ng-template #JikadAdaTanggalTf >
+      <div class="text--align_center"> {{getDataTranscation.transerDate }}</div>
 
-<modal-mp [(visible)]="showDialog" class="frameDialog">
-<div class="modal-body">
-
-  <div>
-
-    <div class="title-modal">Upload Bukti Transfer Anda</div>
-
-    <div class="image">
-      <!-- <img src="{{imgBuktiTransfer}}" alt="Profile Picture" class="img-avatar" (load)="setCanvas($event,'imgBuktiTransfer')" #avaImg /> -->
-    </div>
-
-    <div class="upload-btn-wrapper" >
-        <div class="btn-konfirm">Pilih Bukti Transfer</div>
-    </div>
-    <div class="btn-upload">Klik disini untuk unggah bukti transfer</div>
-
+      </ng-template>
+    <!-- <div class="text--align_center"> {{ getDataTranscation.transerDate  }}</div> -->
   </div>
-  <div class="isSuccess">
-      <div class="title-modal">Upload Bukti Transfer Berhasil</div>
-      <div class="text-success">berhasil.</div>
+  <hr>
+  <div class="second__line--on-body">
+    <div class="text-color__black"> Penjual</div>
+    <div class="text-color__black">Berita</div>
+    <div> {{ getDataTranscation.buyerName }} </div>
+    <div *ngIf="getDataTranscation.news === '';else JikaAdaNews"> belum ada data</div>
+    <ng-template #JikaAdaNews> {{getDataTranscation.news }}</ng-template>
   </div>
-</div>
+  <hr>
+  <div class="three__line--on-body">
+    <div class="text-color__black">Order date</div>
+  </div>
+  <div class="three__line--on-body">
+    <div *ngIf="getDataTranscation.createdOrder === '';else JikadaAdaOrderDate"> belum ada data</div>
+    <ng-template #JikadaAdaOrderDate> {{getDataTranscation.createdOrder }}</ng-template>
+    </div>
+  <hr>
+  <div class="fourth__line--on-body" *ngFor="let item of getDataTranscation.orders">
+    <div class="color-Order__id">Order ID #{{ item.orderNumber  }}</div>
+    <div> Toko : {{ item.storeName }} </div>
+    <div>{{ item.total | currency:'Rp. ' }}</div>
+  </div>
+  <hr>
+  <div class="five__line--on-body">
+    <div>
+        <select  class="form-control"  [(ngModel)]="codeNum" *ngIf="tabOrder === '239'" >
+            <option value="codeNum" disabled selected></option>
+            <option *ngFor="let option of getListing" [ngValue]="option.statusCode" selected="option.status == 'back'">
+                {{ option.status }}
+            </option>
+        </select>
+    </div>
+    <div>
+      <span class="text__total-belanja">Total Belanja : </span>
+      <span class="text__nominal_tf">Nominal Transfer : </span>
+    </div>
+    <div>
+      <span class="text__block"> {{ getDataTranscation.grandTotal | currency:'Rp. ' }}</span>
+      <span > {{ getDataTranscation.nominal | currency:'Rp. ' }}</span>
+    </div>
+  </div>
+  <div class="six__line--on-body" *ngIf="tabOrder === '239'">
+    <div>
+      <button class="btn btn--width btn__color-red">Reject</button>
+    </div>
+    <div class="d__for--button">
+      <button class="btn btn--width btn__color-green" (click)="confrimButton(getDataTranscation.paymentNumber)">Konfrimasi</button>
+    </div>
+  </div>
+  <!-- <ng-template #xxasd>Please login to continue.</ng-template> -->
+
 </modal-mp>
