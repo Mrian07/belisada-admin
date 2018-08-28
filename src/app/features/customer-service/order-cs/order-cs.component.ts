@@ -1,3 +1,4 @@
+import swal from 'sweetalert2';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { Content, Transaction, GetDataTranscationList } from './../../../@core/models/customer-service-m/customer-model';
 import { Component, OnInit } from '@angular/core';
@@ -152,15 +153,28 @@ export class OrderCsComponent implements OnInit {
     // this.aaaaaaaaa = data;
     // console.log(this.aaaaaaaaa);
   }
-  gakmasu() {
-    console.log(this.codeNum);
+  gakmasu(e) {
+    const iniKirim = {
+      paymentNumber: e,
+      reasonType: this.codeNum,
+    }
+    this.orderSe.paymentFailed(iniKirim).subscribe( bb => {
+      console.log(bb.message);
+      swal(
+        bb.message,
+      )
+    })
+
+    console.log(iniKirim);
   }
   confrimButton(e) {
     const a = {
       paymentNumber: e,
     }
     this.orderSe.paymentSucceful(a).subscribe( bb => {
-      console.log(bb);
+      swal(
+        bb.message,
+      )
     })
   }
 }

@@ -189,7 +189,7 @@
   </div>
   <hr>
   <div class="five__line--on-body">
-    <div  *ngIf="tabOrder === '239'" >
+    <div  >
         <select  class="form-control"  [(ngModel)]="codeNum">
             <option value="codeNum" disabled selected></option>
             <option *ngFor="let option of getListing" [ngValue]="option.statusCode" selected="option.status == 'back'">
@@ -206,9 +206,9 @@
       <span > {{ getDataTranscation.nominal | currency:'Rp. ' }}</span>
     </div>
   </div>
-  <div class="six__line--on-body" *ngIf="tabOrder === '239'">
+  <div class="six__line--on-body">
     <div>
-      <button class="btn btn--width btn__color-red">Reject</button>
+      <button class="btn btn--width btn__color-red" (click)="gakmasu(getDataTranscation.paymentNumber)">Reject</button>
     </div>
     <div class="d__for--button">
       <button class="btn btn--width btn__color-green" (click)="confrimButton(getDataTranscation.paymentNumber)">Konfrimasi</button>

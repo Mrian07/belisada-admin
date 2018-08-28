@@ -9,6 +9,10 @@ status: number;
 message: number;
 data: GetDataTranscationList;
 }
+export class Messa {
+  status: any;
+  message: any;
+}
 
 export class GetDataTranscationList {
   accountName: string;

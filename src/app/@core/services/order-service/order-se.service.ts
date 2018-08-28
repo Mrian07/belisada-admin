@@ -1,4 +1,4 @@
-import { Transaction, GetDataTransacition } from './../../models/customer-service-m/customer-model';
+import { Transaction, GetDataTransacition, Messa } from './../../models/customer-service-m/customer-model';
 import { Observable } from 'rxjs/Observable';
 import { Configuration } from './../../config/configuration';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -30,7 +30,12 @@ export class OrderSeService {
       getStatusReasson() {
         return this.http.get(this.configuration.apiURL + '/status/reason');
       }
-      paymentSucceful(data) {
-        return this.http.post(this.configuration.apiURL + '/order/order/confirmation/paymentissuccessful' , data);
+      paymentSucceful(data):  Observable<Messa> {
+        return this.http.post(this.configuration.apiURL + '/order/order/confirmation/paymentissuccessful' , data)
+        .map(res => res as Messa);
+      }
+      paymentFailed(data): Observable<Messa> {
+        return this.http.post(this.configuration.apiURL + '/order/order/confirmation/transactioncanceled' , data)
+        .map(res => res as Messa);
       }
 }
