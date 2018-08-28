@@ -189,8 +189,8 @@
   </div>
   <hr>
   <div class="five__line--on-body">
-    <div>
-        <select  class="form-control"  [(ngModel)]="codeNum" *ngIf="tabOrder === '239'" >
+    <div  *ngIf="tabOrder === '239'" >
+        <select  class="form-control"  [(ngModel)]="codeNum">
             <option value="codeNum" disabled selected></option>
             <option *ngFor="let option of getListing" [ngValue]="option.statusCode" selected="option.status == 'back'">
                 {{ option.status }}
