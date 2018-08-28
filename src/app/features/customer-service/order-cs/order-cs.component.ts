@@ -12,9 +12,27 @@ import { OrderSeService } from '../../../@core/services/order-service/order-se.s
 export class OrderCsComponent implements OnInit {
   listOrder: Content[];
   imagenich;
+
   pages: any = [];
   currentPage: any;
   lastPage: number;
+
+  pagesOnBB: any = [];
+  currentPageOnBB: number;
+  lastPageOnBB: number;
+
+  pagesOnHB: number;
+  currentPageHB: number;
+  lastPageOnHB: number;
+
+  pagesOnPB: number;
+  curentPageOnPB: number;
+  lastPageOnPB: number;
+
+  pagesOnNC: number;
+  currentPageNC: number;
+  lastPageOnNC: number;
+
   openDetail: boolean;
   transactionId: number;
   showDialog: boolean;
@@ -36,7 +54,9 @@ export class OrderCsComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
+      this.pagesOnBB = [];
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
+      this.currentPageOnBB = (params['page'] === undefined) ? 1 : +params['page'];
       const queryParams = {
         page: this.currentPage,
         itemperpage: 10,
@@ -64,7 +84,6 @@ export class OrderCsComponent implements OnInit {
           this.pages.push(r);
         }
       }
-      console.log('queryParams', queryParams);
 
     });
 
@@ -72,6 +91,12 @@ export class OrderCsComponent implements OnInit {
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.lastPage) { return false; }
+    this.router.navigate(['/order/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
+    window.scrollTo(0, 0);
+  }
+  setPageonBB(page: number, increment?: number) {
+    if (increment) { page = +page + increment; }
+    if (page < 1 || page > this.lastPageOnBB) { return false; }
     this.router.navigate(['/order/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }
@@ -89,12 +114,21 @@ export class OrderCsComponent implements OnInit {
     this.tabOrder = id;
     if (id === '228') {
       const a = {
-        page: this.currentPage,
+        page: 1,
         itemperpage: 10,
         status_order: 228,
       }
       this.orderSe.getList(a).subscribe(respon => {
         this.listOrder = respon.content;
+        this.lastPageOnBB = respon.totalPages;
+        console.log('t',this.lastPageOnBB)
+        for (let r = (this.currentPageOnBB - 3); r < (this.currentPageOnBB - (-4)); r++) {
+          if (r > 0 && r <= this.lastPageOnBB) {
+            this.pagesOnBB.push(r);
+          }
+
+        }
+        console.log(this.pagesOnBB);
 
       });
     }
@@ -110,7 +144,7 @@ export class OrderCsComponent implements OnInit {
     }
     if (id === '233') {
       const a = {
-        page: this.currentPage,
+        page: 1,
         itemperpage: 10,
         status_order: '233',
       }
@@ -120,7 +154,7 @@ export class OrderCsComponent implements OnInit {
     }
     if (id === '229') {
       const a = {
-        page: this.currentPage,
+        page: 1,
         itemperpage: 10,
         status_order: '229',
       }
@@ -131,7 +165,7 @@ export class OrderCsComponent implements OnInit {
     }
     if (id === '230') {
       const a = {
-        page: this.currentPage,
+        page: 1,
         itemperpage: 10,
         status_order: '230',
       }
