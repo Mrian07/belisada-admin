@@ -44,8 +44,12 @@ const routes: Routes = [{
     {
       path: 'order',
       loadChildren: './customer-service/customer.module#CsModule',
-    }
-  ]
+    },
+    {
+      path: 'master-product',
+      loadChildren: './master-product/masterP.module#MasterPModule',
+    },
+  ],
 }];
 
 @NgModule({

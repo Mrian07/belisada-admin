@@ -1,3 +1,4 @@
+import { BrandList } from './../../models/manage-product/manage-product';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
@@ -16,14 +17,24 @@ export class ManageProductService {
   }
 
   getDataCategoryC1(): Observable<listingCategory> {
-    
-    return this.http.get<any>(this.configuration.apiURL + '/manage/category?page=1&itemperpage=10&ot=asc&ob=name&type=C1&all=true')
+    return this.http.get<any>(this.configuration.apiURL +
+    '/manage/category?page=1&itemperpage=10&ot=asc&ob=name&type=C1&all=true')
     .map(resp => resp as listingCategory);
   }
 
   getDataCategoryC2(id: any): Observable<listingCategory[]> {
-  
-    return this.http.get<any>(this.configuration.apiURL + '/manage/category?page=1&itemperpage=10&ot=asc&ob=name&type=C2&all=true')
+    return this.http.get<any>(this.configuration.apiURL +
+    '/manage/category?page=1&itemperpage=10&ot=asc&ob=name&type=C2&all=true')
+    .map(resp => resp as listingCategory[]);
+  }
+
+  getDataCategoryC3(queryParams): Observable<listingCategory[]> {
+    let params = new HttpParams();
+    Object.keys(queryParams).forEach(function(k){
+      params = params.append(k, queryParams[k]);
+    });
+    return this.http.get<any>(this.configuration.apiURL +
+    '/manage/category?page=1&itemperpage=10&ot=asc&ob=name&type=C3&all=true',  {params: params})
     .map(resp => resp as listingCategory[]);
   }
 
@@ -34,23 +45,11 @@ export class ManageProductService {
     });
     return this.http.get<any>(this.configuration.apiURL + '/manage/product/approval', {params: params})
     .map(resp => resp as listingProduct);
-  
   }
 
   getDetailProduct(key: string): Observable<deetailProd> {
-  
     return this.http.get<any>(this.configuration.apiURL + '/manage/product/approval/detail/' + key)
     .map(resp => resp as deetailProd);
-  
-  }
-
-  getDataCategoryC3(queryParams): Observable<listingCategory[]> {
-    let params = new HttpParams();
-    Object.keys(queryParams).forEach(function(k){
-      params = params.append(k, queryParams[k]);
-    });
-    return this.http.get<any>(this.configuration.apiURL + '/manage/category?page=1&itemperpage=10&ot=asc&ob=name&type=C3&all=true',  {params: params})
-    .map(resp => resp as listingCategory[]);
   }
 
   getData1(queryParams):Observable<ListBrand[]> {
@@ -61,7 +60,7 @@ export class ManageProductService {
     return this.http.get<any>(this.configuration.apiURL + '/manage/brand',  {params: params})
     .map(resp => resp as ListBrand[]);
   }
- 
+
   getDataListRevie():Observable<revise[]> {
     return this.http.get(this.configuration.apiURL + '/manage/reference?code=API&isactive=true')
     .map(res => res as revise[]);
@@ -70,6 +69,15 @@ export class ManageProductService {
   postToko(data): Observable<putProduct> {
     return this.http.put(this.configuration.apiURL + '/manage/product/approval/update', data)
     .map(response => response as putProduct);
+  }
+
+  getListBrand(queryParams): Observable<BrandList> {
+    let params = new HttpParams();
+    Object.keys(queryParams).forEach(function(k) {
+      params = params.append(k, queryParams[k]);
+    });
+    return this.http.get(this.configuration.apiURL + '/manage/brand', {params: params})
+    .map(response => response as BrandList );
   }
 
 }

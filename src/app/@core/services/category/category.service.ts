@@ -1,3 +1,4 @@
+import { CategoryAttribute } from './../../models/manage-product/manage-product';
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Configuration } from '../../config/configuration';
@@ -74,7 +75,16 @@ export class CategoryService {
     return this.http.request('delete', this.configuration.apiURL + '/manage/category/attribute/delete', { body: data }).pipe(
         map(resp => resp as DeleteSpec)
       )
-
+  }
+  getListCategoryAttribute(queryParams): Observable<CategoryAttribute[]> {
+    let params = new HttpParams();
+    Object.keys(queryParams).forEach(function(k) {
+      params = params.append(k, queryParams[k]);
+    });
+    return this.http.get(this.configuration.apiURL + '/manage/category', {params: params})
+      .pipe(
+        map(response => response as CategoryAttribute[]),
+      );
   }
 
 }

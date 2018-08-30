@@ -8,7 +8,7 @@ export class ManageProduct {
     thumbnailUrl: string;
 
 }
- 
+
 export class ListBrand {
     data: IsiDataBrand[];
     pageCount: number;
@@ -27,7 +27,7 @@ export class ListBrand {
     dataCount: number;
     pageCount: number;
     data : IsiListingProcut[];
-    
+
   }
 
   export class IsiListingProcut {
@@ -100,7 +100,7 @@ export class ListBrand {
     dataCount: number;
     pageCount: number;
     data : dataListingCategory[];
-    
+
   }
 
   export class putProduct {
@@ -134,3 +134,88 @@ export class ListBrand {
     statusId: number;
     a: boolean;
  }
+
+ export class AddProductRequest {
+  brandId: number;
+  brandName: string;
+  categoryThreeId: number;
+  classification: string;
+  couriers: any[];
+  description: string;
+  descriptionEn: string;
+  dimensionsWidth: number;
+  dimensionsheight: number;
+  dimensionslength: number;
+  guaranteeTime: string;
+  guaranteeType: string;
+  highlight: string;
+  highlightEn: string;
+  imageUrl: string[];
+  isGuarantee: boolean;
+  name: string;
+  nameEn: string;
+  pricelist: number;
+  specialPrice: number;
+  discount: number;
+  qty: number;
+  specification: ProductSpecification[];
+  volume: number;
+  weight: number;
+}
+
+
+export class ProductSpecification {
+  attributeId: number;
+  attributeValueId: number;
+  value: string;
+}
+
+export class BrandList {
+  dataCount: number;
+  pageCount: number;
+  data: Brand[];
+}
+
+export class Brand {
+  brandId: number;
+  name: string;
+  imageUrl: string;
+  isActive: boolean;
+}
+
+
+
+export class CategoryList {
+  dataCount: number;
+  pageCount: number;
+  data: Category[];
+}
+
+export class Category {
+  categoryId: number;
+  name: string;
+  nameEn: string;
+  type: string;
+  imageUrl: string;
+  imageUrl2: string;
+  imageUrl3: string;
+  imageUrl4: string;
+  imageUrl5: string;
+  parentId: number;
+  iconUrl: string;
+}
+
+export class CategoryAttribute {
+  attributeId: number;
+  name: string;
+  description: string;
+  isMandatory: boolean;
+  isInstanceAttribute: boolean;
+  data: AttributeValue[];
+}
+export class AttributeValue {
+  attributeValueId: number;
+  name: string;
+  value: string;
+  attributeId: number;
+}

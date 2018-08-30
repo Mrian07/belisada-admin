@@ -122,10 +122,10 @@
             </td>
           </tr>
           <tr>
-            <td>1</td>
+            <td></td>
             <td>
                 <span class="btn-konfirm" (click)="showDialog = !showDialog" (click)="ok(item.paymentNumber)">
-                    Confirm Transfer
+                    Confirm Transfer {{ item.status }}
                    </span>
             </td>
           </tr>
@@ -186,6 +186,16 @@
     <!-- <div class="text--align_center"> {{ getDataTranscation.transerDate  }}</div> -->
   </div>
   <hr>
+  <div class="seconds__line--on-body">
+      <div class="text-color__black"> Bank Transfer</div>
+      <div class="text-color__black">Pemilik Rekening</div>
+      <div class="text-color__black"> No rekening</div>
+      <div> {{ getDataTranscation.transferFrom }}</div>
+      <div> {{ getDataTranscation.accountName }} </div>
+      <div> {{ getDataTranscation.accountNumber }} </div>
+
+    </div>
+    <hr>
   <div class="second__line--on-body">
     <div class="text-color__black"> Penjual</div>
     <div class="text-color__black">Berita</div>
@@ -193,7 +203,7 @@
     <div *ngIf="getDataTranscation.news === '';else JikaAdaNews"> belum ada data</div>
     <ng-template #JikaAdaNews> {{getDataTranscation.news }}</ng-template>
   </div>
-  <hr>
+    <hr>
   <div class="three__line--on-body">
     <div class="text-color__black">Order date</div>
   </div>

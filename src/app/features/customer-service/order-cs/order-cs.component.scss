@@ -160,6 +160,10 @@
   display: grid;
   grid-template-columns: 30% 40%;
 }
+.seconds__line--on-body {
+  display: grid;
+  grid-template-columns: 30% 40% 30%;
+}
 .three__line--on-body{
   display: grid;
   grid-template-columns: 100%;
