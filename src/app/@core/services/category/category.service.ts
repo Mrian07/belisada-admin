@@ -81,7 +81,7 @@ export class CategoryService {
     Object.keys(queryParams).forEach(function(k) {
       params = params.append(k, queryParams[k]);
     });
-    return this.http.get(this.configuration.apiURL + '/manage/category', {params: params})
+    return this.http.get(this.configuration.apiURL + '/manage/product/category/attribute', {params: params})
       .pipe(
         map(response => response as CategoryAttribute[]),
       );

@@ -12,7 +12,7 @@ import { ShareMessageService } from './../../../@core/services/share-message/sha
 })
 export class SpecListComponent implements OnInit {
   list: List = new List();
-  
+
   currentPage: number;
   lastPage: number;
   pages: any = [];
@@ -67,7 +67,7 @@ export class SpecListComponent implements OnInit {
     this.isAdd = false;
   }
 
-  loadData(){    
+  loadData(){
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
@@ -93,7 +93,7 @@ export class SpecListComponent implements OnInit {
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.list.pageCount) { return false; }
-    this.router.navigate(['/brand/list'], { queryParams: {page: page, ob: this.sortName, ot: this.sortUrut}, queryParamsHandling: 'merge' });
+    this.router.navigate(['/spec/list'], { queryParams: {page: page, ob: this.sortName, ot: this.sortUrut}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }
 
@@ -112,6 +112,7 @@ export class SpecListComponent implements OnInit {
 
     if(this.name=='' || this.name==undefined)
     {
+      console.log('asdasd')
       swal(
             'Alert',
             'Nama tidak boleh kosong',
@@ -131,7 +132,7 @@ export class SpecListComponent implements OnInit {
             'Alert',
             response.message,
             'success',
-          );          
+          );
         }else{
           swal(
             'Alert',
@@ -142,7 +143,7 @@ export class SpecListComponent implements OnInit {
         this.loadData();
       });
     }
-  
+
   }
 
   changeStatus(id,status){
@@ -161,8 +162,8 @@ export class SpecListComponent implements OnInit {
       showCancelButton: true,
     }).then((result) => {
       if (result.value) {
-        const data = { 
-          "attributeId": id, 
+        const data = {
+          "attributeId": id,
           "isActive":this.status
         }
         this.specService.changeStatus(data).subscribe(response => {

@@ -5,7 +5,7 @@
 
     <nb-card-body>
         <p>
-            <button type="button" class="btn btn-success btn-rectangle" *ngIf="isAdd!=true" (click)="addList()">ADD BRAND</button>
+            <button type="button" class="btn btn-success btn-rectangle" *ngIf="isAdd!=true" (click)="addList()">ADD SPEC</button>
             <button type="button" class="btn btn-danger btn-rectangle" *ngIf="isAdd==true" (click)="addListCancel()">CANCEL</button>
         </p>
         <div *ngIf="isAdd==true"><spec-add></spec-add></div>
@@ -14,7 +14,7 @@
             <thead>
                 <tr>
                     <th>Nama</th>
-                    <!-- <th (click)="sortBrand()" class="sort">Brand <i class="fa fa-sort"></i></th>-->
+                    <!-- <th (click)="sortSPEC()" class="sort">SPEC <i class="fa fa-sort"></i></th>-->
                     <th (click)="sortStatus()" class="sort">Status <i class="fa fa-sort"></i></th>
                     <th>Action</th>
                 </tr>
@@ -27,7 +27,7 @@
                 </tr>
                 <tr *ngFor="let item of list.data | searchPipe:'name':search ">
                     <td>
-                        <div *ngIf="idEdit!=item.attributeId">{{item.name}}</div> 
+                        <div *ngIf="idEdit!=item.attributeId">{{item.name}}</div>
                         <input type="text" *ngIf="idEdit==item.attributeId" [(ngModel)]="name" class="form-control">
                     </td>
                     <td class="align-center"><span *ngIf="item.isActive==true" class="active">Active</span><span *ngIf="item.isActive==false" class="disable">Inactive</span></td>
@@ -64,10 +64,10 @@
                     <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
                 </li>
                 <li>
-                    <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+                    <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == pageCount}">Next</a>
                 </li>
                 <li>
-                    <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+                    <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == pageCount}">Last</a>
                 </li>
             </ul>
         </div>

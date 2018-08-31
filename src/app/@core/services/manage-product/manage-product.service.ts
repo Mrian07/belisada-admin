@@ -1,4 +1,4 @@
-import { BrandList } from './../../models/manage-product/manage-product';
+import { BrandList, AddProductRequest } from './../../models/manage-product/manage-product';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
@@ -78,6 +78,11 @@ export class ManageProductService {
     });
     return this.http.get(this.configuration.apiURL + '/manage/brand', {params: params})
     .map(response => response as BrandList );
+  }
+
+  postData(data) {
+    return this.http.post(this.configuration.apiURL + '/manage/product/product/create', data)
+    .map(response => response as AddProductRequest );
   }
 
 }

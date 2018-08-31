@@ -82,7 +82,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
-    title: '33333',
+    title: 'Master-Produk',
     icon: 'nb-layout-default',
     children: [
       {

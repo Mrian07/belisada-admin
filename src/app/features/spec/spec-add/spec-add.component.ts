@@ -36,7 +36,7 @@ export class SpecAddComponent implements OnInit {
   }
 
   save(){
-    if(this.name=='' || this.name==undefined){
+    if(this.myForm.get('name').value === ''  || this.myForm.get('name').value === undefined ){
       swal(
         'Alert',
         'Nama tidak boleh kosong',
@@ -45,10 +45,11 @@ export class SpecAddComponent implements OnInit {
     }else{
 
       const data = {
-        "name": this.name,
+        "name": this.myForm.get('name').value,
         "isMandatory":true,
         "isInstanceAttribute":false
       }
+      console.log(this.myForm.get('name').value);
 
       this.specService.add(data).subscribe(response => {
         if(response.status == 1) {
@@ -65,7 +66,7 @@ export class SpecAddComponent implements OnInit {
             'error',
           );
         }
-        
+
       });
     }
   }

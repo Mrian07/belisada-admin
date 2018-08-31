@@ -136,6 +136,8 @@ export class ListBrand {
  }
 
  export class AddProductRequest {
+  status: any;
+  message: any;
   brandId: number;
   brandName: string;
   categoryThreeId: number;
@@ -182,6 +184,7 @@ export class Brand {
   imageUrl: string;
   isActive: boolean;
 }
+
 
 
 

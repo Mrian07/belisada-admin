@@ -3,7 +3,7 @@ import swal from 'sweetalert2';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { CategoryService } from './../../../@core/services/category/category.service';
 import { ManageProductService } from './../../../@core/services/manage-product/manage-product.service';
-import { AddProductRequest, BrandList, CategoryList, CategoryAttribute } from './../../../@core/models/manage-product/manage-product';
+import { AddProductRequest, BrandList, CategoryList, CategoryAttribute, ProductSpecification } from './../../../@core/models/manage-product/manage-product';
 import { Component, OnInit, ElementRef } from '@angular/core';
 
 @Component({
@@ -42,12 +42,14 @@ export class MasterPComponent implements OnInit {
     C3: false,
   };
   categoryAttributes: CategoryAttribute[];
+  spec: any[] = [];
 
   constructor(
     private brandService: BrandService,
     private el: ElementRef,
     private categoryService: CategoryService,
     private fb: FormBuilder,
+    private ProdService: ManageProductService,
   ) {
     this.currentPgBrand = 1;
     this.categoryList.C1.data = [];
@@ -209,9 +211,10 @@ export class MasterPComponent implements OnInit {
     this.categoryName[category.type] = category.name;
     this.categoryId[category.type] = category.categoryId;
     const queryParams = {
-      parentid: category.categoryId,
+      categoryid: category.categoryId,
       isactive: true,
     };
+    console.log('123 ini di select', category.categoryId);
     this.categoryService.getListCategoryAttribute(queryParams).subscribe(response => {
       this.categoryAttributes = response;
       console.log(response)
@@ -239,11 +242,43 @@ export class MasterPComponent implements OnInit {
       all: true,
       isactive: true,
     };
+    console.log('123');
     if (parentid) {
       queryParams['parentid'] = parentid;
     }
     this.categoryService.getCategory(queryParams).subscribe(response => {
       this.categoryList[categoryType] = response;
+    });
+  }
+
+  specMapping(specValues) {
+    this.categoryAttributes.forEach(x => {
+      const productSpecification: ProductSpecification = new ProductSpecification();
+
+      productSpecification.attributeId = x.attributeId;
+
+      if (specValues[x.attributeId]) {
+        productSpecification.attributeValueId =
+        (x.isInstanceAttribute) ?
+          null :
+          x.data.find(i => i.attributeValueId === +specValues[x.attributeId]).attributeValueId;
+
+        productSpecification.value =
+          (x.isInstanceAttribute) ?
+            specValues[x.attributeId] :
+            x.data.find(i => i.attributeValueId === +specValues[x.attributeId]).value;
+      }
+      const specification: ProductSpecification[] = this.addProductForm.get('specification').value;
+      specification.push(productSpecification);
+    });
+  }
+
+  oke() {
+    this.specMapping(this.spec);
+    this.ProdService.postData( this.addProductForm.value).subscribe(response => {
+      swal(
+        response.message,
+      )
     });
   }
 
