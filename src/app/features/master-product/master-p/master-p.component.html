@@ -1,5 +1,5 @@
 <form [formGroup]="addProductForm">
-  <h2 class="test">Ubah Gambar Produk</h2>
+  <h2 class="test">Gambar Produk</h2>
   <p>Minimal gambar 2 dan maksimal gambar produk 5</p>
 
   <div class="add-product-form-wrapper">
@@ -7,7 +7,7 @@
           <li class="u-inline-list-gap" *ngFor="let item of f.imageUrl.value; let i = index">
               <div class="image-preview" [ngStyle]="{'background-image': 'url(' + item + ')'}">
                   <span class="action-button" (click)="removeImage(i)">
-                    2
+                    <i class="fa fa-trash"></i>
                   </span>
               </div>
           </li>
@@ -141,5 +141,10 @@
         </div>
     </div>
 </div>
-<button type="button" (click)="oke()" class="btn btn-danger">Danger</button>
+<div class="row">
+  <div class="col-12 text__positon">
+    <button type="button" (click)="oke()" class="btn btn-danger customz--button">Kirim</button>
+  </div>
+</div>
+
 </form>

@@ -195,6 +195,8 @@ export class MasterPComponent implements OnInit {
     const queryParams = {
       name: this.categoryName[categoryType] === undefined ? '' : this.categoryName[categoryType],
       type: categoryType,
+      all: true,
+      isactive: true,
     };
     if (parentid) {
       queryParams['parentid'] = parentid;
