@@ -1,3 +1,5 @@
+import { ListingProductComponent } from './listing-product/listing-product.component';
+import { listingProduct } from './../../@core/models/manage-product/manage-product';
 import { MasterPComponent } from './master-p/master-p.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -9,8 +11,12 @@ const routes: Routes = [
     component: masterPComponent,
     children: [
       {
-        path: 'list',
+        path: 'tambah',
         component: MasterPComponent,
+      },
+      {
+        path: 'listing',
+        component: ListingProductComponent,
       },
     ],
   }

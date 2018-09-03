@@ -3,7 +3,7 @@
             Product
         </nb-card-header>
         <nb-card-body>
-    
+
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -31,7 +31,7 @@
                                     <i class="fa fa-circle circle-blue" *ngIf="obj.status === 'NEED APPROVAL'"></i>
                                     <i class="fa fa-circle circle-green" *ngIf="obj.status === 'APPROVED'"></i>
                                     <i class="fa fa-circle circle-red" *ngIf="obj.status === 'REJECTED'"></i>
-                                    <i class="fa fa-circle circle-yellow" *ngIf="obj.status === 'REVISE'"></i>    
+                                    <i class="fa fa-circle circle-yellow" *ngIf="obj.status === 'REVISE'"></i>
                                 {{ obj.status }}
                             </td>
                             <td> {{ obj.verifiedByName }}</td>
@@ -53,7 +53,7 @@
                                 </table>
                             </td>
                         </tr>
-    
+
                         <ng-template #content let-c="close" let-d="dismiss">
                             <div class="modal-header bgGrey">
                                 <h4 class="modal-title">Approval Product</h4>
@@ -66,7 +66,7 @@
                                 <p>Foto Product</p>
                                         <img id="image" *ngFor="let foto of listDetailProd.imageUrl" (click)="hanya(foto)" (click)="isCollapsed = !isCollapsed"
                                         [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"  class="image-small" src="{{foto}}">
-                                   
+
                                   <div id="collapseExample" [ngbCollapse]="!isCollapsed">
                                     <div class="card">
                                        <img class="fotoTogle" src="{{futu}}">
@@ -79,7 +79,7 @@
                                         <input class="drick-select__text" [ngClass]="{'active':onTextFocus}" type="text" [(ngModel)]="txtSearch"
                                             (keyup)="searchBrand(obj.brandId)"
                                             (focus)="onTextFocus = true" (focusout)="onFocusOut()" placeholder="Select one">
-                                           
+
                                             <i class="drick-select__icon caret nb-arrow-down"></i>
                                     </div>
                                     <div class="drick-select-container--toggle" [ngClass]="{'active':onTextFocus}"
@@ -100,7 +100,7 @@
                                 <span>Kategory</span>
                                 <div class="wrapper">
                                     <div>
-                                       
+
                                                 <div class="form-group">
                                                         <select formControlName="c1" class="form-control" id="exampleFormControlSelect1" (change)="c1Change(getC1.value.c1)" >
                                                                 <option [ngValue]="null" disabled selected>C1</option>
@@ -109,8 +109,8 @@
                                                                 </option>
                                                             </select>
                                                 </div>
-                                        
-    
+
+
                                     </div>
                                     <div>
                                                     <div class="form-group">
@@ -121,7 +121,7 @@
                                                                     </option>
                                                                 </select>
                                                     </div>
-                                       
+
                                     </div>
                                     <div>
                                                     <div class="form-group">
@@ -135,20 +135,20 @@
                                     </div>
                                 </div>
                             </form>
-    
+
                                 <span>deskripsi product</span>
                                 <div class="input-group">
-    
+
                                     <textarea class="form-control bgGrey" aria-label="With textarea" disabled>{{ listDetailProd.description }}</textarea>
                                 </div>
-    
+
                                 <span>spesifikasi</span>
                                 <div class="wrapper2">
                                     <div *ngFor="let item of listDetailProd.specification">
                                         <input  type="text" class="form-control bgGrey " placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="{{ item.name }}" disabled>
                                     </div>
                                 </div>
-    
+
                                 <table border="0" cellpadding="10">
                                     <tr>
                                         <td>Kondisi Barang</td>
@@ -173,16 +173,16 @@
                                                     {{ courier.name }} &nbsp; <input type="checkbox" id="checked" class="cbx hidden" checked disabled/>
                                                     &nbsp; <label for="checked" class="lbl"></label>
                                             </ng-template>
-                                               
+
                                                 <ng-template #iUseFalse>
                                                         {{ courier.name }} &nbsp; <input type="checkbox" id="checked_disabled" class="cbx hidden" disabled/>
                                                         &nbsp; <label for="checked_disabled" class="lbl"></label></ng-template>
                                                 </div></td>
-                                       
+
                                            <!-- <p> ini {{ sel }}</p> -->
-                                            
+
                                     </tr>
-                                  
+
                                     <tr>
                                         <td></td>
                                         <td></td>
@@ -205,9 +205,9 @@
                                         </td>
                                     </tr>
                                 </table>
-    
+
                             </div>
-    
+
                             <modal-mp [(visible)]="showDialog">
                                 <form [formGroup]="myForm">
                                     <div *ngIf="check === false; else login">
@@ -225,9 +225,9 @@
                                     <br>
                                     <textarea class="form-control" formControlName="tulisan" placeholder="Catatan Tambahan" aria-label="With textarea"></textarea>
                                 </form>
-    
+
                                 <button class="button-revise revise-right" (click)="oke(listDetailProd.version)" >
-                                    REVISE 
+                                    REVISE
                                 </button>
                                 <button (click)="showDialog = !showDialog" class="btn">Close</button>
                             </modal-mp>

@@ -1,9 +1,10 @@
-import { BrandList, AddProductRequest } from './../../models/manage-product/manage-product';
+import { BrandList, AddProductRequest, ManageProductListing } from './../../models/manage-product/manage-product';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import { ManageProduct, revise, ListBrand, listingCategory, listingProduct, detailListingProduct, deetailProd, putProduct } from '../../models/manage-product/manage-product';
+import { ManageProduct, revise, ListBrand, listingCategory, listingProduct,
+detailListingProduct, deetailProd, putProduct } from '../../models/manage-product/manage-product';
 import { Configuration } from '../../config/configuration';
 
 @Injectable()
@@ -83,6 +84,15 @@ export class ManageProductService {
   postData(data) {
     return this.http.post(this.configuration.apiURL + '/manage/product/product/create', data)
     .map(response => response as AddProductRequest );
+  }
+
+  getListingProductMaster(queryParams): Observable<ManageProductListing> {
+    let params = new HttpParams();
+    Object.keys(queryParams).forEach(function(k) {
+      params = params.append(k, queryParams[k]);
+    });
+    return this.http.get(this.configuration.apiURL + '/manage/product/master', {params: params})
+    .map(response => response as ManageProductListing );
   }
 
 }

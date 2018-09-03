@@ -110,7 +110,7 @@ export class StoreListComponent {
   }
 
   rubah(e){
-    const r = 
+    const r =
     e.replace(new RegExp('/', 'g'), '-');
     return r;
   }

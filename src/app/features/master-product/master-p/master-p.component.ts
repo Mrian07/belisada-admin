@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { BrandService } from './../../../@core/services/brand/brand.service';
 import swal from 'sweetalert2';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
@@ -19,8 +20,8 @@ export class MasterPComponent implements OnInit {
   limitBrand: Number = 100;
   onBrandFocus: Boolean = false;
   onProductNameFocus: Boolean = false;
-
-
+  measurementType: any;
+  measurementTypeL: any;
   categoryList = {
     C1: new CategoryList(),
     C2: new CategoryList(),
@@ -49,6 +50,7 @@ export class MasterPComponent implements OnInit {
     private el: ElementRef,
     private categoryService: CategoryService,
     private fb: FormBuilder,
+    private router: Router,
     private ProdService: ManageProductService,
   ) {
     this.currentPgBrand = 1;
@@ -56,6 +58,8 @@ export class MasterPComponent implements OnInit {
     this.categoryList.C2.data = [];
     this.categoryList.C3.data = [];
     this.categoryAttributes = [];
+    this.measurementType = 0;
+    this.measurementTypeL = 0;
   }
 
   get f() { return this.addProductForm.controls; }
@@ -69,22 +73,22 @@ export class MasterPComponent implements OnInit {
     this.addProductForm = this.fb.group({
       name: ['', [Validators.required]],
       brandId: [''],
-      brandName: [''],
-      categoryThreeId: ['', [Validators.required]],
-      classification: ['', [Validators.required]],
-      couriers: [[], [Validators.required]],
-      description: ['', [Validators.required]],
-      dimensionsWidth: ['', [Validators.required]],
-      dimensionsheight: ['', [Validators.required]],
-      dimensionslength: ['', [Validators.required]],
-      guaranteeTime: ['', [Validators.required]],
+      brandName: ['', [Validators.required]],
+      categoryThreeId: [''],
+      classification: [''],
+      couriers: [[]],
+      description: [''],
+      dimensionsWidth: [''],
+      dimensionsheight: [''],
+      dimensionslength: [''],
+      guaranteeTime: [''],
       imageUrl: [[], [Validators.required]],
-      pricelist: ['', [Validators.required]],
+      pricelist: [''],
       specialPrice: [''],
       discount: [''],
-      qty: ['', [Validators.required]],
+      qty: [''],
       specification: [[]],
-      weight: ['', [Validators.required]]
+      weight: ['']
     });
   }
 
@@ -210,6 +214,7 @@ export class MasterPComponent implements OnInit {
     this.addProductForm.patchValue({
       categoryThreeId: category.categoryId,
     });
+    console.log('12312321',this.addProductForm.get('categoryThreeId').value)
     this.categoryName[category.type] = category.name;
     this.categoryId[category.type] = category.categoryId;
     const queryParams = {
@@ -275,13 +280,63 @@ export class MasterPComponent implements OnInit {
     });
   }
 
+  numberCheck(event: any) {
+    const pattern = /[0-9]/;
+
+    const inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode !== 8 && !pattern.test(inputChar)) {
+        event.preventDefault();
+    }
+  }
+  calculateWeight() {
+    if (this.measurementType === '1') {
+      this.addProductForm.patchValue({
+        weight: +this.addProductForm.get('weight').value * 1000
+      });
+    }
+  }
+
+  calculatedimensionslength() {
+      this.addProductForm.patchValue({
+        dimensionslength: this.addProductForm.get('dimensionslength').value * 10
+      });
+      this.addProductForm.patchValue({
+        dimensionsWidth: this.addProductForm.get('dimensionsWidth').value * 10
+      });
+      this.addProductForm.patchValue({
+        dimensionsheight: this.addProductForm.get('dimensionsheight').value * 10
+      });
+      if (this.measurementTypeL === '1') {
+        this.addProductForm.patchValue({
+          dimensionslength: +this.addProductForm.get('dimensionslength').value * 0.0393700787 / 10
+        });
+      }
+  }
+
   oke() {
     this.specMapping(this.spec);
-    this.ProdService.postData( this.addProductForm.value).subscribe(response => {
-      swal(
-        response.message,
-      )
-    });
+    this.calculateWeight();
+    this.calculatedimensionslength();
+    console.log(this.addProductForm.value);
+    console.log(this.measurementTypeL);
+  // }
+
+
+    const imageUrl = this.addProductForm.get('imageUrl').value;
+    // if (imageUrl.length < 2 || imageUrl.length > 5) {
+    //   swal(
+    //     'Warning',
+    //     'Maaf gambar produk tidak boleh kurang dari dua atau lebih dari lima',
+    //     'warning'
+    //   );
+    //   return;
+    // }
+    // this.ProdService.postData( this.addProductForm.value).subscribe(response => {
+    //   swal(
+    //     response.message,
+    //   )
+    //   this.router.navigate(['/master-product/testing']);
+    // });
   }
 
 

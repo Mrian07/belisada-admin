@@ -222,3 +222,13 @@ export class AttributeValue {
   value: string;
   attributeId: number;
 }
+
+export class ManageProductListing {
+  last: boolean;
+  totalPages: number;
+  totalElements: number;
+  first: boolean;
+  numberOfElements: number;
+  size: number;
+  content: detailListingProduct[];
+}

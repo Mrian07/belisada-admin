@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../@theme/theme.module';
 import { MasterPComponent } from './master-p/master-p.component';
+import { ListingProductComponent } from './listing-product/listing-product.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,6 @@ import { MasterPComponent } from './master-p/master-p.component';
     ReactiveFormsModule,
     masterProutingmodule,
   ],
-  declarations: [masterPComponent, MasterPComponent]
+  declarations: [masterPComponent, MasterPComponent, ListingProductComponent]
 })
 export class MasterPModule { }
