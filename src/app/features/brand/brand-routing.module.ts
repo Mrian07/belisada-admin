@@ -1,3 +1,4 @@
+import { ManageBrandComponent } from './manage-brand/manage-brand.component';
 import { BrandAddComponent } from './brand-add/brand-add.component';
 import { BrandListComponent } from './brand-list/brand-list.component';
 import { BrandComponent } from './brand.component';
@@ -16,7 +17,11 @@ const routes: Routes = [
       {
         path: 'brand-add',
         component: BrandAddComponent,
-      }
+      },
+      {
+        path: 'manage-brand',
+        component: ManageBrandComponent,
+      },
     ],
   }
 ];

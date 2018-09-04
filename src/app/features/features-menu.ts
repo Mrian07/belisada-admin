@@ -48,7 +48,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'List',
         link: '/brand/list',
-      }
+      },
+      {
+        title: 'manage-brand',
+        link: '/brand/manage-brand',
+      },
     ],
   },
   {

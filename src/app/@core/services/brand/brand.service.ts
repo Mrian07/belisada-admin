@@ -1,3 +1,4 @@
+import { ManageBrand } from './../../models/brand/brand.model';
 import { Injectable } from '@angular/core';
 import { Configuration } from '../../config/configuration';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -46,5 +47,18 @@ export class BrandService {
   //   return this.http.put(this.configuration.apiURL + '/profile/avatar/update', data)
   //   .map(resp => resp as Avatar);
   // }
+
+  getDataManageBrand(queryParams): Observable<ManageBrand> {
+    let params = new HttpParams();
+    Object.keys(queryParams).forEach(function(k) {
+      params = params.append(k, queryParams[k]);
+    });
+    return this.http.get(this.configuration.apiURL + '/manage/brand', {params: params})
+    .map(resp => resp as ManageBrand);
+  }
+
+  getRejectOrApprove(data) {
+    return this.http.put(this.configuration.apiURL + '/manage/brand/approval/update', data);
+  }
 
 }

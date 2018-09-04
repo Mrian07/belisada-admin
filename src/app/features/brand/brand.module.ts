@@ -6,6 +6,7 @@ import { BrandListComponent } from './brand-list/brand-list.component';
 import { BrandAddComponent } from './brand-add/brand-add.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../@theme/theme.module';
+import { ManageBrandComponent } from './manage-brand/manage-brand.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { ThemeModule } from '../../@theme/theme.module';
     ReactiveFormsModule,
     BrandRoutingModule
   ],
-  declarations: [BrandComponent, BrandListComponent, BrandAddComponent]
+  declarations: [BrandComponent, BrandListComponent, BrandAddComponent, ManageBrandComponent]
 })
 export class BrandModule { }

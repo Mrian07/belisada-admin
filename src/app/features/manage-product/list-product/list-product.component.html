@@ -156,7 +156,7 @@
                                             <input type="checkbox" [(ngModel)]="isChecked" (change)="checkValue(isChecked?'A':'B')" disabled /> {{ listDetailProd.classificationValue }}
                                         </td>
                                         <td>Berat Barang</td>
-                                        <td>{{ listDetailProd.weight }}</td>
+                                        <td>{{ listDetailProd.weight }} gr</td>
                                     </tr>
                                     <tr>
                                         <td>Harga Barang</td>
@@ -166,7 +166,7 @@
                                     </tr>
                                     <tr>
                                         <td class="verticalAli">Stock Barang</td>
-                                        <td class="verticalAli">{{ listDetailProd.qtyTypeValue }}</td>
+                                        <td class="verticalAli">{{ listDetailProd.qty }}</td>
                                         <td class="verticalAli">Metode Pengiriman</td>
                                         <td> <div class="row press" *ngFor="let courier of listDetailProd.couriers">
                                             <ng-template [ngIf]="courier.isUse === true" [ngIfElse]="iUseFalse" >

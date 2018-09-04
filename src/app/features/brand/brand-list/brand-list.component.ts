@@ -38,7 +38,7 @@ export class BrandListComponent implements OnInit {
     public shareMessageService: ShareMessageService,
     private brandService: BrandService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit() {

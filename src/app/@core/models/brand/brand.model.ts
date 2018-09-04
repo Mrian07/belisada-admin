@@ -1,5 +1,5 @@
 export class List {
-    dataCount: number;  
+    dataCount: number;
     pageCount: number;
     data: Brand[];
 
@@ -23,7 +23,7 @@ export class Add {
     name: string;
     isActive: boolean;
     imageUrl: string;
-    status: number;  
+    status: number;
     message: string;
 }
 
@@ -32,9 +32,22 @@ export class Edit {
     brandId: number;
     isActive: boolean;
     imageUrl: string;
-    status: number;  
+    status: number;
     message: string;
 }
 
+export class ManageBrand {
+  dataCount: number;
+  pageCount: number;
+  data: ManageBrandList[];
+}
 
-
+export class ManageBrandList {
+  brandId: number;
+  name: string;
+  imageUrl: string;
+  isActive: boolean;
+  isBrandCreatedSeller: boolean;
+  status: string;
+  statusCode: string;
+}
