@@ -6,13 +6,13 @@
       Belum Bayar
     </div>
     <div  [ngClass]="(tabOrder=='233')?'btn-tab__active':'btn-tab__noActive'"  (click)="tab('233')">
-      Harus Bayar
+      Harus Kirim
     </div>
     <div [ngClass]="(tabOrder=='229')?'btn-tab__active':'btn-tab__noActive'"  (click)="tab('229')">
      Pembatalan
     </div>
     <div [ngClass]="(tabOrder=='230')?'btn-tab__active':'btn-tab__noActive'"  (click)="tab('230')">
-     Need Confrimation
+     Need Confirmation
     </div>
   </div>
 <div>
@@ -125,7 +125,7 @@
             <td></td>
             <td>
                 <span class="btn-konfirm" (click)="showDialog = !showDialog" (click)="ok(item.paymentNumber)">
-                    Confirm Transfer {{ item.status }}
+                    Confirm Transfer
                    </span>
             </td>
           </tr>
@@ -197,7 +197,7 @@
     </div>
     <hr>
   <div class="second__line--on-body">
-    <div class="text-color__black"> Penjual</div>
+    <div class="text-color__black"> Pembeli</div>
     <div class="text-color__black">Berita</div>
     <div> {{ getDataTranscation.buyerName }} </div>
     <div *ngIf="getDataTranscation.news === '';else JikaAdaNews"> belum ada data</div>
@@ -241,7 +241,7 @@
       <button class="btn btn--width btn__color-red" (click)="gakmasu(getDataTranscation.paymentNumber)">Reject</button>
     </div>
     <div class="d__for--button">
-      <button class="btn btn--width btn__color-green" (click)="confrimButton(getDataTranscation.paymentNumber)">Konfrimasi</button>
+      <button class="btn btn--width btn__color-green" (click)="confrimButton(getDataTranscation.paymentNumber)">Konfirmasi</button>
     </div>
   </div>
   <!-- <ng-template #xxasd>Please login to continue.</ng-template> -->

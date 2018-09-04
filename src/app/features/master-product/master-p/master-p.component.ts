@@ -22,6 +22,9 @@ export class MasterPComponent implements OnInit {
   onProductNameFocus: Boolean = false;
   measurementType: any;
   measurementTypeL: any;
+  xxzx: number;
+  ngMdimensionsWidth: number;
+  ngMdimensionsheight: number;
   categoryList = {
     C1: new CategoryList(),
     C2: new CategoryList(),
@@ -297,18 +300,23 @@ export class MasterPComponent implements OnInit {
   }
 
   calculatedimensionslength() {
-      this.addProductForm.patchValue({
-        dimensionslength: this.addProductForm.get('dimensionslength').value * 10
-      });
-      this.addProductForm.patchValue({
-        dimensionsWidth: this.addProductForm.get('dimensionsWidth').value * 10
-      });
-      this.addProductForm.patchValue({
-        dimensionsheight: this.addProductForm.get('dimensionsheight').value * 10
-      });
+    const b = +this.xxzx *  0.1;
+    const c = +this.ngMdimensionsWidth * 0.1;
+    const d = +this.ngMdimensionsheight * 0.1;
+    // console.log(b);
+    this.addProductForm.patchValue({
+      dimensionslength: b,
+      dimensionsWidth:  c,
+      dimensionsheight: d,
+    });
       if (this.measurementTypeL === '1') {
+        const ngModelLength = +this.xxzx * 0.0393701;
+        const ngModelWidth = +this.ngMdimensionsWidth * 0.0393701;
+        const ngModelHeight = +this.ngMdimensionsheight * 0.0393701;
         this.addProductForm.patchValue({
-          dimensionslength: +this.addProductForm.get('dimensionslength').value * 0.0393700787 / 10
+          dimensionslength: ngModelLength,
+          dimensionsWidth:  ngModelWidth,
+          dimensionsheight: ngModelHeight,
         });
       }
   }
@@ -317,26 +325,26 @@ export class MasterPComponent implements OnInit {
     this.specMapping(this.spec);
     this.calculateWeight();
     this.calculatedimensionslength();
-    console.log(this.addProductForm.value);
-    console.log(this.measurementTypeL);
-  // }
+    this.xxzx === this.addProductForm.get('dimensionslength').value;
+    // this.addroductForm.get('dimensionslength').value === this.xxzx;
+    console.log('123213213',this.addProductForm.value);
 
 
     const imageUrl = this.addProductForm.get('imageUrl').value;
-    // if (imageUrl.length < 2 || imageUrl.length > 5) {
-    //   swal(
-    //     'Warning',
-    //     'Maaf gambar produk tidak boleh kurang dari dua atau lebih dari lima',
-    //     'warning'
-    //   );
-    //   return;
-    // }
-    // this.ProdService.postData( this.addProductForm.value).subscribe(response => {
-    //   swal(
-    //     response.message,
-    //   )
-    //   this.router.navigate(['/master-product/testing']);
-    // });
+    if (imageUrl.length < 2 || imageUrl.length > 5) {
+      swal(
+        'Warning',
+        'Maaf gambar produk tidak boleh kurang dari dua atau lebih dari lima',
+        'warning'
+      );
+      return;
+    }
+    this.ProdService.postData( this.addProductForm.value).subscribe(response => {
+      swal(
+        response.message,
+      )
+      this.router.navigate(['/master-product/listing']);
+    });
   }
 
 

@@ -156,13 +156,16 @@
 <div class="row f-group">
     <label class="col-3 middle">Dimensi</label>
     <div class="col-2">
-        <input formControlName="dimensionslength"  type="text" class="f-control form-control" placeholder="P">
+        <input   [ngModelOptions]="{standalone: true}"  [(ngModel)]="xxzx" maxlength="15"   type="text" class="f-control form-control" placeholder="P">
+        <input formControlName="dimensionslength"  maxlength="15"  type="hidden" class="f-control form-control" placeholder="P">
     </div>
     <div class="col-2">
-        <input formControlName="dimensionsWidth"  type="text" class="f-control form-control" placeholder="L">
+        <input   [ngModelOptions]="{standalone: true}"  [(ngModel)]="ngMdimensionsWidth"  maxlength="15"  type="text" class="f-control form-control" placeholder="P">
+        <input formControlName="dimensionsWidth" (keypress)="numberCheck($event)" maxlength="15"  type="hidden" class="f-control form-control" placeholder="L">
     </div>
     <div class="col-2">
-        <input formControlName="dimensionsheight"  type="text" class="f-control form-control" placeholder="T">
+        <input   [ngModelOptions]="{standalone: true}"  [(ngModel)]="ngMdimensionsheight"  maxlength="15"  type="text" class="f-control form-control" placeholder="P">
+        <input formControlName="dimensionsheight" (keypress)="numberCheck($event)" maxlength="15"  type="hidden" class="f-control form-control" placeholder="T">
     </div>
     <div class="col-2">
         <select [(ngModel)]="measurementTypeL" [ngModelOptions]="{standalone: true}"  class="f-control form-control">
