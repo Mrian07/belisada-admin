@@ -87,7 +87,7 @@ export class BrandListComponent implements OnInit {
   }
 
 
-  loadData(){    
+  loadData(){
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
@@ -145,7 +145,7 @@ export class BrandListComponent implements OnInit {
             'Alert',
             response.message,
             'success',
-          );          
+          );
         }else{
           swal(
             'Alert',
@@ -156,7 +156,7 @@ export class BrandListComponent implements OnInit {
         this.loadData();
       });
     }
-  
+
   }
 
   changeStatus(id,status){
@@ -187,6 +187,27 @@ export class BrandListComponent implements OnInit {
   cancel(){
     this.idEdit= null;
     this.loadData();
+  }
+
+  searchK(event) {
+    const key = event.target.value;
+    const queryParams = {
+      page: this.currentPage,
+      itemperpage: 10,
+      ob: this.sortName,
+      ot: this.sortUrut,
+      name: key,
+    }
+    console.log(event);
+    if (key === '' || event.key === 'Enter') {
+      this.brandService.getList(queryParams).subscribe(response => {
+        this.list = response;
+      });
+    } else {
+      this.brandService.getList(queryParams).subscribe(data => {
+        this.list = data;
+      });
+    }
   }
 
   setUrl(event, img) {
