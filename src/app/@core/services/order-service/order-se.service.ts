@@ -35,7 +35,7 @@ export class OrderSeService {
         .map(res => res as Messa);
       }
       paymentFailed(data): Observable<Messa> {
-        return this.http.post(this.configuration.apiURL + '/order/order/confirmation/transactioncanceled' , data)
+        return this.http.post(this.configuration.apiURL + '/order/order/confirmation/paymentisfailed' , data)
         .map(res => res as Messa);
       }
 }

@@ -23,10 +23,65 @@
 
       <tr *ngFor="let obj of lisitingProd">
         <td> <img class="item__cusotmese__image" src="{{obj.imageUrl[0]}}"></td>
-        <td><p> {{ obj.name }}</p></td>
+        <td  (click)="openLg(content, obj.productId)"><p> {{ obj.name }}</p></td>
       </tr>
       </table>
 </nb-card-body>
+<!-- <ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img *ngFor="let item of a.imageUrl" src="item">
+        {{a.name}}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template> -->
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <img *ngFor="let item of a.imageUrl" src="item">
+        <hr>
+        <table class="table table-bordered table-striped">
+          <tr>
+            <td>Nama Product</td>
+            <td> {{ a.name }}</td>
+          </tr>
+          <tr>
+            <td>Nama Brand</td>
+            <td> {{ a.brandName}} </td>
+          </tr>
+          <tr>
+            <td>Categori ( C1, C2, C3 )</td>
+            <td> {{ a.categoryOneName }}, {{ a.categoryTwoName }}, {{ a.categoryThreeName }} </td>
+          </tr>
+          <tr>
+            <td>Deskripsi</td>
+            <td> {{ a.description }} </td>
+          </tr>
+          <tr>
+            <td>Berat</td>
+            <td> {{ a.weight }} (gram) </td>
+          </tr>
+          <tr>
+            <td>Dimension Width, Dimension Height, Dimension Length</td>
+            <td> {{ a.dimensionsWidth }}, {{ a.dimensionsheight }}, {{ a.dimensionslength }} (M)</td>
+          </tr>
+        </table>
+    </div>
+  </ng-template>
+
+
   <div class="paging">
     <ul>
         <li>

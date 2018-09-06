@@ -76,7 +76,7 @@ export class MasterPComponent implements OnInit {
     this.addProductForm = this.fb.group({
       name: ['', [Validators.required]],
       brandId: [''],
-      brandName: ['', [Validators.required]],
+      brandName: [''],
       categoryThreeId: [''],
       classification: [''],
       couriers: [[]],
@@ -91,7 +91,7 @@ export class MasterPComponent implements OnInit {
       discount: [''],
       qty: [''],
       specification: [[]],
-      weight: ['']
+      weight: [''],
     });
   }
 
@@ -324,6 +324,9 @@ export class MasterPComponent implements OnInit {
   oke() {
     this.specMapping(this.spec);
     this.calculateWeight();
+    if (this.xxzx === NaN) {
+      this.xxzx = 0;
+    }
     this.calculatedimensionslength();
     this.xxzx === this.addProductForm.get('dimensionslength').value;
     // this.addroductForm.get('dimensionslength').value === this.xxzx;
