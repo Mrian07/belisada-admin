@@ -176,7 +176,7 @@
   </div>
 <div class="row">
   <div class="col-12 text__positon">
-    <button type="button" (click)="oke()" class="btn btn-danger customz--button">Kirim</button>
+    <button type="button" (click)="oke()"[disabled]="addProductForm.invalid" class="btn btn-danger customz--button">Kirim</button>
   </div>
 </div>
 

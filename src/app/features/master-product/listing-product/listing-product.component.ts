@@ -2,7 +2,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { detailListingProduct } from './../../../@core/models/manage-product/manage-product';
 import { ManageProductService } from './../../../@core/services/manage-product/manage-product.service';
 import { Component, OnInit } from '@angular/core';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'listing-product',
   templateUrl: './listing-product.component.html',
@@ -15,7 +15,11 @@ export class ListingProductComponent implements OnInit {
   lastPage: number;
   currentPage: number;
   pages: any = [];
-  constructor( private mageProd: ManageProductService, private router: Router, private activatedRoute: ActivatedRoute) {
+  closeResult: string;
+  a: any;
+  constructor( private mageProd: ManageProductService, private router: Router,
+    private modalService: NgbModal,
+    private activatedRoute: ActivatedRoute) {
     this.prodImg = 'http://image.belisada.id:8888/unsafe/80x80/';
    }
 
@@ -78,6 +82,14 @@ export class ListingProductComponent implements OnInit {
         this.lisitingProd = data.content;
       });
     }
+  }
+  openLg(content, e) {
+    this.modalService.open(content, { size: 'lg' });
+  this.a = this.lisitingProd.find( x => x.productId === e);
+    console.log(this.a);
+  }
+  d(a) {
+    console.log(a);
   }
 
 }

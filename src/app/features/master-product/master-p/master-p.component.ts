@@ -76,7 +76,7 @@ export class MasterPComponent implements OnInit {
     this.addProductForm = this.fb.group({
       name: ['', [Validators.required]],
       brandId: [''],
-      brandName: ['', [Validators.required]],
+      brandName: [''],
       categoryThreeId: [''],
       classification: [''],
       couriers: [[]],
