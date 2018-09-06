@@ -13,5 +13,4 @@ export const environment = {
   // apiUrl: 'http://43.243.141.117:8080/belisada-admin'
   // apiUrl: 'http://192.168.0.8:8080/belisada-admin'
   apiUrl: 'https://api0.belisada.id/belisada-admin',
-  apiDev: 'https://api0.belisada.id/belisada',
 };

@@ -16,6 +16,7 @@ export class SpecListComponent implements OnInit {
   currentPage: number;
   lastPage: number;
   pages: any = [];
+  pageCount: any;
 
   status: boolean;
   idEdit: any;
