@@ -33,16 +33,13 @@ export class ManageBrandComponent implements OnInit {
       }
       this.brandService.getDataManageBrand(queryParams).subscribe(response => {
         this.list = response.data;
-        console.log(response.data)
-        for (this.xx of this.list) {
-          console.log(this.xx.brandId)
+        this.lastPage  = response.pageCount;
+        console.log('data gak luh',response)
+        for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
+          if (r > 0 && r <= this.lastPage) {
+            this.pages.push(r);
+          }
         }
-        // this.lastPage = this.list.pageCount;
-        // for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
-        //   if (r > 0 && r <= this.list.pageCount) {
-        //     this.pages.push(r);
-        //   }
-        // }
       });
     });
   }
@@ -84,6 +81,12 @@ export class ManageBrandComponent implements OnInit {
         this.list = response.data;
       });
     })
+  }
+  setPage(page: number, increment?: number) {
+    if (increment) { page = +page + increment; }
+    if (page < 1 || page > this.lastPage) { return false; }
+    // this.router.navigate(['/brand/list'], { queryParams: {page: page, ob: this.sortName, ot: this.sortUrut}, queryParamsHandling: 'merge' });
+    window.scrollTo(0, 0);
   }
 
 }
