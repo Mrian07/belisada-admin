@@ -320,14 +320,6 @@ export class MasterPComponent implements OnInit {
 
   oke() {
     this.specMapping(this.spec);
-    this.calculateWeight();
-    if (this.xxzx === NaN) {
-      this.xxzx = 0;
-    }
-    this.calculatedimensionslength();
-    this.xxzx === this.addProductForm.get('dimensionslength').value;
-    // this.addroductForm.get('dimensionslength').value === this.xxzx;
-    console.log('123213213',this.addProductForm.value);
 
 
     const imageUrl = this.addProductForm.get('imageUrl').value;
