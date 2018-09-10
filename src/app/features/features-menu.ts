@@ -50,7 +50,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/brand/list',
       },
       {
-        title: 'manage-brand',
+        title: 'Approval Brand',
         link: '/brand/manage-brand',
       },
     ],
@@ -86,7 +86,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
-    title: 'Master-Produk',
+    title: 'Master Produk',
     icon: 'nb-layout-default',
     children: [
       {
