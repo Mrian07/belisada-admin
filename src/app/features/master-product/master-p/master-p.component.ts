@@ -140,6 +140,7 @@ export class MasterPComponent implements OnInit {
       page: this.currentPgBrand,
       itemperpage: this.limitBrand,
       name: brandName === undefined ? '' : brandName,
+      isactive: true,
     };
     this.brandService.getList(queryParams).subscribe(response => {
       this.brandList = response;
@@ -155,6 +156,7 @@ export class MasterPComponent implements OnInit {
       page: this.currentPgBrand = 1,
       itemperpage: this.limitBrand,
       name: qsBrand === undefined ? '' : qsBrand,
+      isactive: true,
     };
     this.brandService.getList(queryParams).subscribe(response => {
       this.brandList = response;
