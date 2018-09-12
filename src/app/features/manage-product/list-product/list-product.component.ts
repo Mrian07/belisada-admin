@@ -282,7 +282,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   getDataC1() {
        const queryParams = {
       type: 'C1',
-      isActive: 'true'
+      isactive: true,
     }
     this.categoryService.getCategory(queryParams).subscribe(data => {
         this.c1 = data;
@@ -292,7 +292,9 @@ export class ListProductComponent implements OnInit, OnDestroy {
   getDatac2Oke(id) {
     const queryParams = {
       parentid: id,
-      isActive: 'true'
+      isactive: true,
+      itemperpage: 100,
+
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
@@ -302,7 +304,8 @@ export class ListProductComponent implements OnInit, OnDestroy {
   getDataC2(id, cb) {
     const queryParams = {
       parentid: this.cat1Ni,
-      isActive: 'true'
+      isactive: true,
+      itemperpage: 100,
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
@@ -313,7 +316,8 @@ export class ListProductComponent implements OnInit, OnDestroy {
   getDataC3(id, callback) {
     const queryParams = {
       parentid: id,
-      isActive: 'true',
+      isactive: true,
+      itemperpage: 100,
       type: "C3"
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
@@ -394,6 +398,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
         c1: this.cat1Ni,
         c3: const3
       });
+      console.log(const3);
     })
     // this.brandInit();
 
@@ -411,7 +416,8 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
     const queryParams = {
       parentid: a,
-      all:'true'
+      isactive: true,
+
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
@@ -419,7 +425,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
     const oke = {
       parentid: a,
-      all:'true',
+      isactive: true,
       type: "C3"
     }
 
@@ -436,7 +442,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
     const queryParams = {
       parentid: b,
-      all:'true'
+      isactive: true,
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
@@ -444,7 +450,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
     const oke = {
       parentid: b,
-      all:'true',
+      isactive: true,
       type: "C3"
     }
 
