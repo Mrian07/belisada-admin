@@ -226,7 +226,9 @@ export class MasterPComponent implements OnInit {
     console.log('123 ini di select', category.categoryId);
     this.categoryService.getListCategoryAttribute(queryParams).subscribe(response => {
       this.categoryAttributes = response;
-      console.log(response)
+      this.categoryAttributes.forEach((categoryAttribute) => {
+        this.spec[categoryAttribute.attributeId] = '';
+      });
 
       let categoryType;
       if (category.type === 'C1') {
@@ -322,8 +324,8 @@ export class MasterPComponent implements OnInit {
 
   oke() {
     this.specMapping(this.spec);
-
-
+    console.log('this.addProductForm.value', this.addProductForm.value);
+    console.log('spec', this.spec);
     const imageUrl = this.addProductForm.get('imageUrl').value;
     if (imageUrl.length < 2 || imageUrl.length > 5) {
       swal(
