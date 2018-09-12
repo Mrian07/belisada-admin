@@ -2,25 +2,97 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
+    title: 'Dashboard',
+    icon: 'nb-home',
+    link: '/dashboard',
+    home: true,
+  },
+  {
+    title: 'FEATURES',
+    group: true,
+  },
+  {
     title: 'Store',
-    icon: 'fa-window-maximize',
+    icon: 'nb-layout-default',
     children: [
       {
-        title: 'Login',
-        link: '/auth/login',
+        title: 'list',
+        link: '/store/list',
+      },
+    ],
+  },
+  {
+    title: 'Buyer',
+    icon: 'nb-layout-default',
+    children: [
+      {
+        title: 'List',
+        link: '/buyer/list',
+      }
+    ],
+  },
+  {
+    title: 'Product',
+    icon: 'nb-layout-default',
+    children: [
+      {
+        title: 'List',
+        link: '/product/list',
+      }
+    ],
+  },
+  {
+    title: 'Brand',
+    icon: 'nb-layout-default',
+    children: [
+      {
+        title: 'List',
+        link: '/brand/list',
       },
       {
-        title: 'Register',
-        link: '/auth/register',
+        title: 'Approval Brand',
+        link: '/brand/manage-brand',
       },
+    ],
+  },
+  {
+    title: 'Spec',
+    icon: 'nb-layout-default',
+    children: [
       {
-        title: 'Request Password',
-        link: '/auth/request-password',
-      },
+        title: 'List',
+        link: '/spec/list',
+      }
+    ],
+  },
+  {
+    title: 'Category',
+    icon: 'nb-layout-default',
+    children: [
       {
-        title: 'Reset Password',
-        link: '/auth/reset-password',
-      },
+        title: 'List',
+        link: '/category/list',
+      }
+    ],
+  },
+  {
+    title: 'Order',
+    icon: 'nb-layout-default',
+    children: [
+      {
+        title: 'list',
+        link: '/order/list',
+      }
+    ],
+  },
+  {
+    title: 'Master Produk',
+    icon: 'nb-layout-default',
+    children: [
+      {
+        title: 'listing',
+        link: '/master-product/listing',
+      }
     ],
   },
 ];

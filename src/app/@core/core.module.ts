@@ -1,3 +1,9 @@
+import { OrderSeService } from './services/order-service/order-se.service';
+import { SpecService } from './services/spec/spec.service';
+import { CategoryService } from './services/category/category.service';
+import { ShareMessageService } from './services/share-message/share-message.service';
+import { BrandService } from './services/brand/brand.service';
+import { ProfileService } from './services/profile/profile.service';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NbAuthModule, NbDummyAuthProvider } from '@nebular/auth';
@@ -7,7 +13,11 @@ import { of as observableOf } from 'rxjs/observable/of';
 import { throwIfAlreadyLoaded } from './module-import-guard';
 import { DataModule } from './data/data.module';
 import { AnalyticsService } from './utils/analytics.service';
-
+import { AuthenticationService } from './services/authentication/authentication.service';
+import { Configuration } from './config/configuration';
+import { ManageBuyerService } from './services/manage-buyer/manage-buyer.service';
+import { ManageStoreService } from './services/manage-store/manage-store.service';
+import { ManageProductService } from './services/manage-product/manage-product.service';
 const socialLinks = [
   {
     url: 'https://github.com/akveo/nebular',
@@ -73,6 +83,20 @@ const NB_CORE_PROVIDERS = [
   AnalyticsService,
 ];
 
+const BELISADA_PROVIDERS = [
+  AuthenticationService,
+  ProfileService,
+  BrandService,
+  Configuration,
+  ManageBuyerService,
+  ManageStoreService,
+  ShareMessageService,
+  CategoryService,
+  ManageProductService,
+  SpecService,
+  OrderSeService
+]
+
 @NgModule({
   imports: [
     CommonModule,
@@ -92,6 +116,7 @@ export class CoreModule {
       ngModule: CoreModule,
       providers: [
         ...NB_CORE_PROVIDERS,
+        ...BELISADA_PROVIDERS
       ],
     };
   }

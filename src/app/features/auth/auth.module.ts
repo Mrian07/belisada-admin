@@ -6,6 +6,8 @@ import { LoginComponent } from './login/login.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ThemeModule } from '../../@theme/theme.module';
 import { DashboardModule } from '../../pages/dashboard/dashboard.module';
+import { AuthComponent } from './auth.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
   imports: [
@@ -14,6 +16,6 @@ import { DashboardModule } from '../../pages/dashboard/dashboard.module';
     DashboardModule,
     AuthRoutingModule
   ],
-  declarations: [LoginComponent, ResetPasswordComponent]
+  declarations: [AuthComponent, LoginComponent, ResetPasswordComponent, ForgotPasswordComponent]
 })
 export class AuthModule { }

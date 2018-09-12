@@ -1,0 +1,140 @@
+<nb-card>
+  <nb-card-header>
+      Category List
+  </nb-card-header>
+
+  <nb-card-body>
+
+    <div class="row">
+        <div class="col-md-12 col-lg-3">
+            <h3>Category C1</h3>
+            <div class="scroll-cat">
+                <div *ngFor="let itemC1 of listCat1.data" class="menu-cat1" [ngClass]="{'inactive':itemC1.isActive === false}">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-9" (click)="srcCat2(itemC1.categoryId)">
+                            {{itemC1.name}} 
+                        </div>
+                        <div class="col-md-3 col-lg-3 edit-cat" (click)="editCategory(content,typeCat,itemC1.categoryId,itemC1.name,itemC1.nameEn,itemC1.isActive)">
+                            <i class="fa fa-pencil fa-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-add-c1" (click)="addCategory(content)">
+                <i class="fa fa-plus blue-icon"></i> Add New C1
+            </div>
+            
+        </div>
+        <div class="col-md-12 col-lg-3">
+            <h3 *ngIf="isC2 == true">Category C2</h3>
+            
+            <div class="menu-cat2 scroll-cat" *ngIf="isC2 == true">
+                <div *ngIf="isDataC1==true">
+                    <div *ngFor="let itemC2 of listCat2.data" class="sub-menu-cat2" [ngClass]="{'inactive':itemC2.isActive === false}">
+                        <div class="row">
+                            <div class="col-md-9 col-lg-9" (click)="srcCat3(itemC2.categoryId)">
+                                {{itemC2.name}} 
+                            </div>
+                            <div class="col-md-3 col-lg-3 edit-cat" (click)="editCategory(content,typeCat2,itemC2.categoryId,itemC2.name,itemC2.nameEn,itemC2.isActive)">
+                                <i class="fa fa-pencil fa-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-add-c2" (click)="addCategory2(content,parentC1)">
+                    <i class="fa fa-plus blue-icon"></i> Add New C2
+                </div>
+            </div>
+        
+        </div>
+        <div class="col-md-12 col-lg-3">
+            <h3 *ngIf="isC3 == true">Category C3</h3>
+            <div class="menu-cat2 scroll-cat" *ngIf="isC3 == true">
+                <div *ngIf="isDataC2==true">
+                    <div *ngFor="let itemC3 of listCat3.data" class="sub-menu-cat2" [ngClass]="{'inactive':itemC3.isActive === false}">
+                        <div class="row">
+                            <div class="col-md-9 col-lg-9" (click)="srcSpec(itemC3.categoryId)">
+                                {{itemC3.name}} 
+                            </div>
+                            <div class="col-md-3 col-lg-3 edit-cat" (click)="editCategory(content,typeCat3,itemC3.categoryId,itemC3.name,itemC3.nameEn,itemC3.isActive)">
+                                <i class="fa fa-pencil fa-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-add-c2" (click)="addCategory3(content,parentC2)">
+                    <i class="fa fa-plus blue-icon"></i> Add New C2
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-3">
+            <h3 *ngIf="isSpec == true">Spesifikasi</h3>
+            <div class="menu-spec scroll-cat" *ngIf="isSpec == true">
+                <div *ngIf="isDataSpec==true">
+                    <div *ngFor="let spec of listSpec" class="sub-menu-cat2" [ngClass]="{'inactive':spec.isActive === false}">
+                        <div class="row">
+                            <div class="col-md-9 col-lg-9">
+                                {{spec.name}} 
+                            </div>
+                            <div class="col-md-3 col-lg-3 edit-cat" (click)="deleteSpec(spec.attributeId, parentC3)">
+                                <i class="fa fa-pencil fa-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-add-c2" (click)="addSpec(content,parentC3)">
+                    <i class="fa fa-plus blue-icon"></i> Add Spec
+                </div>
+            </div>
+        </div>
+    </div>
+
+  </nb-card-body>
+</nb-card>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">{{titlePopUp}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <input type="hidden" [(ngModel)]="parentC1">
+        <input type="hidden" [(ngModel)]="parentC2">
+        <input type="hidden" [(ngModel)]="parentC3">
+        <input type="hidden" [(ngModel)]="parentSpec">
+        <input type="hidden" [(ngModel)]="typeAdd">
+        <input type="hidden" [(ngModel)]="idAdd">
+        <div class="form-group" *ngIf="typeAdd == 'spec'">
+            <label for="usr">Name:</label>
+            <input type="text" [(ngModel)]="nameAdd" class="form-control" (keyup)="autoSrc()" placeholder="Name">
+            <div *ngFor="let itemAuto of listAutoSrc.data">
+               <div class="autoSrc" (click)="pilih(itemAuto.name,itemAuto.attributeId)">{{itemAuto.name}}</div>
+            </div>
+        </div>
+        <div class="form-group" *ngIf="typeAdd != 'spec'">
+            <label for="usr">Name ID:</label>
+            <input type="text" [(ngModel)]="nameAdd" class="form-control" placeholder="Name">
+        </div>
+        <div class="form-group" *ngIf="typeAdd != 'spec'">
+            <label for="pwd">Nama En:</label>
+            <input type="text" [(ngModel)]="nameEnAdd" class="form-control" placeholder="Name En">
+        </div>
+        <div class="form-group" *ngIf="idAdd && (typeAdd != 'spec')">
+            <label for="pwd">Aktif:</label>
+            <select [(ngModel)]="isActive" class="form-control">
+                <option value="true">Iya</option>
+                <option value="false">Tidak</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button> -->
+        <button class="btn btn-lg btn-outline-primary" (click)="save()" *ngIf="actionCat=='add'">Simpan</button>
+        <button class="btn btn-lg btn-outline-primary" (click)="update()" *ngIf="actionCat=='edit'">Update</button>
+    </div>
+</ng-template>
+
+
+
+      

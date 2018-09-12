@@ -29,7 +29,7 @@ import {
   ThemeSwitcherComponent,
   TinyMCEComponent,
 } from './components';
-import { CapitalizePipe, PluralPipe, RoundPipe, TimingPipe } from './pipes';
+import { CapitalizePipe, PluralPipe, RoundPipe, TimingPipe, SearchPipe } from './pipes';
 import {
   OneColumnLayoutComponent,
   SampleLayoutComponent,
@@ -38,6 +38,7 @@ import {
 } from './layouts';
 import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
+import { ModalMPComponent } from '../features/manage-product/modal/modal-mp.component';
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 
@@ -69,6 +70,7 @@ const COMPONENTS = [
   SampleLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+  ModalMPComponent
 ];
 
 const PIPES = [
@@ -76,12 +78,13 @@ const PIPES = [
   PluralPipe,
   RoundPipe,
   TimingPipe,
+  SearchPipe
 ];
 
 const NB_THEME_PROVIDERS = [
   ...NbThemeModule.forRoot(
     {
-      name: 'cosmic',
+      name: 'default',
     },
     [ DEFAULT_THEME, COSMIC_THEME ],
   ).providers,
