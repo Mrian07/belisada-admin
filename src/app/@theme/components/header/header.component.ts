@@ -1,3 +1,4 @@
+import { UserData } from './../../../@core/models/profile/profile.model';
 import { Component, Input, OnInit } from '@angular/core';
 
 import { NbMenuService, NbSidebarService } from '@nebular/theme';
@@ -15,6 +16,7 @@ export class HeaderComponent implements OnInit {
   @Input() position = 'normal';
 
   user: any;
+  userData: UserData = new UserData();
 
   userMenu = [{ title: 'Profile', link:'/profile' }, { title: 'Log out' , link: '/profile/logout' }];
 
@@ -25,8 +27,10 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user = localStorage.getItem('name');
+    console.log('hemm', this.user);
     this.userService.getUsers()
-      .subscribe((users: any) => this.user = users.nick);
+      .subscribe((users: any) => this.user = this.user);
   }
 
   toggleSidebar(): boolean {

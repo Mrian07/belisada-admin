@@ -1,5 +1,5 @@
 export class Profile {
-  name: string;  
+  name: string;
   email: any;
   phone: number;
   isActive: boolean;
@@ -20,9 +20,17 @@ export class Profile {
   imageAvatar: any;
   constructor() {}
 }
+export class UserData {
+  avatar: string;
+  email: string;
+  name: string;
+  role: number;
+  storeId: number;
+}
+
 
 export class ChangePassword {
-  newPassword: string;  
+  newPassword: string;
   oldPassword: string;
   email: string;
   message: string;
@@ -36,7 +44,7 @@ export class ChangePassword {
 }
 
 export class ChangePasswordRequest {
-  newPassword: string;  
+  newPassword: string;
   oldPassword: string;
   message: string;
   status: number;
@@ -44,7 +52,7 @@ export class ChangePasswordRequest {
 }
 
 export class Avatar {
-  imageAvatar: string;  
+  imageAvatar: string;
   status: number;
   constructor() {}
 }

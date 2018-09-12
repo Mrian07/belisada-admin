@@ -40,10 +40,11 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     const login: Login = this.signinFormGroup.value;
     this.authenticationService.doLogin(login).subscribe(
-    result => {      
+    result => {
       // Handle result
       if (result.status === 1) {
         localStorage.setItem(LocalStorageEnum.TOKEN_KEY, result.token);
+        localStorage.setItem(LocalStorageEnum.NAME, result.name);
         sessionStorage.setItem(LocalStorageEnum.TOKEN_KEY, result.token);
         this.router.navigate(['/dashboard']);
       } else{
