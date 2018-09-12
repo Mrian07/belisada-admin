@@ -141,7 +141,6 @@ export class SpecListComponent implements OnInit {
             'error',
           );
         }
-        this.loadData();
       });
     }
 
@@ -168,9 +167,19 @@ export class SpecListComponent implements OnInit {
           "isActive":this.status
         }
         this.specService.changeStatus(data).subscribe(response => {
-          this.loadData();
+          this.GetDataWhenActionIsClick();
         });
       }
+    });
+  }
+
+  private GetDataWhenActionIsClick() {
+    const queryParams = {
+      page: this.currentPage,
+      itemperpage: 10,
+    };
+    this.specService.getList(queryParams).subscribe(response => {
+      this.list = response;
     });
   }
 
