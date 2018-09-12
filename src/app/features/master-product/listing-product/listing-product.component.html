@@ -23,7 +23,7 @@
 
       <tr *ngFor="let obj of lisitingProd">
         <td> <img class="item__cusotmese__image" src="{{obj.imageUrl[0]}}"></td>
-        <td  (click)="openLg(content, obj.productId)"><p> {{ obj.name }}</p></td>
+        <td class="td__cusotmese__image" (click)="openLg(content, obj.productId)"><p> {{ obj.name }}</p></td>
       </tr>
       </table>
 </nb-card-body>
@@ -50,7 +50,7 @@
       </button>
     </div>
     <div class="modal-body">
-        <img *ngFor="let item of a.imageUrl" src="item">
+        <img class="img--post" *ngFor="let item of a.imageUrl" src="item">
         <hr>
         <table class="table table-bordered table-striped">
           <tr>
