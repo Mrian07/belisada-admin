@@ -126,6 +126,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
   isC2: boolean;
   isC3: boolean;
+  idC2: any;
 
 
   isDataC1: boolean;
@@ -380,10 +381,10 @@ export class ListProductComponent implements OnInit, OnDestroy {
     // this.txtSearch = this.brandList.data.find(x => x.brandId === bId).name;
     // console.log('this.brandList.data.find(x => x.brandId === this.brandId).name;', this.brandList.data.find(x => x.brandId === this.brandId).name)
     this.cat3Value = cat3;
-     this.cat1Ni = this.c1.data.find(x => x.categoryId === cat1).categoryId;
+    this.cat1Ni = this.c1.data.find(x => x.categoryId === cat1).categoryId;
 
     this.getDataC2(this.cat1Ni, () => {
-       this.const2 = this.c2.data.find(x => x.categoryId === cat2).categoryId;
+      this.const2 = this.c2.data.find(x => x.categoryId === cat2).categoryId;
       this.getC1.patchValue({
         c1: this.cat1Ni,
         c2: this.const2
@@ -409,7 +410,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
 
   c1Change(a) {
-
+    this.idC2 = a;
     this.cat1Ni = 111
     this.c2.data = [];
     const cat1Ni = this.c1.data.find(x => x.categoryId === a).categoryId;
@@ -417,16 +418,19 @@ export class ListProductComponent implements OnInit, OnDestroy {
     const queryParams = {
       parentid: a,
       isactive: true,
+      itemperpage: 100,
 
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
+      console.log('ini');
     });
 
     const oke = {
       parentid: a,
       isactive: true,
-      type: "C3"
+      type: "C3",
+      itemperpage: 100,
     }
 
     this.categoryService.getCategory(oke).subscribe(data =>{
@@ -438,14 +442,18 @@ export class ListProductComponent implements OnInit, OnDestroy {
   c2Change(b){
     this.cat1Ni = 111
     this.c3.data = [];
+    this.cat3Value = b;
     // const cat1Ni = this.c1.data.find(x => x.categoryId === b).categoryId;
 
     const queryParams = {
-      parentid: b,
+      parentid: this.idC2,
       isactive: true,
+      type: "C2"
     }
     this.categoryService.getCategory(queryParams).subscribe(data =>{
       this.c2 = data;
+
+      console.log(b);
     });
 
     const oke = {
@@ -529,7 +537,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
         {
           swal({
             title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            text: 'You won\'t be able to revert this!',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -567,7 +575,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
         {
           swal({
             title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            text: 'You won\'t be able to revert this!',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -630,7 +638,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
      {
       swal({
         title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        text: 'You won\'t be able to revert this!',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -696,7 +704,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.brandInit();
     this.loadData();
-    this.newMethod();
+    this.newMethod()
     this.form_All();
     this.getDataC1();
   }
