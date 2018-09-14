@@ -1,0 +1,9 @@
+<h3 class="title">Courir Management</h3>
+<div class="c-contain">
+  <div class="bc" *ngFor="let item of listCourir">
+    <img src="{{item.imageurl}}" height="80">
+    <div *ngFor="let it of item.services">
+      <input type="checkbox" ng-checked="it.isUse == 'true'"> {{it.name}} {{it.isUse}}
+    </div>
+  </div>
+</div>
