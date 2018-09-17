@@ -161,14 +161,15 @@
                                     <tr>
                                         <td>Harga Barang</td>
                                         <td>Rp. {{ listDetailProd.pricelist| number }}</td>
-                                        <td>Dimensi Barang</td>
-                                        <td>{{  listDetailProd.volume }}</td>
+                                        <!-- <td>Dimensi Barang</td>
+                                        <td>{{  listDetailProd.volume }}</td> -->
                                     </tr>
                                     <tr>
                                         <td class="verticalAli">Stock Barang</td>
                                         <td class="verticalAli">{{ listDetailProd.qty }}</td>
                                         <td class="verticalAli">Metode Pengiriman</td>
-                                        <td> <div class="row press" *ngFor="let courier of listDetailProd.couriers">
+                                        <td>
+                                          <div class="row grid--courier press" *ngFor="let courier of listDetailProd.couriers">
                                             <ng-template [ngIf]="courier.isUse === true" [ngIfElse]="iUseFalse" >
                                                     {{ courier.name }} &nbsp; <input type="checkbox" id="checked" class="cbx hidden" checked disabled/>
                                                     &nbsp; <label for="checked" class="lbl"></label>
@@ -177,7 +178,8 @@
                                                 <ng-template #iUseFalse>
                                                         {{ courier.name }} &nbsp; <input type="checkbox" id="checked_disabled" class="cbx hidden" disabled/>
                                                         &nbsp; <label for="checked_disabled" class="lbl"></label></ng-template>
-                                                </div></td>
+                                                </div>
+                                              </td>
 
                                            <!-- <p> ini {{ sel }}</p> -->
 

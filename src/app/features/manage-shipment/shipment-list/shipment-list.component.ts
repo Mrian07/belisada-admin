@@ -10,6 +10,7 @@ import { ListCourir } from './../../../@core/models/courir/courir.model';
 })
 export class ShipmentListComponent implements OnInit {
   listCourir: ListCourir;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -17,14 +18,34 @@ export class ShipmentListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-   this.loadData();
+    this.loadData();
   }
 
   loadData(){
     this.courirServices.getCourir().subscribe(response => {
       this.listCourir = response;
-      console.log('datanya', response);
     });
   }
 
+  check(courierId, courierServiceId){
+    const data = {
+      courierId: courierId,
+      courierServiceId: [courierServiceId]
+    }
+
+    this.courirServices.updateCourier(data).subscribe(response => {
+      console.log('hasilnya', response);
+    });
+  }
+
+  openclose(courierId){
+    const data = {
+      courierId: courierId,
+      courierServiceId: []
+    }
+
+    this.courirServices.updateCourier(data).subscribe(response => {
+      this.loadData();
+    });
+  }
 }

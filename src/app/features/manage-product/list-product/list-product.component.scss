@@ -11,7 +11,7 @@
     color: yellow;
   }
 
-  
+
 .bgGrey {
     background: #eee;
 }
@@ -282,9 +282,9 @@ z-index: -9999;
     width: 60px;
     height: 34px;
   }
-  
+
   .switch input {display:none;}
-  
+
   .slider {
     position: absolute;
     cursor: pointer;
@@ -296,7 +296,7 @@ z-index: -9999;
     -webkit-transition: .4s;
     transition: .4s;
   }
-  
+
   .slider:before {
     position: absolute;
     content: "";
@@ -308,26 +308,26 @@ z-index: -9999;
     -webkit-transition: .4s;
     transition: .4s;
   }
-  
+
   input:checked + .slider {
     background-color: #2196F3;
   }
-  
+
   input:focus + .slider {
     box-shadow: 0 0 1px #2196F3;
   }
-  
+
   input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
   }
-  
+
   /* Rounded sliders */
   .slider.round {
     border-radius: 34px;
   }
-  
+
   .slider.round:before {
     border-radius: 50%;
   }
@@ -347,7 +347,7 @@ z-index: -9999;
     color: white;
     /* height: 32px; */
     padding: 11px;
-  
+
   }
   .button-rejected {
     margin: 4px;
@@ -356,25 +356,25 @@ z-index: -9999;
     color: white;
     /* height: 32px; */
     padding: 11px;
-  
+
   }
-  
+
   .padding-for-body {
       padding: 10px;
   }
-  
+
   .revise-right {
     position: relative;
   left: 68%;
   }
-  
+
   .body-custome {
     background: #E5E5E5;
 //   border: 1px solid black;
-  border-radius: 10px;  
+  border-radius: 10px;
   }
 
-  
+
   .lbl {
     position: relative;
     display: block;
@@ -427,7 +427,7 @@ z-index: -9999;
   .hidden {
     display: none;
   }
-  
+
   .verticalAli {
       vertical-align: initial;
   }
@@ -436,20 +436,20 @@ z-index: -9999;
 .pagination {
     display: inline-block;
   }
-  
+
   .pagination a {
     color: black;
     float: left;
     padding: 8px 16px;
     text-decoration: none;
   }
-  
+
   .pagination a.active {
     background-color: #4CAF50;
     color: white;
   }
   .pagination a:hover:not(.active) {background-color: #ddd;}
-  
+
   .paging ul {
     list-style-type: none;
     padding: 0;
@@ -516,5 +516,11 @@ z-index: -9999;
       -ms-transform: scale(1.5, 1.5);
       -webkit-transform: scale(4, 4);
       transform: scale(5, 5);
-      
+
+  }
+
+  .grid--courier {
+    display: grid;
+    // color: $color-red;
+    grid-template-columns: 80% 20%;
   }

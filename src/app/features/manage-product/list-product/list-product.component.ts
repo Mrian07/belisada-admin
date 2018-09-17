@@ -380,7 +380,14 @@ export class ListProductComponent implements OnInit, OnDestroy {
     /* dibawah adalah cara mencari brand id menggunakan find tolong jangan di hapus takut takut berguna */
     // this.txtSearch = this.brandList.data.find(x => x.brandId === bId).name;
     // console.log('this.brandList.data.find(x => x.brandId === this.brandId).name;', this.brandList.data.find(x => x.brandId === this.brandId).name)
-    this.cat3Value = cat3;
+    console.log('kwlekq;lwekqwlewq;e',cat3);
+    if (cat3 === 0) {
+      this.cat3Value = cat2;
+      console.log('ini kalo 0 boz')
+    } else {
+      this.cat3Value = cat3;
+      console.log('ini bukan 0')
+    }
     this.cat1Ni = this.c1.data.find(x => x.categoryId === cat1).categoryId;
 
     this.getDataC2(this.cat1Ni, () => {
@@ -394,12 +401,24 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
 
     this.getDataC3(cat2, () => {
-      const const3: number = this.c3.data.find(x => x.categoryId === cat3).categoryId;
-      this.getC1.patchValue({
-        c1: this.cat1Ni,
-        c3: const3
-      });
-      console.log(const3);
+      console.log(cat3);
+      if (cat3 !== 0) {
+        const const3: number = this.c3.data.find(x => x.categoryId === cat3).categoryId;
+        this.getC1.patchValue({
+          c1: this.cat1Ni,
+          c3: const3
+        });
+        console.log(const3);
+      } else {
+        console.log('123123213')
+        // const const3: number = this.c2.data.find(x => x.categoryId === cat2).categoryId;
+        this.getC1.patchValue({
+          c1: this.cat1Ni,
+          c3:  cat2,
+        });
+        console.log('this.', cat2);
+      }
+
     })
     // this.brandInit();
 
@@ -477,6 +496,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
    }
 
   iniC3(c){
+    console.log('c123213213jk123jlj');
     this.cat3Value = c;
   }
 
