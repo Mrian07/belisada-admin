@@ -96,56 +96,85 @@
                                     </div>
                                 </div>
                                 <br>
-                                <form [formGroup]="getC1">
                                 <span>Kategory</span>
-                                <div class="wrapper">
-                                    <div>
-
-                                                <div class="form-group">
-                                                        <select formControlName="c1" class="form-control" id="exampleFormControlSelect1" (change)="c1Change(getC1.value.c1)" >
-                                                                <option [ngValue]="null" disabled selected>C1</option>
-                                                                <option *ngFor="let option of c1.data" [ngValue]="option.categoryId" placeholder="Pilih kota">
-                                                                    {{ option.name }}
-                                                                </option>
-                                                            </select>
-                                                </div>
-
-
+                            <div class="wrapper">
+                                <div class="drick-select-container">
+                                    <div class="ui icon input parent">
+                                        <input class="f-control drick-select__text form-control" [ngClass]="{'active':onCategoryFocus.C1}" type="text" [(ngModel)]="categoryName.C1"
+                                            (keyup)="searchCategory('C1')" [ngModelOptions]="{standalone: true}"
+                                            (focus)="onCategoryFocus.C1 = true" (focusout)="onCategoryBlur('C1')"
+                                            placeholder="Select one">
+                                        <i class="drick-select__icon caret down icon"></i>
                                     </div>
-                                    <div>
-                                                    <div class="form-group">
-                                                            <select formControlName="c2" class="form-control" id="exampleFormControlSelect1" (change)="c2Change(getC1.value.c2)"  >
-                                                                    <option [ngValue]="null" disabled selected>C2</option>
-                                                                    <option *ngFor="let option of c2.data" [ngValue]="option.categoryId" placeholder="Pilih kota">
-                                                                        {{ option.name }}
-                                                                    </option>
-                                                                </select>
-                                                    </div>
+                                    <div class="drick-select-container--toggle" [ngClass]="{'active':onCategoryFocus.C1}"
+                                        id="drick-scroll-container--category">
+                                        <ul class="drick-select-list">
+                                            <li *ngFor="let category of categoryList.C1.data" (click)="selectCategory(category)">
+                                                {{category.name}}
+                                            </li>
 
-                                    </div>
-                                    <div>
-                                                    <div class="form-group">
-                                                            <select formControlName="c3" class="form-control" id="exampleFormControlSelect1" (change)="iniC3(getC1.value.c3)">
-                                                                    <option [ngValue]="null" disabled selected>C3</option>
-                                                                    <option *ngFor="let option of c3.data" [ngValue]="option.categoryId" placeholder="Pilih kota">
-                                                                        {{ option.name }}
-                                                                    </option>
-                                                                </select>
-                                                    </div>
+                                        </ul>
                                     </div>
                                 </div>
-                            </form>
+
+                                <div class="drick-select-container">
+                                  <div class="ui icon input parent">
+                                      <input class="f-control drick-select__text form-control" [ngClass]="{'active':onCategoryFocus.C2}" type="text" [(ngModel)]="categoryName.C2"
+                                          (keyup)="searchCategory('C2', categoryId.C1)" [ngModelOptions]="{standalone: true}"
+                                          (focus)="onCategoryFocus.C2 = true" (focusout)="onCategoryBlur('C2')"
+                                          placeholder="Select one">
+                                          <!-- <bss-field-error [displayError]="categoryName.C2 === ''" errorMsg="Silahkan masukan deskripsi produk kamu"></bss-field-error> -->
+                                      <i class="drick-select__icon caret down icon"></i>
+                                  </div>
+                                  <div class="drick-select-container--toggle" [ngClass]="{'active':onCategoryFocus.C2}"
+                                      id="drick-scroll-container--category">
+                                      <ul class="drick-select-list">
+                                          <li *ngFor="let category of categoryList.C2.data" (click)="selectCategory(category)">
+                                              {{category.name}}
+                                          </li>
+                                      </ul>
+                                  </div>
+                              </div>
+
+                              <div class="drick-select-container">
+                                <div class="ui icon input parent">
+                                    <input class="f-control drick-select__text form-control" [ngClass]="{'active':onCategoryFocus.C3}" type="text" [(ngModel)]="categoryName.C3"
+                                        (keyup)="searchCategory('C3', categoryId.C2)" [ngModelOptions]="{standalone: true}"
+                                        (focus)="onCategoryFocus.C3 = true" (focusout)="onCategoryBlur('C3')"
+                                        placeholder="Select one">
+                                    <i class="drick-select__icon caret down icon"></i>
+                                </div>
+                                <div class="drick-select-container--toggle" [ngClass]="{'active':onCategoryFocus.C3}"
+                                    id="drick-scroll-container--category">
+                                    <ul class="drick-select-list">
+                                        <li *ngFor="let category of categoryList.C3.data" (click)="selectCategory(category)">
+                                            {{category.name}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            </div>
+                        <form [formGroup]="addProductForm">
+
 
                                 <span>deskripsi product</span>
                                 <div class="input-group">
 
-                                    <textarea class="form-control bgGrey" aria-label="With textarea" disabled>{{ listDetailProd.description }}</textarea>
+                                    <textarea formControlName="description"  class="form-control bgGrey" aria-label="With textarea" disabled></textarea>
                                 </div>
 
                                 <span>spesifikasi</span>
-                                <div class="wrapper2">
-                                    <div *ngFor="let item of listDetailProd.specification">
-                                        <input  type="text" class="form-control bgGrey " placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="{{ item.name }}" disabled>
+                                <div class="col-4">
+
+                                    <div class="f-group" *ngFor="let categoryAttribute of categoryAttributes">
+
+                                        <select [(ngModel)]="spec[categoryAttribute.attributeId]"  class="f-control form-control bgGrey "
+                                            [attr.required]="categoryAttribute.isMandatory" [ngModelOptions]="{standalone: true}" disabled>
+                                                <option value="" disabled>{{ categoryAttribute.name }}</option>
+                                                <option [value]="attrValue.attributeValueId" *ngFor="let attrValue of categoryAttribute.data" disabled>{{ attrValue.name }}
+                                                  {{attrValue.attributeValueId}}
+                                                </option>
+                                        </select>
                                     </div>
                                 </div>
 
@@ -153,7 +182,7 @@
                                     <tr>
                                         <td>Kondisi Barang</td>
                                         <td>
-                                            <input type="checkbox" [(ngModel)]="isChecked" (change)="checkValue(isChecked?'A':'B')" disabled /> {{ listDetailProd.classificationValue }}
+                                            <input type="checkbox" [(ngModel)]="isChecked" (change)="checkValue(isChecked?'A':'B')" [ngModelOptions]="{standalone: true}" disabled /> {{ listDetailProd.classificationValue }}
                                         </td>
                                         <td>Berat Barang</td>
                                         <td>{{ listDetailProd.weight }} gr</td>
@@ -191,7 +220,7 @@
                                         <td></td>
                                         <td>
                                             <ng-container *ngFor="let option of list | slice:1">
-                                                <button class="button-approve" (click)="Selected(option.statusCode, listDetailProd.version)" *ngIf="option.status === 'APPROVED'">
+                                                <button class="button-approve" (click)="Selected(option.statusCode,version)" *ngIf="option.status === 'APPROVED'">
                                                     <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
                                                     {{ option.status }}
                                                 </button>
@@ -199,7 +228,7 @@
                                                     <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
                                                     {{ option.status }}
                                                 </button>
-                                                <button class="button-rejected" (click)="Selected(option.statusCode, listDetailProd.version)" *ngIf="option.status === 'REJECTED'">
+                                                <button class="button-rejected" (click)="Selected(option.statusCode,version)" *ngIf="option.status === 'REJECTED'">
                                                     <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
                                                     {{ option.status }}
                                                 </button>
@@ -207,7 +236,7 @@
                                         </td>
                                     </tr>
                                 </table>
-
+                              </form>
                             </div>
 
                             <modal-mp [(visible)]="showDialog">

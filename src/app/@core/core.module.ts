@@ -18,6 +18,8 @@ import { Configuration } from './config/configuration';
 import { ManageBuyerService } from './services/manage-buyer/manage-buyer.service';
 import { ManageStoreService } from './services/manage-store/manage-store.service';
 import { ManageProductService } from './services/manage-product/manage-product.service';
+import { CourirService } from './services/courir/courir.service';
+
 const socialLinks = [
   {
     url: 'https://github.com/akveo/nebular',
@@ -93,6 +95,7 @@ const BELISADA_PROVIDERS = [
   ShareMessageService,
   CategoryService,
   ManageProductService,
+  CourirService,
   SpecService,
   OrderSeService
 ]
