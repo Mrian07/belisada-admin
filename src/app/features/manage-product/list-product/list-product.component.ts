@@ -1,10 +1,13 @@
-import { Component, OnInit,ViewChild, Injectable, ElementRef, Input, OnDestroy } from '@angular/core';
+import { ProductDetailData, SpecificationList } from './../../../@core/models/category/category.model';
+import { CategoryAttribute } from './../../../@core/models/manage-product/manage-product';
+import { Component, OnInit, ViewChild, Injectable, ElementRef, Input, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { ManageProductService } from '../../../@core/services/manage-product/manage-product.service';
-import { ManageProduct, revise, ListBrand, listingCategory, listingProduct, detailListingProduct, deetailProd, dataListingCategory } from '../../../@core/models/manage-product/manage-product';
+import { ManageProduct, revise, listingCategory,
+listingProduct, detailListingProduct } from '../../../@core/models/manage-product/manage-product';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
-import {Observable} from 'rxjs';
+
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 
 import {HttpClient, HttpParams} from '@angular/common/http';
@@ -24,11 +27,12 @@ import { of } from 'rxjs/observable/of';
 import { CategoryService } from '../../../@core/services/category/category.service';
 import { ListCategory } from '../../../@core/models/category/category.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
 selector: 'list-product',
 templateUrl: './list-product.component.html',
-styleUrls: ['./list-product.component.scss']
+styleUrls: ['./list-product.component.scss'],
 })
 export class ListProductComponent implements OnInit, OnDestroy {
   @Input() name;
@@ -62,11 +66,11 @@ export class ListProductComponent implements OnInit, OnDestroy {
   ll: boolean = false;
 
   ss: any[];
-  ticks =0;
+  ticks= 0;
 
   /* method post
   */
-  brandId : number;
+  brandId: number;
   cat3Value: number;
   prodId: number;
   statusCode: string;
@@ -74,31 +78,49 @@ export class ListProductComponent implements OnInit, OnDestroy {
   /* akhir dari method post
   */
 
+  /* category
+  */
+ categoryName = {
+  C1: '',
+  C2: '',
+  C3: '',
+};
+onCategoryFocus = {
+  C1: false,
+  C2: false,
+  C3: false,
+};
+categoryId = {
+  C1: '',
+  C2: '',
+  C3: '',
+};
+categoryList = {
+  C1: new listingCategory(),
+  C2: new listingCategory(),
+  C3: new listingCategory(),
+};
+categoryAttributes: CategoryAttribute[];
+spec: any[] = [];
+
+  /* akhir dari category
+  */
+
+  /* form grup */
+  addProductForm: FormGroup;
+
+  /* akhir dari form grup */
+
   start = 0;
   end = 0;
   total = 0;
   limits = 12;
-  cat1Ni : number;
+  cat1Ni: number;
   ok;
-  const2 : number;
-  const3 : number;
+  const2: number;
+  const3: number;
   let;
-  futu;
   public isCollapsed = false;
-
-  public getC1: FormGroup;
-  c1: listingCategory = new listingCategory();
-  c1Data: detailListingProduct[];
-
-  selectedCategory: any;
-
-
-  public getc2: FormGroup;
-  c2: listingCategory = new listingCategory();
-
-  public getc3: FormGroup;
-  c3: listingCategory = new listingCategory();
-
 
   limit: number = 100;
   querySearch: any;
@@ -124,14 +146,6 @@ export class ListProductComponent implements OnInit, OnDestroy {
   brandName;
   modalRef: NgbModalRef;
 
-  isC2: boolean;
-  isC3: boolean;
-  idC2: any;
-
-
-  isDataC1: boolean;
-  isDataC2: boolean;
-
   pages: any = [];
   currentPage: any;
   lastPage: number;
@@ -154,9 +168,18 @@ export class ListProductComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private router: Router) {
     this.brandList.data = [];
+    this.categoryList.C1.data = [];
+    this.categoryList.C2.data = [];
+    this.categoryList.C3.data = [];
+    this.categoryAttributes = [];
     }
 
   ngOnInit() {
+
+    /* category c1 c2 c3 init */
+    this.getCategoryInit('C1');
+
+    /* akhir dari category c1 c2 c3 init */
 
     this.brandInit();
     this.activatedRoute.queryParams.subscribe((params: Params) => {
@@ -165,7 +188,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
       const queryParams = {
         page: this.currentPage,
         itemperpage: 10,
-        ob : 'custom'
+        ob : 'custom',
       }
       this.dataTes(queryParams);
     });
@@ -175,21 +198,18 @@ export class ListProductComponent implements OnInit, OnDestroy {
     this.form_All();
 
     this.isChecked = true;
-    this.getDataC1();
 
 
   }
 
   searchK(event) {
     const key = event.target.value;
-    console.log(key);
     const queryParams = {
       page: this.currentPage,
       itemperpage: 10,
       name: key,
-      ob : 'custom'
+      ob : 'custom',
     }
-    console.log(event);
     if (key === '' || event.key === 'Enter') {
       this.prodService.getDataListing(queryParams).subscribe(response => {
         this.listProduct = response;
@@ -210,7 +230,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   private newMethod_2() {
     return {
       page: this.currentPage,
-      itemperpage: 10
+      itemperpage: 10,
     };
 
   }
@@ -222,7 +242,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
     window.scrollTo(0, 0);
   }
 
-  rubah(e){
+  rubah(e) {
     const r =
     e.replace(new RegExp('/', 'g'), ' - ');
     return r;
@@ -231,7 +251,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   getProduct(param) {
 
     const paramm = {
-      page: param
+      page: param,
     }
     this.prodService.getDataListing(paramm).subscribe(dataToko => {
       this.listProduct = dataToko;
@@ -263,71 +283,98 @@ export class ListProductComponent implements OnInit, OnDestroy {
   }
 
   private form_All() {
-    this.getC1 = this.fb.group({
-      c1: new FormControl(null, Validators.required),
-      c2: new FormControl(null),
-      c3: new FormControl(null)
-    });
-    this.getc2 = this.fb.group({
-      c2: new FormControl(null)
-    });
-    this.getc3 = this.fb.group({
-      c3: new FormControl(null)
-    });
     this.myForm = this.fb.group({
       useremail: this.fb.array([]),
-      tulisan: new FormControl
+      tulisan: new FormControl,
+    });
+
+    this.addProductForm = this.fb.group({
+      name: ['', [Validators.required]],
+      masterId: [''],
+      brandId: [''],
+      brandName: [''],
+      categoryThreeId: ['', [Validators.required]],
+      classification: ['', [Validators.required]],
+      couriers: [[], [Validators.required]],
+      description: ['', [Validators.required]],
+      // dimensionsWidth: ['', [Validators.required]],
+      // dimensionsheight: ['', [Validators.required]],
+      // dimensionslength: ['', [Validators.required]],
+      guaranteeTime: ['', [Validators.required]],
+      imageUrl: [[], [Validators.required]],
+      pricelist: ['', [Validators.required]],
+      specialPrice: [''],
+      discount: [''],
+      qty: ['', [Validators.required]],
+      specification: [[]],
+      weight: ['', [Validators.required]]
     });
   }
 
-  getDataC1() {
-       const queryParams = {
-      type: 'C1',
-      isactive: true,
-    }
-    this.categoryService.getCategory(queryParams).subscribe(data => {
-        this.c1 = data;
-    });
+  /* category
+  */
+ onCategoryBlur(categoryType) {
+  setTimeout(() => { this.onCategoryFocus[categoryType] = false; }, 200);
+}
+
+searchCategory(categoryType, parentid?) {
+  const queryParams = {
+    name: this.categoryName[categoryType] === undefined ? '' : this.categoryName[categoryType],
+    type: categoryType,
+  };
+  if (parentid) {
+    queryParams['parentid'] = parentid;
   }
-
-  getDatac2Oke(id) {
-    const queryParams = {
-      parentid: id,
-      isactive: true,
-      itemperpage: 100,
-
+  this.categoryService.getCategory(queryParams).subscribe(response => {
+    this.categoryList[categoryType] = response;
+  });
+}
+selectCategory(category) {
+  this.addProductForm.patchValue({
+    categoryThreeId: (category.type !== 'C1') ? category.categoryId : 0,
+  });
+  this.categoryName[category.type] = category.name;
+  this.categoryId[category.type] = category.categoryId;
+  const queryParams = {
+    categoryid: category.categoryId,
+  };
+  this.categoryService.getListCategoryAttribute(queryParams).subscribe(response => {
+    this.categoryAttributes = response;
+    let categoryType;
+    if (category.type === 'C1') {
+      categoryType = 'C2';
+      this.categoryName.C2 = '';
+      this.categoryName.C3 = '';
+    } else if (category.type === 'C2') {
+      categoryType = 'C3';
+      this.categoryName.C3 = '';
+    } else {
+      categoryType = false;
     }
-    this.categoryService.getCategory(queryParams).subscribe(data =>{
-      this.c2 = data;
-    });
+    if (categoryType) {
+      this.getCategoryInit(categoryType, category.categoryId);
+    }
+  });
+}
+getCategoryInit(categoryType, parentid?) {
+  const queryParams = {
+    type: categoryType,
+    all: true,
+    isactive: true,
+  };
+  if (parentid) {
+    queryParams['parentid'] = parentid;
   }
+  this.categoryService.getCategory(queryParams).subscribe(response => {
+    this.categoryList[categoryType] = response;
+  });
+}
+ /*
+  ahkir  dari category  */
 
-  getDataC2(id, cb) {
-    const queryParams = {
-      parentid: this.cat1Ni,
-      isactive: true,
-      itemperpage: 100,
-    }
-    this.categoryService.getCategory(queryParams).subscribe(data =>{
-      this.c2 = data;
-      cb();
-    });
-  }
-
-  getDataC3(id, callback) {
-    const queryParams = {
-      parentid: id,
-      isactive: true,
-      itemperpage: 100,
-      type: "C3"
-    }
-    this.categoryService.getCategory(queryParams).subscribe(data =>{
-      this.c3 = data;
-      callback();
-      this.isC2=true;
-      this.isC3=true;
-      this.typeCat3 = "c3";
-      this.parentC2 = id;
+  fillFormSpecification(specifications: SpecificationList[]) {
+    specifications.forEach((specification) => {
+      this.spec[specification.attributeId] = specification.attributeValueId;
     });
   }
 
@@ -359,11 +406,55 @@ export class ListProductComponent implements OnInit, OnDestroy {
     this.productBrandId = brand.m_productbrand_id;
   }
 
+  fillFormPatchValue(data: ProductDetailData) {
+    this.addProductForm.patchValue({
+      name: data.name,
+      masterId: data.productId,
+      brandId: data.brandId,
+      brandName: data.brandName,
+      categoryThreeId: (data.categoryThreeId !== 0) ? data.categoryThreeId : data.categoryTwoId,
+      classification: data.classification,
+      description: data.description,
+      // dimensionsWidth: data.dimensionsWidth,
+      // dimensionsheight: data.dimensionsheight,
+      // dimensionslength: data.dimensionslength,
+      guaranteeTime: data.guaranteeTime,
+      imageUrl: data.imageUrl,
+      pricelist: data.pricelist,
+      specialPrice: data.specialPrice,
+      discount: data.discount,
+      qty: data.qty,
+      specification: data.specification,
+      weight: data.weight,
+    });
+    this.categoryName = {
+      C1: data.categoryOneName,
+      C2: data.categoryTwoName,
+      C3: data.categoryThreeName,
+    };
+
+    this.getCategoryInit('C2', data.categoryOneId);
+    this.getCategoryInit('C3', data.categoryTwoId);
+    const queryParams = {
+      categoryid: (data.categoryThreeId === 0) ? data.categoryTwoId : data.categoryThreeId
+    };
+    this.categoryService.getListCategoryAttribute(queryParams).subscribe(response => {
+      this.categoryAttributes = response;
+      console.log(data.specification)
+      this.fillFormSpecification(data.specification);
+    });
+  }
 
 
   open(content, e, bId, cat1, cat2, cat3, BN) {
     this.brandName = BN;
     this.txtSearch = BN;
+    this.prodService.getDetailById(e).subscribe(response => {
+      const data = response.data;
+      this.version = data.version;
+      console.log('data', data.version);
+      this.fillFormPatchValue(data);
+    });
 
     this.brandInit();
     let options: NgbModalOptions = {
@@ -377,129 +468,8 @@ export class ListProductComponent implements OnInit, OnDestroy {
     })
     this.brandId = bId;
 
-    /* dibawah adalah cara mencari brand id menggunakan find tolong jangan di hapus takut takut berguna */
-    // this.txtSearch = this.brandList.data.find(x => x.brandId === bId).name;
-    // console.log('this.brandList.data.find(x => x.brandId === this.brandId).name;', this.brandList.data.find(x => x.brandId === this.brandId).name)
-    console.log('kwlekq;lwekqwlewq;e',cat3);
-    if (cat3 === 0) {
-      this.cat3Value = cat2;
-      console.log('ini kalo 0 boz')
-    } else {
-      this.cat3Value = cat3;
-      console.log('ini bukan 0')
-    }
-    this.cat1Ni = this.c1.data.find(x => x.categoryId === cat1).categoryId;
-
-    this.getDataC2(this.cat1Ni, () => {
-      this.const2 = this.c2.data.find(x => x.categoryId === cat2).categoryId;
-      this.getC1.patchValue({
-        c1: this.cat1Ni,
-        c2: this.const2
-      });
-    })
-
-
-
-    this.getDataC3(cat2, () => {
-      console.log(cat3);
-      if (cat3 !== 0) {
-        const const3: number = this.c3.data.find(x => x.categoryId === cat3).categoryId;
-        this.getC1.patchValue({
-          c1: this.cat1Ni,
-          c3: const3
-        });
-        console.log(const3);
-      } else {
-        console.log('123123213')
-        // const const3: number = this.c2.data.find(x => x.categoryId === cat2).categoryId;
-        this.getC1.patchValue({
-          c1: this.cat1Ni,
-          c3:  cat2,
-        });
-        console.log('this.', cat2);
-      }
-
-    })
-    // this.brandInit();
-
-
-    this.sel = e;
 
   }
-
-
-  c1Change(a) {
-    this.idC2 = a;
-    this.cat1Ni = 111
-    this.c2.data = [];
-    const cat1Ni = this.c1.data.find(x => x.categoryId === a).categoryId;
-
-    const queryParams = {
-      parentid: a,
-      isactive: true,
-      itemperpage: 100,
-
-    }
-    this.categoryService.getCategory(queryParams).subscribe(data =>{
-      this.c2 = data;
-      console.log('ini');
-    });
-
-    const oke = {
-      parentid: a,
-      isactive: true,
-      type: "C3",
-      itemperpage: 100,
-    }
-
-    this.categoryService.getCategory(oke).subscribe(data =>{
-      this.c3 = data;
-    });
-
-  }
-
-  c2Change(b){
-    this.cat1Ni = 111
-    this.c3.data = [];
-    this.cat3Value = b;
-    // const cat1Ni = this.c1.data.find(x => x.categoryId === b).categoryId;
-
-    const queryParams = {
-      parentid: this.idC2,
-      isactive: true,
-      type: "C2"
-    }
-    this.categoryService.getCategory(queryParams).subscribe(data =>{
-      this.c2 = data;
-
-      console.log(b);
-    });
-
-    const oke = {
-      parentid: b,
-      isactive: true,
-      type: "C3"
-    }
-
-    this.categoryService.getCategory(oke).subscribe(data =>{
-      this.c3 = data;
-    });
-  //   this.getC1.get('c2').valueChanges.subscribe(val => {
-
-
-  // });
-  //   this.let = b;
-  //   this.getDataC3(b, () => {
-  //     this.getC1.patchValue({
-  //     });
-  //   })
-   }
-
-  iniC3(c){
-    console.log('c123213213jk123jlj');
-    this.cat3Value = c;
-  }
-
 
   brandInit() {
     const a = {
@@ -548,12 +518,12 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
     const a = {
       brandId : this.brandId,
-      categoryThreeId : this.cat3Value,
+      categoryThreeId : this.addProductForm.get('categoryThreeId').value,
       productId : this.prodId,
       statusCode: this.select,
-      version: this.version
+      version: this.version,
     };
-    if (value == 'AP') {
+    if (value === 'AP') {
         {
           swal({
             title: 'Are you sure?',
@@ -627,21 +597,21 @@ export class ListProductComponent implements OnInit, OnDestroy {
     }
     this.brandList;
   }
-  onChange(email: any, isChecked: boolean) {
-    const emailFormArray = < FormArray > this.myForm.controls.useremail;
+  // onChange(email: any, isChecked: boolean) {
+  //   const emailFormArray = < FormArray > this.myForm.controls.useremail;
 
-    if (isChecked) {
-      emailFormArray.push(new FormControl(email));
-      this.ss = email;
+  //   if (isChecked) {
+  //     emailFormArray.push(new FormControl(email));
+  //     this.ss = email;
 
-    } else {
-      let index = emailFormArray.controls.findIndex(x => x.value == email)
-      emailFormArray.removeAt(index);
-      email = isChecked;
-      this.ll = isChecked;
+  //   } else {
+  //     let index = emailFormArray.controls.findIndex(x => x.value == email)
+  //     emailFormArray.removeAt(index);
+  //     email = isChecked;
+  //     this.ll = isChecked;
 
-    }
-  }
+  //   }
+  // }
 
 
 
@@ -650,7 +620,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
       approvalProductIssue: this.myForm.value.useremail,
       version: verc,
       brandId : this.brandId,
-      categoryThreeId : this.cat3Value,
+      categoryThreeId : this.addProductForm.get('categoryThreeId').value,
       productId : this.prodId,
       statusCode: this.select,
       note: this.myForm.value.tulisan
@@ -695,11 +665,6 @@ export class ListProductComponent implements OnInit, OnDestroy {
      this.txtSearch = '';
 
   }
-
-  private newMethod_1() {
-    this.check = true;
-  }
-
   private newMethod() {
     // this.listService.getList().subscribe(res=>this.list=res);
     this.manage.getList().subscribe(x => {
@@ -726,11 +691,6 @@ export class ListProductComponent implements OnInit, OnDestroy {
     this.loadData();
     this.newMethod()
     this.form_All();
-    this.getDataC1();
-  }
-
-  hanya(e) {
-    this.futu = e;
   }
 
 }

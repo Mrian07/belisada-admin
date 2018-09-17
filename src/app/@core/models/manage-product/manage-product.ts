@@ -1,3 +1,4 @@
+import { SpecificationList } from './../category/category.model';
 export class ManageProduct {
     userId: number;
     id: number;
@@ -45,6 +46,56 @@ export class ListBrand {
     message: string;
     status : number;
     data: detailListingProduct[];
+  }
+  export class ProductDetailList {
+    status: number;
+    message: string;
+    data: ProductDetailData;
+  }
+  export class ProductDetailData {
+    status: number;
+    message: string;
+    productId: number;
+    name: string;
+    nameEn: string;
+    highlight: string;
+    highlightEn: string;
+    description: string;
+    sku: string;
+    brandId: number;
+    brandName: string;
+    storeId: number;
+    classification: string;
+    qty: number;
+    qtyType: string;
+    discount: number;
+    statusCode: string;
+    categoryOneId: number;
+    categoryOneName: string;
+    categoryTwoId: number;
+    categoryTwoName: string;
+    categoryThreeId: number;
+    categoryThreeName: string;
+    imageUrl: any[];
+    pricelist: number;
+    isGuarantee: boolean;
+    guaranteeType: string;
+    guaranteeTime: string;
+    pricelistlast: number;
+    classificationValue: string;
+    guaranteeTypeValue: string;
+    guaranteeTimeValue: string;
+    qtyTypeValue: string;
+    version: number;
+    weight: number;
+    dimensionsWidth: number;
+    dimensionsheight: number;
+    specialPrice: number;
+    dimensionslength: number;
+    isStock: false;
+    approvalProductIssue: any[];
+    couriers: couriers[];
+    specification: SpecificationList[];
   }
 
   export class detailListingProduct {
