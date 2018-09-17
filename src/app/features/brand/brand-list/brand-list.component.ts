@@ -95,7 +95,8 @@ export class BrandListComponent implements OnInit {
         page: this.currentPage,
         itemperpage: 10,
         ob: this.sortName,
-        ot: this.sortUrut
+        ot: this.sortUrut,
+        all: true,
       }
       this.brandService.getList(queryParams).subscribe(response => {
         this.list = response;
@@ -197,6 +198,7 @@ export class BrandListComponent implements OnInit {
       ob: this.sortName,
       ot: this.sortUrut,
       name: key,
+      all: true,
     }
     console.log(event);
     if (key === '' || event.key === 'Enter') {

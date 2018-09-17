@@ -79,7 +79,7 @@
                   <td>
                       <div class="drick-select-container">
                           <div class="ui icon input parent">
-                              <input class="f-control drick-select__text form-control" [ngClass]="{'active':onCategoryFocus.C2}" type="text" [(ngModel)]="categoryName.C2"
+                              <input class="f-control drick-select__text form-control" [ngClass]="{'active':onCategoryFocus.C2}"  type="text" [(ngModel)]="categoryName.C2"
                                   (keyup)="searchCategory('C2', categoryId.C1)" [ngModelOptions]="{standalone: true}"
                                   (focus)="onCategoryFocus.C2 = true" (focusout)="onCategoryBlur('C2')" placeholder="Select one">
                               <i class="drick-select__icon caret down icon"></i>
@@ -190,7 +190,7 @@
   </div> -->
 <div class="row">
   <div class="col-12 text__positon">
-    <button type="button" (click)="oke()"[disabled]="addProductForm.invalid" class="btn btn-danger customz--button">Kirim</button>
+    <button type="button" (click)="oke()"[disabled]="addProductForm.invalid || categoryName.C2 === '' " class="btn btn-danger customz--button">Kirim</button>
   </div>
 </div>
 
