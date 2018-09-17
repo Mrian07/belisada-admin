@@ -95,4 +95,17 @@ export const MENU_ITEMS: NbMenuItem[] = [
       }
     ],
   },
+  {
+    title: 'Courir',
+    icon: 'nb-layout-default',
+    children: [
+      {
+        title: 'List',
+        link: '/courir/list',
+      },
+    ],
+  },
+
+  
+
 ];
