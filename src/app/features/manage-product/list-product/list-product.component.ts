@@ -131,17 +131,8 @@ spec: any[] = [];
 
   check: boolean;
   results = [];
-
-  typeCat: string;
-  typeCat2: string;
-  typeCat3: string;
   titlePopUp: string;
 
-  parentC1: number;
-  parentC2: number;
-  listCat1: ListCategory = new ListCategory();
-  listCat2: ListCategory = new ListCategory();
-  listCat3: ListCategory = new ListCategory();
   isAdd: boolean;
   brandName;
   modalRef: NgbModalRef;
@@ -149,6 +140,7 @@ spec: any[] = [];
   pages: any = [];
   currentPage: any;
   lastPage: number;
+  toBackend: any = [];
 
   listProduct: listingProduct = new listingProduct();
 
@@ -309,6 +301,16 @@ spec: any[] = [];
       specification: [[]],
       weight: ['', [Validators.required]]
     });
+  }
+
+  formSend() {
+    this.toBackend = {
+      brandId : this.brandId,
+      categoryThreeId : this.addProductForm.get('categoryThreeId').value,
+      productId : this.prodId,
+      statusCode: this.select,
+      version: this.version,
+    };
   }
 
   /* category
@@ -597,22 +599,6 @@ getCategoryInit(categoryType, parentid?) {
     }
     this.brandList;
   }
-  // onChange(email: any, isChecked: boolean) {
-  //   const emailFormArray = < FormArray > this.myForm.controls.useremail;
-
-  //   if (isChecked) {
-  //     emailFormArray.push(new FormControl(email));
-  //     this.ss = email;
-
-  //   } else {
-  //     let index = emailFormArray.controls.findIndex(x => x.value == email)
-  //     emailFormArray.removeAt(index);
-  //     email = isChecked;
-  //     this.ll = isChecked;
-
-  //   }
-  // }
-
 
 
   oke(verc, besc) {
