@@ -45,6 +45,7 @@ export class ShipmentListComponent implements OnInit {
     }
 
     this.courirServices.updateCourier(data).subscribe(response => {
+      console.log(response)
       this.loadData();
     });
   }
