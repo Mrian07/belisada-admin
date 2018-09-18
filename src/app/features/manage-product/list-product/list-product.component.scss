@@ -200,7 +200,6 @@
     width: 200px;
     position: relative;
 }
-
 .drick-select__text {
 z-index: -9999;
     width: 100%;
@@ -316,6 +315,12 @@ z-index: -9999;
   input:focus + .slider {
     box-shadow: 0 0 1px #2196F3;
   }
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
 
   input:checked + .slider:before {
     -webkit-transform: translateX(26px);

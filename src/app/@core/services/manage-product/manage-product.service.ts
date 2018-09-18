@@ -1,4 +1,4 @@
-import { BrandList, AddProductRequest, ManageProductListing } from './../../models/manage-product/manage-product';
+import { BrandList, AddProductRequest, ManageProductListing, ProductDetailList } from './../../models/manage-product/manage-product';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
@@ -51,6 +51,11 @@ export class ManageProductService {
   getDetailProduct(key: string): Observable<deetailProd> {
     return this.http.get<any>(this.configuration.apiURL + '/manage/product/approval/detail/' + key)
     .map(resp => resp as deetailProd);
+  }
+
+  getDetailById(id: any): Observable<ProductDetailList> {
+    return this.http.get(this.configuration.apiURL + '/manage/product/approval/detail/' + id)
+      .map(response => response as ProductDetailList);
   }
 
   getData1(queryParams):Observable<ListBrand[]> {
