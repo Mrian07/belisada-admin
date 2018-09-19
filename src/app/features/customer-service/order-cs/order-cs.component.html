@@ -133,7 +133,7 @@
       </div>
   </div>
 </div>
-<div class="paging" *ngIf="tabOrder=='ALL'">
+<div class="paging">
   <ul>
       <li>
           <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
@@ -152,27 +152,6 @@
       </li>
   </ul>
 </div>
-
-<div class="paging" *ngIf="tabOrder=='228'">
-  <ul>
-      <li>
-          <a (click)="setPageonBB(1)" [ngClass]="{disabled:currentPageOnBB == 1}">First</a>
-      </li>
-      <li>
-          <a (click)="setPageonBB(currentPageOnBB, -1)" [ngClass]="{disabled:(currentPageOnBB-1) < 1}">Previous</a>
-      </li>
-      <li *ngFor="let p of pagesOnBB">
-          <a (click)="setPageonBB(p)" [ngClass]="currentPageOnBB == p?'current-page':''">{{p}}</a>
-      </li>
-      <li>
-          <a (click)="setPageonBB(currentPageOnBB, +1)" [ngClass]="{disabled:currentPageOnBB == lastPageOnBB}">Next</a>
-      </li>
-      <li>
-          <a (click)="setPageonBB(lastPage)" [ngClass]="{disabled:currentPageOnBB == lastPageOnBB}">Last</a>
-      </li>
-  </ul>
-</div>
-
 <modal-mp maxwidth="920" [(visible)]="showDialog" class="frameDialog">
   <div class="body--on__popuP">
     <div class="text-payment__id">Payment ID</div>
