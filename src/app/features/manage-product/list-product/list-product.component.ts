@@ -148,6 +148,7 @@ spec: any[] = [];
 
   createdDate: string;
   storeName: string;
+  keyName: any;
 
   constructor(private modalService: NgbModal,
     private prodService: ManageProductService,
@@ -176,11 +177,15 @@ spec: any[] = [];
     this.brandInit();
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
+      if (this.keyName === undefined ){
+        this.keyName = '';
+      }
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
       const queryParams = {
         page: this.currentPage,
         itemperpage: 10,
         ob : 'custom',
+        name:  this.keyName,
       }
       this.dataTes(queryParams);
     });
@@ -196,8 +201,9 @@ spec: any[] = [];
 
   searchK(event) {
     const key = event.target.value;
+    this.keyName = key;
     const queryParams = {
-      page: this.currentPage,
+      page: 1,
       itemperpage: 10,
       name: key,
       ob : 'custom',
@@ -233,6 +239,21 @@ spec: any[] = [];
     this.router.navigate(['/product/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }
+ onChange(email: any, isChecked: boolean) {
+       const emailFormArray = < FormArray > this.myForm.controls.useremail;
+
+    if (isChecked) {
+      emailFormArray.push(new FormControl(email));
+      this.ss = email;
+
+    } else {
+      let index = emailFormArray.controls.findIndex(x => x.value == email)
+      emailFormArray.removeAt(index);
+      email = isChecked;
+      this.ll = isChecked;
+
+  }
+ }
 
   rubah(e) {
     const r =
