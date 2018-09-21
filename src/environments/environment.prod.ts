@@ -5,5 +5,5 @@
  */
 export const environment = {
   production: true,
-  apiUrl: 'https://api.belisada.id/belisada-admin'
+  apiUrl: 'https://air.belisada.co.id/belisada-admin'
 };
