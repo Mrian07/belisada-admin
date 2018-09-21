@@ -35,10 +35,16 @@
             <div class="col-3">
                 <div class="text-payid">Payment ID:  {{ item.paymentNumber  }}</div>
             </div>
-            <div class="col-7">
+            <div class="col-5">
 
                 <div class="text-payinfo">Payment: <span id="text-tunggu"> {{ item.paymentMethod }}</span>
                 </div>
+            </div>
+            <div class="col-2">
+                <div  *ngIf="tabOrder === '230'">
+                    Batas Waktu Respon:  <countdown-timer [end]="item.expiredConfirmationPaymentAdminDate"></countdown-timer>
+                    <!-- Batas Waktu Respon: {{item.countdown.days}}d - {{item.countdown.hours}}h - {{item.countdown.minutes}}m - {{item.countdown.seconds}}s -->
+                  </div>
             </div>
             <div class="col-2">
               <div class="text-progress">{{ item.status }}</div>

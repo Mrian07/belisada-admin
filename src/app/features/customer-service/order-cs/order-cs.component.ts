@@ -1,9 +1,9 @@
 import swal from 'sweetalert2';
 import { Params, ActivatedRoute, Router } from '@angular/router';
-import { Content, Transaction, GetDataTranscationList } from './../../../@core/models/customer-service-m/customer-model';
+import { Content, GetDataTranscationList } from './../../../@core/models/customer-service-m/customer-model';
 import { Component, OnInit, Input } from '@angular/core';
 import { OrderSeService } from '../../../@core/services/order-service/order-se.service';
-
+import { countdown } from 'madrick-countdown-timer';
 @Component({
   selector: 'order-cs',
   templateUrl: './order-cs.component.html',
@@ -16,22 +16,18 @@ export class OrderCsComponent implements OnInit {
   pages: any = [];
   currentPage: any;
   lastPage: number;
+  bLength: any;
 
-  pagesOnBB: any = [];
-  currentPageOnBB: number;
-  lastPageOnBB: number;
+countdown = {
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
 
-  pagesOnHB: number;
-  currentPageHB: number;
-  lastPageOnHB: number;
+    status: 0,
+    message: ''
+};
 
-  pagesOnPB: number;
-  curentPageOnPB: number;
-  lastPageOnPB: number;
-
-  pagesOnNC: number;
-  currentPageNC: number;
-  lastPageOnNC: number;
 
   openDetail: boolean;
   transactionId: number;
@@ -42,6 +38,7 @@ export class OrderCsComponent implements OnInit {
   getListing: any;
   codeNum: number;
   private _status = 'ALL';
+  date = '09/22/2018 16:29:39';
   @Input()
   set status(status: string) {
     this._status = (status && status.trim()) || '<no status set>';
@@ -59,6 +56,9 @@ export class OrderCsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.activatedRoute.queryParams.subscribe((queryParam) => {
+      this.currentPage = (queryParam.page) ? queryParam.page : 1;
+    });
     console.log('this tab orader',this.tabOrder)
     this.tab(this._status);
     this.orderSe.getStatusReasson().subscribe(ress => {
@@ -96,11 +96,21 @@ export class OrderCsComponent implements OnInit {
         status_order:  this.tabOrder,
       };
       this.orderSe.getList(queryParams).subscribe(respon => {
+        const b =  respon.content.filter(x => x.expiredConfirmationPaymentAdminDate !== '');
+
+        this.bLength = b.length;
         this.listOrder = respon.content;
+          b.forEach((x) => {
+            console.log('x: ', x);
+            countdown(x.expiredConfirmationPaymentAdminDate, (countdown) => {
+            // this.listOrder.find(i => i.paymentNumber === x.paymentNumber).countdown = countdown;
+              // this.countdown = countdown;
+            });
+          });
+        console.log('asdasd', this.listOrder)
         this.lastPage = respon.totalPages;
-        console.log('this.a', this.lastPage)
+
         this.pages = [];
-        console.log('asdasd', respon)
         for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
           if (r > 0 && r <= this.lastPage) {
             this.pages.push(r);

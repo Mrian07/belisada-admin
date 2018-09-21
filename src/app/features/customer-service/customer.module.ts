@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../@theme/theme.module';
 import { CustomerSComponent } from './customer-service.component';
 import { OrderCsComponent } from './order-cs/order-cs.component';
+import { CountdownTimerModule } from 'ngx-countdown-timer';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { OrderCsComponent } from './order-cs/order-cs.component';
     ThemeModule,
     FormsModule,
     ReactiveFormsModule,
-    customerSroutingmodule
+    customerSroutingmodule,
+    CountdownTimerModule.forRoot()
   ],
   declarations: [CustomerSComponent, OrderCsComponent]
 })
