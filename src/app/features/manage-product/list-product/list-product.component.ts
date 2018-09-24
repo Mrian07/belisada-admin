@@ -492,6 +492,7 @@ getCategoryInit(categoryType, parentid?) {
     this.prodId = e;
     this.prodService.getDetailProduct(e).subscribe(detail => {
       this.listDetailProd = detail.data;
+      console.log('detail', this.listDetailProd);
     })
     this.brandId = bId;
 

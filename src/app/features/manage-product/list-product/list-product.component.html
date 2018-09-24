@@ -238,25 +238,25 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td>
+                                        <td *ngIf="listDetailProd.statusCode === 'NA'">
                                             <ng-container *ngFor="let option of list | slice:1">
-                                                <button class="button-approve" (click)="Selected(option.statusCode,version)" *ngIf="option.status === 'APPROVED'">
-                                                    <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
-                                                    {{ option.status }}
-                                                </button>
-                                                <button class="button-revise" (click)="showDialog = !showDialog" *ngIf="option.status === 'REVISE'">
-                                                    <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
-                                                    {{ option.status }}
-                                                </button>
-                                                <button class="button-rejected" (click)="Selected(option.statusCode,version)" *ngIf="option.status === 'REJECTED'">
-                                                    <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
-                                                    {{ option.status }}
-                                                </button>
+                                                        <button class="button-approve" (click)="Selected(option.statusCode,version)" *ngIf="option.status === 'APPROVED'">
+                                                                <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
+                                                                {{ option.status }} {{listDetailProd.statusCode}}
+                                                            </button>
+                                                            <button class="button-revise" (click)="showDialog = !showDialog" *ngIf="option.status === 'REVISE'">
+                                                                <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
+                                                                {{ option.status }}
+                                                            </button>
+                                                            <button class="button-rejected" (click)="Selected(option.statusCode,version)" *ngIf="option.status === 'REJECTED'">
+                                                                <!-- <ng-template  *ngIf="option.status === 'APPROVED'"> -->
+                                                                {{ option.status }}
+                                                            </button>
                                             </ng-container>
                                         </td>
                                     </tr>
                                 </table>
-                              </form>
+                                </form>
                             </div>
 
                             <modal-mp [(visible)]="showDialog">
