@@ -1,0 +1,86 @@
+<nb-card>
+    <nb-card-header>
+        SPESIFIKASI MASTER
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="row">
+            <div class="col-sm-3">
+                <form [formGroup]="searchFormGroup">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Search..."
+                            aria-label="Search" aria-describedby="basic-addon1"
+                            formControlName="search">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="spec-list-container" class="col-sm-3 spec-list__container" (scroll)="onSpecListScrollDown()">
+                <div (click)="onSpecClicked(spec.attributeId)" class="spec-list"
+                    *ngFor="let spec of specList" [ngClass]="{'active': spec.active}">
+                    {{ spec.name }}
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="attribute-value-list" *ngIf="isSpecSelected">
+                    <ul>
+                        <li *ngFor="let attributeValue of attributeValueList">
+                            {{ attributeValue.value }}
+                            <span class="tool-box">
+                                <i class="fa fa-edit"></i>
+                            </span>
+                        </li>
+                        <li class="add-new" (click)="openAddAttributeValue()">
+                            <i *ngIf="!isAddAttrValue" class="fa fa-plus"></i>
+                            <span *ngIf="!isAddAttrValue">Tambah baru</span>
+                            <form *ngIf="isAddAttrValue" [formGroup]="addAttributeValueFormGroup" (submit)="addAttributeValueSubmit()">
+                                <div class="form-control-wrapper">
+                                    <input type="text" [focusOnMe]="isAddAttrValueFocus" class="form-control" formControlName="value" placeholder="Name">
+                                    <i *ngIf="!isLoading" (click)="cancelAddAttributeValue($event)" class="fa fa-times" title="Cancel"></i>
+                                    <i *ngIf="isLoading" class="spinner" title="Loading..."></i>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="spec-list__footer text-center" (click)="openModal(modal)">
+                    <i class="fa fa-plus"></i>
+                    <span>Tambah spesifikasi baru</span>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+<ng-template #modal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Add Spec</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form [formGroup]="addAttributeFormGroup" (submit)="addAttributeSubmit()">
+        <div class="modal-body">
+            <div>
+                <input type="text" class="form-control" [ngClass]="{ 'is-invalid': (fAddAttribute.name.touched && fAddAttribute.name.invalid) }" formControlName="name" placeholder="Nama">
+                <div class="invalid-feedback">
+                    Nama harus di isi
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</ng-template>

@@ -26,6 +26,15 @@ export class SpecService {
       .map(resp => resp as List);
   }
 
+  getAttributeValue(queryParams: Object) {
+    let params = new HttpParams();
+    Object.keys(queryParams).forEach(function(k){
+      params = params.append(k, queryParams[k]);
+    });
+    return this.http.get(this.configuration.apiURL + '/manage/attributevalue', {params: params})
+      .map(resp => resp as any);
+  }
+
   changeStatus(data){
     return this.http.put(this.configuration.apiURL + '/manage/attribute/active', data)
     .map(resp => resp as ChangeStatus);
@@ -39,6 +48,11 @@ export class SpecService {
   add(data){
     return this.http.post(this.configuration.apiURL + '/manage/attribute/create', data)
     .map(resp => resp as Add);
+  }
+
+  addAttributeValue(data){
+    return this.http.post(this.configuration.apiURL + '/manage/attributevalue/create', data)
+    .map(resp => resp);
   }
 
 }

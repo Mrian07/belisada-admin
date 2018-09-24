@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SpecAddComponent } from './spec-add/spec-add.component';
 import { SpecListComponent } from './spec-list/spec-list.component';
 import { SpecComponent } from './spec.component';
+import { SpecValueComponent } from './spec-value/spec-value.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
       {
         path: 'list',
         component: SpecListComponent,
+      },
+      {
+        path: 'value',
+        component: SpecValueComponent,
       },
       {
         path: 'spec-add',
