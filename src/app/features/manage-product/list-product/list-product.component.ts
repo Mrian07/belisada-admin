@@ -1,31 +1,21 @@
 import { ProductDetailData, SpecificationList } from './../../../@core/models/category/category.model';
 import { CategoryAttribute } from './../../../@core/models/manage-product/manage-product';
 import { Component, OnInit, ViewChild, Injectable, ElementRef, Input, OnDestroy } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { ManageProductService } from '../../../@core/services/manage-product/manage-product.service';
 import { ManageProduct, revise, listingCategory,
 listingProduct, detailListingProduct } from '../../../@core/models/manage-product/manage-product';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
-
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
-
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, filter, merge} from 'rxjs/operators';
-import { NgbModalBackdrop } from '@ng-bootstrap/ng-bootstrap/modal/modal-backdrop';
 import { ManageStoreService } from '../../../@core/services/manage-store/manage-store.service';
 import { ListingItem } from '../../../@core/models/manage-store/manage-store.model';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import swal from 'sweetalert2';
-import { ModalComponent } from '../../../pages/ui-features/modals/modal/modal.component';
 import { BrandService } from '../../../@core/services/brand/brand.service';
 import { List, Brand } from '../../../@core/models/brand/brand.model';
-import { interval } from 'rxjs/observable/interval';
 import { of } from 'rxjs/observable/of';
 import { CategoryService } from '../../../@core/services/category/category.service';
-import { ListCategory } from '../../../@core/models/category/category.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
@@ -39,8 +29,6 @@ export class ListProductComponent implements OnInit, OnDestroy {
   modalHeader: string;
   myForm: FormGroup;
   form: FormGroup;
-
-  closeResult: string;
   data: ManageProduct[];
   model: any;
   value: boolean = false;
@@ -55,7 +43,13 @@ export class ListProductComponent implements OnInit, OnDestroy {
   searching = false;
   searchFailed = false;
   list: ListingItem;
+
+
   txtSearch: any;
+  txtSearchMaster: any;
+  querySearchMaster: any;
+
+
   productBrandId: number;
   isChecked: boolean;
   sel: any;
@@ -68,9 +62,12 @@ export class ListProductComponent implements OnInit, OnDestroy {
   ss: any[];
   ticks= 0;
 
+
+
   /* method post
   */
   brandId: number;
+  masterId: any;
   cat3Value: number;
   prodId: number;
   statusCode: string;
@@ -125,6 +122,7 @@ spec: any[] = [];
   limit: number = 100;
   querySearch: any;
   onTextFocus: Boolean = false;
+  onTextFocusMaster: Boolean = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   @ViewChild('instance') instance: NgbTypeahead;
   public rowSelected: number;
@@ -145,6 +143,7 @@ spec: any[] = [];
   listProduct: listingProduct = new listingProduct();
 
   listDetailProd: detailListingProduct[] = [];
+  getDetailMaster: detailListingProduct[] = [];
 
   createdDate: string;
   storeName: string;
@@ -175,6 +174,7 @@ spec: any[] = [];
     /* akhir dari category c1 c2 c3 init */
 
     this.brandInit();
+    this.masterDetail();
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
       if (this.keyName === undefined ){
@@ -225,13 +225,6 @@ spec: any[] = [];
     });
   }
 
-  private newMethod_2() {
-    return {
-      page: this.currentPage,
-      itemperpage: 10,
-    };
-
-  }
 
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
@@ -302,25 +295,11 @@ spec: any[] = [];
     });
 
     this.addProductForm = this.fb.group({
-      name: ['', [Validators.required]],
-      masterId: [''],
-      brandId: [''],
-      brandName: [''],
       categoryThreeId: ['', [Validators.required]],
       classification: ['', [Validators.required]],
-      couriers: [[], [Validators.required]],
       description: ['', [Validators.required]],
-      // dimensionsWidth: ['', [Validators.required]],
-      // dimensionsheight: ['', [Validators.required]],
-      // dimensionslength: ['', [Validators.required]],
       guaranteeTime: ['', [Validators.required]],
-      imageUrl: [[], [Validators.required]],
-      pricelist: ['', [Validators.required]],
-      specialPrice: [''],
-      discount: [''],
-      qty: ['', [Validators.required]],
       specification: [[]],
-      weight: ['', [Validators.required]]
     });
   }
 
@@ -407,6 +386,35 @@ getCategoryInit(categoryType, parentid?) {
     setTimeout(() => { this.onTextFocus = false }, 200)
   }
 
+  onFocusOutMaster() {
+
+    setTimeout(() => { this.onTextFocusMaster = false }, 200)
+  }
+
+
+  masterDetail() {
+    const queryParams = {
+      page: this.current = 1,
+      itemperpage: 10,
+    };
+    this.prodService.getListingProductMaster(queryParams).subscribe(response => {
+      this.getDetailMaster = response.content
+    });
+  }
+  searchMaster(e) {
+    console.log(e);
+    //  this.txtSearch = this.brandList.data.find(x => x.brandId === e).name;
+    this.querySearchMaster = this.txtSearchMaster;
+    const queryParams = {
+      page: this.current = 1,
+      itemperpage: this.limit,
+      name: this.querySearchMaster === undefined ? '' : this.querySearchMaster,
+
+    };
+    this.prodService.getListingProductMaster(queryParams).subscribe(response => {
+      this.getDetailMaster = response.content;
+    });
+  }
   searchBrand(e) {
     //  this.txtSearch = this.brandList.data.find(x => x.brandId === e).name;
     this.querySearch = this.txtSearch;
@@ -422,6 +430,14 @@ getCategoryInit(categoryType, parentid?) {
     });
   }
 
+  selectMaster(master) {
+    this.masterId = master.productId;
+    this.txtSearchMaster = master.name;
+
+    console.log(master.productId);
+
+  }
+
   selectBrand(brand) {
 
     this.brandId = brand.brandId;
@@ -431,24 +447,12 @@ getCategoryInit(categoryType, parentid?) {
 
   fillFormPatchValue(data: ProductDetailData) {
     this.addProductForm.patchValue({
-      name: data.name,
-      masterId: data.productId,
       brandId: data.brandId,
       brandName: data.brandName,
       categoryThreeId: (data.categoryThreeId !== 0) ? data.categoryThreeId : data.categoryTwoId,
       classification: data.classification,
       description: data.description,
-      // dimensionsWidth: data.dimensionsWidth,
-      // dimensionsheight: data.dimensionsheight,
-      // dimensionslength: data.dimensionslength,
-      guaranteeTime: data.guaranteeTime,
-      imageUrl: data.imageUrl,
-      pricelist: data.pricelist,
-      specialPrice: data.specialPrice,
-      discount: data.discount,
-      qty: data.qty,
       specification: data.specification,
-      weight: data.weight,
     });
     this.categoryName = {
       C1: data.categoryOneName,
@@ -469,7 +473,7 @@ getCategoryInit(categoryType, parentid?) {
   }
 
 
-  open(content, e, bId, cat1, cat2, cat3, BN) {
+  open(content, e, bId, BN, MsId) {
     this.brandName = BN;
     this.txtSearch = BN;
     this.prodService.getDetailById(e).subscribe(response => {
@@ -488,6 +492,7 @@ getCategoryInit(categoryType, parentid?) {
     this.prodId = e;
     this.prodService.getDetailProduct(e).subscribe(detail => {
       this.listDetailProd = detail.data;
+      console.log('detail', this.listDetailProd);
     })
     this.brandId = bId;
 
@@ -538,6 +543,7 @@ getCategoryInit(categoryType, parentid?) {
   Selected(value: any, ver: any) {
     this.select = value;
     this.version = ver;
+    console.log('txt searchmaster',this.masterId)
 
     const a = {
       brandId : this.brandId,
@@ -545,8 +551,15 @@ getCategoryInit(categoryType, parentid?) {
       productId : this.prodId,
       statusCode: this.select,
       version: this.version,
+      masterId: this.masterId,
     };
-    if (value === 'AP') {
+    if ( this.txtSearchMaster === undefined || this.txtSearchMaster === '') {
+     swal (
+       'Silahkan Pilih Master Product Kamu',
+     )
+     window.scrollTo(0, 0);
+    } else {
+      if (value === 'AP') {
         {
           swal({
             title: 'Are you sure?',
@@ -565,10 +578,12 @@ getCategoryInit(categoryType, parentid?) {
             if (result.value) {
               const newLocal = this.prodService.postToko(a).subscribe(postDa => {
                 this.getProduct(this.currentPage);
+
                 swal(
                   postDa.message
                 )
-
+          this.txtSearchMaster = '';
+          this.masterId = '';
           this.modalRef.close();
 
 
@@ -584,47 +599,50 @@ getCategoryInit(categoryType, parentid?) {
 
         }
     }
-    if (value === 'RJ') {
-        {
-          swal({
-            title: 'Are you sure?',
-            text: 'You won\'t be able to revert this!',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes!',
-            cancelButtonText: 'No, cancel!',
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn btn-danger',
-            buttonsStyling: false,
-            reverseButtons: true
-          }).then((result) => {
-            if (result.value) {
-              const newLocal = this.prodService.postToko(a).subscribe(postDa => {
-                this.getProduct(this.currentPage);
-                swal(
-                  postDa.message
-                )
-                this.modalRef.close();
-              });
-            } else if (
-              // Read more about handling dismissals
-              result.dismiss === swal.DismissReason.cancel
-            ) {
-            }
-          });
-
-
-        }
     }
-    this.brandList;
+    if (value === 'RJ') {
+      {
+        swal({
+          title: 'Are you sure?',
+          text: 'You won\'t be able to revert this!',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes!',
+          cancelButtonText: 'No, cancel!',
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          buttonsStyling: false,
+          reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
+            const newLocal = this.prodService.postToko(a).subscribe(postDa => {
+              this.getProduct(this.currentPage);
+              swal(
+                postDa.message
+              )
+              this.modalRef.close();
+            });
+          } else if (
+            // Read more about handling dismissals
+            result.dismiss === swal.DismissReason.cancel
+          ) {
+          }
+        });
+
+
+      }
+  }
+  this.brandList;
+
   }
 
 
   oke(verc, besc) {
      const p =  {
       approvalProductIssue: this.myForm.value.useremail,
+      masterId:this.masterId,
       version: verc,
       brandId : this.brandId,
       categoryThreeId : this.addProductForm.get('categoryThreeId').value,

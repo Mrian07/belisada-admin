@@ -45,6 +45,8 @@ export class Content {
   invoiceNumber: string;
   statusPlaceHolderOrderSeller: string;
   namaPenerima: string;
+  expiredConfirmationPaymentAdminDate: string;
+  countdown: Countdown;
   noResi: string;
   orderNumber: string;
   originId: number;
@@ -65,6 +67,15 @@ export class Content {
   total: number;
   totalWeight: number;
   useAsuransi: boolean;
+}
+export class Countdown {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+
+  status: number;
+  message: string;
 }
 export class transaction {
   cart: cart[];
