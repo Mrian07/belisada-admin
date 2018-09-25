@@ -300,6 +300,8 @@ spec: any[] = [];
       description: ['', [Validators.required]],
       guaranteeTime: ['', [Validators.required]],
       specification: [[]],
+      brandId: [''],
+      brandName: [''],
     });
   }
 
@@ -415,20 +417,36 @@ getCategoryInit(categoryType, parentid?) {
       this.getDetailMaster = response.content;
     });
   }
-  searchBrand(e) {
-    //  this.txtSearch = this.brandList.data.find(x => x.brandId === e).name;
+  searchBrand(): void {
     this.querySearch = this.txtSearch;
+    this.addProductForm.patchValue({
+      brandId: undefined,
+    });
+    const qsBrand = this.addProductForm.get('brandName').value;
     const queryParams = {
       page: this.current = 1,
       itemperpage: this.limit,
-      name: this.querySearch === undefined ? '' : this.querySearch,
-      isactive: true
-
+      name: qsBrand === undefined ? '' : qsBrand
     };
     this.brandService.getList(queryParams).subscribe(response => {
       this.brandList = response;
     });
   }
+  // searchBrand(e) {
+  //   //  this.txtSearch = this.brandList.data.find(x => x.brandId === e).name;
+    
+  //   this.querySearch = this.txtSearch;
+  //   const queryParams = {
+  //     page: this.current = 1,
+  //     itemperpage: this.limit,
+  //     name: this.querySearch === undefined ? '' : this.querySearch,
+  //     isactive: true
+
+  //   };
+  //   this.brandService.getList(queryParams).subscribe(response => {
+  //     this.brandList = response;
+  //   });
+  // }
 
   selectMaster(master) {
     this.masterId = master.productId;
@@ -439,6 +457,7 @@ getCategoryInit(categoryType, parentid?) {
   }
 
   selectBrand(brand) {
+    console.log('xxxx')
 
     this.brandId = brand.brandId;
     this.txtSearch = brand.name;
@@ -476,6 +495,7 @@ getCategoryInit(categoryType, parentid?) {
   open(content, e, bId, BN, MsId) {
     this.brandName = BN;
     this.txtSearch = BN;
+    console.log('bn:', BN)
     this.prodService.getDetailById(e).subscribe(response => {
       const data = response.data;
       this.version = data.version;
@@ -520,9 +540,9 @@ getCategoryInit(categoryType, parentid?) {
   }
 
   onScrollDown () {
-    const scr = window.document.querySelector('#drick-scroll-container');
+    const scr = window.document.querySelector('#drick-scroll-container--brand');
 
-    if (scr.scrollHeight - scr.clientHeight === Math.round(scr.scrollTop)) {
+    if (scr.scrollHeight - scr.clientHeight === scr.scrollTop) {
       const queryParams = {
         page: this.current += 1,
         itemperpage: this.limit,
@@ -647,7 +667,7 @@ getCategoryInit(categoryType, parentid?) {
       brandId : this.brandId,
       categoryThreeId : this.addProductForm.get('categoryThreeId').value,
       productId : this.prodId,
-      statusCode: this.select,
+      statusCode: 'RV',
       note: this.myForm.value.tulisan
      }
      {
