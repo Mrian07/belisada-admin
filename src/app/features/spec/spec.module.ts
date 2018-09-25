@@ -6,6 +6,7 @@ import { SpecListComponent } from './spec-list/spec-list.component';
 import { SpecAddComponent } from './spec-add/spec-add.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../@theme/theme.module';
+import { SpecValueComponent } from './spec-value/spec-value.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { ThemeModule } from '../../@theme/theme.module';
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [SpecComponent, SpecListComponent, SpecAddComponent]
+  declarations: [SpecComponent, SpecListComponent, SpecAddComponent, SpecValueComponent]
 })
 export class SpecModule { }

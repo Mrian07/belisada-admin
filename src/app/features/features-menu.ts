@@ -62,6 +62,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'List',
         link: '/spec/list',
+      },
+      {
+        title: 'Value',
+        link: '/spec/value',
       }
     ],
   },
