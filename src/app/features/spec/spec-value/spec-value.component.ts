@@ -64,6 +64,7 @@ export class SpecValueComponent implements OnInit {
 
     this.addAttributeValueFormGroup = this.fb.group({
       attributeId: ['', [Validators.required]],
+      attributeValueId: [''],
       value: ['', [Validators.required]]
     });
   }
@@ -123,6 +124,15 @@ export class SpecValueComponent implements OnInit {
     }, attributeid);
   }
 
+  editClicked(id,name){
+    this.isAddAttrValue = true;
+    this.isAddAttrValueFocus = true;
+    this.addAttributeValueFormGroup.patchValue({
+      attributeValueId: id,
+      value: name,
+    });
+  }
+
   addAttributeSubmit() {
     if (this.addAttributeFormGroup.invalid) return;
 
@@ -152,15 +162,32 @@ export class SpecValueComponent implements OnInit {
     });
     if (this.addAttributeValueFormGroup.invalid) return;
     this.isLoading = true;
-    this.specService.addAttributeValue(this.addAttributeValueFormGroup.value).subscribe(result => {
-      this.addAttributeValueFormGroup.reset();
-      this.isAddAttrValue = false;
-      this.isLoading = false;
 
-      this.getAttributeValues((data) => {
-        this.attributeValueList = data;
-      }, this.selectedAttributeId);
-    })
+    if(this.addAttributeValueFormGroup.value.attributeValueId){
+      this.specService.editAttributeValue(this.addAttributeValueFormGroup.value).subscribe(result => {
+        this.addAttributeValueFormGroup.reset();
+        this.isAddAttrValue = false;
+        this.isLoading = false;
+
+        this.getAttributeValues((data) => {
+          this.attributeValueList = data;
+        }, this.selectedAttributeId);
+      })
+
+
+    }else{
+
+      this.specService.addAttributeValue(this.addAttributeValueFormGroup.value).subscribe(result => {
+        this.addAttributeValueFormGroup.reset();
+        this.isAddAttrValue = false;
+        this.isLoading = false;
+
+        this.getAttributeValues((data) => {
+          this.attributeValueList = data;
+        }, this.selectedAttributeId);
+      })
+
+    }
   }
 
   cancelAddAttributeValue(e) {
