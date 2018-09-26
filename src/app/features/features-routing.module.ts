@@ -50,7 +50,7 @@ const routes: Routes = [{
       loadChildren: './master-product/masterP.module#MasterPModule',
     },
     {
-      path: 'courir',
+      path: 'courier',
       loadChildren: './manage-shipment/manage-shipment.module#ManageShipmentModule',
     },
   ],
