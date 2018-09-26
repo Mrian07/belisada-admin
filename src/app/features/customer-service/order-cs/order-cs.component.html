@@ -221,7 +221,7 @@
       <span > {{ getDataTranscation.nominal | currency:'Rp. ' }}</span>
     </div>
   </div>
-  <div class="six__line--on-body" *ngIf="getDataTranscation.status === 'pembayaran gagal' && getDataTranscation.status === 'pembayaran berhasil' ">
+  <div class="six__line--on-body" *ngIf="getDataTranscation.status === 'menunggu konfirmasi pembayaran'">
     <div>
       <button class="btn btn--width btn__color-red" (click)="gakmasu(getDataTranscation.paymentNumber)">Reject</button>
     </div>

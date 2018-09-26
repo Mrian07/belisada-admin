@@ -21,9 +21,9 @@
         <td> <input class="form-control" placeholder="Search Name" (keyup)="searchK($event)"></td>
       </tr>
 
-      <tr *ngFor="let obj of lisitingProd">
+      <tr *ngFor="let obj of lisitingProd" (click)="openLg(content, obj.productId)">
         <td> <img class="item__cusotmese__image" src="{{obj.imageUrl[0]}}"></td>
-        <td class="td__cusotmese__image" (click)="openLg(content, obj.productId)"><p> {{ obj.name }}</p></td>
+        <td class="td__cusotmese__image" ><p> {{ obj.name }}</p></td>
       </tr>
       </table>
 </nb-card-body>
@@ -44,13 +44,14 @@
 </ng-template> -->
 <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
+      <h4 class="modal-title" id="modal-basic-title">{{a.name}}</h4>
+      <button (click)="goToEdit(a.productId)" (click)="d('Cross click')">Edit</button>
       <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-        <img class="img--post" *ngFor="let item of a.imageUrl" src="item">
+        <img class="img--post" *ngFor="let item of a.imageUrl" [src]="prodImg + item">
         <hr>
         <table class="table table-bordered table-striped">
           <tr>

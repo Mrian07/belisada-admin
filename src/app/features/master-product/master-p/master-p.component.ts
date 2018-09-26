@@ -1,11 +1,12 @@
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BrandService } from './../../../@core/services/brand/brand.service';
 import swal from 'sweetalert2';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { CategoryService } from './../../../@core/services/category/category.service';
 import { ManageProductService } from './../../../@core/services/manage-product/manage-product.service';
-import { AddProductRequest, BrandList, CategoryList, CategoryAttribute, ProductSpecification } from './../../../@core/models/manage-product/manage-product';
+import { AddProductRequest, BrandList, CategoryList, CategoryAttribute, ProductSpecification, detailListingProduct } from './../../../@core/models/manage-product/manage-product';
 import { Component, OnInit, ElementRef } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'master-p',
@@ -48,13 +49,23 @@ export class MasterPComponent implements OnInit {
   categoryAttributes: CategoryAttribute[];
   spec: any[] = [];
 
+
+  /* get dari query params*/
+  productId: number;
+  
+
+  /* tutup nya */
+
   constructor(
     private brandService: BrandService,
     private el: ElementRef,
     private categoryService: CategoryService,
     private fb: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute,
     private ProdService: ManageProductService,
+    private title: Title,
+    private manageServ: ManageProductService,
   ) {
     this.currentPgBrand = 1;
     this.categoryList.C1.data = [];
@@ -63,6 +74,7 @@ export class MasterPComponent implements OnInit {
     this.categoryAttributes = [];
     this.measurementType = 0;
     this.measurementTypeL = 0;
+    this.productId = this.route.snapshot.params.id;
   }
 
   get f() { return this.addProductForm.controls; }
@@ -71,6 +83,13 @@ export class MasterPComponent implements OnInit {
     this.formData();
     this.getBrandInit();
     this.getCategoryInit('C1');
+
+    if(this.productId) {
+      this.title.setTitle('Admin - Edit Product');
+      this.fillFormData(this.productId);
+    } else {
+      this.title.setTitle('Admin - Add Product');
+    }
   }
   private formData() {
     this.addProductForm = this.fb.group({
@@ -90,6 +109,34 @@ export class MasterPComponent implements OnInit {
       specification: [[]],
       weight: ['',  [Validators.required]],
     });
+  }
+
+  fillFormData(productId) {
+    this.manageServ.getListById(productId).subscribe(response => {
+      const data = response.data;
+      console.log(data);
+      this.fillFormPatchValue(data);
+    });
+  }
+
+  fillFormPatchValue(data: detailListingProduct) {
+    this.addProductForm.patchValue({
+      name: data.name,
+      brandId: data.brandId,
+      brandName: data.brandName,
+      categoryThreeId: (data.categoryThreeId !== 0) ? data.categoryThreeId : data.categoryTwoId,
+      classification: data.classification,
+      description: data.description,
+      imageUrl: data.imageUrl,
+      weight: data.weight
+    });
+    this.categoryName = {
+      C1: data.categoryOneName,
+      C2: data.categoryTwoName,
+      C3: data.categoryThreeName
+    };
+    this.getCategoryInit('C2', data.categoryOneId);
+    this.getCategoryInit('C3', data.categoryTwoId);
   }
 
 

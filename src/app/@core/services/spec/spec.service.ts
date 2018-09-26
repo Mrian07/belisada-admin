@@ -55,4 +55,9 @@ export class SpecService {
     .map(resp => resp);
   }
 
+  editAttributeValue(data){
+    return this.http.put(this.configuration.apiURL + '/manage/attributevalue/update', data)
+    .map(resp => resp);
+  }
+
 }

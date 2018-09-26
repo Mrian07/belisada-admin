@@ -31,16 +31,19 @@
                 <div class="attribute-value-list" *ngIf="isSpecSelected">
                     <ul>
                         <li *ngFor="let attributeValue of attributeValueList">
-                            {{ attributeValue.value }}
-                            <span class="tool-box">
+                            {{ attributeValue.value }} 
+                            <span class="tool-box" (click)="editClicked(attributeValue.attributeValueId, attributeValue.value)">
                                 <i class="fa fa-edit"></i>
                             </span>
                         </li>
                         <li class="add-new" (click)="openAddAttributeValue()">
                             <i *ngIf="!isAddAttrValue" class="fa fa-plus"></i>
                             <span *ngIf="!isAddAttrValue">Tambah baru</span>
+
                             <form *ngIf="isAddAttrValue" [formGroup]="addAttributeValueFormGroup" (submit)="addAttributeValueSubmit()">
                                 <div class="form-control-wrapper">
+
+                                    <input type="hidden" class="form-control" formControlName="attributeValueId">
                                     <input type="text" [focusOnMe]="isAddAttrValueFocus" class="form-control" formControlName="value" placeholder="Name">
                                     <i *ngIf="!isLoading" (click)="cancelAddAttributeValue($event)" class="fa fa-times" title="Cancel"></i>
                                     <i *ngIf="isLoading" class="spinner" title="Loading..."></i>

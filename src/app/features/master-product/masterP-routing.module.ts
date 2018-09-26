@@ -15,6 +15,10 @@ const routes: Routes = [
         component: MasterPComponent,
       },
       {
+        path: 'edit/:id',
+        component: MasterPComponent,
+      },
+      {
         path: 'listing',
         component: ListingProductComponent,
       },
