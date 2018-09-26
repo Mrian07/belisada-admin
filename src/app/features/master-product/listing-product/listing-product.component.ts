@@ -44,17 +44,6 @@ export class ListingProductComponent implements OnInit {
         }
         });
     });
-      //     const queryParams = {
-      //       page: 1,
-      //       itemperpage: 10,
-      //     }
-      // console.log('123');
-      // this.mageProd.getListingProductMaster(queryParams).subscribe(x => {
-      //   this.lisitingProd = x.content;
-      //   this.dddd = x.totalPages;
-      //   console.log('tsad', x);
-
-      // });
   }
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
@@ -90,6 +79,11 @@ export class ListingProductComponent implements OnInit {
   }
   d(a) {
     console.log(a);
+  }
+  goToEdit(e) {
+    // console.log(this.router.navigate(['/edit/' + e]));
+    console.log(e);
+    this.router.navigate(['master-product/edit/' + e]);
   }
 
 }

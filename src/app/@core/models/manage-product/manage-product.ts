@@ -283,3 +283,9 @@ export class ManageProductListing {
   size: number;
   content: detailListingProduct[];
 }
+
+export class listingDetail {
+  status: number;
+  message: string;
+  data: detailListingProduct;
+}
