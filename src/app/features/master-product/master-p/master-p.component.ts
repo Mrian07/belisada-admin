@@ -390,7 +390,7 @@ export class MasterPComponent implements OnInit {
         swal(
           response.message,
         )
-        // this.router.navigate(['/master-product/listing']);
+        this.router.navigate(['/master-product/listing']);
       });
     } else {
       this.ProdService.postData( this.addProductForm.value).subscribe(response => {
