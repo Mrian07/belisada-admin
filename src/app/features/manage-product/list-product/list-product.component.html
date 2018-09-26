@@ -242,8 +242,13 @@
                                         <td>{{  listDetailProd.guaranteeTypeValue }}</td>
                                     </tr>
                                     <tr>
+                                    <td>Harga Diskon</td>
+                                        <td>Rp. {{ listDetailProd.specialPrice| number }}</td>
+                                    </tr>
+                                    <tr>
                                         <td class="verticalAli">Stock Barang</td>
                                         <td class="verticalAli">{{ listDetailProd.qty }}</td>
+                                        
                                         <td class="verticalAli">Metode Pengiriman</td>
                                         <td>
                                           <div class="row grid--courier press" *ngFor="let courier of listDetailProd.couriers">
