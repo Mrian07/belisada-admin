@@ -21,6 +21,7 @@ export class GetDataTranscationList {
   transferFrom: string;
   news: string;
   nominal: any;
+  status: any;
   transerDate: string;
   createdOrder: string;
   buyerName: string;
