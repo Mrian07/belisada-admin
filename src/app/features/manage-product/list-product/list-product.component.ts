@@ -432,21 +432,6 @@ getCategoryInit(categoryType, parentid?) {
       this.brandList = response;
     });
   }
-  // searchBrand(e) {
-  //   //  this.txtSearch = this.brandList.data.find(x => x.brandId === e).name;
-    
-  //   this.querySearch = this.txtSearch;
-  //   const queryParams = {
-  //     page: this.current = 1,
-  //     itemperpage: this.limit,
-  //     name: this.querySearch === undefined ? '' : this.querySearch,
-  //     isactive: true
-
-  //   };
-  //   this.brandService.getList(queryParams).subscribe(response => {
-  //     this.brandList = response;
-  //   });
-  // }
 
   selectMaster(master) {
     this.masterId = master.productId;

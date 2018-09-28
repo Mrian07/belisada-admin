@@ -108,6 +108,7 @@ export class MasterPComponent implements OnInit {
       qty: [''],
       specification: [[]],
       weight: ['',  [Validators.required]],
+      productId:  this.productId 
     });
   }
 
@@ -128,7 +129,7 @@ export class MasterPComponent implements OnInit {
       classification: data.classification,
       description: data.description,
       imageUrl: data.imageUrl,
-      weight: data.weight
+      weight: data.weight,
     });
     this.categoryName = {
       C1: data.categoryOneName,
@@ -384,12 +385,21 @@ export class MasterPComponent implements OnInit {
       );
       return;
     }
-    this.ProdService.postData( this.addProductForm.value).subscribe(response => {
-      swal(
-        response.message,
-      )
-      this.router.navigate(['/master-product/listing']);
-    });
+    if(this.productId) {
+      this.ProdService.putEditData( this.addProductForm.value).subscribe(response => {
+        swal(
+          response.message,
+        )
+        this.router.navigate(['/master-product/listing']);
+      });
+    } else {
+      this.ProdService.postData( this.addProductForm.value).subscribe(response => {
+        swal(
+          response.message,
+        )
+        this.router.navigate(['/master-product/listing']);
+      });
+    }
   }
 
 

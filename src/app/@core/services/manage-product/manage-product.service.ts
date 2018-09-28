@@ -90,6 +90,10 @@ export class ManageProductService {
     return this.http.post(this.configuration.apiURL + '/manage/product/product/create', data)
     .map(response => response as AddProductRequest );
   }
+  putEditData(data) {
+    return this.http.post(this.configuration.apiURL + '/manage/product/product/update', data)
+    .map(resp => resp as AddProductRequest);
+  }
 
   getListingProductMaster(queryParams): Observable<ManageProductListing> {
     let params = new HttpParams();
