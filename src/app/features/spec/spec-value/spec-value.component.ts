@@ -135,7 +135,10 @@ export class SpecValueComponent implements OnInit {
 
   addAttributeSubmit() {
     if (this.addAttributeFormGroup.invalid) return;
-
+      this.addAttributeFormGroup.patchValue({
+        isInstanceAttribute: false,
+        isMandatory: false,
+      })
     this.specService.add(this.addAttributeFormGroup.value).subscribe(result => {
       swal(
         (result.status === 1) ? 'success' : 'error',
