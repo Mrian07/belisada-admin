@@ -100,12 +100,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
-    title: 'Courir',
+    title: 'Courier',
     icon: 'nb-layout-default',
     children: [
       {
         title: 'List',
-        link: '/courir/list',
+        link: '/courier/list',
       },
     ],
   },
