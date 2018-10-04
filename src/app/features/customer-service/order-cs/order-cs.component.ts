@@ -63,7 +63,7 @@ countdown = {
     this.tab(this._status);
     this.orderSe.getStatusReasson().subscribe(ress => {
       this.getListing = ress;
-      console.log(ress);
+      console.log('datanya:', ress);
     })
 
 
@@ -132,6 +132,7 @@ countdown = {
     // console.log(this.aaaaaaaaa);
   }
   gakmasu(e) {
+    this.showDialog = false;
     const iniKirim = {
       paymentNumber: e,
       reasonType: this.codeNum,
@@ -146,6 +147,7 @@ countdown = {
     console.log(iniKirim);
   }
   confrimButton(e) {
+    this.showDialog = false;
     const a = {
       paymentNumber: e,
     }
