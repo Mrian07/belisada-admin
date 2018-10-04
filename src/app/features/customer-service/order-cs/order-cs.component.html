@@ -159,7 +159,13 @@
   </ul>
 </div>
 <modal-mp maxwidth="920" [(visible)]="showDialog" class="frameDialog">
-  <div class="body--on__popuP">
+<div style="
+      min-height: 10rem;
+      max-height: 30rem;
+      display: block;
+      overflow: auto;
+">
+   <div class="body--on__popuP">
     <div class="text-payment__id">Payment ID</div>
     <div class="text--align_center text-payment__id">Tanggal Transfer</div>
     <div>{{ getDataTranscation.paymentNumber }}</div>
@@ -229,6 +235,8 @@
       <button class="btn btn--width btn__color-green" (click)="confrimButton(getDataTranscation.paymentNumber)">Konfirmasi</button>
     </div>
   </div>
+</div>
+
   <!-- <ng-template #xxasd>Please login to continue.</ng-template> -->
 
 </modal-mp>
