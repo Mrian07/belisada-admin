@@ -61,12 +61,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'List',
-        link: '/spec/list',
-      },
-      {
-        title: 'Value',
         link: '/spec/value',
-      }
+      },
+      // {
+      //   title: 'Value',
+      //   link: '/spec/list',
+      // }
     ],
   },
   {
