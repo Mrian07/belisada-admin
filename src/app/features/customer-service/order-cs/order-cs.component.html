@@ -85,6 +85,20 @@
                 Alamat:<br><label> {{ itemList.alamatPenerima }}</label>
 
               </div>
+
+
+              <span class="btn-konfirm" (click)="showDialog = !showDialog" (click)="ok(item.paymentNumber)">
+                  Confirm Transfer
+              </span>
+
+              <span *ngIf="item.statusCode === '233'" class="bAccpet">
+                Status: Accept
+              </span>
+
+              <span *ngIf="item.statusCode === '231'" class="bReject">
+                Status: Reject ({{item.reason}})
+              </span>
+        
             </td>
             <td valign="top" width="15%">
               <div class="item-colom">
@@ -119,22 +133,14 @@
 
             <td width="20%">
                 <div class="row">
-                    <div class="col-12">
-                      <label>Ongkos Kirim: {{ itemList.courierPrice | currency:'Rp ' }}</label>
+                    <div class="col-12 ongkir">
+                      <label>Ongkos Kirim: <br>{{ itemList.courierPrice | currency:'Rp ' }}</label>
                     </div>
                   </div>
               <span class="btn-konfirm">
                 Hubungi Seller
               </span>
 
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-                <span class="btn-konfirm" (click)="showDialog = !showDialog" (click)="ok(item.paymentNumber)">
-                    Confirm Transfer
-                   </span>
             </td>
           </tr>
         </table>
