@@ -4,6 +4,29 @@
   font-size: 30px;
 }
 
+.bAccpet{
+  // background: #15af2a;
+  // color:#ffffff;
+  padding:9px;
+  font-size: 12px;
+  border-radius: 5px;
+  border:1px solid #15af2a;
+}
+
+.bReject{
+  // background: #c94613;
+  // color:#ffffff;
+  padding:9px;
+  font-size: 12px;
+  border-radius: 5px;
+  border:1px solid #c94613;
+}
+
+.ongkir{
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .frame-menu{
   margin-top:20px;
   padding: 7px;
@@ -92,7 +115,7 @@
 
 .item-colom-border{
   border:1px solid #ebebeb;
-  margin-bottom:5px;
+  margin-bottom:15px;
   padding:5px;
   font-size: 12px;
   border-radius:5px;

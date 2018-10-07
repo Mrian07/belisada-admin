@@ -41,10 +41,12 @@
                 </div>
             </div>
             <div class="col-2">
-                <div  *ngIf="tabOrder === '230'">
-                    Batas Waktu Respon:  <countdown-timer [end]="item.expiredConfirmationPaymentAdminDate"></countdown-timer>
-                    <!-- Batas Waktu Respon: {{item.countdown.days}}d - {{item.countdown.hours}}h - {{item.countdown.minutes}}m - {{item.countdown.seconds}}s -->
-                  </div>
+                <div *ngIf="item.status === 'pembayaran berhasil'">
+                    <div  *ngIf="tabOrder === '230' || tabOrder === 'ALL'">
+                        Batas Waktu Respon:  <countdown-timer [end]="item.expiredConfirmationPaymentAdminDate"></countdown-timer>
+                        <!-- Batas Waktu Respon: {{item.countdown.days}}d - {{item.countdown.hours}}h - {{item.countdown.minutes}}m - {{item.countdown.seconds}}s -->
+                    </div>
+                </div>
             </div>
             <div class="col-2">
               <div class="text-progress">{{ item.status }}</div>
@@ -83,6 +85,20 @@
                 Alamat:<br><label> {{ itemList.alamatPenerima }}</label>
 
               </div>
+
+
+              <span class="btn-konfirm" (click)="showDialog = !showDialog" (click)="ok(item.paymentNumber)">
+                  Confirm Transfer
+              </span>
+
+              <span *ngIf="item.statusCode === '233'" class="bAccpet">
+                Status: Accept
+              </span>
+
+              <span *ngIf="item.statusCode === '231'" class="bReject">
+                Status: Reject ({{item.reason}})
+              </span>
+        
             </td>
             <td valign="top" width="15%">
               <div class="item-colom">
@@ -117,22 +133,14 @@
 
             <td width="20%">
                 <div class="row">
-                    <div class="col-12">
-                      <label>Ongkos Kirim: {{ itemList.courierPrice | currency:'Rp ' }}</label>
+                    <div class="col-12 ongkir">
+                      <label>Ongkos Kirim: <br>{{ itemList.courierPrice | currency:'Rp ' }}</label>
                     </div>
                   </div>
               <span class="btn-konfirm">
                 Hubungi Seller
               </span>
 
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-                <span class="btn-konfirm" (click)="showDialog = !showDialog" (click)="ok(item.paymentNumber)">
-                    Confirm Transfer
-                   </span>
             </td>
           </tr>
         </table>
@@ -159,7 +167,13 @@
   </ul>
 </div>
 <modal-mp maxwidth="920" [(visible)]="showDialog" class="frameDialog">
-  <div class="body--on__popuP">
+<div style="
+      min-height: 10rem;
+      max-height: 30rem;
+      display: block;
+      overflow: auto;
+">
+   <div class="body--on__popuP">
     <div class="text-payment__id">Payment ID</div>
     <div class="text--align_center text-payment__id">Tanggal Transfer</div>
     <div>{{ getDataTranscation.paymentNumber }}</div>
@@ -229,6 +243,8 @@
       <button class="btn btn--width btn__color-green" (click)="confrimButton(getDataTranscation.paymentNumber)">Konfirmasi</button>
     </div>
   </div>
+</div>
+
   <!-- <ng-template #xxasd>Please login to continue.</ng-template> -->
 
 </modal-mp>
