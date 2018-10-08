@@ -302,19 +302,9 @@ spec: any[] = [];
       specification: [[]],
       brandId: [''],
       brandName: [''],
+      highlight: ['']
     });
   }
-
-  formSend() {
-    this.toBackend = {
-      brandId : this.brandId,
-      categoryThreeId : this.addProductForm.get('categoryThreeId').value,
-      productId : this.prodId,
-      statusCode: this.select,
-      version: this.version,
-    };
-  }
-
   /* category
   */
  onCategoryBlur(categoryType) {
@@ -457,6 +447,7 @@ getCategoryInit(categoryType, parentid?) {
       classification: data.classification,
       description: data.description,
       specification: data.specification,
+      highlight: data.highlight,
     });
     this.categoryName = {
       C1: data.categoryOneName,

@@ -170,7 +170,12 @@
                                     <span>deskripsi product</span>
                                     <div class="input-group">
 
-                                        <textarea formControlName="description" class="form-control bgGrey" aria-label="With textarea" disabled></textarea>
+                                        <textarea formControlName="description" class="form-control bgGrey" aria-label="With textarea" readonly></textarea>
+                                    </div>
+                                    <span>highlight product</span>
+                                    <div class="input-group">
+
+                                        <textarea formControlName="highlight" class="form-control bgGrey" aria-label="With textarea" readonly></textarea>
                                     </div>
 
                                     <span>spesifikasi</span>
@@ -204,8 +209,8 @@
                                         <tr>
                                             <td>Harga Diskon</td>
                                             <td>Rp. {{ listDetailProd.specialPrice| number }}</td>
-                                            <td>Highlight</td>
-                                            <td>{{ listDetailProd.highlight }}</td>
+                                            <td>Lama Garansi</td>
+                                            <td>{{ listDetailProd.guaranteeTimeValue }}</td>
                                         </tr>
                                         <tr>
                                             <td class="verticalAli">Stock Barang</td>
