@@ -1,7 +1,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { BrandService } from './../../../@core/services/brand/brand.service';
 import swal from 'sweetalert2';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 import { CategoryService } from './../../../@core/services/category/category.service';
 import { ManageProductService } from './../../../@core/services/manage-product/manage-product.service';
 import { AddProductRequest, BrandList, CategoryList, CategoryAttribute, ProductSpecification, detailListingProduct } from './../../../@core/models/manage-product/manage-product';
@@ -23,6 +23,7 @@ export class MasterPComponent implements OnInit {
   onProductNameFocus: Boolean = false;
   measurementType: any;
   measurementTypeL: any;
+  submitted: Boolean = false;
   xxzx: number;
   ngMdimensionsWidth: number;
   ngMdimensionsheight: number;
@@ -95,7 +96,7 @@ export class MasterPComponent implements OnInit {
     this.addProductForm = this.fb.group({
       name: ['', [Validators.required]],
       brandId: [''],
-      brandName: [''],
+      brandName: ['', [Validators.required]],
       categoryThreeId: ['', [Validators.required]],
       classification: [''],
       couriers: [[]],
@@ -138,6 +139,22 @@ export class MasterPComponent implements OnInit {
     };
     this.getCategoryInit('C2', data.categoryOneId);
     this.getCategoryInit('C3', data.categoryTwoId);
+  }
+
+  isFieldValid(field: string) {
+    return !this.addProductForm.get(field).valid && this.addProductForm.get(field).touched;
+}
+validateAllFormFields(formGroup: FormGroup) {
+  Object.keys(formGroup.controls).forEach(field => {
+    const control = formGroup.get(field);
+    if (control instanceof FormControl) {
+        control.markAsTouched({
+            onlySelf: true
+        });
+    } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+    }
+});
   }
 
 
@@ -374,31 +391,39 @@ export class MasterPComponent implements OnInit {
   }
 
   oke() {
-    this.specMapping(this.spec);
+    this.submitted = true;
+    if (this.addProductForm.valid) {
+      this.specMapping(this.spec);
+      this.calculateWeight();
 
-    const imageUrl = this.addProductForm.get('imageUrl').value;
-    if (imageUrl.length < 2 || imageUrl.length > 5) {
-      swal(
-        'Warning',
-        'Maaf gambar produk tidak boleh kurang dari dua atau lebih dari lima',
-        'warning'
-      );
-      return;
-    }
-    if(this.productId) {
-      this.ProdService.putEditData( this.addProductForm.value).subscribe(response => {
+      const imageUrl = this.addProductForm.get('imageUrl').value;
+      if (imageUrl.length < 2 || imageUrl.length > 5) {
         swal(
-          response.message,
-        )
-        this.router.navigate(['/master-product/listing']);
-      });
+          'Warning',
+          'Maaf gambar produk tidak boleh kurang dari dua atau lebih dari lima',
+          'warning'
+        );
+        return;
+      }
+      if(this.productId) {
+        this.ProdService.putEditData( this.addProductForm.value).subscribe(response => {
+          swal(
+            response.message,
+          )
+          this.router.navigate(['/master-product/listing']);
+        });
+      } else {
+        this.ProdService.postData( this.addProductForm.value).subscribe(response => {
+          swal(
+            response.message,
+          )
+          this.router.navigate(['/master-product/listing']);
+        });
+      }
     } else {
-      this.ProdService.postData( this.addProductForm.value).subscribe(response => {
-        swal(
-          response.message,
-        )
-        this.router.navigate(['/master-product/listing']);
-      });
+      console.log('a')
+      this.validateAllFormFields(this.addProductForm);
+
     }
   }
 
