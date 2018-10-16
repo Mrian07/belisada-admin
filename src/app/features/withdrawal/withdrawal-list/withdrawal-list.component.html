@@ -1,0 +1,105 @@
+<nb-card>
+  <nb-card-header>
+      Pencairan Dana
+  </nb-card-header>
+
+  <nb-card-body>
+      <table class="table table-bordered table-striped">
+          <thead>
+              <tr>
+                  <th>Date</th>
+                  <th>Nama Toko</th>
+                  <th>Nominal Transfer</th>
+                  <th>Status <i class="fa fa-sort"></i></th>
+                  <th></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>Apa</td>
+                  <td>Buku</td>
+                  <td>27</td>
+                  <td>Menunggu</td>
+                  <td><div class="btn-cair" (click)="popCair(content)">
+                      Cairkan Dana
+                  </div></td>
+              </tr>
+          </tbody>
+      </table>
+
+  </nb-card-body>
+</nb-card>    
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">{{titlePopUp}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+      <div class="popCol">
+        <div class="popCol2">
+            <div>
+              Dikirim Dari Rekening Bank Belisada<br>
+              <input type="text"><br>
+              <small>Pilih rekening Belisada yang akan digunakan</small>
+              <br><br>
+              Nominal Transfer<br>
+              <input type="text"><br><br>
+              Tanggal Transfer<br>
+              <input type="text"><br><br>
+              Berita Transfer<br>
+              <textarea></textarea><br><br>
+            </div>
+            <div>
+              Pemilik Rekening
+              <div class="labField">Wahyu</div>
+              Informasi Rekening
+              <div class="labField">BCA 678687686</div>
+            </div> 
+        </div>
+        <div>
+          Nominal Yang Harus Dikirim<br>
+          <input type="text"><br><br>
+          Detail Penarikan Dana
+        </div>
+      </div>
+
+        <!-- <input type="hidden" [(ngModel)]="parentC1">
+        <input type="hidden" [(ngModel)]="parentC2">
+        <input type="hidden" [(ngModel)]="parentC3">
+        <input type="hidden" [(ngModel)]="parentSpec">
+        <input type="hidden" [(ngModel)]="typeAdd">
+        <input type="hidden" [(ngModel)]="idAdd">
+        <div class="form-group" *ngIf="typeAdd == 'spec'">
+            <label for="usr">Name:</label>
+            <input type="text" [(ngModel)]="nameAdd" class="form-control" (keyup)="autoSrc()" placeholder="Name">
+            <div *ngFor="let itemAuto of listAutoSrc.data">
+               <div class="autoSrc" (click)="pilih(itemAuto.name,itemAuto.attributeId)">{{itemAuto.name}}</div>
+            </div>
+        </div>
+        <div class="form-group" *ngIf="typeAdd != 'spec'">
+            <label for="usr">Name ID:</label>
+            <input type="text" [(ngModel)]="nameAdd" class="form-control" placeholder="Name">
+        </div>
+        <div class="form-group" *ngIf="typeAdd != 'spec'">
+            <label for="pwd">Nama En:</label>
+            <input type="text" [(ngModel)]="nameEnAdd" class="form-control" placeholder="Name En">
+        </div>
+        <div class="form-group" *ngIf="idAdd && (typeAdd != 'spec')">
+            <label for="pwd">Aktif:</label>
+            <select [(ngModel)]="isActive" class="form-control">
+                <option value="true">Iya</option>
+                <option value="false">Tidak</option>
+            </select>
+        </div> -->
+    </div>
+    <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button> -->
+        <button class="btn btn-sm btn-danger">BATAL</button>
+        <button class="btn btn-sm btn-success">PROSES</button>
+    </div>
+</ng-template>

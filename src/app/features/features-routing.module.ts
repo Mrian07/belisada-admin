@@ -53,6 +53,10 @@ const routes: Routes = [{
       path: 'courier',
       loadChildren: './manage-shipment/manage-shipment.module#ManageShipmentModule',
     },
+    {
+      path: 'withdrawal',
+      loadChildren: './withdrawal/withdrawal.module#WithdrawalModule',
+    },
   ],
 }];
 

@@ -1,0 +1,30 @@
+.btn-cair{
+    background: #c6c6c6;
+    padding: 10px;
+    text-align: center;
+    color:#000000;
+    cursor: pointer;
+}
+
+.btn-cair:hover{
+    background:#e2dede;
+}
+
+.popCol{
+    display: grid;
+    grid-template-columns: 80% 20%;
+    // padding-top: 6rem;
+}
+
+.popCol2{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.labField{
+    border: 1px solid #acacac;
+    background: #dbdbdb;
+    padding: 10px;
+    width:80%;
+    margin-bottom:10px;
+}
