@@ -14,6 +14,7 @@
     display: grid;
     grid-template-columns: 80% 20%;
     // padding-top: 6rem;
+    font-size: 12px;
 }
 
 .popCol2{
@@ -28,3 +29,135 @@
     width:80%;
     margin-bottom:10px;
 }
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.paging ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+.paging li {
+    display: inline-block;
+}
+.paging a {
+    border: 1px solid #ebeef2;
+    padding: 3px 10px;
+    margin: 0 3px;
+    border-radius: 5px;
+}
+.paging a.current-page {
+    border: 1px solid #cde;
+    background: #def;
+    color: #999;
+    cursor: default;
+}
+.paging a:not(.disabled):not(.current-page):hover {
+    color: #abc;
+    cursor: pointer;
+    border-color: #cde;
+}
+.paging a.disabled {
+    color: #ccc;
+    cursor: default;
+}
+
+
+
+.f-control{
+    border:1px solid #dddddd;
+    // border-radius: 5px;
+    padding:8px;
+    width: 80%;
+}
+
+
+
+.drick-select-container {
+    position: relative;
+
+    &--fluid {
+        width: 80%;
+    }
+}
+
+.drick-select__text {
+    width: 80%;
+
+    &.active {
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        border-bottom: 1px solid transparent !important;
+    }
+}
+
+.drick-select-container--toggle {
+    width: 80%;
+    // max-height: 100px;
+    margin-top:-13px;
+    font-size: 12px;
+    border: 1px solid rgba(34,36,38,.15);
+    border-top: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: absolute;
+    left: 0;
+    top: 45px;
+    z-index: 2;
+    background: #fff;
+    display: none;
+    transition: all .2s;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+
+    &.active {
+        display: block;
+        // border-color: $color--dark-grey;
+    }
+}
+
+.drick-select-list {
+    display: inline-block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    li {
+        padding: 5px 15px;
+        color: rgba(0,0,0,.87);
+        transition: all .2s;
+        font-size: 12px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: rgba(0,0,0,.1);
+        }
+    }
+}
+
+.listInvoice{
+    border-bottom:1px solid #000000;
+    margin-bottom:8px;
+}
+
+.btn-click{
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+

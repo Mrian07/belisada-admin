@@ -1,33 +1,51 @@
 <nb-card>
-  <nb-card-header>
-      Pencairan Dana
-  </nb-card-header>
+    <nb-card-header>
+        Pencairan Dana
+    </nb-card-header>
 
-  <nb-card-body>
-      <table class="table table-bordered table-striped">
-          <thead>
-              <tr>
-                  <th>Date</th>
-                  <th>Nama Toko</th>
-                  <th>Nominal Transfer</th>
-                  <th>Status <i class="fa fa-sort"></i></th>
-                  <th></th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <td>Apa</td>
-                  <td>Buku</td>
-                  <td>27</td>
-                  <td>Menunggu</td>
-                  <td><div class="btn-cair" (click)="popCair(content)">
-                      Cairkan Dana
-                  </div></td>
-              </tr>
-          </tbody>
-      </table>
-
-  </nb-card-body>
+    <nb-card-body>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Nama Toko</th>
+                    <th>Nominal Transfer</th>
+                    <th>Status <i class="fa fa-sort"></i></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of list">
+                    <td>{{item.expiredProcessDate}}</td>
+                    <td>{{item.storeName}}</td>
+                    <td>Rp.{{item.grandTotal | number}}</td>
+                    <td>{{item.status}}</td>
+                    <td><div class="btn-cair" (click)="popCair(content,item)">
+                        Cairkan Dana
+                    </div></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="paging">
+            <ul>
+                <li>
+                    <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
+                </li>
+                <li>
+                    <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
+                </li>
+                <li *ngFor="let p of pages">
+                    <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
+                </li>
+                <li>
+                    <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+                </li>
+                <li>
+                    <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+                </li>
+            </ul>
+        </div>
+    </nb-card-body>
 </nb-card>    
 
 
@@ -40,66 +58,71 @@
     </div>
     <div class="modal-body">
 
-      <div class="popCol">
-        <div class="popCol2">
-            <div>
-              Dikirim Dari Rekening Bank Belisada<br>
-              <input type="text"><br>
-              <small>Pilih rekening Belisada yang akan digunakan</small>
-              <br><br>
-              Nominal Transfer<br>
-              <input type="text"><br><br>
-              Tanggal Transfer<br>
-              <input type="text"><br><br>
-              Berita Transfer<br>
-              <textarea></textarea><br><br>
-            </div>
-            <div>
-              Pemilik Rekening
-              <div class="labField">Wahyu</div>
-              Informasi Rekening
-              <div class="labField">BCA 678687686</div>
-            </div> 
-        </div>
-        <div>
-          Nominal Yang Harus Dikirim<br>
-          <input type="text"><br><br>
-          Detail Penarikan Dana
-        </div>
-      </div>
+        <div class="popCol">
+            <div class="popCol2">
+                <div>
+                    <form class="ui form" [formGroup]="createComForm" (ngSubmit)="onSubmit()" novalidate>
+                    <input type="hidden" formControlName="bankAccountId">
+                    Dikirim Dari Rekening Bank Belisada<br>
+                    <!-- <input type="text"><br> -->
+                    <div class="drick-select-container">
+                        <div class="ui icon input parent">
+                            <input class="f-control drick-select__text" [ngClass]="{'active':onBankFocus}" type="text"
+                                formControlName="bankName" (focus)="onBankFocus = true"
+                                (focusout)="onBankBlur()" placeholder="Pilih Bank">
+                            <i class="drick-select__icon caret down icon"></i>
+                        </div>
+                        <div class="drick-select-container--toggle" [ngClass]="{'active':onBankFocus}"
+                            id="drick-scroll-container--brand"
+                            >
+                            <ul class="drick-select-list">
+                                <li *ngFor="let i of listBank" (click)="selectBank(i)">
+                                    {{i.name}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- <small>Pilih rekening Belisada yang akan digunakan</small> -->
+                    <br><br>
+                    Nominal Transfer<br>
+                    <input class="f-control" type="text"><br><br>
+                    Tanggal Transfer<br>
+                    <input class="f-control" type="text"><br><br>
+                    Berita Transfer<br>
+                    <textarea class="f-control"></textarea><br><br>
 
-        <!-- <input type="hidden" [(ngModel)]="parentC1">
-        <input type="hidden" [(ngModel)]="parentC2">
-        <input type="hidden" [(ngModel)]="parentC3">
-        <input type="hidden" [(ngModel)]="parentSpec">
-        <input type="hidden" [(ngModel)]="typeAdd">
-        <input type="hidden" [(ngModel)]="idAdd">
-        <div class="form-group" *ngIf="typeAdd == 'spec'">
-            <label for="usr">Name:</label>
-            <input type="text" [(ngModel)]="nameAdd" class="form-control" (keyup)="autoSrc()" placeholder="Name">
-            <div *ngFor="let itemAuto of listAutoSrc.data">
-               <div class="autoSrc" (click)="pilih(itemAuto.name,itemAuto.attributeId)">{{itemAuto.name}}</div>
+
+    
+                    <div class="col-3" *ngIf="isField==true"> 
+                        <my-date-picker class="frame-date" name="mydate" [options]="myDatePickerOptions" formControlName="transferDate"></my-date-picker>
+                        <div *ngIf="validationOnpopUpCreateStore.controls.transferDate.invalid && (validationOnpopUpCreateStore.controls.transferDate.dirty && validationOnpopUpCreateStore.controls.dateOfBirth.touched)" class="alert alert-danger toll tooltip testing">
+                            <span class="tooltiptext">Tanggal Lahir tidak boleh kosong</span>
+                        </div>
+                         <app-field-error-display [displayError]="isFieldValid('transferDate')" errorMsg="Tanggal Lahir tidak boleh kosong"></app-field-error-display>
+                    </div>
+
+                    </form>
+                </div>
+                <div>
+                    Pemilik Rekening
+                    <div class="labField">Wahyu</div>
+                    Informasi Rekening
+                    <div class="labField">BCA 678687686</div>
+                </div> 
+            </div>
+            <div>
+                Nominal Yang Harus Dikirim<br>
+                <div class="labField">Rp.12.000.000</div>
+                Detail Penarikan Dana<br>
+                <div class="labField"> 
+                    <div class="listInvoice" *ngFor="let itemsI of listInvoice">Tarikan Dana: {{itemsI}}</div>
+                </div>
             </div>
         </div>
-        <div class="form-group" *ngIf="typeAdd != 'spec'">
-            <label for="usr">Name ID:</label>
-            <input type="text" [(ngModel)]="nameAdd" class="form-control" placeholder="Name">
-        </div>
-        <div class="form-group" *ngIf="typeAdd != 'spec'">
-            <label for="pwd">Nama En:</label>
-            <input type="text" [(ngModel)]="nameEnAdd" class="form-control" placeholder="Name En">
-        </div>
-        <div class="form-group" *ngIf="idAdd && (typeAdd != 'spec')">
-            <label for="pwd">Aktif:</label>
-            <select [(ngModel)]="isActive" class="form-control">
-                <option value="true">Iya</option>
-                <option value="false">Tidak</option>
-            </select>
-        </div> -->
     </div>
     <div class="modal-footer">
         <!-- <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button> -->
-        <button class="btn btn-sm btn-danger">BATAL</button>
-        <button class="btn btn-sm btn-success">PROSES</button>
+        <button class="btn btn-sm btn-danger btn-click" (click)="d('Cross click')">BATAL</button>
+        <button class="btn btn-sm btn-success btn-click">PROSES</button>
     </div>
 </ng-template>
