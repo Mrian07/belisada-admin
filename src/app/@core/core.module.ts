@@ -21,6 +21,8 @@ import { ManageProductService } from './services/manage-product/manage-product.s
 import { CourirService } from './services/courir/courir.service';
 import { WithdrawalService } from './services/withdrawal/withdrawal.service';
 
+// import { MyDatePickerModule } from 'mydatepicker';
+
 const socialLinks = [
   {
     url: 'https://github.com/akveo/nebular',
@@ -105,6 +107,7 @@ const BELISADA_PROVIDERS = [
 @NgModule({
   imports: [
     CommonModule,
+    // MyDatePickerModule,
   ],
   exports: [
     NbAuthModule,

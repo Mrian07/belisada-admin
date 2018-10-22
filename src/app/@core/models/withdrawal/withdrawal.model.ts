@@ -36,3 +36,30 @@ export class ProsesWd{
     transferDate: string;
     withdrawId: number;
 }
+
+export class MainDetail{
+    status: number;
+    message: string;
+    data: Detail;
+}
+
+export class Detail{
+    storeName: string;
+    storeId: number;
+    statusCode: number;
+    status: string;
+    grandTotal: number;
+    accountName: string;
+    accountNumberDetail: string;
+    withdrawId: number;
+}
+
+export class Transfer{
+    bankAccountId: number;
+    news: string;
+    nominal: number;
+    transferDate: string;
+    withdrawId: number;
+    status: number;
+}
+

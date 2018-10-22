@@ -18,6 +18,8 @@ import { AuthComponent } from './features/auth/auth.component';
 import { AuthModule } from './features/auth/auth.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler/src/core';
 import { HttpTokenInterceptor } from './@core/services/interceptors/http.token.interceptor';
+// import { DateUtil } from './@core/utils/date.util';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +29,7 @@ import { HttpTokenInterceptor } from './@core/services/interceptors/http.token.i
     HttpClientModule,
     AppRoutingModule,
     AuthModule,
+    // DateUtil,
     // Test Push
     NgbModule.forRoot(),
     ThemeModule.forRoot(),

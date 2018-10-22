@@ -6,6 +6,8 @@ import { WithdrawalListComponent } from './withdrawal-list/withdrawal-list.compo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../@theme/theme.module';
 import { WithdrawalComponent } from './withdrawal.component';
+import { MyDatePickerModule } from 'mydatepicker';
+// import { DateUtil } from '../../@core/utils/date.util';
 
 @NgModule({
   imports: [
@@ -13,7 +15,9 @@ import { WithdrawalComponent } from './withdrawal.component';
     ThemeModule,
     FormsModule,
     ReactiveFormsModule,
-    WithdrawalRoutingModule
+    WithdrawalRoutingModule,
+    MyDatePickerModule,
+    // DateUtil
   ],
   declarations: [
     WithdrawalComponent,

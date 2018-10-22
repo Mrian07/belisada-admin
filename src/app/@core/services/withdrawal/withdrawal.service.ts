@@ -3,7 +3,7 @@ import { Configuration } from '../../config/configuration';
 import { Observable } from 'rxjs/Observable';
 import { HttpHeaders } from '@angular/common/http/src/headers';
 import { Router } from '@angular/router';
-import { Withdrawal, Bank } from '../../models/withdrawal/withdrawal.model';
+import { Withdrawal, Bank, MainDetail, Transfer } from '../../models/withdrawal/withdrawal.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {HttpClientModule} from '@angular/common/http';
 
@@ -15,12 +15,12 @@ export class WithdrawalService {
 
 
 getWithdrawal(queryParams): Observable<Withdrawal>  {
-    let params = new HttpParams();
-    Object.keys(queryParams).forEach(function(k){
-      params = params.append(k, queryParams[k]);
-    });
-    return this.http.get(this.configuration.apiURL + '/withdrawal', {params: params})
-    .map(resp => resp as Withdrawal);
+  let params = new HttpParams();
+  Object.keys(queryParams).forEach(function(k){
+    params = params.append(k, queryParams[k]);
+  });
+  return this.http.get(this.configuration.apiURL + '/withdrawal', {params: params})
+  .map(resp => resp as Withdrawal);
 }
 
 
@@ -29,10 +29,15 @@ getBank(): Observable<Bank[]>  {
   .map(resp => resp as Bank[]);
 }
 
-//   changePassword(data){
-//     return this.http.put(this.configuration.apiURL + '/account/changepassword', data)
-//     .map(resp => resp as ChangePasswordRequest);
-//   }
+getDetail(id): Observable<MainDetail>  {
+  return this.http.get(this.configuration.apiURL + '/withdrawal/detail/'+id)
+  .map(resp => resp as MainDetail);
+}
+
+transfer(data): Observable<Transfer>{
+  return this.http.post(this.configuration.apiURL + '//withdrawal/confirmation/transfer', data)
+  .map(resp => resp as Transfer);
+}
 
 //   uploadAvatar(data){
 //     return this.http.put(this.configuration.apiURL + '/profile/avatar/update', data)

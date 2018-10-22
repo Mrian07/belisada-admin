@@ -2,9 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { WithdrawalService } from '../../../@core/services/withdrawal/withdrawal.service';
-import { Withdrawal, Content, Bank } from '../../../@core/models/withdrawal/withdrawal.model';
+import { Withdrawal, Content, Bank, Transfer } from '../../../@core/models/withdrawal/withdrawal.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { DateFormatEnum } from '../../../@core/enum/date-format.enum';
+import {IMyDpOptions} from 'mydatepicker';
+import { BindOptions } from 'dgram';
+// import { DateUtil } from '../../../@core/utils/date.util';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'withdrawal-list',
@@ -12,6 +17,28 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
   styleUrls: ['./withdrawal-list.component.scss']
 })
 export class WithdrawalListComponent implements OnInit {
+
+    // ----- Start date picker declaration required
+    now: Date = new Date();
+    defaultDateFormat: DateFormatEnum = DateFormatEnum.DDMMYYYY_WITH_SLASH;
+  
+    myDatePickerOptions: IMyDpOptions = {
+      // other options... https://github.com/kekeh/mydatepicker#options-attribute
+      dateFormat: this.defaultDateFormat,
+      todayBtnTxt: 'Today',
+      editableDateField: false,
+      firstDayOfWeek: 'mo',
+      sunHighlight: true,
+      inline: false,
+      maxYear: this.now.getFullYear() - 12,
+      minYear: this.now.getFullYear() - 90,
+      disableSince: {
+        year: this.now.getFullYear() - 12,
+        month: this.now.getMonth() + 1,
+        day: this.now.getDate()
+      }
+    };
+    // ----- End date picker declaration required
 
   modalRef: NgbModalRef;
 
@@ -26,6 +53,14 @@ export class WithdrawalListComponent implements OnInit {
   listItems: Withdrawal = new Withdrawal();
   onBankFocus: Boolean = false;
 
+  accountName: string;
+  accountNumberDetail: string;
+  grandTotal: number;
+
+  isForm: boolean;
+  isSuccess: boolean;
+  isError: boolean;
+  
   listInvoice: any[];
   constructor(
     private modalService: NgbModal,
@@ -33,29 +68,38 @@ export class WithdrawalListComponent implements OnInit {
     private withdrawalService: WithdrawalService,
     private router: Router,
     private fb: FormBuilder,
+    // private dateUtil: DateUtil
   ) { }
 
   ngOnInit() {
+    this.flagStatus();
     this.loadData();
     this.loadBank();
     this.formData();
   }
 
+  flagStatus(){
+    this.isForm=false;
+    this.isSuccess=false;
+    this.isError=false;
+  }
+
   private formData() {
     this.createComForm = this.fb.group({
       bankAccountId: ['', [Validators.required]],
-      accountName: ['', [Validators.required]],
-      accountNumber: ['', [Validators.required]],
+      withdrawId: ['', [Validators.required]],
+      // accountNumber: ['', [Validators.required]],
       bankName: ['', [Validators.required]],
 
       transferDate: ['', [Validators.required]],
+      nominal: ['', [Validators.required]],
+      news: ['', [Validators.required]],
     });
   }
 
   loadBank(){
     this.withdrawalService.getBank().subscribe(respon => {
       this.listBank = respon;
-      console.log('apa sih', respon);
     });
   }
 
@@ -70,7 +114,6 @@ export class WithdrawalListComponent implements OnInit {
         page: this.currentPage,
         itemperpage: 10,
       }
-
 
       this.withdrawalService.getWithdrawal(queryParams).subscribe(respon => {
         this.list = respon.content;
@@ -91,6 +134,8 @@ export class WithdrawalListComponent implements OnInit {
   }
 
   popCair(content,item) {
+    this.flagStatus();
+    this.isForm=true;
     const options: NgbModalOptions = {
       size: 'lg',
       windowClass: 'modal-xxl' 
@@ -98,6 +143,19 @@ export class WithdrawalListComponent implements OnInit {
 
     this.modalRef = this.modalService.open(content, options);
     this.listInvoice = item.invoiceNumber;
+    const id =  item.withdrawId;
+    this.withdrawalService.getDetail(id).subscribe(respon => {
+      this.accountName = respon.data.accountName;
+      this.accountNumberDetail = respon.data.accountNumberDetail;
+      this.grandTotal = respon.data.grandTotal;
+      console.log('withdrawId', respon.data.withdrawId);
+      console.log('ini', respon);
+    });
+
+    this.createComForm.patchValue({
+      withdrawId: id
+    });
+
   }
 
   setPage(page: number, increment?: number) {
@@ -120,5 +178,45 @@ export class WithdrawalListComponent implements OnInit {
 
   cancel(){
 
+  }
+
+  onSubmit(){
+
+
+    swal({
+      title: 'Info',
+      text: 'Apakah anda ingin melakukan transfer?',
+      type: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Iya',
+      cancelButtonText: 'Tidak',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+
+        this.flagStatus();
+        const data: Transfer = new Transfer();
+        data.bankAccountId = this.createComForm.value.bankAccountId;
+        data.nominal = this.createComForm.value.nominal;
+        data.transferDate = this.createComForm.value.transferDate.formatted;
+        // data.transferDate = this.dateUtil.formatMyDate(this.createComForm.value.transferDate, this.defaultDateFormat);
+        data.withdrawId = this.createComForm.value.withdrawId;
+        data.news = this.createComForm.value.news;
+        this.withdrawalService.transfer(data).subscribe(respon => {
+
+          if(respon.status === 1){
+            this.isSuccess = true;
+          }else{
+            this.isError = true;
+          }
+        });
+
+      }
+    });
+
+
+    
   }
 }
