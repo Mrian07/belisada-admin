@@ -113,6 +113,7 @@ export class WithdrawalListComponent implements OnInit {
       const queryParams = {
         page: this.currentPage,
         itemperpage: 10,
+        status: 'nonhistory',
       }
 
       this.withdrawalService.getWithdrawal(queryParams).subscribe(respon => {
