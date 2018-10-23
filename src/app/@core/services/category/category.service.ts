@@ -7,7 +7,7 @@ import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpHeaders } from '@angular/common/http/src/headers';
 import { Router } from '@angular/router';
-import {EditCategory, AddCategory, ListCategory, ActiveCategory, ListSpec, AddSpec, EditSpec, DeleteSpec} from '../../models/category/category.model';
+import {EditCategory, AddCategory, ListCategory, ActiveCategory, ListSpec, AddSpec, EditSpec, DeleteSpec, AddVarian} from '../../models/category/category.model';
 
 import 'rxjs/add/operator/map';
 import { RequestMethod } from '@angular/http/src/enums';
@@ -76,6 +76,7 @@ export class CategoryService {
         map(resp => resp as DeleteSpec)
       )
   }
+
   getListCategoryAttribute(queryParams): Observable<CategoryAttribute[]> {
     let params = new HttpParams();
     Object.keys(queryParams).forEach(function(k) {
@@ -85,6 +86,11 @@ export class CategoryService {
       .pipe(
         map(response => response as CategoryAttribute[]),
       );
+  }
+
+  addVarian(data){
+    return this.http.post(this.configuration.apiURL + '/manage/category/attribute/varian', data)
+    .map(resp => resp as AddVarian);
   }
 
 

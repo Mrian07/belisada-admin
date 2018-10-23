@@ -117,6 +117,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'List',
         link: '/withdrawal/list',
       },
+      {
+        title: 'History',
+        link: '/withdrawal/history',
+      },
     ],
   },
 

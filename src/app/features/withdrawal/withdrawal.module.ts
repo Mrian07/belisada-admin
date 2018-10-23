@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../@theme/theme.module';
 import { WithdrawalComponent } from './withdrawal.component';
 import { MyDatePickerModule } from 'mydatepicker';
+import { WithdrawalHistoryComponent } from './withdrawal-history/withdrawal-history.component';
 // import { DateUtil } from '../../@core/utils/date.util';
 
 @NgModule({
@@ -21,6 +22,7 @@ import { MyDatePickerModule } from 'mydatepicker';
   ],
   declarations: [
     WithdrawalComponent,
-    WithdrawalListComponent]
+    WithdrawalListComponent,
+    WithdrawalHistoryComponent]
 })
 export class WithdrawalModule { }

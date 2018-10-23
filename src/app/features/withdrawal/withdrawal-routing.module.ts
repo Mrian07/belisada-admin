@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { WithdrawalComponent } from './withdrawal.component';
 import { WithdrawalListComponent } from './withdrawal-list/withdrawal-list.component';
+import { WithdrawalHistoryComponent } from './withdrawal-history/withdrawal-history.component';
 
 const routes: Routes = [
   {
@@ -10,6 +11,10 @@ const routes: Routes = [
     children: [{
       path: 'list',
       component: WithdrawalListComponent,
+    },
+    {
+      path: 'history',
+      component: WithdrawalHistoryComponent,
     }],
   }
 ];
