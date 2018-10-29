@@ -289,3 +289,65 @@ export class listingDetail {
   message: string;
   data: detailListingProduct;
 }
+
+export class Varian{
+  attributeId: number;
+  isActive: true;
+  name: string;
+  description: string;
+  isMandatory: false;
+  isInstanceAttribute: false;
+  data: VarianChild[];
+  isVarian: true;
+  maxVarian: number;
+}
+
+export class VarianChild{
+  attributeValueId: number;
+  name: string;
+  value: string;
+  attributeId: number;
+  isActive: true
+}
+
+
+
+export class Variant {
+  public attributeId: number;
+  public isActive: boolean;
+  public name: string;
+  public description: string;
+  public isMandatory: boolean;
+  public isInstanceAttribute: boolean;
+  public data: VariantValue[];
+  public isVarian: boolean;
+  public maxVarian: number;
+
+  constructor(variant: any = null) {
+    this.attributeId          = variant ? variant.attributeId         : '';
+    this.isActive             = variant ? variant.isActive            : '';
+    this.name                 = variant ? variant.name                : '';
+    this.description          = variant ? variant.description         : '';
+    this.isMandatory          = variant ? variant.isMandatory         : '';
+    this.isInstanceAttribute  = variant ? variant.isInstanceAttribute : '';
+    this.data                 = variant ? variant.data                : [];
+    this.isVarian             = variant ? variant.isVarian            : '';
+    this.maxVarian            = variant ? variant.maxVarian           : '';
+  }
+}
+
+export class VariantValue {
+  public attributeValueId: number;
+  public name: string;
+  public value: string;
+  public attributeId: number;
+  public isActive: boolean;
+
+  constructor (variantValue: any = null) {
+    this.attributeValueId = variantValue ? variantValue.attributeValueId : '';
+    this.name             = variantValue ? variantValue.name             : '';
+    this.value            = variantValue ? variantValue.value            : '';
+    this.attributeId      = variantValue ? variantValue.attributeId      : '';
+    this.isActive         = variantValue ? variantValue.isActive         : '';
+  }
+}

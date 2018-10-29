@@ -379,3 +379,32 @@ i {
     padding: 5px 9px 6px;
     background: white;
 }
+
+.b-var{
+  background: #f0efef;
+  border:3px solid #dddddd;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 20% 20% 45% 5%;
+  grid-gap: 10px;
+  text-align: center;
+}
+
+.btnAdd{
+  background: #39a4b7;
+  color:#ffffff;
+  display: inline-block;
+  text-align: center;
+  border-radius:5px;
+  cursor: pointer;
+  width: 200px;
+  padding:10px;
+}
+
+.btnAdd:hover{
+  background: #6cd1e3;
+}
+
+.removeRow{
+  cursor: pointer;
+}

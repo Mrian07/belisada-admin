@@ -1,10 +1,10 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { BrandService } from './../../../@core/services/brand/brand.service';
 import swal from 'sweetalert2';
-import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormControl, FormArray } from '@angular/forms';
 import { CategoryService } from './../../../@core/services/category/category.service';
 import { ManageProductService } from './../../../@core/services/manage-product/manage-product.service';
-import { AddProductRequest, BrandList, CategoryList, CategoryAttribute, ProductSpecification, detailListingProduct } from './../../../@core/models/manage-product/manage-product';
+import { AddProductRequest, BrandList, CategoryList, CategoryAttribute, ProductSpecification, detailListingProduct, Varian, VarianChild, Variant } from './../../../@core/models/manage-product/manage-product';
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
@@ -53,7 +53,62 @@ export class MasterPComponent implements OnInit {
 
   /* get dari query params*/
   productId: number;
-  
+
+  listRows: any[];
+  listRowSub: any[];
+
+  listVarian: Varian[];
+  // listVarianChild1: VarianChild[];
+  // listVarianChild2: VarianChild[];
+  listVariantChild = {
+    V0: [],
+    V1: []
+  }
+
+  listVarChd1: any[];
+  listVarChd2: any[];
+  // labelVar1: string;
+  // labelVar2: string;
+
+  // varList = {
+  //   V1: new Varian(),
+  //   V2: new Varian()
+  // }
+
+  // varName ={
+  //   V1: '',
+  //   V2: ''
+  // }
+
+  // varId = {
+  //   V1: '',
+  //   V2: ''
+  // }
+
+  // onV1Focus = {
+  //   V1: false,
+  //   V2: false
+  // }
+
+  variant: any[] = [];
+  variantChild: any[] = [];
+  varSimpen: any;
+  varSimpenX: any;
+
+  isTambahRow: Boolean = false;
+
+  // varians: FormArray;
+
+
+
+  public masterProductForm: FormGroup;
+  public varians: FormArray;
+  public variants: Variant[];
+  public variantsOrdered = [];
+
+  public attributeVariants = [];
+
+  public isAttributeOk: Boolean = false;
 
   /* tutup nya */
 
@@ -67,6 +122,7 @@ export class MasterPComponent implements OnInit {
     private ProdService: ManageProductService,
     private title: Title,
     private manageServ: ManageProductService,
+
   ) {
     this.currentPgBrand = 1;
     this.categoryList.C1.data = [];
@@ -76,11 +132,13 @@ export class MasterPComponent implements OnInit {
     this.measurementType = 0;
     this.measurementTypeL = 0;
     this.productId = this.route.snapshot.params.id;
+
   }
 
   get f() { return this.addProductForm.controls; }
 
   ngOnInit() {
+    this.listVarian = [];
     this.formData();
     this.getBrandInit();
     this.getCategoryInit('C1');
@@ -91,7 +149,99 @@ export class MasterPComponent implements OnInit {
     } else {
       this.title.setTitle('Admin - Add Product');
     }
+   
   }
+
+  // pilihVar(id, x){  
+  //   if(id === this.varSimpen){
+  //     this.variant[1] = "";
+  //     swal(
+  //       'Info',
+  //       'Nama varian tidak boleh sama',
+  //       'warning'
+  //     );
+  //   }else{
+  //     if(x === 0){
+  //       this.varSimpen = id;
+  //       this.varSimpenX = x;
+  //       this.variant[1] = "";
+  //     }
+  //     // this.listVarianChild1 = [];
+  //     // this.listVarianChild2 = [];
+  //     if(this.variant[1] && this.variant[0]){
+  //       this.varian1(this.varSimpen);
+  //       this.varian2(id);
+  //       this.getRows();
+  //       this.isTambahRow = true;
+  //       console.log('row', this.listRows);
+  //       // if(this.varSimpenX[0] === 0){
+  //       //   this.listVarChd1 = this.listVarianChild2;
+  //       //   this.listVarChd2 = this.listVarianChild1;
+
+  //       // }else{
+  //       //   this.listVarChd1 = this.listVarianChild1;
+  //       //   this.listVarChd2 = this.listVarianChild2;
+  //       // }
+  //     }
+  //   }
+  // }
+
+  varian1(id){
+    this.manageServ.getListVarianChild(id).subscribe(response => {
+      this.listVariantChild.V0 = response;
+    });
+  }
+
+  varian2(id){
+    this.manageServ.getListVarianChild(id).subscribe(response => {
+      this.listVariantChild.V1 = response;
+    });
+  }
+
+  getRows(){
+    const data = [
+      '1'
+    ]
+
+    this.listRows = data;
+
+    const id = 1;
+    const datas = [
+      '1'
+    ]
+
+    this.listRowSub = datas;
+  }
+
+  tambahRow(){
+    
+    const rowMax = Math.max.apply(null, this.listRows);
+    const addRow = rowMax+1;
+
+    console.log('jml', this.listRows.length)
+    this.listRows.push([addRow])
+    const apa = Math.max.apply(null, this.listRows);
+    console.log('max', apa);
+
+    console.log('array', this.listRows);
+    
+  }
+
+  removeRow(no){
+    this.listRows.splice(no, 1); 
+  }
+
+  tambahRowSub(id){
+    if (!this.listRowSub[id]) this.listRowSub[id] = [];
+    const rowMax = Math.max.apply(id, this.listRowSub);
+    const addRow = rowMax+1;
+    console.log('jml sub', this.listRowSub.length)
+    this.listRowSub[id].push([addRow])
+    const apa = Math.max.apply(id, this.listRowSub);
+    console.log('max sub', apa);
+    console.log('array sub', this.listRowSub);
+  }
+
   private formData() {
     this.addProductForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -109,8 +259,117 @@ export class MasterPComponent implements OnInit {
       qty: [''],
       specification: [[]],
       weight: ['',  [Validators.required]],
-      productId:  this.productId 
+      productId:  this.productId ,
+    //  varians: this.fb.array([this.variantsFormGroup()])
+
+      varians: this.fb.array([this._initVariants()]),
+
     });
+  }
+
+
+
+  private _initVariants(): FormGroup {
+    // initialize our variants
+    return this.fb.group({
+      attributeVarians: this.fb.array([this._initAttributeVariants(), this._initAttributeVariants()]),
+      imageUrl: [[]]
+    });
+  }
+
+  private _initAttributeVariants(): FormGroup {
+    // initialize our attributeVariants
+    return this.fb.group({
+      attributeId: [''],
+      attributeValueId: [''],
+      value: ['']
+    });
+  }
+
+  addVariants() {
+    // add variants to the list
+    const control = <FormArray>this.addProductForm.get('varians');
+    control.push(this._initVariants());
+  }
+
+  public addAttributeVariants(j): void {
+    const varians = <FormArray>this.addProductForm.get('varians');
+    const control = <FormArray>varians.controls[j].get('attributeVarians');
+    control.push(this._initAttributeVariants());
+  }
+
+  public getVariants(form) {
+    return form.controls.varians.controls;
+  }
+
+  public getAttributeVariants(form) {
+    return form.controls.attributeVarians.controls;
+  }
+
+  public removeAttributeVariant(j): void {
+    const varians = <FormArray>this.addProductForm.get('varians');
+    const control = <FormArray>varians.controls[j].get('attributeVarians');
+    control.removeAt(j);
+  }
+
+  removeVariant(i) {
+    const control = <FormArray>this.addProductForm.get('varians');
+    control.removeAt(i);
+  }
+
+  public patchOtherValues(event, i, j) {
+    console.log(event);
+    const attributeValueId: number = +event.target.value;
+    const varians = <FormArray>this.addProductForm.get('varians');
+    const control = <FormArray>varians.controls[i].get('attributeVarians');
+    control.at(j).patchValue({
+      attributeId: this.variantsOrdered[j].attributeId,
+      value: this.variantsOrdered[j].data.find(x => x.attributeValueId === attributeValueId).value
+    });
+  }
+
+  public variantSelect(model) {
+    const BreakExeption = {};
+    try {
+      model.forEach((x: any) => {
+        if (x !== '') {
+          const it = model.filter(m => m.attributeId === x.attributeId);
+          if (it.length > 1) {
+            this.isAttributeOk = false;
+          } else {
+            this.isAttributeOk = true;
+          }
+        } else {
+          throw BreakExeption;
+        }
+      });
+    } catch (error) {
+      this.isAttributeOk = false;
+    }
+  }
+
+
+
+
+
+  variantsFormGroup(): FormGroup {
+    return this.fb.group({
+      attributeVarians: this.fb.array([this.variantsAttFormGroup()])
+    })
+  }
+
+  variantsAttFormGroup(): FormGroup {
+    return this.fb.group({
+      attributeId: [''],
+      attributeValueId: [''],
+      value: [''],
+    })
+  }
+
+  onChanges(): void {
+    this.addProductForm.valueChanges.subscribe(val => {
+      console.log('val: ', val);
+    })
   }
 
   fillFormData(productId) {
@@ -284,15 +543,16 @@ validateAllFormFields(formGroup: FormGroup) {
     this.addProductForm.patchValue({
       categoryThreeId: category.categoryId,
     });
-    console.log('12312321',this.addProductForm.get('categoryThreeId').value)
+
     this.categoryName[category.type] = category.name;
     this.categoryId[category.type] = category.categoryId;
     const queryParams = {
       categoryid: category.categoryId,
       isactive: true,
     };
-    console.log('123 ini di select', category.categoryId);
+
     this.categoryService.getListCategoryAttribute(queryParams).subscribe(response => {
+
       this.categoryAttributes = response;
       this.categoryAttributes.forEach((categoryAttribute) => {
         this.spec[categoryAttribute.attributeId] = '';
@@ -312,6 +572,15 @@ validateAllFormFields(formGroup: FormGroup) {
       if (categoryType) {
         this.getCategoryInit(categoryType, category.categoryId);
       }
+
+      this.ProdService.getListVarian(category.categoryId).subscribe(responVar => {
+        responVar.forEach((item, index) => {
+
+          this.variantsOrdered[index]='';
+        });
+        this.variants = responVar;
+      });
+
     });
   }
 
@@ -390,6 +659,7 @@ validateAllFormFields(formGroup: FormGroup) {
       }
   }
 
+
   oke() {
     this.submitted = true;
     if (this.addProductForm.valid) {
@@ -413,6 +683,7 @@ validateAllFormFields(formGroup: FormGroup) {
           this.router.navigate(['/master-product/listing']);
         });
       } else {
+        
         this.ProdService.postData( this.addProductForm.value).subscribe(response => {
           swal(
             response.message,
@@ -426,6 +697,56 @@ validateAllFormFields(formGroup: FormGroup) {
 
     }
   }
+
+
+
+
+
+    /**
+   * Image product start
+   */
+  getSelectedImg(event: any, i) {
+    const files = [].slice.call(event.target.files);
+    this.readThisImg(files, i);
+  }
+
+  readThisImg(files: any[], i): void {
+    const varians = <FormArray>this.addProductForm.get('varians');
+    const control = varians.controls[i];
+
+    const imageUrlVar: string[] = control.get('imageUrl').value;
+    // .addProductForm.get('imageUrlVar').value;
+    files.forEach(file => {
+      const myReader: FileReader = new FileReader();
+      myReader.onloadend = (e) => {
+        if (imageUrlVar.length < 5) {
+          imageUrlVar.push(myReader.result);
+          control.patchValue({
+            imageUrl: imageUrlVar
+          });
+
+        } else {
+          swal(
+            'Belisada.co.id',
+            'Kamu hanya bisa menambahkan maksimal 5 gambar',
+            'info'
+          );
+        }
+      };
+      myReader.readAsDataURL(file);
+    });
+  }
+
+  removeImageVar(index: number, i) {
+    const varians = <FormArray>this.addProductForm.get('varians');
+    const control = varians.controls[i];
+
+    const imageUrlVar: string[] = control.get('imageUrl').value;
+    if (index > -1) {
+      imageUrlVar.splice(index, 1);
+    }
+  }
+  // --- Image product end
 
 
 }
