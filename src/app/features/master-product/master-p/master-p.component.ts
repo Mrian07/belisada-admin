@@ -7,6 +7,7 @@ import { ManageProductService } from './../../../@core/services/manage-product/m
 import { AddProductRequest, BrandList, CategoryList, CategoryAttribute, ProductSpecification, detailListingProduct, Varian, VarianChild, Variant } from './../../../@core/models/manage-product/manage-product';
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { SpecificationList } from '../../../@core/models/category/category.model';
 
 @Component({
   selector: 'master-p',
@@ -58,37 +59,11 @@ export class MasterPComponent implements OnInit {
   listRowSub: any[];
 
   listVarian: Varian[];
-  // listVarianChild1: VarianChild[];
-  // listVarianChild2: VarianChild[];
+
   listVariantChild = {
     V0: [],
     V1: []
   }
-
-  listVarChd1: any[];
-  listVarChd2: any[];
-  // labelVar1: string;
-  // labelVar2: string;
-
-  // varList = {
-  //   V1: new Varian(),
-  //   V2: new Varian()
-  // }
-
-  // varName ={
-  //   V1: '',
-  //   V2: ''
-  // }
-
-  // varId = {
-  //   V1: '',
-  //   V2: ''
-  // }
-
-  // onV1Focus = {
-  //   V1: false,
-  //   V2: false
-  // }
 
   variant: any[] = [];
   variantChild: any[] = [];
@@ -146,44 +121,127 @@ export class MasterPComponent implements OnInit {
     if(this.productId) {
       this.title.setTitle('Admin - Edit Product');
       this.fillFormData(this.productId);
+     // this.fillFormDataSpec(this.productId);
     } else {
       this.title.setTitle('Admin - Add Product');
     }
    
   }
 
-  // pilihVar(id, x){  
-  //   if(id === this.varSimpen){
-  //     this.variant[1] = "";
-  //     swal(
-  //       'Info',
-  //       'Nama varian tidak boleh sama',
-  //       'warning'
-  //     );
-  //   }else{
-  //     if(x === 0){
-  //       this.varSimpen = id;
-  //       this.varSimpenX = x;
-  //       this.variant[1] = "";
-  //     }
-  //     // this.listVarianChild1 = [];
-  //     // this.listVarianChild2 = [];
-  //     if(this.variant[1] && this.variant[0]){
-  //       this.varian1(this.varSimpen);
-  //       this.varian2(id);
-  //       this.getRows();
-  //       this.isTambahRow = true;
-  //       console.log('row', this.listRows);
-  //       // if(this.varSimpenX[0] === 0){
-  //       //   this.listVarChd1 = this.listVarianChild2;
-  //       //   this.listVarChd2 = this.listVarianChild1;
+  fillFormData(productId) {
+    this.manageServ.getListById(productId).subscribe(response => {
+      const data = response.data;
+      this.fillFormPatchValue(data);
+    });
+  }
 
-  //       // }else{
-  //       //   this.listVarChd1 = this.listVarianChild1;
-  //       //   this.listVarChd2 = this.listVarianChild2;
-  //       // }
-  //     }
+  fillFormPatchValue(data: detailListingProduct) {
+    this.addProductForm.patchValue({
+      name: data.name,
+      brandId: data.brandId,
+      brandName: data.brandName,
+      categoryThreeId: (data.categoryThreeId !== 0) ? data.categoryThreeId : data.categoryTwoId,
+      classification: data.classification,
+      description: data.description,
+      imageUrl: data.imageUrl,
+      weight: data.weight,
+      specification: data.specification,
+    });
+    this.categoryName = {
+      C1: data.categoryOneName,
+      C2: data.categoryTwoName,
+      C3: data.categoryThreeName
+    };
+    this.getCategoryInit('C2', data.categoryOneId);
+    this.getCategoryInit('C3', data.categoryTwoId);
+
+    const queryParams = {
+      categoryid: (data.categoryThreeId === 0) ? data.categoryTwoId : data.categoryThreeId
+    };
+
+    this.categoryService.getListCategoryAttribute(queryParams).subscribe(response => {
+      this.categoryAttributes = response;
+      this.fillFormSpecification(data.specification);
+    });
+
+    this.ProdService.getListVarian(queryParams.categoryid).subscribe(responVar => {
+      responVar.forEach((item, index) => {
+
+        this.variantsOrdered[index]='';
+      });
+      this.variants = responVar;
+    });
+    
+    this.ProdService.getListVarianDetail(data.productId).subscribe(responVarChild => {
+
+
+      console.log('apa sih ini deh', responVarChild);
+
+      if (responVarChild.length !== 0) {
+        responVarChild.forEach((item, index) => {
+          if (index !== 0) this.addVariants();
+          const varians = <FormArray>this.addProductForm.get('varians');
+          const attributeVariants = <FormArray>varians.controls[index].get('attributeVarians');
+          // const control = varians.controls[index];
+          varians.at(index).patchValue({
+            imageUrl: item.imageUrl
+          })
+          item.attributeVarians.forEach((variant, j) => {
+            attributeVariants.at(j).patchValue({
+              attributeId: variant.attributeId,
+              attributeValueId: variant.attributeValueId,
+              value: variant.value
+            })
+          })
+        })
+
+        responVarChild[0].attributeVarians.forEach((item, index) => {
+        const a = this.variants.find(x => x.attributeId === item.attributeId);
+        console.log('aaaa: ', a)
+          this.variantsOrdered[index] = a;
+        });
+        this.isAttributeOk = true;
+      }
+    });
+
+
+  }
+
+  fillFormSpecification(specifications: SpecificationList[]) {
+    console.log('apalah lagi', specifications);
+    specifications.forEach((specification) => {
+      this.spec[specification.attributeId] = specification.attributeValueId;
+    });
+  }
+
+  getCategoryInit(categoryType, parentid?) {
+    const queryParams = {
+      type: categoryType,
+      all: true,
+      isactive: true,
+    };
+
+    if (parentid) {
+      queryParams['parentid'] = parentid;
+    }
+    this.categoryService.getCategory(queryParams).subscribe(response => {
+      this.categoryList[categoryType] = response;
+    });
+  }
+
+  // getCategoryInitSpec(categoryType, parentid?) {
+  //   const queryParams = {
+  //     type: categoryType,
+  //     all: true,
+  //     isactive: true,
+  //   };
+
+  //   if (parentid) {
+  //     queryParams['parentid'] = parentid;
   //   }
+  //   this.categoryService.getCategory(queryParams).subscribe(response => {
+  //     this.categoryListSpec[categoryType] = response;
+  //   });
   // }
 
   varian1(id){
@@ -213,34 +271,29 @@ export class MasterPComponent implements OnInit {
     this.listRowSub = datas;
   }
 
-  tambahRow(){
+  // tambahRow(){
     
-    const rowMax = Math.max.apply(null, this.listRows);
-    const addRow = rowMax+1;
-
-    console.log('jml', this.listRows.length)
-    this.listRows.push([addRow])
-    const apa = Math.max.apply(null, this.listRows);
-    console.log('max', apa);
-
-    console.log('array', this.listRows);
+  //   const rowMax = Math.max.apply(null, this.listRows);
+  //   const addRow = rowMax+1;
+  //   this.listRows.push([addRow])
+  //   const apa = Math.max.apply(null, this.listRows);
     
-  }
+  // }
 
-  removeRow(no){
-    this.listRows.splice(no, 1); 
-  }
+  // removeRow(no){
+  //   this.listRows.splice(no, 1); 
+  // }
 
-  tambahRowSub(id){
-    if (!this.listRowSub[id]) this.listRowSub[id] = [];
-    const rowMax = Math.max.apply(id, this.listRowSub);
-    const addRow = rowMax+1;
-    console.log('jml sub', this.listRowSub.length)
-    this.listRowSub[id].push([addRow])
-    const apa = Math.max.apply(id, this.listRowSub);
-    console.log('max sub', apa);
-    console.log('array sub', this.listRowSub);
-  }
+  // tambahRowSub(id){
+  //   if (!this.listRowSub[id]) this.listRowSub[id] = [];
+  //   const rowMax = Math.max.apply(id, this.listRowSub);
+  //   const addRow = rowMax+1;
+  //   console.log('jml sub', this.listRowSub.length)
+  //   this.listRowSub[id].push([addRow])
+  //   const apa = Math.max.apply(id, this.listRowSub);
+  //   console.log('max sub', apa);
+  //   console.log('array sub', this.listRowSub);
+  // }
 
   private formData() {
     this.addProductForm = this.fb.group({
@@ -372,37 +425,18 @@ export class MasterPComponent implements OnInit {
     })
   }
 
-  fillFormData(productId) {
-    this.manageServ.getListById(productId).subscribe(response => {
-      const data = response.data;
-      console.log(data);
-      this.fillFormPatchValue(data);
-    });
-  }
+ 
 
-  fillFormPatchValue(data: detailListingProduct) {
-    this.addProductForm.patchValue({
-      name: data.name,
-      brandId: data.brandId,
-      brandName: data.brandName,
-      categoryThreeId: (data.categoryThreeId !== 0) ? data.categoryThreeId : data.categoryTwoId,
-      classification: data.classification,
-      description: data.description,
-      imageUrl: data.imageUrl,
-      weight: data.weight,
-    });
-    this.categoryName = {
-      C1: data.categoryOneName,
-      C2: data.categoryTwoName,
-      C3: data.categoryThreeName
-    };
-    this.getCategoryInit('C2', data.categoryOneId);
-    this.getCategoryInit('C3', data.categoryTwoId);
-  }
+
+
+
+
+
+
 
   isFieldValid(field: string) {
     return !this.addProductForm.get(field).valid && this.addProductForm.get(field).touched;
-}
+  }
 validateAllFormFields(formGroup: FormGroup) {
   Object.keys(formGroup.controls).forEach(field => {
     const control = formGroup.get(field);
@@ -540,6 +574,8 @@ validateAllFormFields(formGroup: FormGroup) {
   }
 
   selectCategory(category) {
+
+    console.log('hasil cat', category);
     this.addProductForm.patchValue({
       categoryThreeId: category.categoryId,
     });
@@ -584,20 +620,7 @@ validateAllFormFields(formGroup: FormGroup) {
     });
   }
 
-  getCategoryInit(categoryType, parentid?) {
-    const queryParams = {
-      type: categoryType,
-      all: true,
-      isactive: true,
-    };
-    console.log('123');
-    if (parentid) {
-      queryParams['parentid'] = parentid;
-    }
-    this.categoryService.getCategory(queryParams).subscribe(response => {
-      this.categoryList[categoryType] = response;
-    });
-  }
+  
 
   specMapping(specValues) {
     this.categoryAttributes.forEach(x => {

@@ -137,6 +137,16 @@ export class ListBrand {
     guaranteeTime: string;
     issue: any[];
     couriers: couriers[];
+    specification : Specification[];
+  }
+
+  export class Specification {
+    attributeId: number;
+    attributeValueId: number;
+    isInstanceAttribute: boolean;
+    isMandatory: boolean;
+    name: string;
+    value: string;
   }
 
   export class couriers {
@@ -144,7 +154,6 @@ export class ListBrand {
     name: string;
     code: string;
     isUse: boolean;
-
   }
 
   export class listingCategory {
@@ -350,4 +359,18 @@ export class VariantValue {
     this.attributeId      = variantValue ? variantValue.attributeId      : '';
     this.isActive         = variantValue ? variantValue.isActive         : '';
   }
+}
+
+
+export class DetaiilVariant {
+  imageUrl: string;
+  productUsed: boolean;
+  masterVarianId: number;
+  attributeVarians: Att[];
+}
+
+export class Att {
+  attributeId: number;
+  attributeValueId: number;
+  value: string;
 }
