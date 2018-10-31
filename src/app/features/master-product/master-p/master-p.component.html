@@ -182,12 +182,16 @@
                 </div>
 
                 <div class="col-2" *ngFor="let variant of variants; let i = index">
+    
                     <select class="f-control form-control" [(ngModel)]="variantsOrdered[i]" [ngModelOptions]="{standalone: true}" 
                         (change)="variantSelect(variantsOrdered)">
                         <option value="">Select variant</option>
                         <option *ngFor="let item of variants" [ngValue]="item">{{ item.name }}</option>
                     </select>
+
+                   
                 </div>
+
        
                 <!-- <div class="col-2" *ngFor="let item of listVarian; let x = index">
                     <select [(ngModel)]="variant[x]" [ngModelOptions]="{standalone: true}" class="f-control form-control"  (change)="pilihVar($event.target.value,x)">
@@ -234,12 +238,9 @@
                                         </div>
 
                                 </div>
-                                <div><i class="fa fa-trash fa-lg removeRow" (click)="removeVariant(i)"></i></div>
-
-
-
-
-
+                                <div>
+                                    <i class="fa fa-trash fa-lg removeRow" (click)="removeVariant(i)" *ngIf="productUsed[i]==false"></i>
+                                </div>
 
                             </div>
 

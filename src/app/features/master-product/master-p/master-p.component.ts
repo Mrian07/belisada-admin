@@ -72,9 +72,7 @@ export class MasterPComponent implements OnInit {
 
   isTambahRow: Boolean = false;
 
-  // varians: FormArray;
-
-
+  productUsed: any[] = [];
 
   public masterProductForm: FormGroup;
   public varians: FormArray;
@@ -173,16 +171,12 @@ export class MasterPComponent implements OnInit {
     });
     
     this.ProdService.getListVarianDetail(data.productId).subscribe(responVarChild => {
-
-
-      console.log('apa sih ini deh', responVarChild);
-
       if (responVarChild.length !== 0) {
         responVarChild.forEach((item, index) => {
           if (index !== 0) this.addVariants();
           const varians = <FormArray>this.addProductForm.get('varians');
           const attributeVariants = <FormArray>varians.controls[index].get('attributeVarians');
-          // const control = varians.controls[index];
+          this.productUsed[index] = item.productUsed;
           varians.at(index).patchValue({
             imageUrl: item.imageUrl
           })
@@ -197,7 +191,6 @@ export class MasterPComponent implements OnInit {
 
         responVarChild[0].attributeVarians.forEach((item, index) => {
         const a = this.variants.find(x => x.attributeId === item.attributeId);
-        console.log('aaaa: ', a)
           this.variantsOrdered[index] = a;
         });
         this.isAttributeOk = true;
@@ -699,6 +692,9 @@ validateAllFormFields(formGroup: FormGroup) {
         return;
       }
       if(this.productId) {
+
+        console.log('edit', this.addProductForm.value);
+
         this.ProdService.putEditData( this.addProductForm.value).subscribe(response => {
           swal(
             response.message,
