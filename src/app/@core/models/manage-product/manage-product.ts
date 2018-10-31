@@ -362,7 +362,7 @@ export class VariantValue {
 }
 
 
-export class DetaiilVariant {
+export class DetailVariant {
   imageUrl: string;
   productUsed: boolean;
   masterVarianId: number;

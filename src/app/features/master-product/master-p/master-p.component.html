@@ -209,14 +209,16 @@
 
                     <div formArrayName="varians" *ngIf="isAttributeOk">
                         <div [formGroupName]="i" *ngFor="let variant of getVariants(addProductForm); let i = index">
-
+                            <input type="hidden" formControlName="masterVarianId">
                             <div class="b-var" formArrayName="attributeVarians">
                                 <div [formGroupName]="j" *ngFor="let item of getAttributeVariants(variant); let j = index">
-                                    <!-- {{ i }} -->
+                                        
                                     <select class="f-control form-control" formControlName="attributeValueId" (change)="patchOtherValues($event, i, j)">
                                         <option value="">{{ variantsOrdered[j].name }}</option>
                                         <option *ngFor="let data of variantsOrdered[j].data" [value]="data.attributeValueId">{{ data.name }}</option>
                                     </select>
+
+
                                 </div>
                                 <div>
                                     

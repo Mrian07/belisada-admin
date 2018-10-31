@@ -171,15 +171,31 @@ export class MasterPComponent implements OnInit {
     });
     
     this.ProdService.getListVarianDetail(data.productId).subscribe(responVarChild => {
+      console.log('anak2', responVarChild);
       if (responVarChild.length !== 0) {
         responVarChild.forEach((item, index) => {
+
+
+
           if (index !== 0) this.addVariants();
           const varians = <FormArray>this.addProductForm.get('varians');
+
+          // const masterVarianId = item.masterVarianId;
+
+          varians.at(index).patchValue({
+            masterVarianId: item.masterVarianId
+          })
+
+          // console.log('aapa', masterVarianId);
+
           const attributeVariants = <FormArray>varians.controls[index].get('attributeVarians');
           this.productUsed[index] = item.productUsed;
           varians.at(index).patchValue({
             imageUrl: item.imageUrl
           })
+
+
+
           item.attributeVarians.forEach((variant, j) => {
             attributeVariants.at(j).patchValue({
               attributeId: variant.attributeId,
@@ -201,7 +217,6 @@ export class MasterPComponent implements OnInit {
   }
 
   fillFormSpecification(specifications: SpecificationList[]) {
-    console.log('apalah lagi', specifications);
     specifications.forEach((specification) => {
       this.spec[specification.attributeId] = specification.attributeValueId;
     });
@@ -318,6 +333,7 @@ export class MasterPComponent implements OnInit {
   private _initVariants(): FormGroup {
     // initialize our variants
     return this.fb.group({
+      masterVarianId: [''],
       attributeVarians: this.fb.array([this._initAttributeVariants(), this._initAttributeVariants()]),
       imageUrl: [[]]
     });
@@ -364,7 +380,6 @@ export class MasterPComponent implements OnInit {
   }
 
   public patchOtherValues(event, i, j) {
-    console.log(event);
     const attributeValueId: number = +event.target.value;
     const varians = <FormArray>this.addProductForm.get('varians');
     const control = <FormArray>varians.controls[i].get('attributeVarians');
