@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { ManageProduct, revise, ListBrand, listingCategory, listingProduct,
-detailListingProduct, deetailProd, putProduct } from '../../models/manage-product/manage-product';
+detailListingProduct, deetailProd, putProduct, Varian, VarianChild, Variant, DetailVariant } from '../../models/manage-product/manage-product';
 import { Configuration } from '../../config/configuration';
 
 @Injectable()
@@ -107,6 +107,33 @@ export class ManageProductService {
   getListById(id): Observable<listingDetail> {
     return this.http.get(this.configuration.apiURL + '/manage/product/master/detail/' + id)
     .map(resp => resp as listingDetail);
+
+  }
+
+  getListVarian(id):Observable<Varian[]> {
+    return this.http.get(this.configuration.apiURL + '/manage/product/category/attribute/varian?categoryid='+ id)
+    .map(res => res as Varian[]);
+  }
+
+  getListVarianChild(id):Observable<VarianChild[]> {
+    return this.http.get(this.configuration.apiURL + '/manage/product/category/attribute/value/varian?attributeid='+ id)
+    .map(res => res as VarianChild[]);
+  }
+
+
+  public getVariants(categoryId: number): Observable<Variant[]> {
+
+    return this.http.get(this.configuration.apiURL + '/manage/product/category/attribute/value/varian',
+      {
+        params: {'categoryid': categoryId.toString()}
+      }
+    )
+    .map(response => response as Variant[]);
+  }
+
+  getListVarianDetail(id): Observable<DetailVariant[]> {
+    return this.http.get(this.configuration.apiURL + '/manage/product/master/varian/detail/' + id)
+    .map(resp => resp as DetailVariant[]);
 
   }
 

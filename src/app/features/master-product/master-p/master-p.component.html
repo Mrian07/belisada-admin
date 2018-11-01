@@ -1,197 +1,268 @@
-<form [formGroup]="addProductForm">
-  <h2 class="test">Gambar Produk</h2>
-  <p>Minimal gambar 2 dan maksimal gambar produk 5</p>
+<nb-card>
+    <nb-card-header>
+        Produk
+    </nb-card-header>
+   
+    <nb-card-body>    
+            <form [formGroup]="addProductForm">
+            <h2 class="test">Gambar Produk</h2>
+            <p>Minimal gambar 2 dan maksimal gambar produk 5</p>
+            
+            <div class="add-product-form-wrapper">
+                <ul class="add_product_image clearfix" id="image-list">
+                    <li class="u-inline-list-gap" *ngFor="let item of f.imageUrl.value; let i = index">
+                        <div class="image-preview" [ngStyle]="{'background-image': 'url(' + item + ')'}">
+                            <span class="action-button" (click)="removeImage(i)">
+                                <i class="fa fa-trash"></i>
+                            </span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pikcker-wrapper picker-add-image" *ngIf="(f.imageUrl.value.length < 5)">
+                            <input type="file"  accept="image/jpeg,.jpeg,.jpg,image/png,.png" (change)="getSelectedFiles($event)">
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="row f-group">
+                <label for="staticEmail" class="col-3 middle">Nama Produk</label>
+                <div class="col-9">
+                    <input type="text" formControlName="name" class="f-control form-control" placeholder="Nama Produk">
+                    <div class ="validator" *ngIf="(submitted || f.name.touched) && f.name.invalid">
+                        <span>Silahkan masukan nama produk master</span>
+                    </div>  
+                    
+                    </div>
+                    
+            </div>
+            
+            <div class="row f-group">
+                <label class="col-3 middle">Merek</label>
+                <div class="col-9">
+            
+                    <div class="drick-select-container">
+                        <div class="ui icon input parent">
+                            <input class="f-control drick-select__text" class="form-control" [ngClass]="{'active':onBrandFocus}" type="text"
+                                formControlName="brandName" (keyup)="searchBrand()" (focus)="onBrandFocus = true"
+                                (focusout)="onBrandBlur()" placeholder="Select one">
+                            <i class="drick-select__icon caret down icon"></i>
+                        </div>
+                        <div class="drick-select-container--toggle" [ngClass]="{'active':onBrandFocus}"
+                            id="drick-scroll-container--brand"
+                            (scroll)="onBrandScrollDown()">
+                            <ul class="drick-select-list">
+                                <li *ngFor="let i of brandList.data" (click)="selectBrand(i)">
+                                    {{i.name}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class ="validator" *ngIf="(submitted || f.brandName.touched) && f.brandName.invalid">
+                        <span>Silahkan masukan nama brand master</span>
+                    </div>  
+                </div>
+            </div>
+            <div class="row f-group">
+                <label class="col-3 middle">Kategori Produk</label>
+                <div class="col-9">
+                    <!-- <input type="text" class="f-control" placeholder="Kategori Produk"> -->
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="drick-select-container">
+                                    <div class="ui icon input parent">
+                                        <input class="f-control drick-select__text form-control" [ngClass]="{'active':onCategoryFocus.C1}" type="text" [(ngModel)]="categoryName.C1"
+                                            (keyup)="searchCategory('C1')" [ngModelOptions]="{standalone: true}"
+                                            (focus)="onCategoryFocus.C1 = true" (focusout)="onCategoryBlur('C1')" placeholder="Select one">
+                                        <i class="drick-select__icon caret down icon"></i>
+                                    </div>
+                                    <div class="drick-select-container--toggle" [ngClass]="{'active':onCategoryFocus.C1}"
+                                        id="drick-scroll-container--category">
+                                        <ul class="drick-select-list">
+                                            <li *ngFor="let category of categoryList.C1.data" (click)="selectCategory(category)">
+                                                {{category.name}}
+                                            </li>
+                                            <li *ngIf="(categoryList.C1.data.length === 0)">
+                                                Category tidak ditemukan
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="drick-select-container">
+                                    <div class="ui icon input parent">
+                                        <input class="f-control drick-select__text form-control" [ngClass]="{'active':onCategoryFocus.C2}"  type="text" [(ngModel)]="categoryName.C2"
+                                            (keyup)="searchCategory('C2', categoryId.C1)" [ngModelOptions]="{standalone: true}"
+                                            (focus)="onCategoryFocus.C2 = true" (focusout)="onCategoryBlur('C2')" placeholder="Select one">
+                                        <i class="drick-select__icon caret down icon"></i>
+                                    </div>
+                                    <div class="drick-select-container--toggle" [ngClass]="{'active':onCategoryFocus.C2}"
+                                        id="drick-scroll-container--category">
+                                        <ul class="drick-select-list">
+                                            <li *ngFor="let category of categoryList.C2.data" (click)="selectCategory(category)">
+                                                {{category.name}}
+                                            </li>
+                                            <li *ngIf="(categoryList.C2.data.length === 0)">
+                                                Category tidak ditemukan
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="drick-select-container">
+                                    <div class="ui icon input parent">
+                                        <input class="f-control drick-select__text form-control" [ngClass]="{'active':onCategoryFocus.C3}" type="text" [(ngModel)]="categoryName.C3"
+                                            (keyup)="searchCategory('C3', categoryId.C2)" [ngModelOptions]="{standalone: true}"
+                                            (focus)="onCategoryFocus.C3 = true" (focusout)="onCategoryBlur('C3')" placeholder="Select one">
+                                        <i class="drick-select__icon caret down icon"></i>
+                                    </div>
+                                    <div class="drick-select-container--toggle" [ngClass]="{'active':onCategoryFocus.C3}"
+                                        id="drick-scroll-container--category">
+                                        <ul class="drick-select-list">
+                                            <li *ngFor="let category of categoryList.C3.data" (click)="selectCategory(category)">
+                                                {{category.name}}
+                                            </li>
+                                            <li *ngIf="(categoryList.C3.data.length === 0)">
+                                                Category tidak ditemukan
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class ="validator" *ngIf="(submitted || f.categoryThreeId.value === 0)  && categoryName.C2 === ''">
+                        <span>Pilih kategori produk minimal category 2</span>
+                    </div>  
+                </div>
+            </div>
+            <div class="row f-group">
+                <label class="col-3 middle">Deskripsi</label>
+                <div class="col-9">
+                    <textarea   formControlName="description" placeholder="Deskripsi" class="f-control form-control" rows="4"></textarea>
+                    
+                </div>
+            </div>
+            <div class="row f-group">
+            <label class="col-3 middle">Spesifikasi Produk</label>
+            <div class="col-4">
+                <label *ngIf="categoryAttributes.length === 0" class="middle">*Silahkan pilih kategori terlebih dahulu</label>
+                <div class="f-group" *ngFor="let categoryAttribute of categoryAttributes">
+            
+                    <select [(ngModel)]="spec[categoryAttribute.attributeId]" class="f-control form-control" *ngIf="categoryAttribute.isInstanceAttribute === false"
+                        [attr.required]="categoryAttribute.isMandatory" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
+                            <option value="" disabled>{{ categoryAttribute.name }}</option>
+                            <option [value]="attrValue.attributeValueId" *ngFor="let attrValue of categoryAttribute.data">{{ attrValue.name }}</option> 
+                    </select>
+                </div>
+            </div>
+            </div>
+            <div class="row f-group">
+                <label class="col-3 middle">Berat</label>
+                <div class="col-2">
+                    <input type="text" formControlName="weight" class="f-control form-control " (keypress)="numberCheck($event)" maxlength="10" placeholder="Berat">
+                    <div class ="validator" *ngIf="(submitted || f.weight.touched) && f.weight.invalid">
+                            <span>Silahkan masukan berat produk master</span>
+                        </div>  
+                    </div>
+                <div class="col-2">
+                    <select [(ngModel)]="measurementType" [ngModelOptions]="{standalone: true}"  class="f-control form-control">
+                        <option value="0">Gr</option>
+                        <option value="1">Kg</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row f-group">
+                <label class="col-3 middle">Varian</label>
+                <div class="col-9" *ngIf="categoryAttributes.length === 0">
+                    <label >*Silahkan pilih kategori terlebih dahulu</label>
+                </div>
 
-  <div class="add-product-form-wrapper">
-      <ul class="add_product_image clearfix" id="image-list">
-          <li class="u-inline-list-gap" *ngFor="let item of f.imageUrl.value; let i = index">
-              <div class="image-preview" [ngStyle]="{'background-image': 'url(' + item + ')'}">
-                  <span class="action-button" (click)="removeImage(i)">
-                    <i class="fa fa-trash"></i>
-                  </span>
-              </div>
-          </li>
-          <li>
-              <div class="pikcker-wrapper picker-add-image" *ngIf="(f.imageUrl.value.length < 5)">
-                  <input type="file"  accept="image/jpeg,.jpeg,.jpg,image/png,.png" (change)="getSelectedFiles($event)">
-              </div>
-          </li>
-      </ul>
-  </div>
+                <div class="col-2" *ngFor="let variant of variants; let i = index">
+    
+                    <select class="f-control form-control" [(ngModel)]="variantsOrdered[i]" [ngModelOptions]="{standalone: true}" 
+                        (change)="variantSelect(variantsOrdered)">
+                        <option value="">Select variant</option>
+                        <option *ngFor="let item of variants" [ngValue]="item">{{ item.name }}</option>
+                    </select>
 
-  <div class="row f-group">
-      <label for="staticEmail" class="col-3 middle">Nama Produk</label>
-      <div class="col-9">
-          <input type="text" formControlName="name" class="f-control form-control" placeholder="Nama Produk">
-      </div>
-  </div>
+                   
+                </div>
 
-  <div class="row f-group">
-      <label class="col-3 middle">Merek</label>
-      <div class="col-9">
+       
+                <!-- <div class="col-2" *ngFor="let item of listVarian; let x = index">
+                    <select [(ngModel)]="variant[x]" [ngModelOptions]="{standalone: true}" class="f-control form-control"  (change)="pilihVar($event.target.value,x)">
+                        <option value="" selected>- Pilih -</option>
+                        <option *ngFor="let itemVar of listVarian" [value]="itemVar.attributeId">{{ itemVar.name }}</option>
+                    </select>
+                </div> -->
+            </div>
 
-          <div class="drick-select-container">
-              <div class="ui icon input parent">
-                  <input class="f-control drick-select__text" class="form-control" [ngClass]="{'active':onBrandFocus}" type="text"
-                      formControlName="brandName" (keyup)="searchBrand()" (focus)="onBrandFocus = true"
-                      (focusout)="onBrandBlur()" placeholder="Select one">
-                  <i class="drick-select__icon caret down icon"></i>
-              </div>
-              <div class="drick-select-container--toggle" [ngClass]="{'active':onBrandFocus}"
-                  id="drick-scroll-container--brand"
-                  (scroll)="onBrandScrollDown()">
-                  <ul class="drick-select-list">
-                      <li *ngFor="let i of brandList.data" (click)="selectBrand(i)">
-                          {{i.name}}
-                      </li>
-                  </ul>
-              </div>
-          </div>
-      </div>
-  </div>
-  <div class="row f-group">
-      <label class="col-3 middle">Kategori Produk</label>
-      <div class="col-9">
-          <!-- <input type="text" class="f-control" placeholder="Kategori Produk"> -->
-          <table>
-              <tr>
-                  <td>
-                      <div class="drick-select-container">
-                          <div class="ui icon input parent">
-                              <input class="f-control drick-select__text form-control" [ngClass]="{'active':onCategoryFocus.C1}" type="text" [(ngModel)]="categoryName.C1"
-                                  (keyup)="searchCategory('C1')" [ngModelOptions]="{standalone: true}"
-                                  (focus)="onCategoryFocus.C1 = true" (focusout)="onCategoryBlur('C1')" placeholder="Select one">
-                              <i class="drick-select__icon caret down icon"></i>
-                          </div>
-                          <div class="drick-select-container--toggle" [ngClass]="{'active':onCategoryFocus.C1}"
-                              id="drick-scroll-container--category">
-                              <ul class="drick-select-list">
-                                  <li *ngFor="let category of categoryList.C1.data" (click)="selectCategory(category)">
-                                      {{category.name}}
-                                  </li>
-                                  <li *ngIf="(categoryList.C1.data.length === 0)">
-                                      Category tidak ditemukan
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                  </td>
-                  <td>
-                      <div class="drick-select-container">
-                          <div class="ui icon input parent">
-                              <input class="f-control drick-select__text form-control" [ngClass]="{'active':onCategoryFocus.C2}"  type="text" [(ngModel)]="categoryName.C2"
-                                  (keyup)="searchCategory('C2', categoryId.C1)" [ngModelOptions]="{standalone: true}"
-                                  (focus)="onCategoryFocus.C2 = true" (focusout)="onCategoryBlur('C2')" placeholder="Select one">
-                              <i class="drick-select__icon caret down icon"></i>
-                          </div>
-                          <div class="drick-select-container--toggle" [ngClass]="{'active':onCategoryFocus.C2}"
-                              id="drick-scroll-container--category">
-                              <ul class="drick-select-list">
-                                  <li *ngFor="let category of categoryList.C2.data" (click)="selectCategory(category)">
-                                      {{category.name}}
-                                  </li>
-                                  <li *ngIf="(categoryList.C2.data.length === 0)">
-                                      Category tidak ditemukan
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                  </td>
-                  <td>
-                      <div class="drick-select-container">
-                          <div class="ui icon input parent">
-                              <input class="f-control drick-select__text form-control" [ngClass]="{'active':onCategoryFocus.C3}" type="text" [(ngModel)]="categoryName.C3"
-                                  (keyup)="searchCategory('C3', categoryId.C2)" [ngModelOptions]="{standalone: true}"
-                                  (focus)="onCategoryFocus.C3 = true" (focusout)="onCategoryBlur('C3')" placeholder="Select one">
-                              <i class="drick-select__icon caret down icon"></i>
-                          </div>
-                          <div class="drick-select-container--toggle" [ngClass]="{'active':onCategoryFocus.C3}"
-                              id="drick-scroll-container--category">
-                              <ul class="drick-select-list">
-                                  <li *ngFor="let category of categoryList.C3.data" (click)="selectCategory(category)">
-                                      {{category.name}}
-                                  </li>
-                                  <li *ngIf="(categoryList.C3.data.length === 0)">
-                                      Category tidak ditemukan
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                  </td>
-              </tr>
-          </table>
-      </div>
-  </div>
-  <div class="row f-group">
-      <label class="col-3 middle">Deskripsi</label>
-      <div class="col-9">
-                              <textarea   formControlName="description" placeholder="Deskripsi" class="f-control form-control" rows="4"></textarea>
-      </div>
-  </div>
-  <!-- <div class="row f-group">
-    <label class="col-3 middle">Spesifikasi Produk</label>
-    <div class="col-4">
-        <label *ngIf="categoryAttributes.length === 0" class="middle">*Silahkan pilih kategori terlebih dahulu</label>
-        <div class="f-group" *ngFor="let categoryAttribute of categoryAttributes">
-            <select class="f-control form-control form-control-sm" *ngIf="categoryAttribute.isInstanceAttribute === false"
-                [attr.required]="categoryAttribute.isMandatory">
-                    <option value="" disabled selected>{{ categoryAttribute.name }}</option>
-                    <option [value]="attrValue.attributeValueId" *ngFor="let attrValue of categoryAttribute.data">{{ attrValue.name }}</option>
-            </select>
-        </div>
-    </div>
-</div> -->
-<div class="row f-group">
-  <label class="col-3 middle">Spesifikasi Produk</label>
-  <div class="col-4">
-      <label *ngIf="categoryAttributes.length === 0" class="middle">*Silahkan pilih kategori terlebih dahulu</label>
-      <div class="f-group" *ngFor="let categoryAttribute of categoryAttributes">
 
-          <select [(ngModel)]="spec[categoryAttribute.attributeId]" class="f-control form-control" *ngIf="categoryAttribute.isInstanceAttribute === false"
-              [attr.required]="categoryAttribute.isMandatory" [ngModelOptions]="{standalone: true}" [disabled]="disabled">
-                  <option value="" disabled>{{ categoryAttribute.name }}</option>
-                  <option [value]="attrValue.attributeValueId" *ngFor="let attrValue of categoryAttribute.data">{{ attrValue.name }}</option> -->
-          </select>
-      </div>
-  </div>
-</div>
-<div class="row f-group">
-  <label class="col-3 middle">Berat</label>
-  <div class="col-2">
-      <input type="text" formControlName="weight" class="f-control form-control " (keypress)="numberCheck($event)" maxlength="10" placeholder="Berat">
-  </div>
-  <div class="col-2">
-      <select [(ngModel)]="measurementType" [ngModelOptions]="{standalone: true}"  class="f-control form-control">
-          <option value="0">Gr</option>
-          <option value="1">Kg</option>
-      </select>
-  </div>
-</div>
-<!-- <div class="row f-group">
-    <label class="col-3 middle">Dimensi</label>
-    <div class="col-2">
-        <input   [ngModelOptions]="{standalone: true}"  [(ngModel)]="xxzx" maxlength="15"   type="text" class="f-control form-control" placeholder="P">
-        <input formControlName="dimensionslength"  maxlength="15"  type="hidden" class="f-control form-control" placeholder="P">
-    </div>
-    <div class="col-2">
-        <input   [ngModelOptions]="{standalone: true}"  [(ngModel)]="ngMdimensionsWidth"  maxlength="15"  type="text" class="f-control form-control" placeholder="P">
-        <input formControlName="dimensionsWidth" (keypress)="numberCheck($event)" maxlength="15"  type="hidden" class="f-control form-control" placeholder="L">
-    </div>
-    <div class="col-2">
-        <input   [ngModelOptions]="{standalone: true}"  [(ngModel)]="ngMdimensionsheight"  maxlength="15"  type="text" class="f-control form-control" placeholder="P">
-        <input formControlName="dimensionsheight" (keypress)="numberCheck($event)" maxlength="15"  type="hidden" class="f-control form-control" placeholder="T">
-    </div>
-    <div class="col-2">
-        <select [(ngModel)]="measurementTypeL" [ngModelOptions]="{standalone: true}"  class="f-control form-control">
-            <option value="0">CM</option>
-            <option value="1">Inch</option>
-        </select>
-    </div>
-  </div> -->
-<div class="row">
-  <div class="col-12 text__positon">
-    <button type="button" (click)="oke()"[disabled]="addProductForm.invalid || categoryName.C2 === '' " class="btn btn-danger customz--button">Kirim</button>
-  </div>
-</div>
+            <div class="row f-group">
 
-</form>
+                <label class="col-3 middle"></label>
+                <div class="col-9">
+
+                    <div formArrayName="varians" *ngIf="isAttributeOk">
+                        <div [formGroupName]="i" *ngFor="let variant of getVariants(addProductForm); let i = index">
+                            <input type="hidden" formControlName="masterVarianId">
+                            <div class="b-var" formArrayName="attributeVarians">
+                                <div [formGroupName]="j" *ngFor="let item of getAttributeVariants(variant); let j = index">
+                                        
+                                    <select class="f-control form-control" formControlName="attributeValueId" (change)="patchOtherValues($event, i, j)">
+                                        <option value="">{{ variantsOrdered[j].name }}</option>
+                                        <option *ngFor="let data of variantsOrdered[j].data" [value]="data.attributeValueId">{{ data.name }}</option>
+                                    </select>
+
+
+                                </div>
+                                <div>
+                                    
+                                        <div class="add-product-form-wrapper">
+                                            <ul class="add_product_image clearfix" id="image-list">
+                                                <li class="u-inline-list-gap" *ngFor="let itemImgVar of variant.controls.imageUrl.value; let k = index">
+                                                    <div class="image-preview" [ngStyle]="{'background-image': 'url(' + itemImgVar + ')'}">
+                                                        <span class="action-button" (click)="removeImageVar(k, i)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="pikcker-wrapper picker-add-image" *ngIf="(variant.controls.imageUrl.value.length < 5)">
+                                                        <input type="file"  accept="image/jpeg,.jpeg,.jpg,image/png,.png" (change)="getSelectedImg($event, i)">
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                </div>
+                                <div>
+                                    <i class="fa fa-trash fa-lg removeRow" (click)="removeVariant(i)" *ngIf="productUsed[i]!=true"></i>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row f-group">
+                <label class="col-3 middle"></label>
+                <div class="col-9">
+                    <button type="button" class="btn btn-info customz--button" (click)="addVariants()">Tambah Row</button>
+                </div>
+            </div>
+        </form>
+    </nb-card-body>
+    <nb-card-footer>
+        <button type="button" (click)="oke()" class="btn btn-danger customz--button">Kirim</button>
+    </nb-card-footer>
+   
+</nb-card> 
+

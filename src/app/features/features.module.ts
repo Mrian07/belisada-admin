@@ -7,6 +7,8 @@ import { ThemeModule } from '../@theme/theme.module';
 import { SearchPipe } from '../@theme/pipes';
 // import { ModalComponent } from '../pages/ui-features/modals/modal/modal.component';
 import { DashboardModule } from './dashboard/dashboard.module';
+// import { DateUtil } from '../@core/utils/date.util';
+
 
 @NgModule({
   imports: [
@@ -14,6 +16,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     ThemeModule,
     DashboardModule,
     FeaturesRoutingModule,
+    // DateUtil
   ],
   declarations: [FeaturesComponent],
   // entryComponents: [

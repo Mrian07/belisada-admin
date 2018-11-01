@@ -109,6 +109,20 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
+  {
+    title: 'Withdrawal',
+    icon: 'nb-layout-default',
+    children: [
+      {
+        title: 'List',
+        link: '/withdrawal/list',
+      },
+      {
+        title: 'History',
+        link: '/withdrawal/history',
+      },
+    ],
+  },
 
   
 

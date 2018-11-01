@@ -1,9 +1,9 @@
 <nb-card>
-  <nb-card-header>
-      Category List
-  </nb-card-header>
+    <nb-card-header>
+        Category List
+    </nb-card-header>
 
-  <nb-card-body>
+    <nb-card-body>
 
     <div class="row">
         <div class="col-md-12 col-lg-3">
@@ -73,11 +73,14 @@
                 <div *ngIf="isDataSpec==true">
                     <div *ngFor="let spec of listSpec" class="sub-menu-cat2" [ngClass]="{'inactive':spec.isActive === false}">
                         <div class="row">
-                            <div class="col-md-9 col-lg-9">
-                                {{spec.name}} 
+                            <div class="col-md-9 col-lg-9" *ngIf="spec.isVarian===false" >
+                                <input type="checkbox" (click)="pilihVar(parentC3,spec.attributeId,spec.isVarian)"> {{spec.name}} 
+                            </div>
+                            <div class="col-md-9 col-lg-9" *ngIf="spec.isVarian===true" >
+                                <input type="checkbox" checked (click)="pilihVar(parentC3,spec.attributeId,spec.isVarian)"> {{spec.name}} 
                             </div>
                             <div class="col-md-3 col-lg-3 edit-cat" (click)="deleteSpec(spec.attributeId, parentC3)">
-                                <i class="fa fa-pencil fa-lg"></i>
+                                <i class="fa fa-trash fa-lg"></i>
                             </div>
                         </div>
                     </div>
@@ -89,7 +92,7 @@
         </div>
     </div>
 
-  </nb-card-body>
+    </nb-card-body>
 </nb-card>
 <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header">

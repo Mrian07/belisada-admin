@@ -15,6 +15,6 @@ import { ListingProductComponent } from './listing-product/listing-product.compo
     ReactiveFormsModule,
     masterProutingmodule,
   ],
-  declarations: [masterPComponent, MasterPComponent, ListingProductComponent]
+  declarations: [masterPComponent, MasterPComponent, ListingProductComponent],
 })
 export class MasterPModule { }

@@ -64,6 +64,8 @@ export class CategoryListComponent implements OnInit {
   isDataC2: boolean;
   isDataSpec: boolean;
 
+  flagVarian: boolean;
+
   constructor(
     public shareMessageService: ShareMessageService,
     private router: Router,
@@ -155,7 +157,6 @@ export class CategoryListComponent implements OnInit {
       categoryid: id
     }
     this.categoryService.getSpec(queryParams).subscribe(response => {
-
       this.isStatus();  
       this.isC2=true;
       this.isC3=true;
@@ -416,10 +417,33 @@ export class CategoryListComponent implements OnInit {
 
       }
     })
+  }
 
+  pilihVar(categoryId,attributeId,flag){
 
-    
+    if(flag === true){
+      this.flagVarian = false;
+    }else{
+      this.flagVarian = true;
+    }
 
+    const data = {
+      "attributeId": attributeId,
+      "categoryId": categoryId,
+      "isVarian": this.flagVarian,
+    }
+
+    this.categoryService.addVarian(data).subscribe(response => {
+      this.srcSpec(categoryId);
+      if(response.status === 0){
+        swal(
+          'Alert',
+          response.message,
+          'error',
+        );
+      }
+
+    });
   }
 
   update(){
