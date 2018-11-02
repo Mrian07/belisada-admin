@@ -311,7 +311,7 @@ export class MasterPComponent implements OnInit {
       categoryThreeId: ['', [Validators.required]],
       classification: [''],
       couriers: [[]],
-      description: [''],
+      description: ['', [Validators.required]],
       guaranteeTime: [''],
       imageUrl: [[], [Validators.required]],
       pricelist: [''],
@@ -711,6 +711,10 @@ validateAllFormFields(formGroup: FormGroup) {
         console.log('edit', this.addProductForm.value);
 
         this.ProdService.putEditData( this.addProductForm.value).subscribe(response => {
+          if (response.status === 0) {
+            swal(response.message)
+            return;
+          }
           swal(
             response.message,
           )
@@ -719,6 +723,10 @@ validateAllFormFields(formGroup: FormGroup) {
       } else {
         
         this.ProdService.postData( this.addProductForm.value).subscribe(response => {
+          if (response.status === 0) {
+            swal(response.message)
+            return;
+          }
           swal(
             response.message,
           )

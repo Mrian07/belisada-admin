@@ -136,14 +136,16 @@
                     </table>
                     <div class ="validator" *ngIf="(submitted || f.categoryThreeId.value === 0)  && categoryName.C2 === ''">
                         <span>Pilih kategori produk minimal category 2</span>
-                    </div>  
+                    </div>
                 </div>
             </div>
             <div class="row f-group">
                 <label class="col-3 middle">Deskripsi</label>
                 <div class="col-9">
-                    <textarea   formControlName="description" placeholder="Deskripsi" class="f-control form-control" rows="4"></textarea>
-                    
+                    <textarea formControlName="description" placeholder="Deskripsi" class="f-control form-control" rows="4"></textarea>
+                    <div class ="validator" *ngIf="(submitted || f.description.touched) && f.description.invalid">
+                        <span>Deskripsi tidak boleh kosong</span>
+                    </div>
                 </div>
             </div>
             <div class="row f-group">
