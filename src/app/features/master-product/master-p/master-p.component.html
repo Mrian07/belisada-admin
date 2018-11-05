@@ -134,16 +134,18 @@
                             </td>
                         </tr>
                     </table>
-                    <div class ="validator" *ngIf="(submitted || categoryName.C2.touched && f.categoryThreeId.value === 0)  && categoryName.C2 === ''">
+                    <div class ="validator" *ngIf="(submitted || f.categoryThreeId.value === 0)  && categoryName.C2 === ''">
                         <span>Pilih kategori produk minimal category 2</span>
-                    </div>  
+                    </div>
                 </div>
             </div>
             <div class="row f-group">
                 <label class="col-3 middle">Deskripsi</label>
                 <div class="col-9">
-                    <textarea   formControlName="description" placeholder="Deskripsi" class="f-control form-control" rows="4"></textarea>
-                    
+                    <textarea formControlName="description" placeholder="Deskripsi" class="f-control form-control" rows="4"></textarea>
+                    <div class ="validator" *ngIf="(submitted || f.description.touched) && f.description.invalid">
+                        <span>Deskripsi tidak boleh kosong</span>
+                    </div>
                 </div>
             </div>
             <div class="row f-group">
@@ -157,11 +159,12 @@
                             <option value="" disabled>{{ categoryAttribute.name }}</option>
                             <option [value]="attrValue.attributeValueId" *ngFor="let attrValue of categoryAttribute.data">{{ attrValue.name }}</option> 
                     </select>
+                    <div class ="validator" *ngIf="(submitted || spec[categoryAttribute.attributeId].touched) && spec[categoryAttribute.attributeId] === ''">
+                        <span>Silahkan pilih {{ categoryAttribute.name }}</span>
+                    </div> 
                 </div>
 
-                <div class ="validator" *ngIf="(submitted || f.name.touched) && f.name.invalid">
-                    <span>Silahkan pilih spesifikasi</span>
-                </div> 
+                
 
             </div>
             </div>
@@ -185,9 +188,7 @@
                 <div class="col-9" *ngIf="categoryAttributes.length === 0">
                     <label >*Silahkan pilih kategori terlebih dahulu</label>
                 </div>
-                <div class ="validator" *ngIf="(submitted || f.name.touched) && f.name.invalid">
-                    <span>Silahkan pilih varian</span>
-                </div> 
+                
 
                 <div class="col-2" *ngFor="let variant of variants; let i = index">
     
@@ -196,8 +197,9 @@
                         <option value="">Select variant</option>
                         <option *ngFor="let item of variants" [ngValue]="item">{{ item.name }}</option>
                     </select>
-
-                   
+                    <div class ="validator-varian" *ngIf="(submitted || variantsOrdered[i].touched) && variantsOrdered[i] === ''">
+                        <span>Silahkan pilih variant</span>
+                    </div> 
                 </div>
 
        
@@ -225,7 +227,10 @@
                                         <option value="">{{ variantsOrdered[j].name }}</option>
                                         <option *ngFor="let data of variantsOrdered[j].data" [value]="data.attributeValueId">{{ data.name }}</option>
                                     </select>
-
+              
+                                    <div class ="validator-varian" *ngIf="(submitted || item.controls.attributeValueId.touched) && item.controls.attributeValueId.invalid">
+                                        <span>Silahkan pilih variant</span>
+                                    </div> 
 
                                 </div>
                                 <div>
@@ -251,6 +256,10 @@
                                 <div>
                                     <i class="fa fa-trash fa-lg removeRow" (click)="removeVariant(i)" *ngIf="productUsed[i]!=true"></i>
                                 </div>
+
+                                <!-- <div class ="validator" *ngIf="(submitted || f.attributeValueId.touched) && f.attributeValueId.invalid">
+                                    <span>Silahkan pilih varian</span>
+                                </div>  -->
 
                             </div>
 
