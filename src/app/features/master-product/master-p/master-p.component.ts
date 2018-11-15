@@ -343,7 +343,7 @@ export class MasterPComponent implements OnInit {
     // initialize our attributeVariants
     return this.fb.group({
       attributeId: [''],
-      attributeValueId: [''],
+      attributeValueId: ['', [Validators.required]],
       value: ['']
     });
   }
@@ -413,19 +413,19 @@ export class MasterPComponent implements OnInit {
 
 
 
-  variantsFormGroup(): FormGroup {
-    return this.fb.group({
-      attributeVarians: this.fb.array([this.variantsAttFormGroup()])
-    })
-  }
+  // variantsFormGroup(): FormGroup {
+  //   return this.fb.group({
+  //     attributeVarians: this.fb.array([this.variantsAttFormGroup()])
+  //   })
+  // }
 
-  variantsAttFormGroup(): FormGroup {
-    return this.fb.group({
-      attributeId: [''],
-      attributeValueId: [''],
-      value: [''],
-    })
-  }
+  // variantsAttFormGroup(): FormGroup {
+  //   return this.fb.group({
+  //     attributeId: [''],
+  //     attributeValueId: ['', [Validators.required]],
+  //     value: [''],
+  //   })
+  // }
 
   onChanges(): void {
     this.addProductForm.valueChanges.subscribe(val => {
