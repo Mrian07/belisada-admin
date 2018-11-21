@@ -389,12 +389,21 @@ export class MasterPComponent implements OnInit {
     });
   }
 
-  public variantSelect(model) {
+  public variantSelect(model, no) {
+    if(model[0].name === model[1].name){
+      if(no=='1'){
+        this.variantsOrdered[0] ='';
+      }else{
+        this.variantsOrdered[1] ='';
+      }
+      
+    }
     const BreakExeption = {};
     try {
       model.forEach((x: any) => {
         if (x !== '') {
           const it = model.filter(m => m.attributeId === x.attributeId);
+
           if (it.length > 1) {
             this.isAttributeOk = false;
           } else {
@@ -692,23 +701,23 @@ validateAllFormFields(formGroup: FormGroup) {
 
 
   oke() {
+
     this.submitted = true;
+    const imageUrl = this.addProductForm.get('imageUrl').value;
+    if (imageUrl.length < 2 || imageUrl.length > 5) {
+      swal(
+        'Warning',
+        'Maaf gambar produk tidak boleh kurang dari dua atau lebih dari lima',
+        'warning'
+      );
+      return;
+    }
+
     if (this.addProductForm.valid) {
       this.specMapping(this.spec);
       this.calculateWeight();
-
-      const imageUrl = this.addProductForm.get('imageUrl').value;
-      if (imageUrl.length < 2 || imageUrl.length > 5) {
-        swal(
-          'Warning',
-          'Maaf gambar produk tidak boleh kurang dari dua atau lebih dari lima',
-          'warning'
-        );
-        return;
-      }
+      
       if(this.productId) {
-
-        console.log('edit', this.addProductForm.value);
 
         this.ProdService.putEditData( this.addProductForm.value).subscribe(response => {
           if (response.status === 0) {
@@ -734,7 +743,7 @@ validateAllFormFields(formGroup: FormGroup) {
         });
       }
     } else {
-      console.log('a')
+
       this.validateAllFormFields(this.addProductForm);
 
     }
