@@ -7,7 +7,6 @@
             <form [formGroup]="addProductForm">
             <h2 class="test">Gambar Produk</h2>
             <p>Minimal gambar 2 dan maksimal gambar produk 5</p>
-            
             <div class="add-product-form-wrapper">
                 <ul class="add_product_image clearfix" id="image-list">
                     <li class="u-inline-list-gap" *ngFor="let item of f.imageUrl.value; let i = index">
@@ -193,7 +192,7 @@
                 <div class="col-2" *ngFor="let variant of variants; let i = index">
     
                     <select class="f-control form-control" [(ngModel)]="variantsOrdered[i]" [ngModelOptions]="{standalone: true}" 
-                        (change)="variantSelect(variantsOrdered)">
+                        (change)="variantSelect(variantsOrdered, i)">
                         <option value="">Select variant</option>
                         <option *ngFor="let item of variants" [ngValue]="item">{{ item.name }}</option>
                     </select>
