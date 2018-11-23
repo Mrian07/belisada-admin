@@ -374,3 +374,22 @@ export class Att {
   attributeValueId: number;
   value: string;
 }
+
+export class Propose {
+  content: ListPropose[];
+  last: boolean;
+  totalPages: number;
+  totalElements: number;
+  numberOfElements: number;
+  first: true;
+  size: number;
+  number: number; 
+}
+
+
+export class ListPropose {
+  productName: string;
+  brand: string;
+  description: string;
+  prodRequestId: number;
+}

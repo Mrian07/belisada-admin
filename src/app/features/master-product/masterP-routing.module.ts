@@ -4,6 +4,7 @@ import { MasterPComponent } from './master-p/master-p.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { masterPComponent } from './masterP-component';
+import { ProposeComponent } from './propose/propose.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: 'listing',
         component: ListingProductComponent,
+      },
+      {
+        path: 'propose',
+        component: ProposeComponent,
       },
     ],
   }

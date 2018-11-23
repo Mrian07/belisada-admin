@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { ManageProduct, revise, ListBrand, listingCategory, listingProduct,
-detailListingProduct, deetailProd, putProduct, Varian, VarianChild, Variant, DetailVariant } from '../../models/manage-product/manage-product';
+detailListingProduct, deetailProd, putProduct, Varian, VarianChild, Variant, DetailVariant, Propose } from '../../models/manage-product/manage-product';
 import { Configuration } from '../../config/configuration';
 
 @Injectable()
@@ -137,4 +137,8 @@ export class ManageProductService {
 
   }
 
+  getListPropose(): Observable<Propose> {
+    return this.http.get(this.configuration.apiURL + '/product-request/')
+    .map(resp => resp as Propose);
+  }
 }
