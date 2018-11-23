@@ -20,8 +20,8 @@ export class ListingProductComponent implements OnInit {
   constructor( private mageProd: ManageProductService, private router: Router,
     private modalService: NgbModal,
     private activatedRoute: ActivatedRoute) {
-    this.prodImg = 'http://image.belisada.id:8888/unsafe/80x80/';
-   }
+    this.prodImg = 'https://img.belisada.id/unsafe/fit-in/400x400/center/filters:fill(fff)/';
+  }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params: Params) => {
@@ -75,7 +75,7 @@ export class ListingProductComponent implements OnInit {
   openLg(content, e) {
     this.modalService.open(content, { size: 'lg' });
   this.a = this.lisitingProd.find( x => x.productId === e);
-    console.log(this.a);
+    console.log('a', this.a);
   }
   d(a) {
     console.log(a);
