@@ -10,10 +10,15 @@ import { ListPropose } from './../../../@core/models/manage-product/manage-produ
 })
 export class ProposeComponent implements OnInit {
 
+  pages: any = [];
+  currentPage: any;
+  lastPage: number;
+  keyName: any;
   list: ListPropose[];
   constructor(
     private mageProd: ManageProductService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -21,10 +26,45 @@ export class ProposeComponent implements OnInit {
   }
 
   loadData(){
-    this.mageProd.getListPropose().subscribe(Response => {
-      this.list = Response.content;
-      console.log('apa', Response);
+
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      this.pages = [];
+      if (this.keyName === undefined ){
+        this.keyName = '';
+      }
+      this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
+      const queryParams = {
+        page: this.currentPage,
+        itemperpage: 10,
+        ob : 'custom',
+        name:  this.keyName,
+      }
+    
+      this.mageProd.getListPropose(queryParams).subscribe(Response => {
+        this.list = Response.content;
+        console.log(Response)
+        this.pages = [];
+        this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
+
+        this.lastPage = Response.totalPages;
+        for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
+          if (r > 0 && r <= this.lastPage) {
+            this.pages.push(r);
+          }
+        }
+
+      });
+
     });
+    
+  }
+
+  setPage(page: number, increment?: number) {
+    if (increment) { page = +page + increment; }
+    if (page < 1 || page > this.lastPage) { return false; }
+    // tslint:disable-next-line:max-line-length
+    this.router.navigate(['/master-product/propose'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
+    window.scrollTo(0, 0);
   }
 
 }
