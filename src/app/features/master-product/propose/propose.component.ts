@@ -42,7 +42,6 @@ export class ProposeComponent implements OnInit {
     
       this.mageProd.getListPropose(queryParams).subscribe(Response => {
         this.list = Response.content;
-        console.log(Response.content.length)
         this.pages = [];
         this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
 
@@ -62,7 +61,6 @@ export class ProposeComponent implements OnInit {
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.lastPage) { return false; }
-    // tslint:disable-next-line:max-line-length
     this.router.navigate(['/master-product/propose'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }
