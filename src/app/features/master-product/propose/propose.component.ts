@@ -35,14 +35,14 @@ export class ProposeComponent implements OnInit {
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
       const queryParams = {
         page: this.currentPage,
-        itemperpage: 10,
+        itemperpage: 20,
         ob : 'custom',
         name:  this.keyName,
       }
     
       this.mageProd.getListPropose(queryParams).subscribe(Response => {
         this.list = Response.content;
-        console.log(Response)
+        console.log(Response.content.length)
         this.pages = [];
         this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
 
