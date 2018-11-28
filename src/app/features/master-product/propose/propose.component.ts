@@ -35,7 +35,7 @@ export class ProposeComponent implements OnInit {
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
       const queryParams = {
         page: this.currentPage,
-        itemperpage: 20,
+        itemperpage: 20, // TODO: [PAK LALANG] it should be 10 item per page
         ob : 'custom',
         name:  this.keyName,
       }
