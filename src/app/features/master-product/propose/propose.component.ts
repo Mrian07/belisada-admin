@@ -35,7 +35,7 @@ export class ProposeComponent implements OnInit {
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
       const queryParams = {
         page: this.currentPage,
-        itemperpage: 20,
+        itemperpage: 10,
         ob : 'custom',
         name:  this.keyName,
       }
