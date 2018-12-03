@@ -96,6 +96,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'listing',
         link: '/master-product/listing',
+      },
+      {
+        title: 'propose',
+        link: '/master-product/propose',
       }
     ],
   },
