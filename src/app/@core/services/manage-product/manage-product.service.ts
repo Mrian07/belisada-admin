@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { ManageProduct, revise, ListBrand, listingCategory, listingProduct,
-detailListingProduct, deetailProd, putProduct, Varian, VarianChild, Variant, DetailVariant, Propose } from '../../models/manage-product/manage-product';
+detailListingProduct, deetailProd, putProduct, Varian, VarianChild, Variant, DetailVariant, Propose, ResponsePropose, SearchV2 } from '../../models/manage-product/manage-product';
 import { Configuration } from '../../config/configuration';
 
 @Injectable()
@@ -144,5 +144,21 @@ export class ManageProductService {
     });
     return this.http.get(this.configuration.apiURL + '/product-request/', {params: params})
     .map(resp => resp as Propose);
+  }
+
+  prosesPropose(data){
+    return this.http.post(this.configuration.apiURL + '/product-request/approved', data)
+    .map(resp => resp as ResponsePropose);
+  }
+
+  getSrcBrandV2(queryParams):Observable<SearchV2[]> {
+
+    let params = new HttpParams();
+    Object.keys(queryParams).forEach(function(k) {
+      params = params.append(k, queryParams[k]);
+    });
+
+    return this.http.get(this.configuration.apiURL + '/manage/product/master/search/v2', {params: params})
+    .map(res => res as SearchV2[]);
   }
 }
