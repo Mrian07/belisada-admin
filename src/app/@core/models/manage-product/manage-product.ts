@@ -393,3 +393,27 @@ export class ListPropose {
   description: string;
   prodRequestId: number;
 }
+
+export class ResponsePropose{
+  message: string;
+  status: number;
+
+  approved: boolean;
+  brandId: number;
+  prodRequestId: number;
+  productId: number;
+}
+
+export class SearchV2 {
+  productId: number;
+  name: string;
+  sku: string;
+  brandId: number;
+  brandName: string;
+  categoryOneId: number;
+  categoryOneName: string;
+  categoryTwoId: number;
+  categoryTwoName: string;
+  categoryThreeId: number;
+  categoryThreeName: string;
+}
