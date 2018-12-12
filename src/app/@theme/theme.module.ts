@@ -50,6 +50,7 @@ import {
 import { CapitalizePipe, PluralPipe, RoundPipe, TimingPipe, NumberWithCommasPipe, EvaIconsPipe } from './pipes';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { SearchPipe } from './pipes/filter.pipe';
+import { ModalMPComponent } from 'app/pages/manage-product/modal/modal-mp.component';
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 
@@ -91,7 +92,8 @@ const NB_MODULES = [
 
 const COMPONENTS = [
   HeaderComponent,
-  MainLayoutComponent
+  MainLayoutComponent,
+  ModalMPComponent
 ];
 
 const PIPES = [

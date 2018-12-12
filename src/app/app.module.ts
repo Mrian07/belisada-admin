@@ -12,6 +12,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthGuard } from './@core/services/auth-guard.service';
 import { HttpTokenInterceptor } from './@core/services/interceptors/http.token.interceptor';
 
+import { CountdownTimerModule } from 'ngx-countdown-timer';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -21,6 +23,8 @@ import { HttpTokenInterceptor } from './@core/services/interceptors/http.token.i
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+
+    CountdownTimerModule.forRoot(),
 
     NgbModule.forRoot(),
     ThemeModule.forRoot(),

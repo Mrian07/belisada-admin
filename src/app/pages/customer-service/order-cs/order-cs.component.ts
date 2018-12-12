@@ -104,7 +104,7 @@ countdown = {
             console.log('x: ', x);
             countdown(x.expiredConfirmationPaymentAdminDate, (countdown) => {
             // this.listOrder.find(i => i.paymentNumber === x.paymentNumber).countdown = countdown;
-              // this.countdown = countdown;
+              this.countdown = countdown;
             });
           });
         console.log('asdasd', this.listOrder)

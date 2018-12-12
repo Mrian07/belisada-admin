@@ -204,7 +204,7 @@ label {
     overflow-x: hidden;
     position: absolute;
     left: 0;
-    top: 45px;
+    top: 33.5px;
     z-index: 2;
     background: #fff;
     display: none;
@@ -221,7 +221,7 @@ label {
     display: inline-block;
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0!important;
     width: 100%;
 
     li {

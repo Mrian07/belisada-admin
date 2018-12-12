@@ -172,11 +172,12 @@
                 <div class="col-2">
                     <input type="text" formControlName="weight" class="f-control form-control " (keypress)="numberCheck($event)" maxlength="10" placeholder="Berat">
                     <div class ="validator" *ngIf="(submitted || f.weight.touched) && f.weight.invalid">
-                            <span>Silahkan masukan berat produk master</span>
-                        </div>  
-                    </div>
+                        <span *ngIf="f.weight.errors.required">Silahkan masukan berat produk master</span>
+                        <span *ngIf="f.weight.errors.min">Minimum berat 1 gr</span>
+                    </div>  
+                </div>
                 <div class="col-2">
-                    <select [(ngModel)]="measurementType" [ngModelOptions]="{standalone: true}"  class="f-control form-control">
+                    <select [(ngModel)]="measurementType" [ngModelOptions]="{standalone: true}">
                         <option value="0">Gr</option>
                         <option value="1">Kg</option>
                     </select>

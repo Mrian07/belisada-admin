@@ -320,7 +320,7 @@ export class MasterPComponent implements OnInit {
       discount: [''],
       qty: [''],
       specification: [[]],
-      weight: ['',  [Validators.required]],
+      weight: ['',  [Validators.required, Validators.min(1)]],
       productId:  this.productId ,
     //  varians: this.fb.array([this.variantsFormGroup()])
 
