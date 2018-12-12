@@ -1,0 +1,37 @@
+<h3 class="title">Courier Management</h3>
+<div class="c-contain">
+  <div *ngFor="let item of listCourir; let in = index">
+    <div class="b-true" *ngIf="item.isUse==true">
+
+        <div class="bc-two">
+            <div><img src="{{item.imageurl}}" width="100"></div>
+            <div><label for="checked" class="lbl-active" (click)="openclose(item.courierId)"></label></div>
+          </div>
+          <div *ngFor="let it of item.services">
+
+
+            <div *ngIf="it.isUse==true">
+              <input type="checkbox" checked (click)="check(it.courierId, it.courierServiceId)"> {{it.name}} 
+            </div>
+            <div *ngIf="it.isUse==false">
+              <input type="checkbox" (click)="check(it.courierId, it.courierServiceId)"> {{it.name}}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="b-false" *ngIf="item.isUse==false">
+
+        <div class="bc-two">
+            <div><img src="{{item.imageurl}}" width="100"></div>
+            <div><label for="checked_disabled" class="lbl" (click)="openclose(item.courierId)"></label></div>
+          </div>
+          <div *ngFor="let it of item.services">
+            <input type="checkbox" disabled> {{it.name}} 
+          </div>
+
+    </div>
+   
+  </div>
+</div>

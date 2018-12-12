@@ -1,0 +1,32 @@
+.list-profile{
+    border-bottom: 1px solid #37317a;
+    padding:10px;
+}
+
+.form-profile{
+    margin-top:10px;
+}
+
+.btn-profile{
+    cursor: pointer;
+}
+
+.img-avatar{
+    width:300px
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+    margin-top:10px;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
