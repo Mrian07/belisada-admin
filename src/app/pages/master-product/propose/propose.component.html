@@ -1,0 +1,146 @@
+<nb-card>
+    <nb-card-header>
+        List Requested Product
+    </nb-card-header>
+    <nb-card-body>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Added Date</th>
+                    <th>Nama Barang</th>
+                    <th>Merek Barang</th>
+                    <th>Deskripsi Barang</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td></td>
+                <td>
+                    <input class="form-control" placeholder="Search Created Data" [(ngModel)]="productName">
+                </td>
+                <td>
+                    <input class="form-control" placeholder="Search Store Name" [(ngModel)]="brand">
+                </td>
+                <td>
+                    <input class="form-control" placeholder="Search Name" [(ngModel)]="description">
+                </td>
+                <td></td>
+                <td>
+
+                </td>
+            </tr>
+            <ng-container *ngFor="let item of list  | searchPipe:'productName':productName  | searchPipe:'brand':brand | searchPipe:'description':description">
+                <tr>
+                <td>{{ item.dateCreate }}</td>    
+                <td>{{ item.productName }}</td>
+                <td>{{ item.brand }}</td>
+                <td>{{ item.description }}</td>
+                <td>
+                    <span *ngIf="item.status==''">-</span>
+                    <span *ngIf="item.status=='yes'">Diterima</span>
+                    <span *ngIf="item.status=='no'">Ditolak</span>
+                </td>
+                <td class='btn-action'>
+                    <div>
+                        <span class="btn-action__yes" (click)="selectReqYes(content,item.prodRequestId)" *ngIf="item.status===''">YES</span>
+                    </div>
+                    <div>
+                        <span class="btn-action__no" (click)="selectReqNo(item.prodRequestId)" *ngIf="item.status===''">NO</span>
+                    </div>
+                </td>
+                </tr>
+            </ng-container>
+            </tbody>              
+        </table>
+    
+        <div class="paging">
+            <ul>
+                <li>
+                    <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
+                </li>
+                <li>
+                    <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
+                </li>
+                <li *ngFor="let p of pages">
+                    <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
+                </li>
+                <li>
+                    <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+                </li>
+                <li>
+                    <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+                </li>
+            </ul>
+        </div>
+
+
+    </nb-card-body>
+</nb-card>
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <form [formGroup]="FormPropose">
+    <input class="form-control" type="hidden" formControlName="prodRequestId">
+    <input class="form-control" type="hidden" formControlName="brandId">
+    <input class="form-control" type="hidden" formControlName="productId">
+    <div class="modal-header">
+        <h4 class="modal-title">Pilih Produk Yang Akan Di Approve</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        
+        <div class="form-group">
+            <label for="pwd">Pilih Brand Produk:</label>
+            
+            <div class="drick-select-container">
+                <div class="ui icon input parent">
+                    <input class="f-control drick-select__text" class="form-control" [ngClass]="{'active':onBrandFocus}" type="text"
+                        formControlName="brandName" (keyup)="searchBrand()" (focus)="onBrandFocus = true"
+                        (focusout)="onBrandBlur()" placeholder="Pilih nama brand">
+                    <i class="drick-select__icon caret down icon"></i>
+                </div>
+                <div class="drick-select-container--toggle" [ngClass]="{'active':onBrandFocus}"
+                    id="drick-scroll-container--brand"
+                    (scroll)="onBrandScrollDown()">
+                    <ul class="drick-select-list">
+                        <li *ngFor="let i of listBrand.data" (click)="selectBrand(i)">
+                            {{i.name}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="pwd">Pilih Nama Produk:</label>
+            
+            <div class="drick-select-container">
+                <div class="ui icon input parent">
+                    <input class="f-control drick-select__text" class="form-control" [ngClass]="{'active':onProductFocus}" type="text"
+                        formControlName="productName" (keyup)="searchProduct()" (focus)="onProductFocus = true"
+                        (focusout)="onProductBlur()" placeholder="Pilih nama produk">
+                    <i class="drick-select__icon caret down icon"></i>
+                </div>
+                <div class="drick-select-container--toggle" [ngClass]="{'active':onProductFocus}"
+                    id="drick-scroll-container--brand"
+                    (scroll)="onProductScrollDown()">
+                    <ul class="drick-select-list">
+                        <li *ngFor="let p of listProduct" (click)="selectProduct(p)">
+                            {{p.name}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-lg btn-danger" (click)="d('Cross click')">Batal</button>
+        <button class="btn btn-lg btn-success" (click)="save()" (click)="d('Cross click')">Simpan</button>
+    </div>
+    </form>
+</ng-template>
