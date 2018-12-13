@@ -68,6 +68,7 @@ export class Content {
   total: number;
   totalWeight: number;
   useAsuransi: boolean;
+  
 }
 export class Countdown {
   days: number;
@@ -112,8 +113,6 @@ export class cart {
   total: number;
   totalWeight: number;
   useAsuransi: boolean;
-
-
 }
 
 export class Destinations {
@@ -139,5 +138,17 @@ export class CartItems {
   total: number;
   totalWeight: number;
   weightPerItem: number;
+  varians: Varians[];
+}
 
+export class Varians {
+  attributeId: number;
+  masterId: number;
+  name: string;
+  varians: Varian[];
+}
+
+export class Varian {
+  attributeValueId: number;
+  value: string;
 }
