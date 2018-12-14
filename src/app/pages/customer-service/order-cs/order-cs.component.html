@@ -7,7 +7,7 @@
     </div>
     <div [ngClass]="(tabOrder=='230')?'btn-tab__active':'btn-tab__noActive'"  (click)="tab('230')">
         Need Confirmation
-       </div>
+    </div>
     <div  [ngClass]="(tabOrder=='233')?'btn-tab__active':'btn-tab__noActive'"  (click)="tab('233')">
       Harus Kirim
     </div>
@@ -44,7 +44,7 @@
                 <div *ngIf="item.status === 'pembayaran berhasil'">
                     <div  *ngIf="tabOrder === '230' || tabOrder === 'ALL'">
                         <!-- Batas Waktu Respon:  <countdown-timer [end]="item.expiredConfirmationPaymentAdminDate"></countdown-timer> -->
-                        Batas Waktu Respon: {{item.countdown.days}}d - {{item.countdown.hours}}h - {{item.countdown.minutes}}m - {{item.countdown.seconds}}s
+                        <!-- Batas Waktu Respon: {{item.countdown.days}}d - {{item.countdown.hours}}h - {{item.countdown.minutes}}m - {{item.countdown.seconds}}s -->
                     </div>
                 </div>
             </div>
@@ -66,6 +66,11 @@
                   </td>
                   <td valign="top" width="60%">
                       <div class="item-colom"> {{ itemListProduct.name }} x{{ itemListProduct.quantity }}</div>
+                      <div class="item-colom">
+                          <span *ngFor="let varian of itemListProduct.varians; let i = index">
+                            {{varian.varians[0].value}} {{ (i === itemListProduct.varians.length - 1) ? '' : ' - ' }}
+                          </span>
+                      </div>
                       <div class="item-colom">  {{ itemListProduct.subtotal | currency:'Rp ' }}</div>
                   </td>
                 </tr>
@@ -85,21 +90,9 @@
                 Alamat:<br><label> {{ itemList.alamatPenerima }}</label>
 
               </div>
-
-
-              <span class="btn-konfirm" (click)="showDialog = !showDialog" (click)="ok(item.paymentNumber)">
-                  Confirm Transfer
-              </span>
-
-              <span *ngIf="item.statusCode === '233'" class="bAccpet">
-                Status: Accept
-              </span>
-
-              <span *ngIf="item.statusCode === '231'" class="bReject">
-                Status: Reject ({{item.reason}})
-              </span>
         
             </td>
+            
             <td valign="top" width="15%">
               <div class="item-colom">
                 <div class="row">
@@ -144,6 +137,19 @@
             </td>
           </tr>
         </table>
+        <div class="confirm">
+        <span class="btn-konfirm" (click)="showDialog = !showDialog" (click)="ok(item.paymentNumber)">
+            Confirm Transfer
+        </span>
+
+        <span *ngIf="item.statusCode === '233'" class="bAccpet">
+          Status: Accept
+        </span>
+
+        <span *ngIf="item.statusCode === '231'" class="bReject">
+          Status: Reject ({{item.reason}})
+        </span>
+      </div>
       </div>
   </div>
 </div>
