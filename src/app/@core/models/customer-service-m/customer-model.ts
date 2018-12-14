@@ -138,11 +138,8 @@ export class CartItems {
   total: number;
   totalWeight: number;
   weightPerItem: number;
-<<<<<<< HEAD
-=======
   varians: Varians[];
 }
->>>>>>> a1eb5c8fcd0f1dec83315e9c9bc7401bbef1813a
 
 export class Varians {
   attributeId: number;
