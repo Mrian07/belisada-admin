@@ -54,7 +54,7 @@ export class StoreListComponent implements OnInit {
   verifiedByName: any;
   title: any;
   listOfItems: any;
-  loading = true;
+  loading = false;
   currentPage: any;
   lastPage: number;
   // listToko: IsiData[];
@@ -107,6 +107,8 @@ export class StoreListComponent implements OnInit {
 
   loadData() {
     this.getList();
+    this.loading = true;
+    setTimeout(() => this.loading = false, 8000)
   }
 
   rubah(e) {
