@@ -72,7 +72,7 @@ countdown = {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.lastPage) { return false; }
     // tslint:disable-next-line:max-line-length
-    this.router.navigate(['/order/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
+    this.router.navigate(['/order'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }
   openOS(status, transactionId) {

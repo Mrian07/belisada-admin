@@ -230,7 +230,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.listProduct.pageCount) { return false; }
-    this.router.navigate(['/product/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
+    this.router.navigate(['/product'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }
 

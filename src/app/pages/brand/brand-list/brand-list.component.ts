@@ -73,7 +73,7 @@ export class BrandListComponent implements OnInit {
       this.sortUrut = 'DESC';
     }
     this.sortName = 'name';
-    this.router.navigate(['/brand/list'],
+    this.router.navigate(['/brand'],
       { queryParams: {page: this.currentPage, ob: this.sortName, ot: this.sortUrut}, queryParamsHandling: 'merge' });
   }
 
@@ -84,7 +84,7 @@ export class BrandListComponent implements OnInit {
       this.sortUrut = 'DESC';
     }
     this.sortName = 'isActive';
-    this.router.navigate(['/brand/list'],
+    this.router.navigate(['/brand'],
       { queryParams: {page: this.currentPage, ob: this.sortName, ot: this.sortUrut}, queryParamsHandling: 'merge' });
   }
 
@@ -115,7 +115,7 @@ export class BrandListComponent implements OnInit {
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.list.pageCount) { return false; }
-    this.router.navigate(['/brand/list'],
+    this.router.navigate(['/brand'],
       { queryParams: {page: page, ob: this.sortName, ot: this.sortUrut}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }

@@ -18,27 +18,27 @@ import swal from 'sweetalert2';
 })
 export class WithdrawalListComponent implements OnInit {
 
-    // ----- Start date picker declaration required
-    now: Date = new Date();
-    defaultDateFormat: DateFormatEnum = DateFormatEnum.DDMMYYYY_WITH_SLASH;
-  
-    myDatePickerOptions: IMyDpOptions = {
-      // other options... https://github.com/kekeh/mydatepicker#options-attribute
-      dateFormat: this.defaultDateFormat,
-      todayBtnTxt: 'Today',
-      editableDateField: false,
-      firstDayOfWeek: 'mo',
-      sunHighlight: true,
-      inline: false,
-      maxYear: this.now.getFullYear() - 12,
-      minYear: this.now.getFullYear() - 90,
-      disableSince: {
-        year: this.now.getFullYear() - 12,
-        month: this.now.getMonth() + 1,
-        day: this.now.getDate()
-      }
-    };
-    // ----- End date picker declaration required
+  // ----- Start date picker declaration required
+  now: Date = new Date();
+  defaultDateFormat: DateFormatEnum = DateFormatEnum.DDMMYYYY_WITH_SLASH;
+
+  myDatePickerOptions: IMyDpOptions = {
+    // other options... https://github.com/kekeh/mydatepicker#options-attribute
+    dateFormat: this.defaultDateFormat,
+    todayBtnTxt: 'Today',
+    editableDateField: false,
+    firstDayOfWeek: 'mo',
+    sunHighlight: true,
+    inline: false,
+    maxYear: this.now.getFullYear() - 12,
+    minYear: this.now.getFullYear() - 90,
+    disableSince: {
+      year: this.now.getFullYear() - 12,
+      month: this.now.getMonth() + 1,
+      day: this.now.getDate()
+    }
+  };
+  // ----- End date picker declaration required
 
   modalRef: NgbModalRef;
 
@@ -127,10 +127,7 @@ export class WithdrawalListComponent implements OnInit {
             this.pages.push(r);
           }
         }
-
       });
-
-      // this.dataTes(queryParams);
     });
   }
 
@@ -156,13 +153,12 @@ export class WithdrawalListComponent implements OnInit {
     this.createComForm.patchValue({
       withdrawId: id
     });
-
   }
 
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.listItems.totalPages) { return false; }
-    this.router.navigate(['/withdrawal/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
+    this.router.navigate(['/withdrawal'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }
 
@@ -178,12 +174,9 @@ export class WithdrawalListComponent implements OnInit {
   }
 
   cancel(){
-
   }
 
   onSubmit(){
-
-
     swal({
       title: 'Info',
       text: 'Apakah anda ingin melakukan transfer?',
@@ -196,7 +189,6 @@ export class WithdrawalListComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-
         this.flagStatus();
         const data: Transfer = new Transfer();
         data.bankAccountId = this.createComForm.value.bankAccountId;
@@ -206,18 +198,13 @@ export class WithdrawalListComponent implements OnInit {
         data.withdrawId = this.createComForm.value.withdrawId;
         data.news = this.createComForm.value.news;
         this.withdrawalService.transfer(data).subscribe(respon => {
-
           if(respon.status === 1){
             this.isSuccess = true;
           }else{
             this.isError = true;
           }
         });
-
       }
     });
-
-
-    
   }
 }

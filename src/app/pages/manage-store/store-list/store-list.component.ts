@@ -117,7 +117,7 @@ export class StoreListComponent implements OnInit {
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.listToko.pageCount) { return false; }
-    this.router.navigate(['/store/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
+    this.router.navigate(['/store'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }
 
@@ -128,7 +128,7 @@ export class StoreListComponent implements OnInit {
   //   if (page < 1 || page > this.lastPages) {
   //     return false;
   //   }
-  //   this.router.navigate(['/store/list'], {
+  //   this.router.navigate(['/store'], {
   //     queryParams: {
   //       page: page
   //     }

@@ -49,7 +49,7 @@ export class ListingProductComponent implements OnInit {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.dddd) { return false; }
     // tslint:disable-next-line:max-line-length
-    this.router.navigate(['/master-product/listing'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
+    this.router.navigate(['/master-product'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }
   searchK(event) {

@@ -94,7 +94,7 @@ export class SpecListComponent implements OnInit {
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.list.pageCount) { return false; }
-    this.router.navigate(['/spec/list'], { queryParams: {page: page, ob: this.sortName, ot: this.sortUrut}, queryParamsHandling: 'merge' });
+    this.router.navigate(['/spec'], { queryParams: {page: page, ob: this.sortName, ot: this.sortUrut}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }
 
