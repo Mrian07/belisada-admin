@@ -60,7 +60,7 @@ export class BuyerListComponent implements OnInit {
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.buyerPaging.pageCount) { return false; }
-    this.router.navigate(['/buyer/list'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
+    this.router.navigate(['/buyer'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }
 
