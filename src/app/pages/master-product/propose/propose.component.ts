@@ -29,6 +29,10 @@ export class ProposeComponent implements OnInit {
   onBrandFocus: Boolean = false;
   onProductFocus: Boolean = false;
 
+  productName;
+  brand;
+  description;
+
   constructor(
     private mageProd: ManageProductService,
     private activatedRoute: ActivatedRoute,
