@@ -8,6 +8,7 @@ import { throwIfAlreadyLoaded } from './module-import-guard';
 import { DataModule } from './data/data.module';
 import { AnalyticsService } from './utils/analytics.service';
 import { environment } from 'environments/environment';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export class NbSimpleRoleProvider extends NbRoleProvider {
   getRole() {
@@ -37,6 +38,11 @@ export const NB_CORE_PROVIDERS = [
         logout: {
           endpoint: '/account/logout',
           method: 'post'
+        },
+        errors: {
+          getter: (module: string, res: HttpErrorResponse) => {
+            return [res.error.message];
+          }
         }
       })
     ],
