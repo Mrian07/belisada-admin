@@ -39,11 +39,11 @@ export const NB_CORE_PROVIDERS = [
           endpoint: '/account/logout',
           method: 'post'
         },
-        errors: {
-          getter: (module: string, res: HttpErrorResponse) => {
-            return [res.error.message];
-          }
-        }
+        // errors: {
+        //   getter: (module: string, res: HttpErrorResponse) => {
+        //     return [res.error.message];
+        //   }
+        // }
       })
     ],
     forms: {
