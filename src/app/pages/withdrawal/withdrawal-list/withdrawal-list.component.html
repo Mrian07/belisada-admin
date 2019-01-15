@@ -59,6 +59,11 @@
     <div *ngIf="isForm==true">
         <form class="ui form" [formGroup]="createComForm" (ngSubmit)="onSubmit()" novalidate>
             <input class="f-control" formControlName="withdrawId" type="hidden">
+
+            <input class="f-control" formControlName="bankDetail" type="hidden">
+            <input class="f-control" formControlName="invoiceNumber" type="hidden">
+            <input class="f-control" formControlName="storeId" type="hidden">
+
             <div class="modal-body">
                     <div class="popCol">
                         <div class="popCol2">

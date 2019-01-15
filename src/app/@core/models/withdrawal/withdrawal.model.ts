@@ -61,5 +61,9 @@ export class Transfer{
     transferDate: string;
     withdrawId: number;
     status: number;
+    invoiceNumber: string;
+    bankDetail: string;
+    storeId: number;
+
 }
 
