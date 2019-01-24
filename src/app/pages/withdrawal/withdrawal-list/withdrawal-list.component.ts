@@ -86,6 +86,10 @@ export class WithdrawalListComponent implements OnInit {
 
   private formData() {
     this.createComForm = this.fb.group({
+      bankDetail: ['', [Validators.required]],
+      invoiceNumber: ['', [Validators.required]],
+      storeId: ['', [Validators.required]],
+
       bankAccountId: ['', [Validators.required]],
       withdrawId: ['', [Validators.required]],
       // accountNumber: ['', [Validators.required]],
@@ -142,17 +146,27 @@ export class WithdrawalListComponent implements OnInit {
     this.modalRef = this.modalService.open(content, options);
     this.listInvoice = item.invoiceNumber;
     const id =  item.withdrawId;
+
+    const invoiceNumber =  item.invoiceNumber;
+    const storeId =  item.storeId;
+
     this.withdrawalService.getDetail(id).subscribe(respon => {
       this.accountName = respon.data.accountName;
       this.accountNumberDetail = respon.data.accountNumberDetail;
       this.grandTotal = respon.data.grandTotal;
-      console.log('withdrawId', respon.data.withdrawId);
-      console.log('ini', respon);
+
+      this.createComForm.patchValue({
+        bankDetail: this.accountNumberDetail,
+      });
+
     });
 
     this.createComForm.patchValue({
-      withdrawId: id
+      withdrawId: id,
+      invoiceNumber: invoiceNumber,
+      storeId: storeId
     });
+    
   }
 
   setPage(page: number, increment?: number) {
@@ -191,6 +205,12 @@ export class WithdrawalListComponent implements OnInit {
       if (result.value) {
         this.flagStatus();
         const data: Transfer = new Transfer();
+
+        data.bankDetail = this.createComForm.value.bankDetail;
+        data.invoiceNumber = this.createComForm.value.invoiceNumber;
+        data.storeId = this.createComForm.value.storeId;
+
+
         data.bankAccountId = this.createComForm.value.bankAccountId;
         data.nominal = this.createComForm.value.nominal;
         data.transferDate = this.createComForm.value.transferDate.formatted;
