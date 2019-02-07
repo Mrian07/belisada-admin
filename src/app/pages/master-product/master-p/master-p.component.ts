@@ -312,7 +312,7 @@ export class MasterPComponent implements OnInit {
       categoryThreeId: ['', [Validators.required]],
       classification: [''],
       couriers: [[]],
-      description: ['', [Validators.required]],
+      description: [''],
       guaranteeTime: [''],
       imageUrl: [[], [Validators.required]],
       pricelist: [''],
@@ -693,10 +693,10 @@ validateAllFormFields(formGroup: FormGroup) {
 
     this.submitted = true;
     const imageUrl = this.addProductForm.get('imageUrl').value;
-    if (imageUrl.length < 2 || imageUrl.length > 5) {
+    if (imageUrl.length < 1 || imageUrl.length > 5) {
       swal(
         'Warning',
-        'Maaf gambar produk tidak boleh kurang dari dua atau lebih dari lima',
+        'Maaf gambar produk tidak boleh kurang dari satu atau lebih dari lima',
         'warning'
       );
       return;
@@ -713,7 +713,7 @@ validateAllFormFields(formGroup: FormGroup) {
             return;
           }
           swal(response.message);
-          this.router.navigate(['/master-product/listing']);
+          this.router.navigate(['/master-product']);
         });
       } else {
         this.ProdService.postData( this.addProductForm.value).subscribe(response => {
@@ -722,7 +722,7 @@ validateAllFormFields(formGroup: FormGroup) {
             return;
           }
           swal(response.message);
-          this.router.navigate(['/master-product/listing']);
+          this.router.navigate(['/master-product']);
         });
       }
     } else {
