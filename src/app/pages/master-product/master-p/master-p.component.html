@@ -6,7 +6,7 @@
     <nb-card-body>    
             <form [formGroup]="addProductForm">
             <h2 class="test">Gambar Produk</h2>
-            <p>Minimal gambar 2 dan maksimal gambar produk 5</p>
+            <p>Minimal gambar 1 dan maksimal gambar produk 5</p>
             <div class="add-product-form-wrapper">
                 <ul class="add_product_image clearfix" id="image-list">
                     <li class="u-inline-list-gap" *ngFor="let item of f.imageUrl.value; let i = index">
@@ -142,9 +142,9 @@
                 <label class="col-3 middle">Deskripsi</label>
                 <div class="col-9">
                     <textarea formControlName="description" placeholder="Deskripsi" class="f-control form-control" rows="4"></textarea>
-                    <div class ="validator" *ngIf="(submitted || f.description.touched) && f.description.invalid">
+                    <!-- <div class ="validator" *ngIf="(submitted || f.description.touched) && f.description.invalid">
                         <span>Deskripsi tidak boleh kosong</span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="row f-group">
