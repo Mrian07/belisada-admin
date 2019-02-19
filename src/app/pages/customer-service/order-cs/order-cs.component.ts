@@ -154,7 +154,36 @@ countdown = {
     this.orderSe.paymentSucceful(a).subscribe( bb => {
       swal(
         bb.message,
-      )
+      );
+
+      const queryParams = {
+        itemperpage: 10,
+        page: 1,
+        status_order: '230',
+      };
+
+      this.orderSe.getList(queryParams).subscribe(respon => {
+        const b =  respon.content.filter(x => x.expiredConfirmationPaymentAdminDate !== '');
+
+        this.bLength = b.length;
+        this.listOrder = respon.content;
+          b.forEach((x) => {
+            console.log('x: ', x);
+            countdown(x.expiredConfirmationPaymentAdminDate, (countdown) => {
+            // this.listOrder.find(i => i.paymentNumber === x.paymentNumber).countdown = countdown;
+              this.countdown = countdown;
+            });
+          });
+        console.log('asdasd', this.listOrder)
+        this.lastPage = respon.totalPages;
+
+        this.pages = [];
+        for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
+          if (r > 0 && r <= this.lastPage) {
+            this.pages.push(r);
+          }
+        }
+      });
     })
   }
 }
