@@ -155,6 +155,7 @@ countdown = {
       swal(
         bb.message,
       )
+      this.tab(this._status);
     })
   }
 }
