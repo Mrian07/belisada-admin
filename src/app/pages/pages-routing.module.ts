@@ -45,7 +45,7 @@ const routes: Routes = [{
     //   loadChildren: './customer-service/customer.module#CsModule',
     // },
     {
-      path: 'order',
+      path: 'orders',
       loadChildren: './orders/orders.module#OrdersModule',
     },
     {

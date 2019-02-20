@@ -1,23 +1,40 @@
 <nb-card>
     <nb-card-body>
 
-        <div class="tabs tabs-style-linemove">
+        <div class="tabs">
             <nav>
                 <ul>
-                    <li class="tab-current"><a [routerLink]="['/order']" [queryParams]="{q:'asdf'}"
-                    routerLinkActive="router-link-active"><span>Semua</span></a></li>
-                    <li><a (click)="tab('ALL')"><span>Belum Bayar</span></a></li>
-                    <li><a (click)="tab('ALL')"><span>Need Confirmation</span></a></li>
-                    <li><a (click)="tab('ALL')"><span>Harus Kirim</span></a></li>
-                    <li><a (click)="tab('ALL')"><span>Pembatalan</span></a></li>
+                    <li class="tab-current">
+                        <a [routerLink]="['/orders']" [queryParams]="{status:'ALL'}"><span>Semua</span></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/orders']" [queryParams]="{status:'228'}"><span>Belum Bayar</span></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/orders']" [queryParams]="{status:'230'}"><span>Need Confirmation</span></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/orders']" [queryParams]="{status:'233'}"><span>Harus Kirim</span></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/orders']" [queryParams]="{status:'229'}"><span>Pembatalan</span></a>
+                    </li>
                 </ul>
             </nav>
             <div class="content-wrap">
-                <section id="section-linemove-1"><p>1</p></section>
-                <section id="section-linemove-2"><p>2</p></section>
-                <section id="section-linemove-3"><p>3</p></section>
-                <section id="section-linemove-4"><p>4</p></section>
-                <section id="section-linemove-5"><p>5</p></section>
+                <section class="content-current">
+                    <accordion>
+                        <group *ngFor="let item of listOrder" [data]="item">
+                            <div  *ngFor="let itemCart of item.transaction">
+                                <div class="row" *ngFor="let itemList of itemCart.cart">
+                                    <div class="col-sm-3">
+                                        ORDER ID: {{ itemList.orderNumber }}
+                                    </div>
+                                </div>
+                            </div>
+                        </group>
+                    </accordion>
+                </section>
             </div><!-- /content -->
         </div><!-- /tabs -->
 
