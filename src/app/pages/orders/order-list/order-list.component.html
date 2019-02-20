@@ -1,0 +1,49 @@
+<nb-card>
+    <nb-card-body>
+
+        <div class="tabs">
+            <nav>
+                <ul>
+                    <li class="tab-current">
+                        <a [routerLink]="['/orders']" [queryParams]="{status:'ALL'}"><span>Semua</span></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/orders']" [queryParams]="{status:'228'}"><span>Belum Bayar</span></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/orders']" [queryParams]="{status:'230'}"><span>Need Confirmation</span></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/orders']" [queryParams]="{status:'233'}"><span>Harus Kirim</span></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/orders']" [queryParams]="{status:'229'}"><span>Pembatalan</span></a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="content-wrap">
+                <section class="content-current">
+                    <accordion>
+                        <group *ngFor="let item of listOrder" [data]="item">
+                            <div  *ngFor="let itemCart of item.transaction">
+                                <div class="row" *ngFor="let itemList of itemCart.cart">
+                                    <div class="col-sm-3">
+                                        ORDER ID: {{ itemList.orderNumber }}
+                                    </div>
+                                </div>
+                            </div>
+                        </group>
+                    </accordion>
+                </section>
+            </div><!-- /content -->
+        </div><!-- /tabs -->
+
+    </nb-card-body>
+</nb-card>
+
+
+<!-- <nb-card>
+    <nb-card-body>
+        <nb-route-tabset (changeTab)="onChangeTab($event)" [tabs]="tabs" fullWidth></nb-route-tabset>
+    </nb-card-body>
+</nb-card> -->

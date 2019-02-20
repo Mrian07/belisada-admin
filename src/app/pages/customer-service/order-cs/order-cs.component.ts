@@ -50,7 +50,7 @@ countdown = {
     private router: Router,
     private activatedRoute: ActivatedRoute,
   ) {
-    this.imagenich = 'http://image.belisada.id:8888/unsafe/100x100/center/filters:fill(fff)/';
+    this.imagenich = 'https://image.belisada.id/unsafe/100x100/center/filters:fill(fff)/';
     this.tabOrder = 'ALL';
     this.codeNum = 1211;
   }
@@ -155,6 +155,7 @@ countdown = {
       swal(
         bb.message,
       )
+      this.tab(this._status);
     })
   }
 }
