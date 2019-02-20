@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderSeService } from 'app/@core/services/order-service/order-se.service';
-import { Content } from 'app/@core/models/customer-service-m/customer-model';
+import { Content, GetDataTranscationList } from 'app/@core/models/customer-service-m/customer-model';
 import { countdown } from 'madrick-countdown-timer';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -17,9 +17,12 @@ export class OrderListComponent implements OnInit {
     { id: 1003, label: 'Gibuti', lat: 11, lng: 44}
   ];
 
+  public loading = false;
   public listOrder: Content[];
 
   public thumborUrl: String;
+
+  statusOrder:string;
 
   public currentStatus: string;
 
@@ -27,6 +30,7 @@ export class OrderListComponent implements OnInit {
   public lastPage: number;
   public currentPage: number;
 
+  getDataTranscation: GetDataTranscationList = new GetDataTranscationList();
   public countdown = {
     days: 0,
     hours: 0,
@@ -43,6 +47,7 @@ export class OrderListComponent implements OnInit {
     private _activatedRoute: ActivatedRoute
   ) {
     this.thumborUrl = 'https://image.belisada.id/unsafe/100x100/center/filters:fill(fff)/';
+    this.statusOrder = 'ALL';
   }
 
   ngOnInit() {
@@ -55,15 +60,15 @@ export class OrderListComponent implements OnInit {
 
   getOrderList(page, itemperpage, status) {
     this.currentPage = page;
-
+    this.statusOrder = status;
     const queryParams = {
       page: page,
       itemperpage: itemperpage,
       status_order: status,
     };
+    this.loading = true;
     this._orderService.getList(queryParams).subscribe(respon => {
       const expiredDates =  respon.content.filter(x => x.expiredConfirmationPaymentAdminDate !== '');
-
       this.listOrder = respon.content;
       expiredDates.forEach((x) => {
         console.log('x: ', x);
@@ -72,7 +77,7 @@ export class OrderListComponent implements OnInit {
           this.countdown = countdown;
         });
       });
-
+      this.loading = false;
       console.log('this.listOrder: ', this.listOrder);
       this.lastPage = respon.totalPages;
 
@@ -83,6 +88,19 @@ export class OrderListComponent implements OnInit {
         }
       }
     });
+  }
+
+  ok(e) {
+    const queryParams = {
+      payment_number: e,
+    }
+    this._orderService.getTransaction(queryParams).subscribe( aa => {
+      this.getDataTranscation = aa.data;
+      console.log( this.getDataTranscation);
+    })
+    // const data = this.listOrder.find(x => x.paymentNumber === e);
+    // this.aaaaaaaaa = data;
+    // console.log(this.aaaaaaaaa);
   }
 
   setPage(page: number, increment?: number) {

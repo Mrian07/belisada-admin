@@ -115,3 +115,177 @@
 	min-width: 15%;
 	display: inline-block;
 }
+
+.order-id{
+    font-size: 1.1rem;
+	font-weight: bold;
+	padding: 2rem;
+	color: rgb(160, 158, 158);
+}
+
+.img-item{
+    // background: #ebebeb;
+	text-align: center;
+	padding: 2rem;
+	top:0;
+	
+	img{
+		height: 13rem;
+	}
+}
+
+.item-colom{
+    margin-bottom: 1rem;
+    padding: 1rem;
+    font-size: 1rem;
+    text-align: left;
+    padding-right: 5rem;
+}
+
+.item-colom-border{
+    border:1px solid #ebebeb;
+    margin-bottom:5px;
+    padding: 5px;
+    font-size: 12px;
+    border-radius:5px;
+}
+
+.btn-konfirm{
+    background: #fca500;
+	padding: 10px;
+    border-radius: 5px;
+    color: #ffffff;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 12px;
+}
+
+.btn-konfirm:hover{
+    background: #f9b025;
+}
+
+.button{
+	padding-top: 8rem;
+}
+
+.ongkir {
+	font-size: 1.4rem;
+	color: rgb(139, 139, 139);
+	padding-top: 1rem;
+}
+
+.bAccpet{
+	// background: #15af2a;
+	// color:#ffffff;
+	padding:9px;
+	font-size: 12px;
+	border-radius: 5px;
+	border:1px solid #15af2a;
+}
+
+.bReject{
+	// background: #c94613;
+	// color:#ffffff;
+	padding:9px;
+	font-size: 12px;
+	border-radius: 5px;
+	border:1px solid #c94613;
+}
+
+.btn-tab__active{
+	color: #5dcfe3;
+	text-decoration: none;
+}
+
+.btn-tab__noActive{
+	color:black;
+	text-decoration: none;
+
+	:hover{
+		color: #5dcfe3;
+	}
+}
+
+.body--on__popuP{
+	display: grid;
+	grid-template-columns: 50% 50%;
+	
+	.text-payment__id{
+	color: black;
+	}
+}
+
+.text--align_center {
+	text-align: center;
+}
+
+.second__line--on-body{
+	display: grid;
+	grid-template-columns: 30% 40%;
+}
+
+.seconds__line--on-body {
+	display: grid;
+	grid-template-columns: 30% 40% 30%;
+}
+
+.three__line--on-body{
+	display: grid;
+	grid-template-columns: 100%;
+}
+
+.fourth__line--on-body {
+	display: grid;
+	grid-template-columns: 30% 20% 50%;
+	padding-bottom: 3%;
+	
+	.color-Order__id {
+	color: #5093d8;
+	}
+}
+
+.five__line--on-body {
+	display: grid;
+	grid-template-columns: 30% 40% 30%;
+}
+
+.six__line--on-body {
+	display: grid;
+	grid-template-columns: 50% 50%;
+}
+
+.text-color__black {
+	color: black;
+}
+
+.text__total-belanja {
+	text-align: right;
+	display: block;
+	color: red;
+}
+
+.text__nominal_tf {
+	text-align: right;
+	display: block;
+	color: green;
+}
+
+.text__block {
+	display: block;
+}
+
+.d__for--button {
+	text-align: center;
+}
+
+.btn--width {
+	margin-top: 3%;
+	&.btn__color-red {
+		width: 60%;
+		background-color: red;
+	}
+	&.btn__color-green {
+		width: 40%;
+		background-color: green;
+	}
+}
