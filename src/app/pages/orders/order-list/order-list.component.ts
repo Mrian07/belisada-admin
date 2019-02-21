@@ -3,6 +3,7 @@ import { OrderSeService } from 'app/@core/services/order-service/order-se.servic
 import { Content, GetDataTranscationList } from 'app/@core/models/customer-service-m/customer-model';
 import { countdown } from 'madrick-countdown-timer';
 import { Router, ActivatedRoute } from '@angular/router';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-order-list',
@@ -29,7 +30,9 @@ export class OrderListComponent implements OnInit {
   public pages: any[] = [];
   public lastPage: number;
   public currentPage: number;
-
+  showDialog: boolean;
+  codeNum: number;
+  getListing: any;
   getDataTranscation: GetDataTranscationList = new GetDataTranscationList();
   public countdown = {
     days: 0,
@@ -48,6 +51,7 @@ export class OrderListComponent implements OnInit {
   ) {
     this.thumborUrl = 'https://image.belisada.id/unsafe/100x100/center/filters:fill(fff)/';
     this.statusOrder = 'ALL';
+    this.codeNum = 1211;
   }
 
   ngOnInit() {
@@ -56,6 +60,10 @@ export class OrderListComponent implements OnInit {
       this.currentStatus = (queryParam.status) ? queryParam.status : 'ALL';
       this.getOrderList(this.currentPage, 10, this.currentStatus);
     });
+    this._orderService.getStatusReasson().subscribe(ress => {
+      this.getListing = ress;
+      console.log('datanya:', ress);
+    })
   }
 
   getOrderList(page, itemperpage, status) {
@@ -103,11 +111,41 @@ export class OrderListComponent implements OnInit {
     // console.log(this.aaaaaaaaa);
   }
 
+  gakmasu(e) {
+    const iniKirim = {
+      paymentNumber: e,
+      reasonType: this.codeNum,
+    }
+    this.loading = true;
+    this._orderService.paymentFailed(iniKirim).subscribe( bb => {
+      console.log(bb.message);
+      swal(
+        bb.message,
+      )
+    })
+    this.loading = false;
+    this.showDialog = false;
+    console.log(iniKirim);
+  }
+  confrimButton(e) {
+    const a = {
+      paymentNumber: e,
+    }
+    this._orderService.paymentSucceful(a).subscribe( bb => {
+      swal(
+        bb.message,
+      )
+      this.getOrderList(this.currentPage, 10, this.currentStatus);
+    })
+    this.loading = true;
+    this.showDialog = false;
+  }
+
   setPage(page: number, increment?: number) {
     if (increment) { page = +page + increment; }
     if (page < 1 || page > this.lastPage) { return false; }
-
-    this._router.navigate(['/order'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
+    // tslint:disable-next-line:max-line-length
+    this._router.navigate(['/orders'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
   }
 }

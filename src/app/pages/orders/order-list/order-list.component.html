@@ -1,4 +1,4 @@
-<nb-card [nbSpinner]="loading" nbSpinnerStatus="warning">
+<nb-card class="card">
     <nb-card-body>
 
         <div class="tabs">
@@ -21,7 +21,7 @@
                     </li>
                 </ul>
             </nav>
-            <div class="content-wrap">
+            <div class="content-wrap" [nbSpinner]="loading" nbSpinnerStatus="warning">
                 <section class="content-current">
                     <accordion>
                         <group *ngFor="let item of listOrder" [data]="item">
@@ -81,7 +81,7 @@
                                                         <span *ngIf="item.statusCode === '229'" class="bReject">
                                                             Status: Reject (-{{item.reason}}-)
                                                         </span>&nbsp;&nbsp;
-                                                        <span class="btn-konfirm">Hubungi Seller</span>
+                                                        <span class="btn-contact">Hubungi Seller</span>
                                                     </div>
                                                 </div>
                                             </td>
@@ -97,7 +97,25 @@
 
     </nb-card-body>
 </nb-card>
-
+<div class="paging">
+        <ul>
+            <li>
+                <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
+            </li>
+            <li>
+                <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
+            </li>
+            <li *ngFor="let p of pages">
+                <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
+            </li>
+            <li>
+                <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+            </li>
+            <li>
+                <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+            </li>
+        </ul>
+</div>
 
 <!-- <nb-card>
     <nb-card-body>
@@ -156,7 +174,7 @@
             </div>
             <hr>
             <div class="five__line--on-body">
-                <div  >
+                <div>
                     <select  class="form-control"  [(ngModel)]="codeNum">
                         <option value="codeNum" disabled selected></option>
                         <option *ngFor="let option of getListing" [ngValue]="option.statusCode" selected="option.status == 'back'">
