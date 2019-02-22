@@ -41,7 +41,7 @@ import {
 import { NbSecurityModule } from '@nebular/security';
 
 import {
-  HeaderComponent,
+  HeaderComponent, AccordionGroupComponent, AccordionComponent,
 } from './components';
 
 import {
@@ -94,7 +94,9 @@ const NB_MODULES = [
 const COMPONENTS = [
   HeaderComponent,
   MainLayoutComponent,
-  ModalMPComponent
+  ModalMPComponent,
+  AccordionGroupComponent,
+  AccordionComponent
 ];
 
 const DIRECTIVES = [
