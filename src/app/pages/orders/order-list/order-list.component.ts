@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderSeService } from 'app/@core/services/order-service/order-se.service';
-import { Content, GetDataTranscationList } from 'app/@core/models/customer-service-m/customer-model';
+import { Content, GetDataTranscationList, Count } from 'app/@core/models/customer-service-m/customer-model';
 import { countdown } from 'madrick-countdown-timer';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
@@ -17,6 +17,8 @@ export class OrderListComponent implements OnInit {
     { id: 1002, label: 'Copenaghen', lat: 56, lng: 14},
     { id: 1003, label: 'Gibuti', lat: 11, lng: 44}
   ];
+
+  count: Count = new Count();
 
   public loading = false;
   public listOrder: Content[];
@@ -59,6 +61,7 @@ export class OrderListComponent implements OnInit {
       this.currentPage = (queryParam.page) ? queryParam.page : 1;
       this.currentStatus = (queryParam.status) ? queryParam.status : 'ALL';
       this.getOrderList(this.currentPage, 10, this.currentStatus);
+      this.countOrder();
     });
     this._orderService.getStatusReasson().subscribe(ress => {
       this.getListing = ress;
@@ -95,6 +98,13 @@ export class OrderListComponent implements OnInit {
           this.pages.push(r);
         }
       }
+    });
+  }
+
+  countOrder() {
+    this._orderService.getCount().subscribe(response => {
+      this.count = response;
+      console.log('count:', response);
     });
   }
 
@@ -136,6 +146,7 @@ export class OrderListComponent implements OnInit {
         bb.message,
       )
       this.getOrderList(this.currentPage, 10, this.currentStatus);
+      this.countOrder();
     })
     this.loading = true;
     this.showDialog = false;

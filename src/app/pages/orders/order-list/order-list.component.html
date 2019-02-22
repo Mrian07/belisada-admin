@@ -4,20 +4,25 @@
         <div class="tabs">
             <nav>
                 <ul>
-                    <li class="tab-current">
+                    <li>
                         <a [routerLink]="['/orders']" [ngClass]="(statusOrder=='ALL')?'btn-tab__active':'btn-tab__noActive'" [queryParams]="{status:'ALL'}"><span>Semua</span></a>
+                        <nb-badge text="{{ count.all }}" status="success" position="top right"></nb-badge>
                     </li>
                     <li>
                         <a [routerLink]="['/orders']" [ngClass]="(statusOrder=='228')?'btn-tab__active':'btn-tab__noActive'" [queryParams]="{status:'228'}"><span>Belum Bayar</span></a>
+                        <nb-badge text="{{ count['228'] }}" status="success" position="top right"></nb-badge>
                     </li>
                     <li>
                         <a [routerLink]="['/orders']" [ngClass]="(statusOrder=='230')?'btn-tab__active':'btn-tab__noActive'" [queryParams]="{status:'230'}"><span>Need Confirmation</span></a>
+                        <nb-badge text="{{ count['230'] }}" status="success" position="top right"></nb-badge>
                     </li>
                     <li>
                         <a [routerLink]="['/orders']" [ngClass]="(statusOrder=='233')?'btn-tab__active':'btn-tab__noActive'" [queryParams]="{status:'233'}"><span>Harus Kirim</span></a>
+                        <nb-badge text="{{ count['233'] }}" status="success" position="top right"></nb-badge>
                     </li>
                     <li>
                         <a [routerLink]="['/orders']" [ngClass]="(statusOrder=='229')?'btn-tab__active':'btn-tab__noActive'" [queryParams]="{status:'229'}"><span>Pembatalan</span></a>
+                        <nb-badge text="{{ count['229'] }}" status="success" position="top right"></nb-badge>
                     </li>
                 </ul>
             </nav>

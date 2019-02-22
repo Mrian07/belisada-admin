@@ -1,4 +1,4 @@
-import { Transaction, GetDataTransacition, Messa } from './../../models/customer-service-m/customer-model';
+import { Transaction, GetDataTransacition, Messa, Count } from './../../models/customer-service-m/customer-model';
 import { Configuration } from './../../config/configuration';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -48,4 +48,13 @@ export class OrderSeService {
         map(res => res as Messa)
       );
   }
+  getCount(): Observable<Count>  {
+    return this.http.get(this.configuration.apiURL + '/order/count')
+      .pipe(
+        map(resp => resp as Count)
+      );
+  }
+  // getCount() {
+  //   return this.http.get(this.configuration.apiURL + '/status/reason');
+  // }
 }
