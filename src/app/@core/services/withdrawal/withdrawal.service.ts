@@ -40,7 +40,7 @@ export class WithdrawalService {
   }
 
   transfer(data): Observable<Transfer> {
-    return this.http.post(this.configuration.apiURL + '//withdrawal/confirmation/transfer', data)
+    return this.http.post(this.configuration.apiURL + '/withdrawal/confirmation/transfer', data)
     .pipe(
         map(resp => resp as Transfer)
     );
