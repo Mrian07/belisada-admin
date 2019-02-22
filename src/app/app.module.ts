@@ -3,7 +3,14 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
 import { AppComponent } from './app.component';
+import { MessagingService } from './shared/messaging.service';
+import { environment } from '../environments/environment';
+import { AsyncPipe } from '../../node_modules/@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ThemeModule } from './@theme/theme.module';
 import { APP_BASE_HREF, LocationStrategy, PathLocationStrategy } from '@angular/common';
@@ -28,7 +35,12 @@ import { CountdownTimerModule } from 'ngx-countdown-timer';
 
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
-    CoreModule.forRoot()
+    CoreModule.forRoot(),
+
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebase),
   ],
   bootstrap: [AppComponent],
   providers: [
@@ -43,6 +55,9 @@ import { CountdownTimerModule } from 'ngx-countdown-timer';
       multi: true
     },
     { provide: APP_BASE_HREF, useValue: '/' },
+
+    MessagingService, 
+    AsyncPipe
   ],
 })
 export class AppModule { }
