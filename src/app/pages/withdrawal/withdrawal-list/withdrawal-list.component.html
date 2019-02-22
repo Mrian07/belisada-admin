@@ -3,7 +3,7 @@
         Pencairan Dana
     </nb-card-header>
 
-    <nb-card-body>
+    <nb-card-body [nbSpinner]="loading" nbSpinnerStatus="warning">
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -26,6 +26,7 @@
                 </tr>
             </tbody>
         </table>
+        <!-- <div class="spin" *ngIf="loading == true"></div> -->
         <div class="paging">
             <ul>
                 <li>
@@ -51,7 +52,7 @@
 
 <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h4 class="modal-title">{{titlePopUp}}</h4>
+        <h4 class="modal-title">Form Pencairan Dana</h4>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
         </button>
@@ -125,21 +126,21 @@
             </div>
         </form>
     </div>
-    <div *ngIf="isSuccess==true">
+    <!-- <div *ngIf="isSuccess==true">
         <div class="modal-body">
             Withdrawal berhasil diproses.
         </div>
         <div class="modal-footer">
             <button class="btn btn-sm btn-danger btn-click close" (click)="d('Cross click')">TUTUP</button>
         </div>
-    </div>
-    <div *ngIf="isError==true">
+    </div> -->
+    <!-- <div *ngIf="isError==true">
         <div class="modal-body">
             Withdrawal gagal diproses!
         </div>
         <div class="modal-footer">
             <button class="btn btn-sm btn-danger btn-click close" (click)="d('Cross click')">TUTUP</button>
         </div>
-    </div>
+    </div> -->
     
 </ng-template>

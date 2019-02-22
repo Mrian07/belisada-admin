@@ -17,7 +17,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./withdrawal-list.component.scss']
 })
 export class WithdrawalListComponent implements OnInit {
-
+  public loading = false;
   // ----- Start date picker declaration required
   now: Date = new Date();
   defaultDateFormat: DateFormatEnum = DateFormatEnum.DDMMYYYY_WITH_SLASH;
@@ -62,6 +62,7 @@ export class WithdrawalListComponent implements OnInit {
   isError: boolean;
   
   listInvoice: any[];
+  
   constructor(
     private modalService: NgbModal,
     private activatedRoute: ActivatedRoute,
@@ -108,6 +109,7 @@ export class WithdrawalListComponent implements OnInit {
   }
 
   loadData(){
+    this.loading = true;
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
       if (this.keyName === undefined ){
@@ -131,6 +133,8 @@ export class WithdrawalListComponent implements OnInit {
             this.pages.push(r);
           }
         }
+
+        this.loading = false;
       });
     });
   }
@@ -191,6 +195,8 @@ export class WithdrawalListComponent implements OnInit {
   }
 
   onSubmit(){
+    this.modalService.dismissAll();
+
     swal({
       title: 'Info',
       text: 'Apakah anda ingin melakukan transfer?',
@@ -219,9 +225,17 @@ export class WithdrawalListComponent implements OnInit {
         data.news = this.createComForm.value.news;
         this.withdrawalService.transfer(data).subscribe(respon => {
           if(respon.status === 1){
-            this.isSuccess = true;
+          //  this.isSuccess = true;
+          swal(
+            "Withdrawal berhasil diproses.",
+          )
+            this.list = [];
+            this.loadData();
           }else{
-            this.isError = true;
+            swal(
+              "Withdrawal gagal diproses!.",
+            )
+            // this.isError = true;
           }
         });
       }
