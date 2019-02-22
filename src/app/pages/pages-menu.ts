@@ -55,9 +55,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
-    title: 'Order',
+    title: 'Orders',
     icon: 'nb-roller-shades',
-    link: '/order'
+    link: '/orders'
   },
   {
     title: 'Product',

@@ -49,20 +49,21 @@
     text-align: center;
 }
 
- .agrements {
-     display: block;
-     font-size: 14px;
-     color: #c1bbbb;
- }
- .paddingclass {
+.agrements {
+  display: block;
+  font-size: 14px;
+  color: #c1bbbb;
+}
+.paddingclass {
     padding-bottom: 10px;
- }
- .syarat-and-ketentuan {
-     color: #087CD1;
-     text-decoration: underline;
-     font-weight: bold;
- }
- .modal-body {
+}
+.syarat-and-ketentuan {
+  color: #087CD1;
+  text-decoration: underline;
+  font-weight: bold;
+}
+.modal-body {
     max-height: calc(120vh - 210px);
     overflow-y: auto;
+    z-index: -1;
 }

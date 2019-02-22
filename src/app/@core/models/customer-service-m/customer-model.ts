@@ -152,3 +152,11 @@ export class Varian {
   attributeValueId: number;
   value: string;
 }
+
+export class Count {
+  all: number;
+  233: number;
+  228: number;
+  229: number;
+  230: number;
+}
