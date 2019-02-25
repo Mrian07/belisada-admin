@@ -5,7 +5,7 @@ import { MessagingService } from "./shared/messaging.service";
 
 @Component({
   selector: 'bs-app',
-  template: '<router-outlet></router-outlet>',
+  template:`<router-outlet></router-outlet>`,
 })
 export class AppComponent implements OnInit {
   message;
