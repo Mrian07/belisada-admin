@@ -93,12 +93,20 @@ export class BrandListComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
       this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
+
+      if(this.sortName === undefined){
+        this.sortName = "name";
+      } 
+
+      if(this.sortUrut === undefined){
+        this.sortUrut = "asc";
+      } 
+
       const queryParams = {
         page: this.currentPage,
         itemperpage: 10,
         ob: this.sortName,
         ot: this.sortUrut,
-        all: true,
       };
       this.brandService.getList(queryParams).subscribe(response => {
         this.list = response;

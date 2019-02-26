@@ -1,6 +1,6 @@
 <nb-card>
     <nb-card-header>
-        Pencairan Dana
+        List Withdrawal
     </nb-card-header>
 
     <nb-card-body [nbSpinner]="loading" nbSpinnerStatus="warning">
@@ -16,7 +16,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of list">
-                    <td>{{item.expiredProcessDate}}</td>
+                    <td>{{item.createDate}}</td>
                     <td>{{item.storeName}}</td>
                     <td>Rp.{{item.grandTotal | number}}</td>
                     <td>{{item.status}}</td>
