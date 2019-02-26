@@ -9,7 +9,7 @@ import { WithdrawalService } from '../../../@core/services/withdrawal/withdrawal
   styleUrls: ['./withdrawal-history.component.scss']
 })
 export class WithdrawalHistoryComponent implements OnInit {
-
+  public loading = false;
   list: Content[];
 
   pages: any = [];
@@ -29,6 +29,7 @@ export class WithdrawalHistoryComponent implements OnInit {
   }
 
   loadData(){
+    this.loading = true;
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.pages = [];
       if (this.keyName === undefined ){
@@ -52,7 +53,7 @@ export class WithdrawalHistoryComponent implements OnInit {
             this.pages.push(r);
           }
         }
-
+        this.loading = false;
       });
 
       // this.dataTes(queryParams);
