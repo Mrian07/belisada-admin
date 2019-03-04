@@ -17,7 +17,10 @@ import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from 
         <div class="col-sm-3">
             <div>Payment: <span>{{ data.paymentMethod }}</span></div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-3">
+            <div>Sumber Dana: <span>{{ data.bankAccount }}</span></div>
+        </div>
+        <div class="col-sm-3">
             <div class="text-right"><span>{{ data.status }}</span></div>
         </div>
       </div>
