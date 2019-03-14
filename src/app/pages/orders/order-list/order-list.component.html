@@ -157,12 +157,14 @@
                 <div> {{ getDataTranscation.accountNumber }} </div>
             </div>
             <hr>
-            <div class="second__line--on-body">
+            <div class="seconds__line--on-body">
                 <div class="text-color__black"> Pembeli</div>
                 <div class="text-color__black">Berita</div>
+                <div class="text-color__black">No Referensi</div>
                 <div> {{ getDataTranscation.buyerName }} </div>
                 <div *ngIf="getDataTranscation.news === '';else JikaAdaNews"> belum ada data</div>
-                <ng-template #JikaAdaNews> {{getDataTranscation.news }}</ng-template>
+                <div> {{ getDataTranscation.refNo }} </div>
+                <ng-template #JikaAdaNews> {{ getDataTranscation.news }}</ng-template>
             </div>
             <hr>
             <div class="three__line--on-body">
