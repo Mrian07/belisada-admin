@@ -33,7 +33,7 @@ export class OrderListComponent implements OnInit {
   public lastPage: number;
   public currentPage: number;
   showDialog: boolean;
-  codeNum: number;
+  codeNum: any;
   getListing: any;
   getDataTranscation: GetDataTranscationList = new GetDataTranscationList();
   public countdown = {
@@ -53,7 +53,7 @@ export class OrderListComponent implements OnInit {
   ) {
     this.thumborUrl = 'https://image.belisada.id/unsafe/100x100/center/filters:fill(fff)/';
     this.statusOrder = 'ALL';
-    this.codeNum = 1211;
+    this.codeNum = '';
   }
 
   ngOnInit() {
