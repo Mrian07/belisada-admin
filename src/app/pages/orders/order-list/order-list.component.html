@@ -77,7 +77,7 @@
                                             </td>
                                             <td valign="top" width="15%">
                                                 <div class="ongkir">
-                                                    <b>Biaya Pengiriman: </b><br><label>Rp.&nbsp;{{itemList.courierPrice | number}}</label>
+                                                    <b>Biaya Pengiriman: </b><br><label>Rp. {{itemList.courierPrice | number}}</label>
                                                     <div class="button">
                                                         <div class="btn-konfirm" *ngIf="item.statusCode === '230'" (click)="showDialog = !showDialog" (click)="ok(item.paymentNumber)">Confirm Transfer</div>
                                                         <div *ngIf="item.statusCode === '233'" class="bAccpet">
@@ -163,8 +163,8 @@
                 <div class="text-color__black">No Referensi</div>
                 <div> {{ getDataTranscation.buyerName }} </div>
                 <div *ngIf="getDataTranscation.news === '';else JikaAdaNews"> belum ada data</div>
-                <div> {{ getDataTranscation.refNo }} </div>
                 <ng-template #JikaAdaNews> {{ getDataTranscation.news }}</ng-template>
+                <div> {{ getDataTranscation.refNo }} </div>
             </div>
             <hr>
             <div class="three__line--on-body">
@@ -178,7 +178,9 @@
             <div class="fourth__line--on-body" *ngFor="let item of getDataTranscation.orders">
                 <div class="color-Order__id">Order ID #{{ item.orderNumber  }}</div>
                 <div> Toko : {{ item.storeName }} </div>
-                <div>{{ item.total | currency:'Rp. ' }}</div>
+                <div *ngIf="getDataTranscation.totalAsuransi == '0';else Asuransi">Asuransi: TIDAK</div>
+                <ng-template #Asuransi> Asuransi: YA </ng-template>
+                <div>Rp. {{ item.total + getDataTranscation.totalAsuransi | number }}</div>
             </div>
             <hr>
             <div class="five__line--on-body">
@@ -195,8 +197,8 @@
                     <span class="text__nominal_tf">Nominal Transfer </span>
                 </div>
                 <div>
-                    <span class="text__block"> : {{ getDataTranscation.grandTotal | currency:'Rp. ' }}</span>
-                    <span > : {{ getDataTranscation.nominal | currency:'Rp. ' }}</span>
+                    <span class="text__block"> : Rp. {{ getDataTranscation.grandTotal | number }}</span>
+                    <span > : Rp. {{ getDataTranscation.nominal | number }}</span>
                 </div>
             </div>
             <div class="six__line--on-body" *ngIf="getDataTranscation.status === 'menunggu konfirmasi pembayaran'">
