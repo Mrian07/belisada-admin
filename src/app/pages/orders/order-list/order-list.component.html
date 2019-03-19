@@ -180,7 +180,7 @@
                 <div> Toko : {{ item.storeName }} </div>
                 <div *ngIf="getDataTranscation.totalAsuransi == '0';else Asuransi">Asuransi: TIDAK</div>
                 <ng-template #Asuransi> Asuransi: YA </ng-template>
-                <div>Rp. {{ item.total + getDataTranscation.totalAsuransi | number }}</div>
+                <div>Rp. {{ item.total | number }}</div>
             </div>
             <hr>
             <div class="five__line--on-body">
