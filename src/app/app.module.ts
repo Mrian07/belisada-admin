@@ -21,9 +21,12 @@ import { HttpTokenInterceptor } from './@core/services/interceptors/http.token.i
 
 import { CountdownTimerModule } from 'ngx-countdown-timer';
 
+import { ChatComponent } from './pages/chat/chat.component';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

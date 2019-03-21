@@ -6,6 +6,8 @@
 export const environment = {
   production: true,
   apiUrl: 'https://air.belisada.co.id/belisada-admin',
+  chatUrl: 'https://chat0.belisada.id',
+  socketUrl: 'https://chat0-websock.belisada.id',
   firebase: {
     apiKey: 'AIzaSyDHdXsPrLfNpCMKbdrLSsL2r3XD8MB6Hbs',
     authDomain: 'belisada-id.firebaseapp.com',
