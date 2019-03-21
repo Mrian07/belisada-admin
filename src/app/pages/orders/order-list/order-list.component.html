@@ -30,7 +30,7 @@
                 <section class="content-current">
                     <accordion>
                         <group *ngFor="let item of listOrder" [data]="item">
-                            <div  *ngFor="let itemCart of item.transaction">
+                            <div *ngFor="let itemCart of item.transaction" [ngClass]="{'itemCartScroll': itemCart.cart.length>=2}">
                                 <div class="row" *ngFor="let itemList of itemCart.cart">
                                     <table border="0" width="100%">
                                         <tr>
