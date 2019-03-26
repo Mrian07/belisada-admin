@@ -65,29 +65,27 @@
                                     <td>{{obj.verifiedByName}}</td>
                                 </tr>
                                 <tr *ngIf="rowSelected==obj.storeId">
-                                    <td></td>
-                                    <td colspan="4">
+                                    <td colspan="12">
                                         <table class="table">
                                             <tbody>
                                                 <tr>
-                                                    <td style="width:15%;">Alamat Toko</td>
+                                                    <td style="width:20%;">Alamat Toko</td>
                                                     <td>{{ listDetailToko.address }}</td>
                                                     <td>No Handphone</td>
                                                     <td>{{ listDetailToko.phone }}</td>
         
                                                 </tr>
                                                 <tr>
-                                                    <td style="width:15%;">Provinsi</td>
+                                                    <td style="width:20%;">Provinsi</td>
                                                     <td>{{ listDetailToko.regionName }}</td>
                                                     <td>Email</td>
                                                     <td>{{ listDetailToko.email }}</td>
         
                                                 </tr>
                                                 <tr>
-                                                    <td style="width:15%;">Kota / Kabupaten</td>
+                                                    <td style="width:20%;">Kota / Kabupaten</td>
                                                     <td>{{ listDetailToko.cityName }}</td>
-                                                    <td>
-        
+                                                    <td style="padding-left: 10rem;">
                                                         <div class="styled-select yellow rounded">
                                                             <select name="city" [(ngModel)]="city" #selectedCategory (change)="Selected(city)" [ngModelOptions]="{standalone: true}" class="input-style-text-100">
                                                                 <option disabled selected>{{ city }}</option>
@@ -96,22 +94,24 @@
                                                                 </option>
                                                             </select>
                                                         </div>
-        
                                                     </td>
                                                     <td>
-                                                        <button class="button-hide-borderB" (click)="getValueFromSelect()" [disabled]="checkIfButtonWasPressed === false"><img class="small-image-for-save" src="assets/images/save_1.png"> Save</button>
+                                                        <div *ngIf="select === 'RJ' || select === 'RV' ">
+                                                            <textarea rows="4" cols="50" [formControl]="descripReject" placeholder="Explaination"></textarea>
+                                                        </div>
+                                                        <div class="save">
+                                                            <button *ngIf="select === 'RJ' || select === 'RV' " class="btn button-save" (click)="getValueFromSelect()" [disabled]="checkIfButtonWasPressed === false"><i class="fas fa-save"></i>&nbsp;Save</button>
+                                                            <button *ngIf="select === 'NA' || select === 'AP' "class="btn button-save" (click)="getValueFromSelec()" [disabled]="checkIfButtonWasPressed === false"><i class="fas fa-save"></i>&nbsp;Save</button>
+                                                            <button *ngIf="select === undefined" class="btn button-save" [disabled]="checkIfButtonWasPressed === false"><i class="fas fa-save"></i>&nbsp;Save</button>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width:15%;">Kecamatan</td>
+                                                    <td style="width:20%;">Kecamatan</td>
                                                     <td>{{listDetailToko.districtName}}</td>
-                                                    <div *ngIf="select === 'RJ' || select === 'RV' ">
-        
-                                                        <textarea rows="4" cols="50" [formControl]="descripReject" placeholder="Explenation"></textarea>
-                                                    </div>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width:15%;">Postal Code</td>
+                                                    <td style="width:20%;">Postal Code</td>
                                                     <td>{{ listDetailToko.postal }}</td>
                                                 </tr>
                                             </tbody>
