@@ -43,7 +43,7 @@ export class WithdrawalListComponent implements OnInit {
   modalRef: NgbModalRef;
 
   list: Content[];
-  listBank: Bank[]
+  listBank: Bank[];
   pages: any = [];
   currentPage: any;
   lastPage: number;
