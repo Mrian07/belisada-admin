@@ -80,10 +80,10 @@
                                                     <b>Biaya Pengiriman: </b><br><label>Rp. {{itemList.courierPrice | number}}</label>
                                                     <div class="button">
                                                         <div class="btn-konfirm" *ngIf="item.statusCode === '230'" (click)="showDialog = !showDialog" (click)="ok(item.paymentNumber)">Confirm Transfer</div>
-                                                        <div *ngIf="item.statusCode === '233'" class="bAccpet">
+                                                        <div *ngIf="item.statusCode === '233'" class="bAccpet" (click)="showPaymentDialog = !showPaymentDialog" (click)="ok(item.paymentNumber)">
                                                             Status: Accept
                                                         </div>
-                                                        <div *ngIf="item.statusCode === '229'" class="bReject">
+                                                        <div *ngIf="item.statusCode === '229'" class="bReject" (click)="showPaymentDialog = !showPaymentDialog" (click)="ok(item.paymentNumber)">
                                                             Status: Reject (-{{item.reason}}-)
                                                         </div>&nbsp;&nbsp;
                                                         
@@ -207,6 +207,83 @@
                 </div>
                 <div class="d__for--button">
                     <button class="btn btn--width btn__color-green" (click)="confrimButton(getDataTranscation.paymentNumber)">Konfirmasi</button>
+                </div>
+            </div>
+    </div>
+        
+<!-- <ng-template #xxasd>Please login to continue.</ng-template> -->
+        
+</modal-mp>
+
+<modal-mp maxwidth="920" [(visible)]="showPaymentDialog" class="frameDialog">
+    <div style="
+            min-height: 10rem;
+            max-height: 33rem;
+            display: block;
+            overflow: auto;
+        ">
+            <div class="body--on__popuP">
+                <div class="text-payment__id">Payment ID</div>
+                <div class="text--align_center text-payment__id">Tanggal Transfer</div>
+                <div>{{ getDataTranscation.paymentNumber }}</div>
+                <div *ngIf="getDataTranscation.transerDate === '';else JikadAdaTanggalTf" class="text--align_center"> Belum Ada Data</div>
+                <ng-template #JikadAdaTanggalTf >
+                    <div class="text--align_center"> {{getDataTranscation.transerDate }}</div>
+                </ng-template>
+                <!-- <div class="text--align_center"> {{ getDataTranscation.transerDate  }}</div> -->
+            </div>
+            <hr>
+            <div class="seconds__line--on-body">
+                <div class="text-color__black"> Bank Transfer</div>
+                <div class="text-color__black">Pemilik Rekening</div>
+                <div class="text-color__black"> No rekening</div>
+                <div> {{ getDataTranscation.transferFrom }}</div>
+                <div> {{ getDataTranscation.accountName }} </div>
+                <div> {{ getDataTranscation.accountNumber }} </div>
+            </div>
+            <hr>
+            <div class="seconds__line--on-body">
+                <div class="text-color__black"> Pembeli</div>
+                <div class="text-color__black">Berita</div>
+                <div class="text-color__black">No Referensi</div>
+                <div> {{ getDataTranscation.buyerName }} </div>
+                <div *ngIf="getDataTranscation.news === '';else JikaAdaNews"> belum ada data</div>
+                <ng-template #JikaAdaNews> {{ getDataTranscation.news }}</ng-template>
+                <div> {{ getDataTranscation.refNo }} </div>
+            </div>
+            <hr>
+            <div class="three__line--on-body">
+                <div class="text-color__black">Order date</div>
+            </div>
+            <div class="three__line--on-body">
+                <div *ngIf="getDataTranscation.createdOrder === '';else JikadaAdaOrderDate"> belum ada data</div>
+                <ng-template #JikadaAdaOrderDate> {{getDataTranscation.createdOrder }}</ng-template>
+            </div>
+            <hr>
+            <div class="fourth__line--on-body" *ngFor="let item of getDataTranscation.orders">
+                <div class="color-Order__id">Order ID #{{ item.orderNumber  }}</div>
+                <div> Toko : {{ item.storeName }} </div>
+                <div *ngIf="getDataTranscation.totalAsuransi == '0';else Asuransi">Asuransi: TIDAK</div>
+                <ng-template #Asuransi> Asuransi: YA </ng-template>
+                <div>Rp. {{ item.total | number }}</div>
+            </div>
+            <hr>
+            <div class="seconds__line--on-body">
+                <div>
+                    <span class="text__total-belanja">Total Belanja </span>
+                    <span class="text__nominal_tf">Nominal Transfer </span>
+                </div>
+                <div>
+                    <span class="text__block"> : Rp. {{ getDataTranscation.grandTotal | number }}</span>
+                    <span > : Rp. {{ getDataTranscation.nominal | number }}</span>
+                </div>
+                <div>
+                    <div *ngIf="getDataTranscation.status === 'pembayaran berhasil'" class="bAccpet" >
+                        ACCEPTED
+                    </div>
+                    <div *ngIf="getDataTranscation.status === 'transaksi dibatalkan'" class="bReject">
+                        REJECTED
+                    </div>
                 </div>
             </div>
     </div>

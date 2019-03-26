@@ -262,12 +262,16 @@
 	padding:9px;
 	font-size: 12px;
 	border-radius: 5px;
-	border:1px solid #15af2a;
 	background-color: #15af2a;
 	color: #fff;
 	width: 130px;
 	text-align: center;
 	font-weight: bold;
+	cursor: pointer;
+}
+
+.bAccpet:hover{
+	background-color: #35b847;
 }
 
 .bReject{
@@ -276,12 +280,16 @@
 	padding:9px;
 	font-size: 12px;
 	border-radius: 5px;
-	border:1px solid #c94613;
 	background-color: #c94613;
 	color: #fff;
 	width: 130px;
 	text-align: center;
 	font-weight: bold;
+	cursor: pointer;
+}
+
+.bReject:hover{
+	background-color: rgb(250, 138, 94);
 }
 
 .btn-tab__active{
@@ -313,7 +321,8 @@
 
 .second__line--on-body{
 	display: grid;
-	grid-template-columns: 30% 40%;
+	grid-template-columns: 30% 40% 30%;
+	padding-bottom: 3rem;
 }
 
 .seconds__line--on-body {
@@ -328,7 +337,7 @@
 
 .fourth__line--on-body {
 	display: grid;
-	grid-template-columns: 30% 20% 20% 50%;
+	grid-template-columns: 30% 20% 20% 30%;
 	padding-bottom: 3%;
 	
 	.color-Order__id {
@@ -351,13 +360,13 @@
 }
 
 .text__total-belanja {
-	text-align: right;
+	// text-align: right;
 	display: block;
 	color: red;
 }
 
 .text__nominal_tf {
-	text-align: right;
+	// text-align: right;
 	display: block;
 	color: green;
 }
