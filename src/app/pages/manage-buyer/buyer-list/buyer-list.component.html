@@ -30,7 +30,10 @@
                 <ng-template #please>
                     <ng-container *ngFor="let item of buyerPaging.data | searchPipe:'name':search | searchPipe:'email':emailAddress | searchPipe:'dateOfJoin':dateJoin | searchPipe:'gender':gender">
                         <tr (click)="openCloseRow(item.userId)">
-                            <td>{{ item.name }}</td>
+                            <td>
+                                <span><img src="{{ item.imageAvatarUrl }}" class="img-avatar" /></span>
+                                <span>{{ item.name }}</span>
+                            </td>
                             <td>{{ item.email }}</td>
                             <td>{{ item.dateOfJoin }}</td>
                             <td>{{ item.gender }}</td>

@@ -35,3 +35,45 @@
     color: #ccc;
     cursor: default;
 }
+
+.btn-detail{
+    background: #c6c6c6;
+    padding: 10px;
+    text-align: center;
+    color:#000000;
+    cursor: pointer;
+}
+
+.btn-detail:hover{
+    background:#e2dede;
+}
+
+.popCol{
+    display: grid;
+    grid-template-columns: 70% 30%;
+    // padding-top: 6rem;
+    font-size: 1rem;
+    padding: 1rem;
+}
+
+.popCol2{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.popCol2-sub{
+    margin-right:100px;
+}
+
+.labField{
+    border: 1px solid #acacac;
+    background: #dbdbdb;
+    padding: 10px;
+    width:80%;
+    margin-bottom:10px;
+}
+
+.listInvoice{
+    border-bottom:1px solid #000000;
+    margin-bottom:8px;
+}

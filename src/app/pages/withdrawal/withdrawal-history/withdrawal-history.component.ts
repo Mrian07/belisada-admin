@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Withdrawal, Content, Bank, Transfer } from '../../../@core/models/withdrawal/withdrawal.model';
 import { WithdrawalService } from '../../../@core/services/withdrawal/withdrawal.service';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
+import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'withdrawal-history',
@@ -17,8 +19,14 @@ export class WithdrawalHistoryComponent implements OnInit {
   lastPage: number;
   keyName: any;
   listItems: Withdrawal = new Withdrawal();
+  modalRef: NgbModalRef;
+  listInvoice: any[];
+  accountName: string;
+  accountNumberDetail: string;
+  grandTotal: number;
 
   constructor(
+    private modalService: NgbModal,
     private activatedRoute: ActivatedRoute,
     private withdrawalService: WithdrawalService,
     private router: Router,
@@ -65,6 +73,28 @@ export class WithdrawalHistoryComponent implements OnInit {
     if (page < 1 || page > this.listItems.totalPages) { return false; }
     this.router.navigate(['/withdrawal/history'], { queryParams: {page: page}, queryParamsHandling: 'merge' });
     window.scrollTo(0, 0);
+  }
+
+  popDetail(content,item) {
+    const options: NgbModalOptions = {
+      size: 'lg',
+      windowClass: 'modal-xxl' 
+    };
+
+    this.modalRef = this.modalService.open(content, options);
+    this.listInvoice = item.invoiceNumber;
+    const id =  item.withdrawId;
+
+    const invoiceNumber =  item.invoiceNumber;
+    const storeId =  item.storeId;
+
+    this.withdrawalService.getDetail(id).subscribe(respon => {
+      this.accountName = respon.data.accountName;
+      this.accountNumberDetail = respon.data.accountNumberDetail;
+      this.grandTotal = respon.data.grandTotal;
+    });
+
+    
   }
 
 }

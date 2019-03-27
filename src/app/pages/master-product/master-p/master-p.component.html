@@ -47,9 +47,7 @@
                                 (focusout)="onBrandBlur()" placeholder="Select one">
                             <i class="drick-select__icon caret down icon"></i>
                         </div>
-                        <div class="drick-select-container--toggle" [ngClass]="{'active':onBrandFocus}"
-                            id="drick-scroll-container--brand"
-                            (scroll)="onBrandScrollDown()">
+                        <div class="drick-select-container--toggle" [ngClass]="{'active':onBrandFocus}">
                             <ul class="drick-select-list">
                                 <li *ngFor="let i of brandList.data" (click)="selectBrand(i)">
                                     {{i.name}}

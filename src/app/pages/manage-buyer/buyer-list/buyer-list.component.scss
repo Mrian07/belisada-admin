@@ -46,3 +46,16 @@
     background:#fbfbfb;
 }
 
+.img-avatar {
+    display: block;
+    float: left;
+    margin: 4px 10px 0 0;
+    width: 37px;
+    height: 35px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background: no-repeat center;
+    background-size: contain;
+    object-fit: cover;
+}
+
