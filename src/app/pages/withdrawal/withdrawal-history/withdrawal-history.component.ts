@@ -19,6 +19,7 @@ export class WithdrawalHistoryComponent implements OnInit {
   lastPage: number;
   keyName: any;
   listItems: Withdrawal = new Withdrawal();
+  transfer: Transfer = new Transfer();
   modalRef: NgbModalRef;
   listInvoice: any[];
   accountName: string;

@@ -20,6 +20,10 @@ const routes: Routes = [{
       loadChildren: './profile/profile.module#ProfileModule',
 
     },
+    // {
+    //   path: 'event',
+    //   loadChildren: './manage-event/manage-event.module#ManageEventModule',
+    // },
     {
       path: 'brand',
       loadChildren: './brand/brand.module#BrandModule',

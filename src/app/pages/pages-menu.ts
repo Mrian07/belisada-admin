@@ -11,6 +11,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'FEATURES',
     group: true,
   },
+  // {
+  //   title: 'Event',
+  //   icon: 'nb-layout-default',
+  //   link: '/event'
+  // },
   {
     title: 'Brand',
     icon: 'nb-grid-a-outline',
