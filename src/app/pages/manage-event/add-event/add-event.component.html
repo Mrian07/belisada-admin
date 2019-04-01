@@ -36,10 +36,12 @@
                     <table>
                         <tr>
                             <td>
-                                <my-date-picker name="mydate" class="frame-date" formControlName="joinStartDate"></my-date-picker>
+                                <input class="f-control form-control" [nbDatepicker]="joinstart" formControlName="joinStartDate" placeholder="start">
+                                <nb-datepicker #joinstart format="MM\dd\yyyy"></nb-datepicker>
                             </td>
                             <td>
-                                <my-date-picker name="mydate" class="frame-date" formControlName="joinEndDate"></my-date-picker>
+                                <input class="f-control form-control" [nbDatepicker]="joinend" formControlName="joinEndDate" placeholder="end">
+                                <nb-datepicker #joinend format="MM\dd\yyyy"></nb-datepicker>
                             </td>
                         </tr>
                     </table>
@@ -51,10 +53,12 @@
                     <table>
                         <tr>
                             <td>
-                                <my-date-picker name="mydate" class="frame-date" formControlName="showStartDate"></my-date-picker>
+                                <input class="f-control form-control" [nbDatepicker]="showstart" formControlName="showStartDate" placeholder="start">
+                                <nb-datepicker #showstart format="MM\dd\yyyy"></nb-datepicker>
                             </td>
                             <td>
-                                <my-date-picker name="mydate" class="frame-date" formControlName="showEndDate"></my-date-picker>
+                                <input class="f-control form-control" [nbDatepicker]="showend" formControlName="showEndDate" placeholder="end">
+                                <nb-datepicker #showend format="MM\dd\yyyy"></nb-datepicker>
                             </td>
                         </tr>
                     </table>
@@ -66,10 +70,12 @@
                     <table>
                         <tr>
                             <td>
-                                <my-date-picker name="mydate" class="frame-date" formControlName="eventStartDate"></my-date-picker>
+                                <input class="f-control form-control" [nbDatepicker]="eventstart" formControlName="eventStartDate" placeholder="start">
+                                <nb-datepicker #eventstart format="MM\dd\yyyy"></nb-datepicker>
                             </td>
                             <td>
-                                <my-date-picker name="mydate" class="frame-date" formControlName="eventEndDate"></my-date-picker>
+                                <input class="f-control form-control" [nbDatepicker]="eventend" formControlName="eventEndDate" placeholder="end">
+                                <nb-datepicker #eventend format="MM\dd\yyyy"></nb-datepicker>
                             </td>
                         </tr>
                     </table>
@@ -78,6 +84,12 @@
 
             <div class="row f-group">
                 <label class="col-2 middle">Product</label>
+            </div>
+
+            <div class="row f-group">
+                <div class="col-2 middle">
+                    <button type="button" class="btn btn-success customz--button" style="cursor:pointer;" (click)="popAdd(content)">Add Product</button>
+                </div>
             </div>
 
             <div class="row f-group">
@@ -100,9 +112,18 @@
                                     <div>4/64 GB</div>
                                     <div>8/128 GB</div>
                                 </td>
-                                <td>500</td>
-                                <td>Rp. 8.000.000</td>
-                                <td>Rp. 12.000.000</td>
+                                <td>
+                                    <div>250</div>
+                                    <div>250</div>
+                                </td>
+                                <td>
+                                    <div>Rp. 8.000.000</div>
+                                    <div>Rp. 8.000.000</div>
+                                </td>
+                                <td>
+                                    <div>Rp. 12.000.000</div>
+                                    <div>Rp. 12.000.000</div>
+                                </td>
                                 <td>
                                     <div class="action">
                                         <div></div>
@@ -119,9 +140,18 @@
                                     <div>8/64 GB</div>
                                     <div>6/128 GB</div>
                                 </td>
-                                <td>200</td>
-                                <td>Rp. 5.000.000</td>
-                                <td>Rp. 10.000.000</td>
+                                <td>
+                                    <div>300</div>
+                                    <div>300</div>
+                                </td>
+                                <td>
+                                    <div>Rp. 5.000.000</div>
+                                    <div>Rp. 5.000.000</div>
+                                </td>
+                                <td>
+                                    <div>Rp. 10.000.000</div>
+                                    <div>Rp. 10.000.000</div>
+                                </td>
                                 <td>
                                     <div class="action">
                                         <div></div>
@@ -137,31 +167,83 @@
                 </div>
             </div>
 
-            <div class="row f-group">
-                <div class="col-12">
-                    <button type="button" class="btn btn-success customz--button" (click)="popAdd(content)">Add Product</button>
-                </div>
-            </div>
-
             <ng-template #content let-c="close" let-d="dismiss">
                     <div class="modal-header">
                         <h4 class="modal-title">Add Product</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <table class="table table-bordered table-striped">
                             <tr>
                                 <td></td>
                                 <td>
-                                    <input class="form-control" placeholder="Search Name" (keyup)="searchK($event)">
+                                    <input class="form-control" placeholder="Search Product" (keyup)="searchK($event)">
                                 </td>
                             </tr>
-                
-                            <tr *ngFor="let obj of lisitingProd" (click)="openLg(content, obj.productId)">
+
+                            <!-- <tr *ngFor="let obj of lisitingProd" (click)="openCloseRow(obj.productId)">
                                 <td> <img class="item__cusotmese__image" src="{{obj.imageUrl[0]}}"></td>
                                 <td class="td__cusotmese__image">
                                     <p> {{ obj.name }}</p>
                                 </td>
+                            </tr> -->
+                            <tr (click)="openCloseRow()">
+                                <td> <img class="item__cusotmese__image" src="https://image.coolblue.nl/max/2048x1536/products/1104118"></td>
+                                <td class="td__cusotmese__image">
+                                    <p> Samsung Note 9</p>
+                                </td>
                             </tr>
-                        </table>
+                
+                            <tr *ngIf="rowSelected==true">
+                                    <td colspan="12">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Variant</th>
+                                                    <th>Quantity</th>
+                                                    <th>Price Min.</th>
+                                                    <th>Price Max.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox"> 8/64GB
+                                                        <!-- <div *ngFor="let it of item.services">
+                                                            <div *ngIf="it.isUse==true">
+                                                                <input type="checkbox" checked (click)="check(it.courierId, it.courierServiceId)"> {{it.name}} 
+                                                            </div> -->
+                                                            <!-- <div *ngIf="it.isUse==false"> -->
+                                                                <!-- <input type="checkbox" (click)="check(it.courierId, it.courierServiceId)"> {{it.name}} -->
+                                                            <!-- </div>
+                                                        </div>--> 
+                                                    </td>
+                                                    <td><input class="form-control"></td>
+                                                    <td><input class="form-control"></td>
+                                                    <td><input class="form-control"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox"> 6/128GB
+                                                        <!-- <div *ngFor="let it of item.services">
+                                                            <div *ngIf="it.isUse==true">
+                                                                <input type="checkbox" checked (click)="check(it.courierId, it.courierServiceId)"> {{it.name}} 
+                                                            </div> -->
+                                                            <!-- <div *ngIf="it.isUse==false"> -->
+                                                                <!-- <input type="checkbox" (click)="check(it.courierId, it.courierServiceId)"> {{it.name}} -->
+                                                            <!-- </div>
+                                                        </div> -->
+                                                    </td>
+                                                    <td><input class="form-control"></td>
+                                                    <td><input class="form-control"></td>
+                                                    <td><input class="form-control"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                        </table> 
             </ng-template>
         </form>
     </nb-card-body>

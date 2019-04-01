@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../@theme/theme.module';
 import { AddEventComponent } from './add-event/add-event.component';
 import { MyDatePickerModule } from 'mydatepicker';
+import { NbDatepickerModule } from '@nebular/theme';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -17,6 +19,7 @@ import { MyDatePickerModule } from 'mydatepicker';
         ThemeModule,
         ReactiveFormsModule,
         MyDatePickerModule,
+        NbDatepickerModule,
         // DropdownButtonsComponent
     ],
     declarations: [ManageEventComponent, EventListComponent, AddEventComponent]
