@@ -52,6 +52,7 @@ export class Detail{
     accountName: string;
     accountNumberDetail: string;
     withdrawId: number;
+    invoiceNumber: any;
 }
 
 export class Transfer{

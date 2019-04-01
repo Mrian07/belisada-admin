@@ -1,0 +1,120 @@
+<nb-card>
+    <nb-card-header>
+        <span style="font-size: 2rem;">
+            Event
+        </span>
+        <a [routerLink]="['/event/add']">
+            <span style="font-size:2rem; float: right;">
+                <button ngbButtonLabel class="btn btn-danger btn-tn" style="cursor:pointer;"><i class="fa fa-plus"></i>&nbsp;Tambah Event Baru</button>
+            </span>
+        </a>
+    </nb-card-header>
+
+    <nb-card-body>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Added Date &nbsp;<i class="fa fa-calendar"></i></th>
+                    <!-- <th *ngIf="registerDateSorting === false; else sortingDate" (click)="funcSortDateArray()">Added Date <i class="fa fa-calendar"></i></th> -->
+                    <!-- <ng-template #sortingDate>
+                        <th (click)="funcSortDateArrayBenar()">Added Date <i class="fa fa-calendar"></i></th>
+                    </ng-template> -->
+                    <th>Nama Event &nbsp;<i class="fa fa-align-center"></i></th>
+                    <!-- <th *ngIf="checkSort === false; else sortingNmToko" (click)="funcSortArray()">Nama Event <i class="fa fa-undo"></i></th> -->
+                    <!-- <ng-template #sortingNmEvent>
+                        <th (click)="functionArrayBenar()">Nama Event <i class="fa fa-undo"></i></th>
+                    </ng-template> -->
+                    <th>Event Date &nbsp;<i class="fa fa-calendar" style="color:rgb(255, 58, 58);"></i></th>
+                    <!-- <th *ngIf="namaPemilikSorting === false; else sortingNamaPemilik" (click)="funcNamaPemilikArray()">Event Date <i class="fa fa-undo"></i></th> -->
+                    <!-- <ng-template #sortingNamaPemilik>
+                        <th (click)="funcSortNamaPemilikBenar()">Event Date <i class="fa fa-undo"></i></th>
+                    </ng-template> -->
+                    <th>Quantity&nbsp;<i class="fa fa-align-justify"></i></th>
+                    <th>ACTION&nbsp;<i class="fa fa-angle-double-right"></i></th>
+                    <!-- <th (click)="approvedBy()">ACTION<i class="fa fa-user"></i></th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input class="form-control" placeholder="Search Added Date" [(ngModel)]="search"></td>
+                    <td><input class="form-control" placeholder="Search Event Name" [(ngModel)]="emailAddress"></td>
+                    <td><input class="form-control" placeholder="Search Event Date" [(ngModel)]="dateJoin"></td>
+                    <td><input class="form-control" placeholder="Search Quantity" [(ngModel)]="gender"></td>
+                    <td></td>
+                </tr>
+                <!-- <div *ngIf="title; else please">
+                    The user is logged in.
+                </div> -->
+                <!-- <ng-template #please> -->
+                <!-- <ng-template> -->
+                    <!-- <ng-container *ngFor="let item of buyerPaging.data | searchPipe:'name':search | searchPipe:'email':emailAddress | searchPipe:'dateOfJoin':dateJoin | searchPipe:'gender':gender"> -->
+                    <!-- <ng-container> -->
+                        <!-- <tr (click)="openCloseRow(item.userId)"> -->
+                        <tr>
+                            <td>22 - 05 -2018</td>
+                            <td>Samsung Launch Day</td>
+                            <td>23-25 april 2019</td>
+                            <td>1200 Unit</td>
+                            <td>
+                                <div class="action">
+                                    <div>
+                                        <label class="lbl-active"></label>
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-edit" style="float:right; cursor:pointer;"></i>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- <tr *ngIf="rowSelected==item.userId">
+                            <td colspan="6">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <th>Photo</th>
+                                            <th>Info Detail</th>
+                                        </tr>
+                                        <tr>
+                                            <td><img src="/assets/images/kristy.png" border="0" width="150"></td>
+                                            <td>Tanggal Daftar: {{ item.dateOfJoin }}<br>
+                                                Nama: {{ item.name }}<br>
+                                                Email: {{ item.email }}<br>
+                                                Tanggal Lahir: {{ item.dateOfBirth }}<br>
+                                                Jenis Kelamin: {{ item.gender }}<br>
+                                                Handphone: {{ item.phone }}<br>
+                                                Alamat: {{ item.primaryAddress }}<br>
+                                                Suspenden: {{ item.isSuspended }}<br>
+                                            </td>
+                                        </tr>
+                                    </tbody>    
+                                </table>        
+                                
+                            </td>
+                        </tr> -->
+                    <!-- </ng-container>
+                </ng-template> -->
+            </tbody>
+        </table>
+
+        <div class="paging">
+            <ul>
+                <li>
+                    <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
+                </li>
+                <li>
+                    <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
+                </li>
+                <li *ngFor="let p of pages">
+                    <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
+                </li>
+                <li>
+                    <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+                </li>
+                <li>
+                    <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+                </li>
+            </ul>
+        </div>
+    </nb-card-body>
+</nb-card>

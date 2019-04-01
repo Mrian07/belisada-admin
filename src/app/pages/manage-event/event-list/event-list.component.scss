@@ -1,0 +1,97 @@
+th{
+    text-align: center;
+}
+
+.paging ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+.paging li {
+    display: inline-block;
+}
+.paging a {
+    border: 1px solid #ebeef2;
+    padding: 3px 10px;
+    margin: 0 3px;
+    border-radius: 5px;
+}
+.paging a.current-page {
+    border: 1px solid #cde;
+    background: #def;
+    color: #999;
+    cursor: default;
+}
+.paging a:not(.disabled):not(.current-page):hover {
+    color: #abc;
+    cursor: pointer;
+    border-color: #cde;
+}
+.paging a.disabled {
+    color: #ccc;
+    cursor: default;
+}
+
+
+.table-bordered thead tr th{
+    border:1px solid #ebeef2;
+    font-family: Exo;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #2a2a2a;
+}
+
+.table-bordered tbody tr td{
+    border:1px solid #ebeef2;
+}
+
+.table-bordered tbody tr:hover{
+    background:#fbfbfb;
+}
+
+.img-avatar {
+    display: block;
+    float: left;
+    margin: 4px 10px 0 0;
+    width: 37px;
+    height: 35px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background: no-repeat center;
+    background-size: contain;
+    object-fit: cover;
+}
+
+.lbl-active {
+    position: relative;
+    display: block;
+    height: 20px;
+    width: 44px;
+    background: #4a9b0f  !important;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.lbl-active:after {
+    position: absolute;
+    left: 18px;
+    top: -3px;
+    display: block;
+    width: 26px;
+    height: 26px;
+    border-radius: 100px;
+    background: #fff;
+    box-shadow: 0px 3px 3px rgba(0,0,0,0.05);
+    content: '';
+    transition: all 0.3s ease;
+}
+
+.action{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-gap: 5px;
+    text-align: center;
+    float: center;
+}
