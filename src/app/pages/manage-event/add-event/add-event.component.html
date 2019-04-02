@@ -1,7 +1,7 @@
 <h1 style="font-sixe:2rem; float: center;">Create Event</h1>
 <nb-card>
     <nb-card-body>    
-            <form [formGroup]="addEventForm">
+            <form [formGroup]="addEventForm" (ngSubmit)="onSubmit()">
             <!-- <div class="add-product-form-wrapper">
                 <ul class="add_product_image clearfix" id="image-list">
                     <li class="u-inline-list-gap" *ngFor="let item of f.imageUrl.value; let i = index">
@@ -167,7 +167,7 @@
                 </div>
             </div>
 
-            <ng-template #content let-c="close" let-d="dismiss">
+            <!-- <ng-template #content let-c="close" let-d="dismiss">
                     <div class="modal-header">
                         <h4 class="modal-title">Add Product</h4>
                         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -187,7 +187,7 @@
                                 <td class="td__cusotmese__image">
                                     <p> {{ obj.name }}</p>
                                 </td>
-                            </tr> -->
+                            </tr> 
                             <tr (click)="openCloseRow()">
                                 <td> <img class="item__cusotmese__image" src="https://image.coolblue.nl/max/2048x1536/products/1104118"></td>
                                 <td class="td__cusotmese__image">
@@ -217,7 +217,7 @@
                                                             <!-- <div *ngIf="it.isUse==false"> -->
                                                                 <!-- <input type="checkbox" (click)="check(it.courierId, it.courierServiceId)"> {{it.name}} -->
                                                             <!-- </div>
-                                                        </div>--> 
+                                                        </div>
                                                     </td>
                                                     <td><input class="form-control"></td>
                                                     <td><input class="form-control"></td>
@@ -233,7 +233,7 @@
                                                             <!-- <div *ngIf="it.isUse==false"> -->
                                                                 <!-- <input type="checkbox" (click)="check(it.courierId, it.courierServiceId)"> {{it.name}} -->
                                                             <!-- </div>
-                                                        </div> -->
+                                                        </div> 
                                                     </td>
                                                     <td><input class="form-control"></td>
                                                     <td><input class="form-control"></td>
@@ -244,7 +244,7 @@
                                     </td>
                                 </tr>
                         </table> 
-            </ng-template>
+            </ng-template> -->
         </form>
     </nb-card-body>
     <nb-card-footer>

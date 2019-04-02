@@ -237,7 +237,9 @@ export class WithdrawalListComponent implements OnInit {
             // this.isError = true;
           }
         });
+        this.router.navigateByUrl('/withdrawal');
       }
     });
   }
+
 }

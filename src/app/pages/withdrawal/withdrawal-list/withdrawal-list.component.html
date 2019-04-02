@@ -121,7 +121,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-sm btn-danger btn-click close" (click)="d('Cross click')">BATAL</button>
-                <button class="btn btn-sm btn-success btn-click" [disabled]="createComForm.invalid">PROSES</button>
+                <button class="btn btn-sm btn-success btn-click" [disabled]="createComForm.invalid" (click)="back()">PROSES</button>
             </div>
         </form>
     </div>
