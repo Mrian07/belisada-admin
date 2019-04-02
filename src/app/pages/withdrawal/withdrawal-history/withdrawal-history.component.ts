@@ -83,13 +83,10 @@ export class WithdrawalHistoryComponent implements OnInit {
     };
 
     this.modalRef = this.modalService.open(content, options);
-    this.listInvoice = item.invoiceNumber;
     const id =  item.withdrawId;
 
-    const invoiceNumber =  item.invoiceNumber;
-    const storeId =  item.storeId;
-
     this.withdrawalService.getDetail(id).subscribe(respon => {
+      this.listInvoice = respon.data.invoiceNumber;
       this.accountName = respon.data.accountName;
       this.accountNumberDetail = respon.data.accountNumberDetail;
       this.grandTotal = respon.data.grandTotal;

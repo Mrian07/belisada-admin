@@ -5,6 +5,8 @@ import {IMyDpOptions} from 'mydatepicker';
 import { ManageProductService } from 'app/@core/services/manage-product/manage-product.service';
 import { detailListingProduct } from 'app/@core/models/manage-product/manage-product';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NbDialogService } from '@nebular/theme';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
     selector: 'add-event',
@@ -35,6 +37,8 @@ export class AddEventComponent implements OnInit{
 
     addEventForm: FormGroup;
     currentPage: number;
+    pages: any = [];
+    lastPage: number;
     lisitingProd: detailListingProduct[];
     a: any;
     private rowSelected: number;
@@ -43,7 +47,9 @@ export class AddEventComponent implements OnInit{
     constructor(
     private fb: FormBuilder,
     private modalService: NgbModal,
-    private mageProd: ManageProductService
+    private mageProd: ManageProductService,
+    private dialogService: NbDialogService,
+    private activatedRoute: ActivatedRoute
     // private dateUtil: DateUtil
     ) { 
         this.rowSelected = -1;
@@ -51,6 +57,26 @@ export class AddEventComponent implements OnInit{
 
     ngOnInit() {
         this.formData();
+        this.activatedRoute.queryParams.subscribe((params: Params) => {
+            this.pages = [];
+            this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
+            const queryParams = {
+                page: this.currentPage,
+                itemperpage: 10,
+            };
+            this.mageProd.getListingProductMaster(queryParams).subscribe(response => {
+                this.pages = [];
+                this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
+                this.lisitingProd = response.content;
+                console.log(response.content)
+                this.lastPage = response.totalPages;
+                for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
+                    if (r > 0 && r <= this.lastPage) {
+                        this.pages.push(r);
+                    }
+                }
+            });
+        });
     }
 
     private formData() {
@@ -64,6 +90,13 @@ export class AddEventComponent implements OnInit{
             eventStartDate: ['', [Validators.required]],
             eventEndDate: ['', [Validators.required]],
 
+            products: this.fb.array([this._initProducts()]),
+        });
+    }
+
+    private _initProducts(): FormGroup {
+        // initialize our variants
+        return this.fb.group({
             productName: ['', [Validators.required]],
             productVariant: ['', [Validators.required]],
             productQuantity: ['', [Validators.required]],
@@ -71,6 +104,7 @@ export class AddEventComponent implements OnInit{
             priceMax: ['', [Validators.required]],
         });
     }
+
 
     searchK(event) {
         const key = event.target.value;
@@ -93,27 +127,27 @@ export class AddEventComponent implements OnInit{
         }
     }
 
-    openLg(content, e) {
-        this.modalService.open(content, { size: 'lg' });
-        this.a = this.lisitingProd.find( x => x.productId === e);
-        console.log('a', this.a);
-    }
 
     popAdd(content){
-        this.modalService.open(content);
+        this.modalService.open(content, { size: 'lg' });
     }
 
-    public openCloseRow(idReserva: number): void {
+    d(a) {
+        console.log(a);
+    }
 
-        if (this.rowSelected === -1) {
-            this.rowSelected = idReserva;
-        } else {
-            if (this.rowSelected === idReserva) {
-            this.rowSelected = -1;
-            } else {
-                this.rowSelected = idReserva;
-            }
+    // public openCloseRow(idReserva: number): void {
+
+    //     if (this.rowSelected === -1) {
+    //         this.rowSelected = idReserva;
+    //     } else {
+    //         if (this.rowSelected === idReserva) {
+    //         this.rowSelected = -1;
+    //         } else {
+    //             this.rowSelected = idReserva;
+    //         }
     
-        }
-    }
+    //     }
+    // }
+
 }
