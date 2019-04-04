@@ -35,6 +35,7 @@ export class OrderListComponent implements OnInit {
   showDialog: boolean;
   codeNum: any;
   getListing: any;
+  showPaymentDialog: any;
   getDataTranscation: GetDataTranscationList = new GetDataTranscationList();
   public countdown = {
     days: 0,

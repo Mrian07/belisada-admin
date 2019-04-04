@@ -13,4 +13,13 @@ import swal from 'sweetalert2';
 })
 export class EventListComponent {
 
+    search: any;
+    emailAddress: any;
+    dateJoin: any;
+    gender: any;
+    currentPage: any;
+    pages: any;
+    lastPage: any;
+
+    setPage(currentPage, page?) {}
 }

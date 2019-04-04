@@ -16,6 +16,9 @@ import { ActivatedRoute, Params } from '@angular/router';
 export class AddEventComponent implements OnInit{
     now: Date = new Date();
     defaultDateFormat: DateFormatEnum = DateFormatEnum.DDMMYYYY_WITH_SLASH;
+    submitted: any;
+    f: any;
+    content: any;
 
     myDatePickerOptions: IMyDpOptions = {
         // other options... https://github.com/kekeh/mydatepicker#options-attribute
@@ -135,6 +138,10 @@ export class AddEventComponent implements OnInit{
     d(a) {
         console.log(a);
     }
+
+    setPage() {}
+    onSubmit() {}
+    oke() {}
 
     // public openCloseRow(idReserva: number): void {
 
