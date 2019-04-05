@@ -30,14 +30,17 @@
                 <ng-template #please>
                     <ng-container *ngFor="let item of buyerPaging.data | searchPipe:'name':search | searchPipe:'email':emailAddress | searchPipe:'dateOfJoin':dateJoin | searchPipe:'gender':gender">
                         <tr (click)="openCloseRow(item.userId)">
-                            <td>{{ item.name }}</td>
+                            <td>
+                                <span><img src="{{ item.imageAvatarUrl }}" class="img-avatar" /></span>
+                                <span>{{ item.name }}</span>
+                            </td>
                             <td>{{ item.email }}</td>
                             <td>{{ item.dateOfJoin }}</td>
                             <td>{{ item.gender }}</td>
                             <td>{{ item.spent }}</td>
                             <td>
-                                <label ngbButtonLabel class="btn btn-danger btn-tn" (click)="action(item.userId,'true')" *ngIf="item.isSuspended==false"><i class="fa fa-times-circle"></i> Suspended</label>
-                                <label ngbButtonLabel class="btn btn-success btn-tn" (click)="action(item.userId,'false')" *ngIf="item.isSuspended==true"><i class="fa fa-check-circle"></i> Unsuspended</label>
+                                <label ngbButtonLabel class="btn btn-success btn-tn" (click)="action(item.userId,'true')" *ngIf="item.isSuspended==false"><i class="fa fa-times-circle"></i> Suspend</label>
+                                <label ngbButtonLabel class="btn btn-danger btn-tn" (click)="action(item.userId,'false')" *ngIf="item.isSuspended==true"><i class="fa fa-check-circle"></i> Unsuspend</label>
                             </td>
                         </tr>
                         <tr *ngIf="rowSelected==item.userId">
@@ -57,7 +60,7 @@
                                                 Jenis Kelamin: {{ item.gender }}<br>
                                                 Handphone: {{ item.phone }}<br>
                                                 Alamat: {{ item.primaryAddress }}<br>
-                                                Suspenden: {{ item.isSuspended }}<br>
+                                                Suspend: {{ item.isSuspended }}<br>
                                             </td>
                                         </tr>
                                     </tbody>    

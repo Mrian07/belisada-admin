@@ -2,7 +2,7 @@
     <nb-card-header>
         Produk
     </nb-card-header>
-   
+
     <nb-card-body>    
             <form [formGroup]="addProductForm">
             <h2 class="test">Gambar Produk</h2>
@@ -47,9 +47,7 @@
                                 (focusout)="onBrandBlur()" placeholder="Select one">
                             <i class="drick-select__icon caret down icon"></i>
                         </div>
-                        <div class="drick-select-container--toggle" [ngClass]="{'active':onBrandFocus}"
-                            id="drick-scroll-container--brand"
-                            (scroll)="onBrandScrollDown()">
+                        <div class="drick-select-container--toggle" [ngClass]="{'active':onBrandFocus}">
                             <ul class="drick-select-list">
                                 <li *ngFor="let i of brandList.data" (click)="selectBrand(i)">
                                     {{i.name}}
