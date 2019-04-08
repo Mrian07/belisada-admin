@@ -11,6 +11,7 @@ import { RoomTypeEnum } from './../../@core/enum/room-type.enum';
 import { JoinRoom } from './../../@core/interfaces/join-room.interface';
 import { Globals } from './../../@core/services/globals/globals';
 import { LocalStorageEnum } from './../../@core/enum/local-storage.enum';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-chat',
@@ -30,13 +31,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   selectedRoom: any;
 
+  thumborUrl: string;
 
   constructor(
     public globals: Globals,
     private chatService: ChatService,
     private fb: FormBuilder,
     // private userService: UserService
-  ) { }
+  ) {
+    this.thumborUrl = environment.thumborUrl + 'unsafe/fit-in/400x400/center/filters:fill(fff)/';
+  }
 
   ngOnInit() {
     // this.userData = this.userService.getUserData(localStorage.getItem(LocalStorageEnum.TOKEN_KEY));
@@ -95,25 +99,25 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.chatService.joinRoom(joinRoom);
   }
 
-  // submit() {
-  //   console.log('Submited');
-  //   this.chatFormGroup.patchValue({
-  //     room: this.selectedRoom._id,
-  //     userId: this.userService.getUserData(localStorage.getItem(LocalStorageEnum.TOKEN_KEY)).userId
-  //   });
+  submit() {
+    console.log('Submited');
+    // this.chatFormGroup.patchValue({
+    //   room: this.selectedRoom._id,
+    //   userId: this.userService.getUserData(localStorage.getItem(LocalStorageEnum.TOKEN_KEY)).userId
+    // });
 
-  //   const message: ChatMessage = new ChatMessage();
-  //   message.message = this.chatFormGroup.controls['message'].value;
-  //   message.userId = this.chatFormGroup.controls['userId'].value;
-  //   message.date = new Date();
+    // const message: ChatMessage = new ChatMessage();
+    // message.message = this.chatFormGroup.controls['message'].value;
+    // message.userId = this.chatFormGroup.controls['userId'].value;
+    // message.date = new Date();
 
-  //   const room = this.chatFormGroup.controls['room'].value;
+    // const room = this.chatFormGroup.controls['room'].value;
 
-  //   console.log('message: ', message);
-  //   console.log('room: ', room);
-  //   this.chatService.sendMessage(message, room);
-  //   this.chatFormGroup.controls['message'].reset();
-  // }
+    // console.log('message: ', message);
+    // console.log('room: ', room);
+    // this.chatService.sendMessage(message, room);
+    // this.chatFormGroup.controls['message'].reset();
+  }
 
   exit() {
     this.chatService.hide();

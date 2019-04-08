@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ChatRoutingModule } from './chat-routing.module';
 import { ThemeModule } from './../../@theme/theme.module';
-import { FontAwesomeModule } from '@fortawesome/fontawesome-free';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({

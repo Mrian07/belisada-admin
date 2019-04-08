@@ -17,7 +17,7 @@ const PAGES_COMPONENT = [
     ThemeModule,
     PagesRoutingModule,
     ECommerceModule,
-    
+    NbDatepickerModule,
   ]
 })
 export class PagesModule { }
