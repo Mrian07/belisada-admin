@@ -37,11 +37,11 @@
                         <tr>
                             <td>
                                 <input class="f-control form-control" [nbDatepicker]="joinstart" formControlName="joinStartDate" placeholder="start">
-                                <nb-datepicker #joinstart format="MM\dd\yyyy"></nb-datepicker>
+                                <nb-rangepicker #joinstart format="MM\dd\yyyy"></nb-rangepicker>
                             </td>
                             <td>
                                 <input class="f-control form-control" [nbDatepicker]="joinend" formControlName="joinEndDate" placeholder="end">
-                                <nb-datepicker #joinend format="MM\dd\yyyy"></nb-datepicker>
+                                <nb-rangepicker #joinend format="MM\dd\yyyy"></nb-rangepicker>
                             </td>
                         </tr>
                     </table>
@@ -54,11 +54,11 @@
                         <tr>
                             <td>
                                 <input class="f-control form-control" [nbDatepicker]="showstart" formControlName="showStartDate" placeholder="start">
-                                <nb-datepicker #showstart format="MM\dd\yyyy"></nb-datepicker>
+                                <nb-rangepicker #showstart format="MM\dd\yyyy"></nb-rangepicker>
                             </td>
                             <td>
                                 <input class="f-control form-control" [nbDatepicker]="showend" formControlName="showEndDate" placeholder="end">
-                                <nb-datepicker #showend format="MM\dd\yyyy"></nb-datepicker>
+                                <nb-rangepicker #showend format="MM\dd\yyyy"></nb-rangepicker>
                             </td>
                         </tr>
                     </table>
@@ -71,11 +71,11 @@
                         <tr>
                             <td>
                                 <input class="f-control form-control" [nbDatepicker]="eventstart" formControlName="eventStartDate" placeholder="start">
-                                <nb-datepicker #eventstart format="MM\dd\yyyy"></nb-datepicker>
+                                <nb-rangepicker #eventstart format="MM\dd\yyyy"></nb-rangepicker>
                             </td>
                             <td>
                                 <input class="f-control form-control" [nbDatepicker]="eventend" formControlName="eventEndDate" placeholder="end">
-                                <nb-datepicker #eventend format="MM\dd\yyyy"></nb-datepicker>
+                                <nb-rangepicker #eventend format="MM\dd\yyyy"></nb-rangepicker>
                             </td>
                         </tr>
                     </table>
@@ -84,11 +84,8 @@
 
             <div class="row f-group">
                 <label class="col-2 middle">Product</label>
-            </div>
-
-            <div class="row f-group">
-                <div class="col-2 middle">
-                    <button type="button" class="btn btn-success customz--button" style="cursor:pointer;" (click)="popAdd(content)">Add Product</button>
+                <div class="col-10 middle">
+                    <button type="button" class="btn btn-success customz--button" style="cursor:pointer;" (click)="popAdd(content)"><i class="fa fa-plus fa-lg"></i>&nbsp;&nbsp;Add Product</button>
                 </div>
             </div>
 
