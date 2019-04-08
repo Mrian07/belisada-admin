@@ -11,6 +11,7 @@ import { RoomTypeEnum } from './../../@core/enum/room-type.enum';
 import { JoinRoom } from './../../@core/interfaces/join-room.interface';
 import { Globals } from './../../@core/services/globals/globals';
 import { LocalStorageEnum } from './../../@core/enum/local-storage.enum';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-chat',
@@ -30,13 +31,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   selectedRoom: any;
 
+  thumborUrl: string;
 
   constructor(
     public globals: Globals,
     private chatService: ChatService,
     private fb: FormBuilder,
     // private userService: UserService
-  ) { }
+  ) {
+    this.thumborUrl = environment.thumborUrl + 'unsafe/fit-in/400x400/center/filters:fill(fff)/';
+  }
 
   ngOnInit() {
     // this.userData = this.userService.getUserData(localStorage.getItem(LocalStorageEnum.TOKEN_KEY));
