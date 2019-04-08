@@ -236,8 +236,8 @@ export class WithdrawalListComponent implements OnInit {
             )
             // this.isError = true;
           }
+          location.reload();
         });
-        this.router.navigateByUrl('/withdrawal');
       }
     });
   }
