@@ -198,10 +198,14 @@ label {
 .drick-select-container {
     width: 200px;
     position: relative;
+
+    &--fluid {
+        width: 100%;
+    }
 }
 
 .drick-select__text {
-    width: 100%;
+    width: 50%;
 
     &.active {
         border-bottom-left-radius: 0 !important;
@@ -210,16 +214,16 @@ label {
     }
 }
 
-.drick-select-container--toggle {
-    width: 100%;
-    max-height: 200px;
+.drick-select-container--toggle__here {
+    width: 50%;
+    max-height: 25rem;
     border: 1px solid rgba(34,36,38,.15);
     border-top: 0;
     overflow-y: auto;
     overflow-x: hidden;
     position: absolute;
-    left: 0;
-    top: 33.5px;
+    left: 25%;
+    top: 45px;
     z-index: 2;
     background: #fff;
     display: none;
@@ -229,6 +233,7 @@ label {
 
     &.active {
         display: block;
+        border-color: #eee;
     }
 }
 
@@ -383,8 +388,15 @@ i {
 .text__positon {
     text-align: center;
 }
+
+.submit {
+    padding: 2rem;
+    float: right;
+}
+
 .customz--button {
     width: 20%;
+    cursor: pointer;
 }
 
 .validator {
@@ -447,4 +459,20 @@ i {
 
 .td__cusotmese__image {
     width: 30%;
+}
+
+.row {
+    padding: 1rem;
+}
+
+.search--wrapper {
+    border: 1px solid #FBC98A;
+    padding: 5rem 0;
+    text-align: center;
+    height: 100%;
+
+    &__text {
+        display: inline-block;
+        text-transform: capitalize;
+    }
 }
