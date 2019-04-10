@@ -1,12 +1,16 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { DateFormatEnum } from '../../../@core/enum/date-format.enum';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import {IMyDpOptions} from 'mydatepicker';
 import { ManageProductService } from 'app/@core/services/manage-product/manage-product.service';
 import { detailListingProduct } from 'app/@core/models/manage-product/manage-product';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NbDialogService } from '@nebular/theme';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import swal from 'sweetalert2';
+import { EventService } from 'app/@core/services/manage-event/manage-event.service';
+import { Event, Product, DetailEventList } from 'app/@core/models/manage-event/manage-event.model';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'add-event',
@@ -14,29 +18,11 @@ import { ActivatedRoute, Params } from '@angular/router';
     styleUrls: ['./add-event.component.scss']
 })
 export class AddEventComponent implements OnInit{
-    now: Date = new Date();
-    defaultDateFormat: DateFormatEnum = DateFormatEnum.DDMMYYYY_WITH_SLASH;
-    submitted: any;
+    
+    submitted: Boolean = false;
     f: any;
     content: any;
 
-    myDatePickerOptions: IMyDpOptions = {
-        // other options... https://github.com/kekeh/mydatepicker#options-attribute
-        dateFormat: this.defaultDateFormat,
-        todayBtnTxt: 'Today',
-        editableDateField: false,
-        firstDayOfWeek: 'mo',
-        sunHighlight: true,
-        inline: false,
-        maxYear: this.now.getFullYear() - 12,
-        minYear: this.now.getFullYear() - 90,
-        disableSince: {
-            year: this.now.getFullYear() - 12,
-            month: this.now.getMonth() + 1,
-            day: this.now.getDate()
-        }
-    };
-      // ----- End date picker declaration required
 
     addEventForm: FormGroup;
     currentPage: number;
@@ -45,103 +31,137 @@ export class AddEventComponent implements OnInit{
     lisitingProd: detailListingProduct[];
     a: any;
     private rowSelected: number;
+    id: any;
+
+    
+    /* get dari query params*/
+    eventId: number;
     
 
     constructor(
     private fb: FormBuilder,
     private modalService: NgbModal,
-    private mageProd: ManageProductService,
-    private dialogService: NbDialogService,
-    private activatedRoute: ActivatedRoute
+    private eventService: EventService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private title: Title,
     // private dateUtil: DateUtil
     ) { 
         this.rowSelected = -1;
+        this.eventId = this.activatedRoute.snapshot.params.id;
     }
 
     ngOnInit() {
         this.formData();
-        this.activatedRoute.queryParams.subscribe((params: Params) => {
-            this.pages = [];
-            this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
-            const queryParams = {
-                page: this.currentPage,
-                itemperpage: 10,
-            };
-            this.mageProd.getListingProductMaster(queryParams).subscribe(response => {
-                this.pages = [];
-                this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
-                this.lisitingProd = response.content;
-                console.log(response.content)
-                this.lastPage = response.totalPages;
-                for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
-                    if (r > 0 && r <= this.lastPage) {
-                        this.pages.push(r);
-                    }
-                }
-            });
-        });
+        if (this.eventId) {
+            this.title.setTitle('Edit Event');
+            this.fillFormData(this.eventId);
+        } else {
+            this.title.setTitle('Create Event');
+        }
     }
 
     private formData() {
         this.addEventForm = this.fb.group({
             eventName: ['', [Validators.required]],
 
-            joinStartDate: ['', [Validators.required]],
-            joinEndDate: ['', [Validators.required]],
-            showStartDate: ['', [Validators.required]],
-            showEndDate: ['', [Validators.required]],
+            joinEventStartDate: ['', [Validators.required]],
+            joinEventEndDate: ['', [Validators.required]],
+            showEventStartDate: ['', [Validators.required]],
+            showEventEndDate: ['', [Validators.required]],
             eventStartDate: ['', [Validators.required]],
             eventEndDate: ['', [Validators.required]],
 
-            products: this.fb.array([this._initProducts()]),
+            // products: this.fb.array([this._initProducts()]),
         });
     }
 
-    private _initProducts(): FormGroup {
-        // initialize our variants
-        return this.fb.group({
-            productName: ['', [Validators.required]],
-            productVariant: ['', [Validators.required]],
-            productQuantity: ['', [Validators.required]],
-            priceMin: ['', [Validators.required]],
-            priceMax: ['', [Validators.required]],
+    fillFormData(id) {
+        this.eventService.getEventById(id).subscribe(response => {
+            const data = response;
+            this.fillFormPatchValue(data);
+        });
+    }
+    
+    fillFormPatchValue(data: DetailEventList) {
+        this.addEventForm.patchValue({
+            eventName: data.eventName,
+            joinEventStartDate: data.joinEventStartDate,
+            joinEventEndDate: data.joinEventEndDate,
+            showEventStartDate: data.showEventStartDate,
+            showEventEndDate: data.showEventEndDate,
+            eventStartDate: data.eventStartDate,
+            eventEndDate: data.eventEndDate,
         });
     }
 
-
-    searchK(event) {
-        const key = event.target.value;
-        console.log(key);
-        const queryParams = {
-            page: this.currentPage,
-            itemperpage: 10,
-            name: key,
-            ob : 'custom'
-        }
-        console.log(event);
-        if (key === '' || event.key === 'Enter') {
-            this.mageProd.getListingProductMaster(queryParams).subscribe(response => {
-                this.lisitingProd = response.content;
-            });
-        } else {
-            this.mageProd.getListingProductMaster(queryParams).subscribe(data => {
-                this.lisitingProd = data.content;
-            });
-        }
-    }
-
-
-    popAdd(content){
-        this.modalService.open(content, { size: 'lg' });
-    }
+    // private _initProducts(): FormGroup {
+    //     // initialize our variants
+    //     return this.fb.group({
+    //         productName: ['', [Validators.required]],
+    //         productVariant: ['', [Validators.required]],
+    //         productQuantity: ['', [Validators.required]],
+    //         priceMin: ['', [Validators.required]],
+    //         priceMax: ['', [Validators.required]],
+    //     });
+    // }
 
     d(a) {
         console.log(a);
     }
 
     setPage() {}
-    onSubmit() {}
-    oke() {}
+    
+    onSubmit(){
+        if (this.addEventForm.valid) {
+            swal({
+                title: 'Alert',
+                text: 'Apakah semua data sudah benar?',
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Iya',
+                cancelButtonText: 'Tidak',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                reverseButtons: true
+                }).then((result) => {
+                    if (result.value === true) {
+                        console.log('event:', this.addEventForm.value);
+                        console.log('value:', result.value);
+                        const data: Event = new Event();
+        
+                        data.eventName = this.addEventForm.value.eventName;
+                        data.joinEventStartDate = this.addEventForm.value.joinEventStartDate;
+                        data.joinEventEndDate = this.addEventForm.value.joinEventEndDate;
+                        data.showEventStartDate = this.addEventForm.value.showEventStartDate;
+                        data.showEventEndDate = this.addEventForm.value.showEventEndDate;
+                        data.eventStartDate = this.addEventForm.value.eventStartDate;
+                        data.eventEndDate = this.addEventForm.value.eventEndDate;
+                        this.eventService.createEvent(data).subscribe(respon => {
+                            console.log('data event:',respon)
+                
+                        });
+                        swal(
+                            'Success!',
+                            'Terimakasih. Event telah dibuat dan masuk ke Event List.',
+                            'success'
+                        ).then(() => {
+                            this.addEventForm.reset();
+                            this.router.navigate(['event/']);
+                        });
+                    }
+                });
+        } else {
+            swal(
+                'Semua kolom harus diisi'
+            )
+        }
+    }
+
+    addProduct(content, id) {
+        this.modalService.open(content, id);
+    }
+
 
     // public openCloseRow(idReserva: number): void {
 

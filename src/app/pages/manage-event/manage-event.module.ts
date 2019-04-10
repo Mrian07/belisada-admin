@@ -11,6 +11,8 @@ import { AddEventComponent } from './add-event/add-event.component';
 import { MyDatePickerModule } from 'mydatepicker';
 import { NbDatepickerModule } from '@nebular/theme';
 
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -20,6 +22,8 @@ import { NbDatepickerModule } from '@nebular/theme';
         ReactiveFormsModule,
         MyDatePickerModule,
         NbDatepickerModule,
+        OwlDateTimeModule, 
+        OwlNativeDateTimeModule,
         // DropdownButtonsComponent
     ],
     declarations: [ManageEventComponent, EventListComponent, AddEventComponent]
