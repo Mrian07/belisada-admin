@@ -25,6 +25,9 @@ export class WithdrawalHistoryComponent implements OnInit {
   accountName: string;
   accountNumberDetail: string;
   grandTotal: number;
+  news: string;
+  nominal: number;
+  transferDate: string;
 
   constructor(
     private modalService: NgbModal,
@@ -90,6 +93,9 @@ export class WithdrawalHistoryComponent implements OnInit {
       this.accountName = respon.data.accountName;
       this.accountNumberDetail = respon.data.accountNumberDetail;
       this.grandTotal = respon.data.grandTotal;
+      this.news = respon.data.news;
+      this.nominal = respon.data.nominal;
+      this.transferDate = respon.data.transferDate;
     });
 
     

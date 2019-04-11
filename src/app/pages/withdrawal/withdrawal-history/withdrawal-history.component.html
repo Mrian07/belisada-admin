@@ -59,18 +59,24 @@
             <div class="modal-body">
                     <div class="popCol">
                         <div>
-                                Pemilik Rekening
-                                <div class="labField">{{accountName}}</div>
-                                Informasi Rekening
-                                <div class="labField">{{accountNumberDetail}}</div>
-                        </div>
-                        <div>
+                            Pemilik Rekening<br>
+                            <div class="labField">{{accountName}}</div>
+                            Informasi Rekening<br>
+                            <div class="labField">{{accountNumberDetail}}</div>
                             Nominal Penarikan Dana<br>
                             <div class="labField">Rp. &nbsp;{{grandTotal | number}}</div>
+                            Berita<br>
+                            <div class="labField">{{news}}</div>
+                        </div>
+                        <div>
+                            Tanggal Transfer<br>
+                            <div class="labField">{{transferDate}}</div>
                             Invoice Penarikan Dana<br>
                             <div class="labField"> 
                                 <div class="listInvoice" *ngFor="let itemsI of listInvoice">{{itemsI}}</div>
                             </div>
+                            Nominal Transfer<br>
+                            <div class="labField">Rp. &nbsp;{{nominal | number}}</div>
                         </div>
                     </div>
                 

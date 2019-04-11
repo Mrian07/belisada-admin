@@ -63,24 +63,17 @@ export class GetMasterProduct {
 }
 
 export class PostMasterProduct {
-    createdAt: string;
-    id:	string;
     masterProductId: number;
     maxPurhaseQty: number;
 	productVariants:  VariantMaster[];
-    updatedAt:	string;
-
 }
 
 export class VariantMaster {
-    createdAt: string;
-    id: string;
     isActive: boolean;
     masterVariantId: number;
     priceMax: number;
     priceMin: number;
     qty: number;
-    updatedAt: string;
 }
 
 
@@ -153,52 +146,60 @@ export class Product {
     isStock	: boolean;
 }
 
-export class ProductDetailList {
-    status:	number;
+export class GetVariant {
+    status: number;
     message: string;
-	data: ProductDetail[];
+    data: Variant;
 }
-
-export class ProductDetail {
+export class Variant {
     productId: number;
     name: string;
+    nameEn:	string;
+    highlight: string;
+    highlightEn: string;
+    description: string;
+    sku: string;
+    brandId: number;
     brandName: string;
     storeId: number;
-    storeName: string;
-    storeUrl: string;
-    storeImageUrl: string;
-    pricelist: number;
-    discount: number;
-    specialPrice: number;
-    imageUrl: string;
-    locationId: number;
-    locationName: string;
-    iStock: boolean;
-    qtyTypeValue: string;
-    qtyType: string;
+    weight:	number;
+    dimensionsWidth: number;
+    dimensionslength: number;
+    dimensionsheight: number;
+    classification:	string;
+    qty: number;
+    status:	string;
+    statusCode:	string;
     categoryOneId: number;
     categoryOneName: string;
     categoryTwoId: number;
     categoryTwoName: string;
     categoryThreeId: number;
     categoryThreeName: string;
-    weight: number;
-    dimensionsWidth: number;
-    dimensionslength: number;
-    dimensionsheight: number;
-    originId: number;
-    qty: number;
-    varians: Varians[];
+    imageUrl: string[];
+    pricelist: number;
+    couriers: [];
+    isGuarantee: boolean;
+    guaranteeTime: number;
+    shippers: [];
+    pricelistlast: number;
+    classificationValue: string;
+    guaranteeTimeValue: string;
+    discount: number;
+    specialPrice: number;
+    useVarian: boolean;
+    spec: [];
+    specification: SpecVariant[];
+    approvalProductIssue: [];
+    isStock	: boolean;
 }
 
-export class Varians {
+export class SpecVariant {
     attributeId: number;
     name: string;
-    varians: Variant[];
-}
-
-export class Variant {
     attributeValueId: number;
+    isMandatory: boolean;
+    isInstanceAttribute: boolean;
     value: string;
 }
 

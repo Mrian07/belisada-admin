@@ -2,6 +2,10 @@ th{
     text-align: center;
 }
 
+.switch.small {
+    left: 0;
+}
+
 .paging ul {
     list-style-type: none;
     padding: 0;
@@ -101,6 +105,10 @@ th{
 }
 
 .button-add-product {
-    float: center;
-    padding: 2rem;
+
+}
+
+.product-container {
+    min-height: 30rem;
+    min-width: 20rem;
 }
