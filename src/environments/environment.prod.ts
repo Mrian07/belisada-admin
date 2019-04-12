@@ -6,6 +6,8 @@
 export const environment = {
   production: true,
   apiUrl: 'https://air.belisada.co.id/belisada-admin',
+  productUrl: 'https://air.belisada.co.id/belisada',
+  eventUrl: 'https://air.belisada.co.id/bs-event',
   chatUrl: 'https://chat0.belisada.id',
   socketUrl: 'https://chat0-websock.belisada.id',
   thumborUrl: 'https://image.belisada.co.id/',
