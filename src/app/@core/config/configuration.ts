@@ -6,4 +6,6 @@ import { Injectable } from '@angular/core';
 })
 export class Configuration {
   apiURL: string = environment.apiUrl;
+  eventURL: string = environment.eventUrl;
+  productURL: string = environment.productUrl;
 }

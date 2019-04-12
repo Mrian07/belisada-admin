@@ -11,6 +11,12 @@ import { AddEventComponent } from './add-event/add-event.component';
 import { MyDatePickerModule } from 'mydatepicker';
 import { NbDatepickerModule } from '@nebular/theme';
 
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { FieldErrorComponent } from './field-error/field-error.component';
+
+const COMPONENTS = [
+    FieldErrorComponent
+];
 @NgModule({
     imports: [
         CommonModule,
@@ -20,8 +26,11 @@ import { NbDatepickerModule } from '@nebular/theme';
         ReactiveFormsModule,
         MyDatePickerModule,
         NbDatepickerModule,
+        OwlDateTimeModule, 
+        OwlNativeDateTimeModule,
         // DropdownButtonsComponent
     ],
-    declarations: [ManageEventComponent, EventListComponent, AddEventComponent]
+    exports: [...COMPONENTS],
+    declarations: [ManageEventComponent, EventListComponent, AddEventComponent, ...COMPONENTS]
 })
 export class ManageEventModule { }

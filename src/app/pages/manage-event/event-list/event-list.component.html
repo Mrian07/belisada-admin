@@ -3,6 +3,9 @@
         <span style="font-size: 2rem;">
             Event
         </span>
+        <!-- <span style="font-size:2rem; float: right;">
+                <button ngbButtonLabel class="btn btn-danger btn-tn" style="cursor:pointer;" (click)="popAdd(content)"><i class="fa fa-plus"></i>&nbsp;Tambah Event Baru</button>
+        </span> -->
         <a [routerLink]="['/event/add']">
             <span style="font-size:2rem; float: right;">
                 <button ngbButtonLabel class="btn btn-danger btn-tn" style="cursor:pointer;"><i class="fa fa-plus"></i>&nbsp;Tambah Event Baru</button>
@@ -14,86 +17,97 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Added Date &nbsp;<i class="fa fa-calendar"></i></th>
-                    <!-- <th *ngIf="registerDateSorting === false; else sortingDate" (click)="funcSortDateArray()">Added Date <i class="fa fa-calendar"></i></th> -->
-                    <!-- <ng-template #sortingDate>
-                        <th (click)="funcSortDateArrayBenar()">Added Date <i class="fa fa-calendar"></i></th>
-                    </ng-template> -->
-                    <th>Nama Event &nbsp;<i class="fa fa-align-center"></i></th>
-                    <!-- <th *ngIf="checkSort === false; else sortingNmToko" (click)="funcSortArray()">Nama Event <i class="fa fa-undo"></i></th> -->
-                    <!-- <ng-template #sortingNmEvent>
-                        <th (click)="functionArrayBenar()">Nama Event <i class="fa fa-undo"></i></th>
-                    </ng-template> -->
-                    <th>Event Date &nbsp;<i class="fa fa-calendar" style="color:rgb(255, 58, 58);"></i></th>
-                    <!-- <th *ngIf="namaPemilikSorting === false; else sortingNamaPemilik" (click)="funcNamaPemilikArray()">Event Date <i class="fa fa-undo"></i></th> -->
-                    <!-- <ng-template #sortingNamaPemilik>
-                        <th (click)="funcSortNamaPemilikBenar()">Event Date <i class="fa fa-undo"></i></th>
-                    </ng-template> -->
-                    <th>Quantity&nbsp;<i class="fa fa-align-justify"></i></th>
+                    <th *ngIf="nameSorting === false; else sortingName" (click)="funcSortNameArray()">Nama Event &nbsp;<i class="fa fa-sort"></i></th>
+                    <ng-template #sortingName>
+                        <th (click)="funcSortNameArrayBenar()">Nama Event &nbsp;<i class="fa fa-sort"></i></th>
+                    </ng-template>
+                    <th *ngIf="joinDateSorting === false; else sortingJoinDate" (click)="funcSortJoinDateArray()"><i class="fa fa-calendar" style="color:rgb(255, 232, 23);"></i>&nbsp;Join Date &nbsp;<i class="fa fa-sort"></i></th>
+                    <ng-template #sortingJoinDate>
+                        <th (click)="funcSortJoinDateArrayBenar()"><i class="fa fa-calendar" style="color:rgb(255, 232, 23);"></i>&nbsp;Join Date &nbsp;<i class="fa fa-sort"></i></th>
+                    </ng-template>
+                    <th *ngIf="showDateSorting === false; else sortingShowDate" (click)="funcSortShowDateArray()"><i class="fa fa-calendar" style="color:rgb(255, 163, 25);"></i>&nbsp;Show Date &nbsp;<i class="fa fa-sort"></i></th>
+                    <ng-template #sortingShowDate>
+                        <th (click)="funcSortShowDateArrayBenar()"><i class="fa fa-calendar" style="color:rgb(255, 163, 25);"></i>&nbsp;Show Date &nbsp;<i class="fa fa-sort"></i></th>
+                    </ng-template>
+                    <th *ngIf="showEventSorting === false; else sortingEventDate" (click)="funcSortEventDateArray()"><i class="fa fa-calendar" style="color:rgb(255, 58, 58);"></i>&nbsp;Event Date &nbsp;<i class="fa fa-sort"></i></th>
+                    <ng-template #sortingEventDate>
+                        <th (click)="funcSortEventDateArrayBenar()"><i class="fa fa-calendar" style="color:rgb(255, 58, 58);"></i>&nbsp;Event Date &nbsp;<i class="fa fa-sort"></i></th>
+                    </ng-template>
+                    <!-- <th>Quantity&nbsp;<i class="fa fa-align-justify"></i></th> -->
                     <th>ACTION&nbsp;<i class="fa fa-angle-double-right"></i></th>
-                    <!-- <th (click)="approvedBy()">ACTION<i class="fa fa-user"></i></th> -->
                 </tr>
             </thead>
-            <tbody>
+            <tbody [nbSpinner]="loading" nbSpinnerStatus="warning" nbSpinnerSize="xxlarge">
                 <tr>
-                    <td><input class="form-control" placeholder="Search Added Date" [(ngModel)]="search"></td>
-                    <td><input class="form-control" placeholder="Search Event Name" [(ngModel)]="emailAddress"></td>
-                    <td><input class="form-control" placeholder="Search Event Date" [(ngModel)]="dateJoin"></td>
-                    <td><input class="form-control" placeholder="Search Quantity" [(ngModel)]="gender"></td>
+                    <td><input class="form-control" placeholder="Search Event Name" [(ngModel)]="name"></td>
+                    <td><input class="form-control" placeholder="Search Join Date" [(ngModel)]="joinDate"></td>
+                    <td><input class="form-control" placeholder="Search Show Date" [(ngModel)]="showDate"></td>
+                    <td><input class="form-control" placeholder="Search Event Date" [(ngModel)]="eventDate"></td>
+                    <!-- <td></td> -->
                     <td></td>
                 </tr>
-                <!-- <div *ngIf="title; else please">
+                <div *ngIf="title; else please">
                     The user is logged in.
-                </div> -->
-                <!-- <ng-template #please> -->
-                <!-- <ng-template> -->
-                    <!-- <ng-container *ngFor="let item of buyerPaging.data | searchPipe:'name':search | searchPipe:'email':emailAddress | searchPipe:'dateOfJoin':dateJoin | searchPipe:'gender':gender"> -->
-                    <!-- <ng-container> -->
-                        <!-- <tr (click)="openCloseRow(item.userId)"> -->
-                        <tr>
-                            <td>22 - 05 -2018</td>
-                            <td>Samsung Launch Day</td>
-                            <td>23-25 april 2019</td>
-                            <td>1200 Unit</td>
+                </div>
+                <ng-template #please>
+                    <ng-container *ngFor="let item of listEvent.content | searchPipe:'eventName':name | searchPipe:'joinEventStartDate':joinDate | searchPipe:'showEventStartDate':showDate | searchPipe:'eventStartDate':eventDate">
+                        <tr (click)="openRowEvent(item.id)">
+                            <td>{{ item.eventName }}</td>
+                            <td>{{ item.joinEventStartDate | date:'longDate' }}</td>
+                            <td>{{ item.showEventStartDate | date:'longDate' }}</td>
+                            <td>{{ item.eventStartDate | date:'longDate' }}</td>
+                            <!-- <td>{{ item.qty }}</td> -->
                             <td>
                                 <div class="action">
-                                    <div>
-                                        <label class="lbl-active"></label>
+                                    <div (click)="goToEdit(item.id)">
+                                        <i class="fa fa-edit fa-lg" style="padding-left:2rem;padding:1rem;cursor:pointer;"></i>
                                     </div>
-                                    <div>
-                                        <i class="fa fa-edit" style="float:right; cursor:pointer;"></i>
+                                    <div (click)="deleteEvent(item.id)">
+                                        <i class="fa fa-trash fa-lg" style="padding:1rem;cursor:pointer;"></i>
                                     </div>
                                 </div>
                             </td>
                         </tr>
-
-                        <!-- <tr *ngIf="rowSelected==item.userId">
+                        <tr *ngIf="rowSelected==item.id">
                             <td colspan="6">
                                 <table class="table">
                                     <tbody>
                                         <tr>
-                                            <th>Photo</th>
-                                            <th>Info Detail</th>
+                                            <th>Event</th>
+                                            <th>Product</th>
                                         </tr>
                                         <tr>
-                                            <td><img src="/assets/images/kristy.png" border="0" width="150"></td>
-                                            <td>Tanggal Daftar: {{ item.dateOfJoin }}<br>
-                                                Nama: {{ item.name }}<br>
-                                                Email: {{ item.email }}<br>
-                                                Tanggal Lahir: {{ item.dateOfBirth }}<br>
-                                                Jenis Kelamin: {{ item.gender }}<br>
-                                                Handphone: {{ item.phone }}<br>
-                                                Alamat: {{ item.primaryAddress }}<br>
-                                                Suspenden: {{ item.isSuspended }}<br>
+                                            <td>
+                                                <!-- <b>Nama:</b> {{ item.eventName }}<br><br> -->
+                                                <h1>{{ item.eventName }}</h1> <br>
+                                                <b>Join Date</b> <br>
+                                                Start on {{ item.joinEventStartDate| date:'longDate' }}<br>
+                                                End on {{ item.joinEventEndDate| date:'longDate' }}<br><br>
+                                                <b>Show Date</b> <br>
+                                                Start on {{ item.showEventStartDate| date:'longDate' }}<br>
+                                                End on {{ item.showEventEndDate| date:'longDate' }}<br><br>
+                                                <b>Event Date</b> <br>
+                                                Start on {{ item.eventStartDate| date:'longDate' }}<br>
+                                                End on {{ item.eventEndDate| date:'longDate' }}<br><br>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <div>
+                                                        Belum ada produk untuk event ini.
+                                                    </div>
+                                                    <div class="button-add-product">
+                                                        <button ngbButtonLabel class="btn btn-success btn-tn" style="cursor:pointer;" (click)="addProduct(content,item.id)"><i class="fa fa-plus"></i>&nbsp;Add Product</button>
+                                                        <!-- <button>Product List</button> -->
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>    
                                 </table>        
-                                
                             </td>
-                        </tr> -->
-                    <!-- </ng-container>
-                </ng-template> -->
+                        </tr>
+                    </ng-container>
+                </ng-template>
             </tbody>
         </table>
 
@@ -118,3 +132,227 @@
         </div>
     </nb-card-body>
 </nb-card>
+
+<ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">Add Product</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="product-container">
+            <input class="form-control" placeholder="Search Name" (keyup)="searchK($event)">
+                <div class="modal-body">
+                        <table *ngFor="let obj of listProduct" class="table table-bordered table-striped">
+                                <tr (click)="openRowProduct(obj.productId)" (click)="loadDataProduct(obj.productId)">
+                                    <td> <img class="item__cusotmese__image" src="{{obj.imageUrl[0]}}"></td>
+                                    <td class="td__cusotmese__image">
+                                        <p> {{ obj.name }}</p>
+                                    </td>
+                                    <td>
+                                        <input class="form-control" type="text" formControlName="maxPurhaseQty" placeholder="Max. Purchase Quantity">
+                                        <div *ngIf="(submitted || addP.maxPurhaseQty.touched) && addP.maxPurhaseQty.invalid">
+                                            <bss-field-error [displayError]="addP.maxPurhaseQty.errors.required" errorMsg="Max. Purchase Quantity harus diisi"></bss-field-error>
+                                        </div>
+                                    </td>
+                                </tr>
+    
+                                <tr *ngIf="rowSelect==obj.productId">
+                                    <td colspan="6">
+                                        <table class="table">
+                                            <form [formGroup]="addProductForm">
+                                                <div>
+                                                    
+                                                </div>
+                                                <div formArrayName="productVariants">
+                                                        <div class="row" [formGroupName]="i" *ngFor="let variant of getVariants(addProductForm); let i = index">
+                                                            <div class="col-md-1">
+                                                                <label class="switch small">
+                                                                    <input formControlName="isActive" type="checkbox" (change)="toggleControl(variant)">
+                                                                    <span class="slider round"></span>
+                                                                    </label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <!-- <img [src]="productStoreUrl + VariantAttr[i]?.imageUrl[0]" alt=""> -->
+                                                                <span [class]="'variant-separator variant-separator--' + i" *ngFor="let item of VariantAttr[i]?.specification; let i = index">{{ item.value }}</span>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <input type="text" (change)="calculateDiscount()" placeholder="Price Min." formControlName="priceMin" class="form-control"
+                                                                [ngClass]="{'form-error': (variant.errors || variant.controls.priceMin.invalid) && (submitted || variant.controls.priceMin.touched) && variant.controls.isActive.value == true}" maxlength="10" (keypress)="numberCheck($event, variant)">
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <input type="text" (change)="calculateDiscount()" placeholder="Price Max." formControlName="priceMax" class="form-control"
+                                                                    [ngClass]="{'form-error': (variant.errors || variant.controls.priceMax.invalid) && (submitted || variant.controls.priceMax.touched) && variant.controls.isActive.value == true}" maxlength="10" (keypress)="numberCheck($event, variant)">
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <input type="text" placeholder="Quantity" formControlName="qty" class="form-control text-center" (keypress)="numberCheck($event)">
+                                                            </div>
+                                                            <div class="offset-md-5 col-md-5">
+                                                                <div *ngIf="(submitted || variant.controls.qty.touched) && variant.controls.qty.invalid && variant.controls.isActive.value == true">
+                                                                    <bss-field-error [displayError]="variant.controls.qty.errors.max" errorMsg="Maksimal quantity 5"></bss-field-error>
+                                                                    <bss-field-error [displayError]="variant.controls.qty.errors.required" errorMsg="Quantity harus diisi"></bss-field-error>
+                                                                </div>
+                                                                <div *ngIf="(submitted || variant.touched) && variant.errors && variant.controls.isActive.value == true">
+                                                                    <bss-field-error [displayError]="variant.errors.invalidprice" errorMsg="Price Min. tidak boleh lebih besar dari Price Max."></bss-field-error>
+                                                                </div>
+                                                                <div *ngIf="(submitted || variant.controls.priceMin.touched) && variant.controls.priceMin.invalid && variant.controls.isActive.value == true">
+                                                                    <bss-field-error [displayError]="variant.controls.priceMin.errors.min" errorMsg="Price Min. minimal Rp 100"></bss-field-error>
+                                                                    <bss-field-error [displayError]="variant.controls.priceMin.errors.required" errorMsg="Price Min. harus diisi"></bss-field-error>
+                                                                </div>
+                                                                <div *ngIf="(submitted || variant.controls.priceMax.touched) && variant.controls.priceMax.invalid && variant.controls.isActive.value == true">
+                                                                    <bss-field-error [displayError]="variant.controls.priceMax.errors.min" errorMsg="Price Max. minimal Rp 100"></bss-field-error>
+                                                                    <bss-field-error [displayError]="variant.controls.priceMax.errors.required" errorMsg="Price Max. harus diisi"></bss-field-error>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button ngbButtonLabel class="btn btn-success btn-tn" style="bottom:0; cursor:pointer;" (click)="postProductV2(eventId)" [disabled]="addProductForm.invalid"><i class="fa fa-plus"></i>&nbsp;Add Product</button>
+                                                    </div>
+                                            </form>
+                                        </table>        
+                                    </td>
+                                </tr>
+            
+                                <!-- <tr *ngIf="rowSelect==obj.productId" formArrayName="productVariants">
+                                        <td>
+                                            <div class="variant-head">
+                                                Choose Variant
+                                            </div>
+                                            <div>
+                                                {{ item.name }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="qty-head">
+                                                Quantity
+                                            </div>
+                                            <div>
+    
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="min-head">
+                                                Price Min.
+                                            </div>
+                                            <div>
+    
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="max-head">
+                                                Price Max.
+                                            </div>
+                                            <div>
+    
+                                            </div>
+                                        </td>
+                                </tr> -->
+                    </table>
+                </div>
+                <!-- <div class="paging">
+                    <ul>
+                        <li>
+                            <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
+                        </li>
+                        <li>
+                            <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
+                        </li>
+                        <li *ngFor="let p of pages">
+                            <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
+                        </li>
+                        <li>
+                            <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
+                        </li>
+                        <li>
+                            <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
+                        </li>
+                    </ul>
+                </div> -->    
+        </div>
+</ng-template>
+
+<!-- <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Create Event</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div>
+        <form class="ui form" [formGroup]="addEventForm" (ngSubmit)="onSubmit()">
+            <!-- <div class="add-product-form-wrapper">
+                <ul class="add_product_image clearfix" id="image-list">
+                    <li class="u-inline-list-gap" *ngFor="let item of f.imageUrl.value; let i = index">
+                        <div class="image-preview" [ngStyle]="{'background-image': 'url(' + item + ')'}">
+                            <span class="action-button" (click)="removeImage(i)">
+                                <i class="fa fa-trash"></i>
+                            </span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pikcker-wrapper picker-add-image" *ngIf="(f.imageUrl.value.length < 5)">
+                            <input type="file"  accept="image/jpeg,.jpeg,.jpg,image/png,.png" (change)="getSelectedFiles($event)">
+                        </div>
+                    </li>
+                </ul>
+            </div> 
+            
+            <div class="row f-group">
+                <label class="col-2 middle">Event Name</label>
+                <div class="col-10">
+                    <input type="text" formControlName="eventName" class="f-control form-control" placeholder="Event Name">
+                </div>  
+            </div>
+            
+            <div class="row f-group">
+                <label class="col-2 middle">Join Time</label>
+                <div class="col-5">
+                    <my-date-picker class="frame-date" name="mydate" formControlName="joinEventStartDate" placeholder="start"></my-date-picker>
+                </div>
+                <div class="col-5">
+                    <my-date-picker class="frame-date" name="mydate" formControlName="joinEventEndDate" placeholder="end"></my-date-picker>
+                </div>
+            </div>
+            <div class="row f-group">
+                <label class="col-2 middle">Show Time</label>
+                <div class="col-5">
+                    <my-date-picker class="frame-date" name="mydate" formControlName="showEventStartDat" placeholder="start"></my-date-picker>
+                </div>
+                <div class="col-5">
+                    <my-date-picker class="frame-date" name="mydate" formControlName="showEventEndDate" placeholder="end"></my-date-picker>
+                </div>
+            </div>
+            <div class="row f-group">
+                <label class="col-2 middle">Event Time</label>
+                <div class="col-5">
+                    <my-date-picker class="frame-date" name="mydate" formControlName="eventStartDate" placeholder="start"></my-date-picker>
+                </div>
+                <div class="col-5">
+                    <my-date-picker class="frame-date" name="mydate" formControlName="eventEndDate" placeholder="end"></my-date-picker>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-danger btn-click close" (click)="d('Cross click')">BATAL</button>
+                <button class="btn btn-sm btn-success btn-click" [disabled]="addEventForm.invalid">SUBMIT</button>
+            </div>
+        </form>
+    </div>
+    <!-- <div *ngIf="isSuccess==true">
+        <div class="modal-body">
+            Withdrawal berhasil diproses.
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-sm btn-danger btn-click close" (click)="d('Cross click')">TUTUP</button>
+        </div>
+    </div> -->
+    <!-- <div *ngIf="isError==true">
+        <div class="modal-body">
+            Withdrawal gagal diproses!
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-sm btn-danger btn-click close" (click)="d('Cross click')">TUTUP</button>
+        </div>
+    </div> 
+    
+</ng-template> -->

@@ -14,6 +14,10 @@ const routes: Routes = [
             component: AddEventComponent,
         },
         {
+            path: 'edit/:id',
+            component: AddEventComponent,
+        },
+        {
             path: '',
             component: EventListComponent,
         },

@@ -53,6 +53,9 @@ export class Detail{
     accountNumberDetail: string;
     withdrawId: number;
     invoiceNumber: any;
+    news: string;
+    nominal: number;
+    transferDate: string;
 }
 
 export class Transfer{
