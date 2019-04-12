@@ -43,7 +43,7 @@ export class WithdrawalListComponent implements OnInit {
   modalRef: NgbModalRef;
 
   list: Content[];
-  listBank: Bank[]
+  listBank: Bank[];
   pages: any = [];
   currentPage: any;
   lastPage: number;
@@ -148,26 +148,25 @@ export class WithdrawalListComponent implements OnInit {
     };
 
     this.modalRef = this.modalService.open(content, options);
-    this.listInvoice = item.invoiceNumber;
     const id =  item.withdrawId;
-
-    const invoiceNumber =  item.invoiceNumber;
     const storeId =  item.storeId;
 
     this.withdrawalService.getDetail(id).subscribe(respon => {
+      this.listInvoice = respon.data.invoiceNumber;
+      const invoiceNumber =  respon.data.invoiceNumber;
       this.accountName = respon.data.accountName;
       this.accountNumberDetail = respon.data.accountNumberDetail;
       this.grandTotal = respon.data.grandTotal;
 
       this.createComForm.patchValue({
         bankDetail: this.accountNumberDetail,
+        invoiceNumber: invoiceNumber
       });
 
     });
 
     this.createComForm.patchValue({
       withdrawId: id,
-      invoiceNumber: invoiceNumber,
       storeId: storeId
     });
     
@@ -237,8 +236,10 @@ export class WithdrawalListComponent implements OnInit {
             )
             // this.isError = true;
           }
+          location.reload();
         });
       }
     });
   }
+
 }

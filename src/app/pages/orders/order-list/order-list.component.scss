@@ -174,14 +174,14 @@
 }
 
 .order-id{
-    font-size: 1.1rem;
+	font-size: 1.1rem;
 	font-weight: bold;
 	padding: 2rem;
 	color: rgb(160, 158, 158);
 }
 
 .img-item{
-    // background: #ebebeb;
+	// background: #ebebeb;
 	text-align: center;
 	padding: 2rem;
 	top:0;
@@ -192,55 +192,62 @@
 }
 
 .item-colom{
-    margin-bottom: 1rem;
-    padding: 1rem;
-    font-size: 1rem;
-    text-align: left;
-    padding-right: 5rem;
+	margin-bottom: 1rem;
+	padding: 1rem;
+	font-size: 1rem;
+	text-align: left;
 }
 
 .item-colom-border{
-    border:1px solid #ebebeb;
-    margin-bottom:5px;
-    padding: 5px;
-    font-size: 12px;
-    border-radius:5px;
+	border:1px solid #ebebeb;
+	margin-bottom:5px;
+	padding: 5px;
+	font-size: 12px;
+	border-radius:5px;
 }
 
 .btn-konfirm{
-    background: #fca500;
+	background: #fca500;
 	padding: 10px;
-    border-radius: 5px;
-    color: #ffffff;
-    cursor: pointer;
-    margin-right: 10px;
-    font-size: 12px;
+	border-radius: 5px;
+	color: #ffffff;
+	font-weight: 600;
+	cursor: pointer;
+	margin-right: 10px;
+	font-size: 12px;
+	text-align: center;
+	width: 130px;
 }
 
 .btn-konfirm:hover{
-    background: #f9b025;
+	background: #f9b025;
 }
 
 .btn-contact{
-    background: #ff7c25;
+	background: #ff7c25;
+	font-weight: 600;
 	padding: 10px;
-    border-radius: 5px;
-    color: #ffffff;
-    cursor: pointer;
-    margin-right: 10px;
+	border-radius: 5px;
+	color: #ffffff;
+	cursor: pointer;
+	margin-right: 10px;
 	font-size: 12px;
-	margin-top: 15px;
-	width: 7.5rem;
+	margin-top: 5px;
+	width: 130px;
 	text-align: center;
 }
 
 .btn-contact:hover{
-    background: #ff8d42;
+	background: #ff8d42;
 }
 
 .button{
-	padding-top: 8rem;
+	padding-top: 1rem;
 	padding-right: 0.5rem;
+}
+
+.statusOrder {
+	text-transform: capitalize;
 }
 
 .ongkir {
@@ -255,7 +262,16 @@
 	padding:9px;
 	font-size: 12px;
 	border-radius: 5px;
-	border:1px solid #15af2a;
+	background-color: #15af2a;
+	color: #fff;
+	width: 130px;
+	text-align: center;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.bAccpet:hover{
+	background-color: #35b847;
 }
 
 .bReject{
@@ -264,7 +280,16 @@
 	padding:9px;
 	font-size: 12px;
 	border-radius: 5px;
-	border:1px solid #c94613;
+	background-color: #c94613;
+	color: #fff;
+	width: 130px;
+	text-align: center;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.bReject:hover{
+	background-color: rgb(250, 138, 94);
 }
 
 .btn-tab__active{
@@ -296,7 +321,8 @@
 
 .second__line--on-body{
 	display: grid;
-	grid-template-columns: 30% 40%;
+	grid-template-columns: 30% 40% 30%;
+	padding-bottom: 3rem;
 }
 
 .seconds__line--on-body {
@@ -311,7 +337,7 @@
 
 .fourth__line--on-body {
 	display: grid;
-	grid-template-columns: 30% 20% 50%;
+	grid-template-columns: 30% 20% 20% 30%;
 	padding-bottom: 3%;
 	
 	.color-Order__id {
@@ -334,13 +360,13 @@
 }
 
 .text__total-belanja {
-	text-align: right;
+	// text-align: right;
 	display: block;
 	color: red;
 }
 
 .text__nominal_tf {
-	text-align: right;
+	// text-align: right;
 	display: block;
 	color: green;
 }
@@ -414,4 +440,9 @@
 .paging a.disabled {
 	color: #ccc;
 	cursor: default;
+}
+
+.itemCartScroll{
+    overflow:scroll; 
+    height:500px;
 }

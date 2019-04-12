@@ -27,6 +27,7 @@ export class GetDataTranscationList {
   buyerName: string;
   grandTotal: number;
   orders: any[];
+  refNo: string;
 }
 
 export class Content {

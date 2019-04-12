@@ -69,7 +69,6 @@
                     <div class="popCol">
                         <div class="popCol2">
                             <div class="popCol2-sub">
-                                
                                 <input type="hidden" formControlName="bankAccountId">
                                 Dikirim Dari Rekening Bank Belisada<br>
                                 <!-- <input type="text"><br> -->
@@ -114,7 +113,7 @@
                             <div class="labField">Rp.{{grandTotal | number}}</div>
                             Detail Penarikan Dana<br>
                             <div class="labField"> 
-                                <div class="listInvoice" *ngFor="let itemsI of listInvoice">Tarikan Dana: {{itemsI}}</div>
+                                <div class="listInvoice" *ngFor="let itemsI of listInvoice">{{itemsI}}</div>
                             </div>
                         </div>
                     </div>
@@ -122,7 +121,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-sm btn-danger btn-click close" (click)="d('Cross click')">BATAL</button>
-                <button class="btn btn-sm btn-success btn-click" [disabled]="createComForm.invalid">PROSES</button>
+                <button class="btn btn-sm btn-success btn-click" [disabled]="createComForm.invalid" (click)="back()">PROSES</button>
             </div>
         </form>
     </div>

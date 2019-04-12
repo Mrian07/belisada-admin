@@ -1,0 +1,73 @@
+<h1 style="font-sixe:2rem; float: center;">Create Event</h1>
+<nb-card>
+    <nb-card-body>    
+            <form class="ui form" [formGroup]="addEventForm" (ngSubmit)="onSubmit()">
+                    <!-- <div class="add-product-form-wrapper">
+                        <ul class="add_product_image clearfix" id="image-list">
+                            <li class="u-inline-list-gap" *ngFor="let item of f.imageUrl.value; let i = index">
+                                <div class="image-preview" [ngStyle]="{'background-image': 'url(' + item + ')'}">
+                                    <span class="action-button" (click)="removeImage(i)">
+                                        <i class="fa fa-trash"></i>
+                                    </span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="pikcker-wrapper picker-add-image" *ngIf="(f.imageUrl.value.length < 5)">
+                                    <input type="file"  accept="image/jpeg,.jpeg,.jpg,image/png,.png" (change)="getSelectedFiles($event)">
+                                </div>
+                            </li>
+                        </ul>
+                    </div> -->
+                    
+                    <div class="row f-group">
+                        <label class="col-2 middle">Event Name</label>
+                        <div class="col-10">
+                            <input type="text" formControlName="eventName" class="f-control form-control" placeholder="Event Name">
+                        </div>  
+                    </div>
+                    
+                    <div class="row f-group">
+                        <label class="col-2 middle">Join Time</label>
+                        <div class="col-5">
+                            <input class="f-control form-control" [owlDateTime]="joinEventStartDate" [owlDateTimeTrigger]="joinEventStartDate" formControlName="joinEventStartDate" placeholder="start">
+                            <owl-date-time #joinEventStartDate></owl-date-time>
+                        </div>
+                        <div class="col-5">
+                            <input class="f-control form-control" [owlDateTime]="joinEventEndDate" [owlDateTimeTrigger]="joinEventEndDate" formControlName="joinEventEndDate" placeholder="end">
+                            <owl-date-time #joinEventEndDate></owl-date-time>
+                        </div>
+                    </div>
+                    <div class="row f-group">
+                        <label class="col-2 middle">Show Time</label>
+                        <div class="col-5">
+                            <input class="f-control form-control" [owlDateTime]="showEventStartDate" [owlDateTimeTrigger]="showEventStartDate" formControlName="showEventStartDate" placeholder="start">
+                            <owl-date-time #showEventStartDate></owl-date-time>
+                        </div>
+                        <div class="col-5">
+                            <input class="f-control form-control" [owlDateTime]="showEventEndDate" [owlDateTimeTrigger]="showEventEndDate" formControlName="showEventEndDate" placeholder="end">
+                            <owl-date-time #showEventEndDate></owl-date-time>
+                        </div>
+                    </div>
+                    <div class="row f-group">
+                        <label class="col-2 middle">Event Time</label>
+                        <div class="col-5">
+                            <input class="f-control form-control" [owlDateTime]="eventStartDate" [owlDateTimeTrigger]="eventStartDate" formControlName="eventStartDate" placeholder="start">
+                            <owl-date-time #eventStartDate></owl-date-time>
+                        </div>
+                        <div class="col-5">
+                            <input class="f-control form-control" [owlDateTime]="eventEndDate" [owlDateTimeTrigger]="eventEndDate" formControlName="eventEndDate" placeholder="end">
+                            <owl-date-time #eventEndDate></owl-date-time>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button class="btn btn-sm btn-success btn-click" style="cursor:pointer;">SUBMIT</button>
+                    </div>
+                </form>
+    </nb-card-body>
+</nb-card> 
+
+
+
+
+

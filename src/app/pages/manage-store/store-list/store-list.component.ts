@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl} from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { exapmling, List, updateToko, detailToko, ListingItem } from '../../../@core/models/manage-store/manage-store.model';
+import { exapmling, List, updateToko, detailToko, ListingItem, IsiData } from '../../../@core/models/manage-store/manage-store.model';
 import { ManageStoreService } from '../../../@core/services/manage-store/manage-store.service';
 
 import swal from 'sweetalert2';
@@ -59,6 +59,7 @@ export class StoreListComponent implements OnInit {
   lastPage: number;
   // listToko: IsiData[];
   listToko: List = new List();
+  isiData: IsiData = new IsiData();
   listDetailToko: detailToko = new detailToko();
   private rowSelected: number;
 
@@ -168,15 +169,34 @@ export class StoreListComponent implements OnInit {
   }
 
   getValueFromSelect(data) {
-    const b = this.exali.descript = this.descripReject.value;
-    this.descripReject.reset();
-    this.checkIfButtonWasPressed = false;
-    const postData = {
-      statusCode: this.select,
-      note: b,
-      storeId: this.cCharacters
-    };
-    this.postingPut(postData);
+    if (this.descripReject.value=='' || this.descripReject.value== undefined) {
+      swal(
+            'Alert',
+            'Please fill the Explaination field',
+            'error',
+          );
+    } else {
+      const b = this.exali.descript = this.descripReject.value;
+      this.descripReject.reset();
+      this.checkIfButtonWasPressed = false;
+      const postData = {
+        statusCode: this.select,
+        note: b,
+        storeId: this.cCharacters
+      };
+      this.postingPut(postData);
+    }
+  }
+  getValueFromSelec(data) {
+      const b = this.exali.descript = this.descripReject.value;
+      this.descripReject.reset();
+      this.checkIfButtonWasPressed = false;
+      const postData = {
+        statusCode: this.select,
+        note: b,
+        storeId: this.cCharacters
+      };
+      this.postingPut(postData);
   }
   private postingPut(postData: {
     statusCode: string; note: string; storeId: string;

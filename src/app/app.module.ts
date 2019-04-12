@@ -21,9 +21,14 @@ import { HttpTokenInterceptor } from './@core/services/interceptors/http.token.i
 
 import { CountdownTimerModule } from 'ngx-countdown-timer';
 
+import { ChatComponent } from './pages/chat/chat.component';
+import { NbDatepickerModule } from '@nebular/theme';
+
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +46,7 @@ import { CountdownTimerModule } from 'ngx-countdown-timer';
     AngularFireAuthModule,
     AngularFireMessagingModule,
     AngularFireModule.initializeApp(environment.firebase),
+    NbDatepickerModule.forRoot(),
   ],
   bootstrap: [AppComponent],
   providers: [

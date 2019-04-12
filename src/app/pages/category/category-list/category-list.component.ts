@@ -181,7 +181,7 @@ export class CategoryListComponent implements OnInit {
     }
     this.categoryService.srcSpec(queryParams).subscribe(response => {
       console.log('hasil', response);
-     this.listAutoSrc=response;
+    this.listAutoSrc=response;
     });
   }
 

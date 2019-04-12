@@ -30,11 +30,11 @@
                 <section class="content-current">
                     <accordion>
                         <group *ngFor="let item of listOrder" [data]="item">
-                            <div  *ngFor="let itemCart of item.transaction">
+                            <div *ngFor="let itemCart of item.transaction" [ngClass]="{'itemCartScroll': itemCart.cart.length>=2}">
                                 <div class="row" *ngFor="let itemList of itemCart.cart">
                                     <table border="0" width="100%">
                                         <tr>
-                                            <td valign="top" class="product" width="25%">
+                                            <td valign="top" class="product" width="37%">
                                                 <span class="order-id">ORDER ID: {{itemList.orderNumber}}</span>
                                                 <table border="0" width="100%">
                                                 <tr *ngFor="let itemListProduct of itemList.cartItems">
@@ -49,46 +49,46 @@
                                                         </span>
                                                         </div>
                                                         <div class="item-colom">Rp.{{itemListProduct.subtotal | number}}</div>
-                                    
                                                     </td>
                                                 </tr>
                                                 </table>
                                             </td>
-                                            <td valign="top" width="32%">
+                                            <td valign="top" width="20%">
                                                 <div class="item-colom-border">
                                                     <b>Nama Penerima:</b> <br><label>{{itemList.namaPenerima}}</label><br>
                                                     <b>No Handphone: </b><br><label>{{itemList.phonePenerima}}</label><br>
                                                     <b>Alamat: </b><br>{{itemList.alamatSebagai}}<br><label>{{ itemList.alamatPenerima }}</label>
                                                 </div>
                                             </td>
-                                            <td valign="top" width="30%">
+                                            <td valign="top" width="28%">
                                                 <div class="item-colom">
                                                     <div class="row">
                                                         <div class="col-6">
-                                                        <b>No Resi:</b><br><label>{{itemList.noResi}}</label><br><br>
-                                                        <b>Status:</b><br><label>{{itemList.statusOrder}}</label>
+                                                            <b>No Resi:</b><br><label>{{itemList.noResi}}</label><br><br>
+                                                            <b>Status:</b><br><label class="statusOrder">{{itemList.statusOrder}}</label>
                                                         </div>
                                                         <div class="col-6">
-                                                        <b>Metode Pengiriman:</b><br><label>{{itemList.courierName}} {{itemList.courierService}}</label><br><br>
-                                                        <b>Total Berat: </b><br><label>{{itemList.totalWeight/1000}}kg</label>
+                                                            <b>Metode Pengiriman:</b><br><label>{{itemList.courierName}} {{itemList.courierService}}</label><br><br>
+                                                            <b>Total Berat: </b><br><label>{{itemList.totalWeight/1000}} kg</label><br><br>
+                                                            <b>Asuransi: </b><br><label *ngIf="itemList.useAsuransi == false">Tidak</label><label *ngIf="itemList.useAsuransi == true">Ya</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td valign="top" width="13%">
+                                            <td valign="top" width="15%">
                                                 <div class="ongkir">
-                                                    <b>Biaya Pengiriman: </b><br><label>Rp.&nbsp;{{itemList.courierPrice | number}}</label>
+                                                    <b>Biaya Pengiriman: </b><br><label>Rp. {{itemList.courierPrice | number}}</label>
                                                     <div class="button">
-                                                        <span class="btn-konfirm"  *ngIf="item.statusCode === '230'" (click)="showDialog = !showDialog" (click)="ok(item.paymentNumber)">Confirm Transfer</span>
-                                                        <span *ngIf="item.statusCode === '233'" class="bAccpet">
+                                                        <div class="btn-konfirm" *ngIf="item.statusCode === '230'" (click)="showDialog = !showDialog" (click)="ok(item.paymentNumber)">Confirm Transfer</div>
+                                                        <div *ngIf="item.statusCode === '233'" class="bAccpet" (click)="showPaymentDialog = !showPaymentDialog" (click)="ok(item.paymentNumber)">
                                                             Status: Accept
-                                                        </span>
-                                                        <span *ngIf="item.statusCode === '229'" class="bReject">
+                                                        </div>
+                                                        <div *ngIf="item.statusCode === '229'" class="bReject" (click)="showPaymentDialog = !showPaymentDialog" (click)="ok(item.paymentNumber)">
                                                             Status: Reject (-{{item.reason}}-)
-                                                        </span>&nbsp;&nbsp;
+                                                        </div>&nbsp;&nbsp;
                                                         
                                                     </div>
-                                                    <div class="btn-contact">Hubungi Seller</div>
+                                                    <!-- <div class="btn-contact">Hubungi Seller</div> -->
                                                     
                                                 </div>
                                             </td>
@@ -133,7 +133,7 @@
 <modal-mp maxwidth="920" [(visible)]="showDialog" class="frameDialog">
     <div style="
             min-height: 10rem;
-            max-height: 30rem;
+            max-height: 33rem;
             display: block;
             overflow: auto;
         ">
@@ -141,10 +141,9 @@
                 <div class="text-payment__id">Payment ID</div>
                 <div class="text--align_center text-payment__id">Tanggal Transfer</div>
                 <div>{{ getDataTranscation.paymentNumber }}</div>
-                <div *ngIf="getDataTranscation.transerDate === '';else JikadAdaTanggalTf" class="text--align_center"> belum ada data</div>
+                <div *ngIf="getDataTranscation.transerDate === '';else JikadAdaTanggalTf" class="text--align_center"> Belum Ada Data</div>
                 <ng-template #JikadAdaTanggalTf >
-                <div class="text--align_center"> {{getDataTranscation.transerDate }}</div>
-            
+                    <div class="text--align_center"> {{getDataTranscation.transerDate }}</div>
                 </ng-template>
                 <!-- <div class="text--align_center"> {{ getDataTranscation.transerDate  }}</div> -->
             </div>
@@ -158,12 +157,14 @@
                 <div> {{ getDataTranscation.accountNumber }} </div>
             </div>
             <hr>
-            <div class="second__line--on-body">
+            <div class="seconds__line--on-body">
                 <div class="text-color__black"> Pembeli</div>
                 <div class="text-color__black">Berita</div>
+                <div class="text-color__black">No Referensi</div>
                 <div> {{ getDataTranscation.buyerName }} </div>
                 <div *ngIf="getDataTranscation.news === '';else JikaAdaNews"> belum ada data</div>
-                <ng-template #JikaAdaNews> {{getDataTranscation.news }}</ng-template>
+                <ng-template #JikaAdaNews> {{ getDataTranscation.news }}</ng-template>
+                <div> {{ getDataTranscation.refNo }} </div>
             </div>
             <hr>
             <div class="three__line--on-body">
@@ -177,25 +178,27 @@
             <div class="fourth__line--on-body" *ngFor="let item of getDataTranscation.orders">
                 <div class="color-Order__id">Order ID #{{ item.orderNumber  }}</div>
                 <div> Toko : {{ item.storeName }} </div>
-                <div>{{ item.total | currency:'Rp. ' }}</div>
+                <div *ngIf="getDataTranscation.totalAsuransi == '0';else Asuransi">Asuransi: TIDAK</div>
+                <ng-template #Asuransi> Asuransi: YA </ng-template>
+                <div>Rp. {{ item.total | number }}</div>
             </div>
             <hr>
             <div class="five__line--on-body">
                 <div>
-                    <select  class="form-control"  [(ngModel)]="codeNum">
-                        <option value="codeNum" disabled selected></option>
-                        <option *ngFor="let option of getListing" [ngValue]="option.statusCode" selected="option.status == 'back'">
+                    <select class="form-control" [(ngModel)]="codeNum">
+                        <option value="" disabled>Pilih Alasan Penolakan</option>
+                        <option *ngFor="let option of getListing" [ngValue]="option.statusCode">
                             {{ option.status }}
                         </option>
                     </select>
                 </div>
                 <div>
-                    <span class="text__total-belanja">Total Belanja : </span>
-                    <span class="text__nominal_tf">Nominal Transfer : </span>
+                    <span class="text__total-belanja">Total Belanja </span>
+                    <span class="text__nominal_tf">Nominal Transfer </span>
                 </div>
                 <div>
-                    <span class="text__block"> {{ getDataTranscation.grandTotal | currency:'Rp. ' }}</span>
-                    <span > {{ getDataTranscation.nominal | currency:'Rp. ' }}</span>
+                    <span class="text__block"> : Rp. {{ getDataTranscation.grandTotal | number }}</span>
+                    <span > : Rp. {{ getDataTranscation.nominal | number }}</span>
                 </div>
             </div>
             <div class="six__line--on-body" *ngIf="getDataTranscation.status === 'menunggu konfirmasi pembayaran'">
@@ -204,6 +207,83 @@
                 </div>
                 <div class="d__for--button">
                     <button class="btn btn--width btn__color-green" (click)="confrimButton(getDataTranscation.paymentNumber)">Konfirmasi</button>
+                </div>
+            </div>
+    </div>
+        
+<!-- <ng-template #xxasd>Please login to continue.</ng-template> -->
+        
+</modal-mp>
+
+<modal-mp maxwidth="920" [(visible)]="showPaymentDialog" class="frameDialog">
+    <div style="
+            min-height: 10rem;
+            max-height: 33rem;
+            display: block;
+            overflow: auto;
+        ">
+            <div class="body--on__popuP">
+                <div class="text-payment__id">Payment ID</div>
+                <div class="text--align_center text-payment__id">Tanggal Transfer</div>
+                <div>{{ getDataTranscation.paymentNumber }}</div>
+                <div *ngIf="getDataTranscation.transerDate === '';else JikadAdaTanggalTf" class="text--align_center"> Belum Ada Data</div>
+                <ng-template #JikadAdaTanggalTf >
+                    <div class="text--align_center"> {{getDataTranscation.transerDate }}</div>
+                </ng-template>
+                <!-- <div class="text--align_center"> {{ getDataTranscation.transerDate  }}</div> -->
+            </div>
+            <hr>
+            <div class="seconds__line--on-body">
+                <div class="text-color__black"> Bank Transfer</div>
+                <div class="text-color__black">Pemilik Rekening</div>
+                <div class="text-color__black"> No rekening</div>
+                <div> {{ getDataTranscation.transferFrom }}</div>
+                <div> {{ getDataTranscation.accountName }} </div>
+                <div> {{ getDataTranscation.accountNumber }} </div>
+            </div>
+            <hr>
+            <div class="seconds__line--on-body">
+                <div class="text-color__black"> Pembeli</div>
+                <div class="text-color__black">Berita</div>
+                <div class="text-color__black">No Referensi</div>
+                <div> {{ getDataTranscation.buyerName }} </div>
+                <div *ngIf="getDataTranscation.news === '';else JikaAdaNews"> belum ada data</div>
+                <ng-template #JikaAdaNews> {{ getDataTranscation.news }}</ng-template>
+                <div> {{ getDataTranscation.refNo }} </div>
+            </div>
+            <hr>
+            <div class="three__line--on-body">
+                <div class="text-color__black">Order date</div>
+            </div>
+            <div class="three__line--on-body">
+                <div *ngIf="getDataTranscation.createdOrder === '';else JikadaAdaOrderDate"> belum ada data</div>
+                <ng-template #JikadaAdaOrderDate> {{getDataTranscation.createdOrder }}</ng-template>
+            </div>
+            <hr>
+            <div class="fourth__line--on-body" *ngFor="let item of getDataTranscation.orders">
+                <div class="color-Order__id">Order ID #{{ item.orderNumber  }}</div>
+                <div> Toko : {{ item.storeName }} </div>
+                <div *ngIf="getDataTranscation.totalAsuransi == '0';else Asuransi">Asuransi: TIDAK</div>
+                <ng-template #Asuransi> Asuransi: YA </ng-template>
+                <div>Rp. {{ item.total | number }}</div>
+            </div>
+            <hr>
+            <div class="seconds__line--on-body">
+                <div>
+                    <span class="text__total-belanja">Total Belanja </span>
+                    <span class="text__nominal_tf">Nominal Transfer </span>
+                </div>
+                <div>
+                    <span class="text__block"> : Rp. {{ getDataTranscation.grandTotal | number }}</span>
+                    <span > : Rp. {{ getDataTranscation.nominal | number }}</span>
+                </div>
+                <div>
+                    <div *ngIf="getDataTranscation.status === 'pembayaran berhasil'" class="bAccpet" >
+                        ACCEPTED
+                    </div>
+                    <div *ngIf="getDataTranscation.status === 'transaksi dibatalkan'" class="bReject">
+                        REJECTED 
+                    </div>
                 </div>
             </div>
     </div>

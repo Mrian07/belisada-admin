@@ -21,6 +21,10 @@ const routes: Routes = [{
 
     },
     {
+      path: 'event',
+      loadChildren: './manage-event/manage-event.module#ManageEventModule',
+    },
+    {
       path: 'brand',
       loadChildren: './brand/brand.module#BrandModule',
     },

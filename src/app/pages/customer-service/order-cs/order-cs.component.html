@@ -71,7 +71,7 @@
                             {{varian.varians[0].value}} {{ (i === itemListProduct.varians.length - 1) ? '' : ' - ' }}
                           </span>
                       </div>
-                      <div class="item-colom">  {{ itemListProduct.subtotal | currency:'Rp ' }}</div>
+                      <div class="item-colom"> Rp. {{ itemListProduct.subtotal | number }}</div>
                   </td>
                 </tr>
               </table>
@@ -127,7 +127,7 @@
             <td width="20%">
                 <div class="row">
                     <div class="col-12 ongkir">
-                      <label>Ongkos Kirim: <br>{{ itemList.courierPrice | currency:'Rp ' }}</label>
+                      <label>Ongkos Kirim: <br>Rp. {{ itemList.courierPrice | number }}</label>
                     </div>
                   </div>
               <span class="btn-konfirm">
@@ -220,7 +220,7 @@
   <div class="fourth__line--on-body" *ngFor="let item of getDataTranscation.orders">
     <div class="color-Order__id">Order ID #{{ item.orderNumber  }}</div>
     <div> Toko : {{ item.storeName }} </div>
-    <div>{{ item.total | currency:'Rp. ' }}</div>
+    <div>Rp. {{ item.total | number }}</div>
   </div>
   <hr>
   <div class="five__line--on-body">
@@ -237,8 +237,8 @@
       <span class="text__nominal_tf">Nominal Transfer : </span>
     </div>
     <div>
-      <span class="text__block"> {{ getDataTranscation.grandTotal | currency:'Rp. ' }}</span>
-      <span > {{ getDataTranscation.nominal | currency:'Rp. ' }}</span>
+      <span class="text__block"> Rp. {{ getDataTranscation.grandTotal | number }}</span>
+      <span> Rp. {{ getDataTranscation.nominal | number }}</span>
     </div>
   </div>
   <div class="six__line--on-body" *ngIf="getDataTranscation.status === 'menunggu konfirmasi pembayaran'">

@@ -11,14 +11,18 @@
                     <th>Nama Toko</th>
                     <th>Nominal Transfer</th>
                     <th>Status <i class="fa fa-sort"></i></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of list">
-                    <td>{{item.expiredProcessDate}}</td>
+                    <td>{{item.transferDate}}</td>
                     <td>{{item.storeName}}</td>
                     <td>Rp.{{item.grandTotal | number}}</td>
                     <td>{{item.status}}</td>
+                    <td><div class="btn-detail" (click)="popDetail(content,item)">
+                        Lihat Detail
+                    </div></td>
                 </tr>
             </tbody>
         </table>
@@ -43,3 +47,56 @@
         </div>
     </nb-card-body>
 </nb-card> 
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Detail Pencairan Dana</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div>
+            <div class="modal-body">
+                    <div class="popCol">
+                        <div>
+                            Pemilik Rekening<br>
+                            <div class="labField">{{accountName}}</div>
+                            Informasi Rekening<br>
+                            <div class="labField">{{accountNumberDetail}}</div>
+                            Nominal Penarikan Dana<br>
+                            <div class="labField">Rp. &nbsp;{{grandTotal | number}}</div>
+                            Berita<br>
+                            <div class="labField">{{news}}</div>
+                        </div>
+                        <div>
+                            Tanggal Transfer<br>
+                            <div class="labField">{{transferDate}}</div>
+                            Invoice Penarikan Dana<br>
+                            <div class="labField"> 
+                                <div class="listInvoice" *ngFor="let itemsI of listInvoice">{{itemsI}}</div>
+                            </div>
+                            Nominal Transfer<br>
+                            <div class="labField">Rp. &nbsp;{{nominal | number}}</div>
+                        </div>
+                    </div>
+                
+            </div>
+    </div>
+    <!-- <div *ngIf="isSuccess==true">
+        <div class="modal-body">
+            Withdrawal berhasil diproses.
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-sm btn-danger btn-click close" (click)="d('Cross click')">TUTUP</button>
+        </div>
+    </div> -->
+    <!-- <div *ngIf="isError==true">
+        <div class="modal-body">
+            Withdrawal gagal diproses!
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-sm btn-danger btn-click close" (click)="d('Cross click')">TUTUP</button>
+        </div>
+    </div> -->
+    
+</ng-template>
