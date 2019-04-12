@@ -92,9 +92,7 @@
                                             </td>
                                             <td>
                                                 <div>
-                                                    <div>
-                                                        Belum ada produk untuk event ini.
-                                                    </div>
+                                                    Belum ada produk untuk event ini.
                                                     <div class="button-add-product">
                                                         <button ngbButtonLabel class="btn btn-success btn-tn" style="cursor:pointer;" (click)="addProduct(content,item.id)"><i class="fa fa-plus"></i>&nbsp;Add Product</button>
                                                         <!-- <button>Product List</button> -->
@@ -133,6 +131,8 @@
     </nb-card-body>
 </nb-card>
 
+
+
 <ng-template #content let-c="close" let-d="dismiss">
         <div class="modal-header">
             <h4 class="modal-title">Add Product</h4>
@@ -140,29 +140,170 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="product-container">
-            <input class="form-control" placeholder="Search Name" (keyup)="searchK($event)">
-                <div class="modal-body">
-                        <table *ngFor="let obj of listProduct" class="table table-bordered table-striped">
-                                <tr (click)="openRowProduct(obj.productId)" (click)="loadDataProduct(obj.productId)">
-                                    <td> <img class="item__cusotmese__image" src="{{obj.imageUrl[0]}}"></td>
-                                    <td class="td__cusotmese__image">
-                                        <p> {{ obj.name }}</p>
-                                    </td>
-                                    <td>
-                                        <input class="form-control" type="text" formControlName="maxPurhaseQty" placeholder="Max. Purchase Quantity">
-                                        <div *ngIf="(submitted || addP.maxPurhaseQty.touched) && addP.maxPurhaseQty.invalid">
-                                            <bss-field-error [displayError]="addP.maxPurhaseQty.errors.required" errorMsg="Max. Purchase Quantity harus diisi"></bss-field-error>
+        <div class="modal-body">
+            <div class="product-container">
+            <section>
+                <input *ngIf="isVarian==false" class="form-control" placeholder="Search Name" (keyup)="searchK($event)">
+                <div  *ngIf="isSearch==true">
+                    <table *ngFor="let obj of listProduct" class="table table-bordered table-striped"> 
+                        <tr (click)="loadDataProduct(obj.productId, obj.name )">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <img class="item__cusotmese__image" src="{{obj.imageUrl[0]}}">
+                                </div>
+                                <div class="col-md-5">
+                                    <h4>{{ obj.name }}</h4>
+                                </div>
+                            </div>
+                        </tr>
+                    </table>
+                </div>
+                    
+            </section>
+
+            <section *ngIf="isVarian==true && isSearch==false">
+                <form [formGroup]="addProductForm" style="padding:2rem;">
+                    <div class="row" style="padding-bottom: 3rem;">
+                        <div class="col-md-6">
+                            <input class="form-control" type="text" formControlName="masterProductId" >
+                        </div>
+                        <div class="col-md-6" style="float:left;">
+                            <h3>{{name}}</h3>
+                        </div>
+                        <div class="col-md-6" style="float:right;">
+                            <input class="form-control" type="text" formControlName="maxPurhaseQty" placeholder="Max. Purchase Quantity">
+                            <div *ngIf="(submitted || addP.maxPurhaseQty.touched) && addP.maxPurhaseQty.invalid">
+                                <bss-field-error [displayError]="addP.maxPurhaseQty.errors.required" errorMsg="Max. Purchase Quantity harus diisi"></bss-field-error>
+                            </div>
+                        </div>
+                    </div>
+                    Silahkan Pilih Varian
+                    <div formArrayName="productVariants">
+                        <div [formGroupName]="i" *ngFor="let it of getVariants(addProductForm); let i = index">
+                            <div *ngFor="let item of VariantAttr">
+                                    <input class="form-control" type="text" formControlName="masterVariantId" >
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div *ngIf="item.useVarian==true" (change)="toggleControl(it)">
+                                            <input type="checkbox" checked formControlName="isActive"> {{item.name}} - {{item.productId}}
                                         </div>
-                                    </td>
-                                </tr>
+                                        <div *ngIf="item.useVarian==false" (change)="toggleControl(it)">
+                                            <input type="checkbox" formControlName="isActive"> {{item.name}} - {{item.productId}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control" (change)="calculateDiscount()" type="text" formControlName="priceMin" placeholder="Price Min." 
+                                        [ngClass]="{'form-error': (it.errors || it.controls.priceMin.invalid) && (submitted || it.controls.priceMin.touched) && it.controls.isActive.value == true}" maxlength="10" (keypress)="numberCheck($event, it)">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control" (change)="calculateDiscount()" type="text" formControlName="priceMax" placeholder="Price Max."
+                                        [ngClass]="{'form-error': (it.errors || it.controls.priceMax.invalid) && (submitted || it.controls.priceMax.touched) && it.controls.isActive.value == true}" maxlength="10" (keypress)="numberCheck($event, it)">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control" type="text" formControlName="qty" placeholder="Quantity" (keypress)="numberCheck($event)">
+                                    </div>
+                                    <div class="offset-md-5 col-md-5">
+                                        <div *ngIf="(submitted || it.controls.qty.touched) && it.controls.qty.invalid && it.controls.isActive.value == true">
+                                            <!-- <bss-field-error [displayError]="it.controls.qty.errors.max" errorMsg="Maksimal quantity 5"></bss-field-error> -->
+                                            <bss-field-error [displayError]="it.controls.qty.errors.required" errorMsg="Quantity harus diisi"></bss-field-error>
+                                        </div>
+                                        <div *ngIf="(submitted || it.touched) && it.errors && it.controls.isActive.value == true">
+                                            <bss-field-error [displayError]="it.errors.invalidprice" errorMsg="Price Min. tidak boleh lebih besar dari Price Max."></bss-field-error>
+                                        </div>
+                                        <div *ngIf="(submitted || it.controls.priceMin.touched) && it.controls.priceMin.invalid && it.controls.isActive.value == true">
+                                            <bss-field-error [displayError]="it.controls.priceMin.errors.min" errorMsg="Price Min. minimal Rp 100"></bss-field-error>
+                                            <bss-field-error [displayError]="it.controls.priceMin.errors.required" errorMsg="Price Min. harus diisi"></bss-field-error>
+                                        </div>
+                                        <div *ngIf="(submitted || it.controls.priceMax.touched) && it.controls.priceMax.invalid && it.controls.isActive.value == true">
+                                            <bss-field-error [displayError]="it.controls.priceMax.errors.min" errorMsg="Price Max. minimal Rp 100"></bss-field-error>
+                                            <bss-field-error [displayError]="it.controls.priceMax.errors.required" errorMsg="Price Max. harus diisi"></bss-field-error>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="float:right; padding:2rem;">
+                        <button ngbButtonLabel class="btn btn-success btn-tn" [disabled]="addProductForm.invalid" (click)="submit(eventId)" style="cursor:pointer;">Submit</button>
+                    </div>
+                </form>
+            
+                
+                    <!-- <form [formGroup]="addProductForm">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <h4>{{ obj.name }}</h4>
+                                </div>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="text" formControlName="maxPurhaseQty" placeholder="Max. Purchase Quantity">
+                                    <div *ngIf="(submitted || addP.maxPurhaseQty.touched) && addP.maxPurhaseQty.invalid">
+                                        <bss-field-error [displayError]="addP.maxPurhaseQty.errors.required" errorMsg="Max. Purchase Quantity harus diisi"></bss-field-error>
+                                    </div>
+                                </div>
+                            </div>
+                            <div formArrayName="productVariants">
+                                    <div class="row" [formGroupName]="i" *ngFor="let variant of getVariants(addProductForm); let i = index">
+                                        <div class="col-md-1">
+                                            <label class="switch small">
+                                                <input formControlName="isActive" type="checkbox" (change)="toggleControl(variant)">
+                                                <span class="slider round"></span>
+                                                </label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <span [class]="'variant-separator variant-separator--' + i" *ngFor="let item of VariantAttr[i]?.specification; let i = index">{{ item.value }}</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="text" (change)="calculateDiscount()" placeholder="Price Min." formControlName="priceMin" class="form-control"
+                                            [ngClass]="{'form-error': (variant.errors || variant.controls.priceMin.invalid) && (submitted || variant.controls.priceMin.touched) && variant.controls.isActive.value == true}" maxlength="10" (keypress)="numberCheck($event, variant)">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="text" (change)="calculateDiscount()" placeholder="Price Max." formControlName="priceMax" class="form-control"
+                                                [ngClass]="{'form-error': (variant.errors || variant.controls.priceMax.invalid) && (submitted || variant.controls.priceMax.touched) && variant.controls.isActive.value == true}" maxlength="10" (keypress)="numberCheck($event, variant)">
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input type="text" placeholder="Quantity" formControlName="qty" class="form-control text-center" (keypress)="numberCheck($event)">
+                                        </div>
+                                        <div class="offset-md-5 col-md-5">
+                                            <div *ngIf="(submitted || variant.controls.qty.touched) && variant.controls.qty.invalid && variant.controls.isActive.value == true">
+                                                <bss-field-error [displayError]="variant.controls.qty.errors.max" errorMsg="Maksimal quantity 5"></bss-field-error>
+                                                <bss-field-error [displayError]="variant.controls.qty.errors.required" errorMsg="Quantity harus diisi"></bss-field-error>
+                                            </div>
+                                            <div *ngIf="(submitted || variant.touched) && variant.errors && variant.controls.isActive.value == true">
+                                                <bss-field-error [displayError]="variant.errors.invalidprice" errorMsg="Price Min. tidak boleh lebih besar dari Price Max."></bss-field-error>
+                                            </div>
+                                            <div *ngIf="(submitted || variant.controls.priceMin.touched) && variant.controls.priceMin.invalid && variant.controls.isActive.value == true">
+                                                <bss-field-error [displayError]="variant.controls.priceMin.errors.min" errorMsg="Price Min. minimal Rp 100"></bss-field-error>
+                                                <bss-field-error [displayError]="variant.controls.priceMin.errors.required" errorMsg="Price Min. harus diisi"></bss-field-error>
+                                            </div>
+                                            <div *ngIf="(submitted || variant.controls.priceMax.touched) && variant.controls.priceMax.invalid && variant.controls.isActive.value == true">
+                                                <bss-field-error [displayError]="variant.controls.priceMax.errors.min" errorMsg="Price Max. minimal Rp 100"></bss-field-error>
+                                                <bss-field-error [displayError]="variant.controls.priceMax.errors.required" errorMsg="Price Max. harus diisi"></bss-field-error>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button ngbButtonLabel class="btn btn-success btn-tn" style="cursor:pointer;" (click)="postProductV2(eventId)" [disabled]="addProductForm.invalid"><i class="fa fa-plus"></i>&nbsp;Add Product</button>
+                                </div>
+                            </form> -->
+            </section>
+
     
-                                <tr *ngIf="rowSelect==obj.productId">
+                                <!-- <tr *ngIf="rowSelect==obj.productId">
                                     <td colspan="6">
                                         <table class="table">
                                             <form [formGroup]="addProductForm">
-                                                <div>
-                                                    
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <h4>{{ obj.name }}</h4>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <input class="form-control" type="text" formControlName="maxPurhaseQty" placeholder="Max. Purchase Quantity">
+                                                        <div *ngIf="(submitted || addP.maxPurhaseQty.touched) && addP.maxPurhaseQty.invalid">
+                                                            <bss-field-error [displayError]="addP.maxPurhaseQty.errors.required" errorMsg="Max. Purchase Quantity harus diisi"></bss-field-error>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div formArrayName="productVariants">
                                                         <div class="row" [formGroupName]="i" *ngFor="let variant of getVariants(addProductForm); let i = index">
@@ -173,7 +314,6 @@
                                                                     </label>
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <!-- <img [src]="productStoreUrl + VariantAttr[i]?.imageUrl[0]" alt=""> -->
                                                                 <span [class]="'variant-separator variant-separator--' + i" *ngFor="let item of VariantAttr[i]?.specification; let i = index">{{ item.value }}</span>
                                                             </div>
                                                             <div class="col-md-2">
@@ -206,69 +346,14 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button ngbButtonLabel class="btn btn-success btn-tn" style="bottom:0; cursor:pointer;" (click)="postProductV2(eventId)" [disabled]="addProductForm.invalid"><i class="fa fa-plus"></i>&nbsp;Add Product</button>
+                                                    <div>
+                                                        <button ngbButtonLabel class="btn btn-success btn-tn" style="cursor:pointer;" (click)="postProductV2(eventId)" [disabled]="addProductForm.invalid"><i class="fa fa-plus"></i>&nbsp;Add Product</button>
                                                     </div>
-                                            </form>
+                                                </form>
                                         </table>        
                                     </td>
-                                </tr>
-            
-                                <!-- <tr *ngIf="rowSelect==obj.productId" formArrayName="productVariants">
-                                        <td>
-                                            <div class="variant-head">
-                                                Choose Variant
-                                            </div>
-                                            <div>
-                                                {{ item.name }}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="qty-head">
-                                                Quantity
-                                            </div>
-                                            <div>
-    
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="min-head">
-                                                Price Min.
-                                            </div>
-                                            <div>
-    
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="max-head">
-                                                Price Max.
-                                            </div>
-                                            <div>
-    
-                                            </div>
-                                        </td>
                                 </tr> -->
-                    </table>
-                </div>
-                <!-- <div class="paging">
-                    <ul>
-                        <li>
-                            <a (click)="setPage(1)" [ngClass]="{disabled:currentPage == 1}">First</a>
-                        </li>
-                        <li>
-                            <a (click)="setPage(currentPage, -1)" [ngClass]="{disabled:(currentPage-1) < 1}">Previous</a>
-                        </li>
-                        <li *ngFor="let p of pages">
-                            <a (click)="setPage(p)" [ngClass]="currentPage == p?'current-page':''">{{p}}</a>
-                        </li>
-                        <li>
-                            <a (click)="setPage(currentPage, +1)" [ngClass]="{disabled:currentPage == lastPage}">Next</a>
-                        </li>
-                        <li>
-                            <a (click)="setPage(lastPage)" [ngClass]="{disabled:currentPage == lastPage}">Last</a>
-                        </li>
-                    </ul>
-                </div> -->    
+        </div>
         </div>
 </ng-template>
 
