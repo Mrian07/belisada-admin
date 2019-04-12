@@ -123,21 +123,29 @@ export class OrderListComponent implements OnInit {
   }
 
   gakmasu(e) {
-    const iniKirim = {
-      paymentNumber: e,
-      reasonType: this.codeNum,
-    }
-    this.loading = true;
-    this._orderService.paymentFailed(iniKirim).subscribe( bb => {
-      console.log(bb.message);
+
+    if(this.codeNum ==''){
       swal(
-        bb.message,
+        'Silakan pilih alasan penolakan',
       )
-    })
-    this.loading = false;
-    this.showDialog = false;
-    console.log(iniKirim);
+    }else{
+      const iniKirim = {
+        paymentNumber: e,
+        reasonType: this.codeNum,
+      }
+      this.loading = true;
+      this._orderService.paymentFailed(iniKirim).subscribe( bb => {
+        console.log(bb.message);
+        swal(
+          bb.message,
+        )
+      })
+      this.loading = false;
+      this.showDialog = false;
+      console.log(iniKirim);
+    }
   }
+
   confrimButton(e) {
     const a = {
       paymentNumber: e,
