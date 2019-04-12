@@ -53,8 +53,8 @@ constructor(private configuration: Configuration, private http: HttpClient, priv
             );
     }
 
-    createEventProduct(id: any, data: PostMasterProduct) {
-        return this.http.post(this.configuration.eventURL + '/events/' + id + '/mpe', data)
+    createEventProduct(eventId, data: PostMasterProduct) {
+        return this.http.post(this.configuration.eventURL + '/events/' + eventId + '/mpe', data)
             .pipe(
                 map(response => response as any)
             );

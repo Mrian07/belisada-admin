@@ -36,6 +36,9 @@ th{
     cursor: default;
 }
 
+.table-bordered {
+    cursor: pointer;
+}
 
 .table-bordered thead tr th{
     border:1px solid #ebeef2;
@@ -104,11 +107,11 @@ th{
     padding: 1rem;
 }
 
-.button-add-product {
-
-}
 
 .product-container {
     min-height: 30rem;
     min-width: 20rem;
 }
+
+
+
