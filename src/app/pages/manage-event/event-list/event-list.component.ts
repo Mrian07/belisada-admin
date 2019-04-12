@@ -126,7 +126,7 @@ export class EventListComponent {
     private _initVariants(): FormGroup {
         return this.fb.group({
             isActive: [true],
-            masterVarianId: [''],
+            masterVariantId: [''],
             priceMax: ['', [Validators.required, Validators.min(100)]],
             priceMin: ['', [Validators.required, Validators.min(100)]],
             qty: ['', [Validators.required]]
@@ -365,7 +365,8 @@ export class EventListComponent {
 
                 const control = <FormArray>this.addProductForm.get('productVariants');
                 control.at(index).patchValue({
-                    masterVarianId: it.masterVarianId,
+                    masterVariantId: it.productId,
+                    
                 });
             });
         });
@@ -423,6 +424,7 @@ export class EventListComponent {
     d(a) {
         console.log(a);
         this.addProductForm.reset();
+        this.router.navigate(['/event']);
     }
 
     searchK(event) {

@@ -164,9 +164,7 @@
             <section *ngIf="isVarian==true && isSearch==false">
                 <form [formGroup]="addProductForm" style="padding:2rem;">
                     <div class="row" style="padding-bottom: 3rem;">
-                        <div class="col-md-6">
-                            <input class="form-control" type="text" formControlName="masterProductId" >
-                        </div>
+                        <input class="form-control" type="hidden" formControlName="masterProductId" >
                         <div class="col-md-6" style="float:left;">
                             <h3>{{name}}</h3>
                         </div>
@@ -181,7 +179,7 @@
                     <div formArrayName="productVariants">
                         <div [formGroupName]="i" *ngFor="let it of getVariants(addProductForm); let i = index">
                             <div *ngFor="let item of VariantAttr">
-                                    <input class="form-control" type="text" formControlName="masterVariantId" >
+                                    <input class="form-control" type="hidden" formControlName="masterVariantId" >
                                 <div class="row">
 
                                     <div class="col-md-3">
