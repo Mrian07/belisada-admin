@@ -35,6 +35,8 @@ export class EventListComponent {
     f: any;
     content: any;
 
+    isSearch:Boolean = false;
+
     myDatePickerOptions: IMyDpOptions = {
         // other options... https://github.com/kekeh/mydatepicker#options-attribute
         dateFormat: this.defaultDateFormat,
@@ -58,7 +60,7 @@ export class EventListComponent {
     pages: any = [];
     currentPage: any;
     listEvent: EventList = new EventList();
-    listVariant: Variant[];
+    listVariant: GetVariant = new GetVariant;
     lastPage: number;
 
     name: string;
@@ -78,6 +80,7 @@ export class EventListComponent {
     VariantAttr: any[];
     public displayImage: string;
     isFalse: Boolean = false;
+    isVarian: Boolean = false;
 
     public product: Variant = new Variant();
 
@@ -97,7 +100,6 @@ export class EventListComponent {
 
     ngOnInit(){
         this.loadDataEvent();
-        this.loadDataProduct(this.productId);
         this.addProductForm = this.fb.group({
             masterProductId: [''],
             maxPurhaseQty:  ['',  [Validators.required]],
@@ -105,90 +107,26 @@ export class EventListComponent {
             productVariants: this.fb.array([]),
         });
 
-            this.masterProductId = this.productId;
-            this.addProductForm.patchValue({
-                masterProductId: this.masterProductId
-            });
-
-            console.log(this.productId);
-            this.routeUrl = this.router.url === '/products/varian/' + this.productId;
-            if (this.router.url === '/products/varian/' + this.productId) {
-                this.loadDataProduct(this.productId);
-
-                this.eventService.variant(this.productId).subscribe(data => {
-                    console.log('data : variant', data);
-                    this.VariantAttr = data;
-                    this.VariantAttr.forEach((variant, index) => {
-                        this.addVariants();
-                        const control = <FormArray>this.addProductForm.get('productVariants');
-                        control.at(index).patchValue({
-                            masterVarianId: variant.masterVarianId,
-                        });
-                    });
-                });
-            } else {
-                this.eventService.getDetailVariant(this.productId).subscribe(data => {
-
-                    this.product = data.data;
-                    this.displayImage = this.product.imageUrl[0];
-                    console.log('data:edited', data.data);
-                    this.addProductForm.patchValue({
-                        masterProductId: this.product.productId,
-                        maxPurhaseQty: this.addProductForm.value.maxPurhaseQty,
-
-                    });
-                });
-
-                this.eventService.getVariant(this.productId).subscribe(data => {
-                    this.VariantAttr = data;
-                    data.forEach((dataV2, index) => {
-                        this.addVariants();
-                        const control = <FormArray>this.addProductForm.get('productVariants');
-                        control.at(index).patchValue({
-                            isActive: dataV2.useVarian,
-                            masterVarianId: dataV2.productId,
-                            priceMax: dataV2.pricelist,
-                            priceMin: dataV2.specialPrice,
-                            qty: dataV2.qty
-                        });
-                        
-                        if (dataV2.useVarian === false) {
-                            control.at(index).patchValue({
-                                pricelist: '',
-                                specialPrice: '',
-                                qty: '',
-                            });
-                            control.at(index).get('priceMax').disable();
-                            control.at(index).get('priceMin').disable();
-                            control.at(index).get('qty').disable();
-                        }
-                    });
-                    if (this.VariantAttr.length >= 1) {
-                        console.log('asd');
-                        this.isFalse = true;
-                    }
-                });
-            }
-
+        
     }
 
-    toggleControl(variant: FormArray) {
-        const isActive = variant.controls['isActive'].value;
+    toggleControl(it: FormArray) {
+        const isActive = it.controls['isActive'].value;
         if (isActive === false) {
-            variant.controls['priceMax'].disable();
-            variant.controls['priceMin'].disable();
-            variant.controls['qty'].disable();
+            it.controls['priceMax'].disable();
+            it.controls['priceMin'].disable();
+            it.controls['qty'].disable();
         } else {
-            variant.controls['priceMax'].enable();
-            variant.controls['priceMin'].enable();
-            variant.controls['qty'].enable();
+            it.controls['priceMax'].enable();
+            it.controls['priceMin'].enable();
+            it.controls['qty'].enable();
         }
     }
 
     private _initVariants(): FormGroup {
         return this.fb.group({
             isActive: [true],
-            masterVarianId: [''],
+            masterVariantId: [''],
             priceMax: ['', [Validators.required, Validators.min(100)]],
             priceMin: ['', [Validators.required, Validators.min(100)]],
             qty: ['', [Validators.required]]
@@ -233,7 +171,26 @@ export class EventListComponent {
         console.log(control.value);
     }
 
-    public postProductV2(id) {
+    public submit(eventId) {
+        this.submitted = true;
+        this.calculateDiscount();
+
+        const control = <FormArray>this.addProductForm.get('productVariants');
+        const variantsOnlyChecked = control.value.filter(item => item.isActive !== false);
+
+        // console.log('control: ', control);
+
+        const variantsControls = <FormArray>this.getVariants(this.addProductForm);
+
+        // return;
+        const productFormModified = this.addProductForm.value;
+        productFormModified.productVariants = variantsOnlyChecked;
+
+        console.log('productFormModified: ', productFormModified);
+
+    }
+
+    public postProduct(eventId) {
         // console.log('invalid controls: ', this.findInvalidControls(this.addProductForm));
 
         // this.loadingService.show();
@@ -266,20 +223,44 @@ export class EventListComponent {
             }
         }); 
 
+
+
         if (this.addProductForm.valid) {
 
             console.log('this.addProductForm.value----: ', this.addProductForm.value);
-            this.eventService.createEventProduct(id,productFormModified).subscribe(response => {
-            // console.log(response);
-                swal(
-                'belisada.co.id',
-                response.message,
-                (response.status === 0) ? 'error' : 'success'
-            );
-            if (response.status === 1) {
-                this.router.navigate(['/event']);
-                this.loadingService.hide();
-            }
+            this.eventService.createEventProduct(eventId,productFormModified).subscribe(response => {
+                // console.log(response);
+                    swal(
+                    'belisada.co.id',
+                    response.message,
+                    (response.status === 0) ? 'error' : 'success'
+                );
+                if (response.status === 1) {
+                    swal({
+                        title: 'Apakah anda ingin menambahkan produk lain?',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya',
+                        cancelButtonText: 'Tidak',
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            this.addProduct(this.content,eventId);
+                        } else {
+                            swal (
+                                'Success',
+                                'Produk berhasil ditambahkan',
+                                'success'
+                            )
+                            this.router.navigate(['/event']);
+                        }
+                        this.loadingService.hide();
+                    })
+                }
             });
 
             // if ( this.router.url === '/edit-products/' + this.masterId) {
@@ -366,24 +347,38 @@ export class EventListComponent {
         });
     }
 
-    loadDataProduct(productId) {
+    loadDataProduct(productId, name) {
+        this.isSearch = false;
+        this.isVarian = true;
         this.productId = productId;
-        this.activatedRoute.queryParams.subscribe((params: Params) => {
-            this.pages = [];
-            this.currentPage = (params['page'] === undefined) ? 1 : +params['page'];
-            this.eventService.getVariant(productId).subscribe(response => {
-                console.log('isi', response);
-                this.listVariant = response;
-                // this.lastPage = this.listEvent.totalPages;
-                // for (let r = (this.currentPage - 3); r < (this.currentPage - (-4)); r++) {
-                // if (r > 0 && r <= this.listEvent.totalPages) {
-                //     this.pages.push(r);
-                // }
-                // }
+        this.name = name;
+
+        this.eventService.getDetailVariant(productId).subscribe(respon => {
+            console.log('data : variant', respon.data);
+            this.VariantAttr = respon.data;
+            this.VariantAttr.forEach((it, index) => {
+                this.addVariants();
+
+                this.addProductForm.patchValue({
+                    masterProductId: productId,
+                });
+
+                const control = <FormArray>this.addProductForm.get('productVariants');
+                control.at(index).patchValue({
+                    masterVariantId: it.productId,
+                    
+                });
             });
         });
+
+
+        // this.eventService.getDetailVariant(productId).subscribe(response => {
+        //     console.log('isi', response);
+        //     this.listVariant = response;
+        // });
     }
 
+    
 
     deleteEvent(id) {
 
@@ -422,16 +417,18 @@ export class EventListComponent {
     }
 
     addProduct(content,id){
-        this.modalService.open(content, id);
+        this.modalService.open(content, { size: 'lg', container: 'nb-layout'});
         this.eventId = id;
     }
 
     d(a) {
         console.log(a);
         this.addProductForm.reset();
+        this.router.navigate(['/event']);
     }
 
     searchK(event) {
+        this.isSearch= true;
         const key = event.target.value;
         console.log(key);
         console.log(event);
@@ -459,22 +456,4 @@ export class EventListComponent {
         }
     }
 
-    public openRowProduct(productId: number): void {
-
-        this.eventService.getVariant(productId).subscribe(data => {
-            console.log('varian:',data);
-            // console.log('testvarian:',data[0]);
-            });
-
-        this.productId = productId;
-        if (this.rowSelect === -1) {
-            this.rowSelect = productId
-        } else {
-            if (this.rowSelect == productId) {
-                this.rowSelect = -1
-            } else {
-                this.rowSelect = productId
-            }
-        }
-    }
 }

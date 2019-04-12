@@ -149,7 +149,7 @@ export class Product {
 export class GetVariant {
     status: number;
     message: string;
-    data: Variant;
+    data: Variant[];
 }
 export class Variant {
     productId: number;
