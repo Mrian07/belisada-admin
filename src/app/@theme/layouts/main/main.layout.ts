@@ -24,10 +24,10 @@ import { ChatService } from 'app/@core/services/globals/chat.service';
 
       </nb-layout-footer>
     </nb-layout>
-    <div style="float: right; position:fixed; bottom:0; right:8rem;">
+    <!-- <div style="float: right; position:fixed; bottom:0; right:8rem;">
         <button data-notifications="10" style="font-size: 1.2rem; font-weight: bold; width: 10rem; border-radius:0; background: #5ECDDE; box-shadow: 0 15px 30px 0 #b6b6b6,0 5px 15px 0 #b6b6b6; cursor: pointer;" class="btn">Chat</button>
-        <!-- <span style="position: absolute; top: -16px; right: -12px; padding: 2.5px 7px; border-radius: 50%; background: red; color: white;">10</span> -->
-    </div>
+        
+    </div>-->
   `,
 })
 export class MainLayoutComponent implements OnDestroy {
