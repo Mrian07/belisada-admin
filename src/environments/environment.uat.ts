@@ -6,6 +6,8 @@
 export const environment = {
   production: true,
   apiUrl: 'https://api.uat.belisada.id/belisada-admin',
+  productUrl: 'https://api.uat.belisada.id/belisada',
+  eventUrl: 'https://api.uat.belisada.id/bs-event',
   chatUrl: 'https://chat.uat.belisada.id',
   socketUrl: 'https://socket.uat.belisada.id',
   thumborUrl: 'https://image.uat.belisada.id/',

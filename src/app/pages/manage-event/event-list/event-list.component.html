@@ -17,27 +17,27 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th *ngIf="nameSorting === false; else sortingName" (click)="funcSortNameArray()">Nama Event &nbsp;<i class="fa fa-sort"></i></th>
+                    <th>Nama Event &nbsp;<i class="fa fa-sort"></i></th> <!--*ngIf="nameSorting === false; else sortingName" (click)="funcSortNameArray()"-->
                     <ng-template #sortingName>
-                        <th (click)="funcSortNameArrayBenar()">Nama Event &nbsp;<i class="fa fa-sort"></i></th>
+                        <th>Nama Event &nbsp;<i class="fa fa-sort"></i></th>
                     </ng-template>
-                    <th *ngIf="joinDateSorting === false; else sortingJoinDate" (click)="funcSortJoinDateArray()"><i class="fa fa-calendar" style="color:rgb(255, 232, 23);"></i>&nbsp;Join Date &nbsp;<i class="fa fa-sort"></i></th>
+                    <th><i class="fa fa-calendar" style="color:rgb(255, 232, 23);"></i>&nbsp;Join Date &nbsp;<i class="fa fa-sort"></i></th> <!--*ngIf="joinDateSorting === false; else sortingJoinDate" (click)="funcSortJoinDateArray()"-->
                     <ng-template #sortingJoinDate>
-                        <th (click)="funcSortJoinDateArrayBenar()"><i class="fa fa-calendar" style="color:rgb(255, 232, 23);"></i>&nbsp;Join Date &nbsp;<i class="fa fa-sort"></i></th>
+                        <th><i class="fa fa-calendar" style="color:rgb(255, 232, 23);"></i>&nbsp;Join Date &nbsp;<i class="fa fa-sort"></i></th> <!--(click)="funcSortJoinDateArrayBenar()"-->
                     </ng-template>
-                    <th *ngIf="showDateSorting === false; else sortingShowDate" (click)="funcSortShowDateArray()"><i class="fa fa-calendar" style="color:rgb(255, 163, 25);"></i>&nbsp;Show Date &nbsp;<i class="fa fa-sort"></i></th>
+                    <th><i class="fa fa-calendar" style="color:rgb(255, 163, 25);"></i>&nbsp;Show Date &nbsp;<i class="fa fa-sort"></i></th> <!--*ngIf="showDateSorting === false; else sortingShowDate" (click)="funcSortShowDateArray()"-->
                     <ng-template #sortingShowDate>
-                        <th (click)="funcSortShowDateArrayBenar()"><i class="fa fa-calendar" style="color:rgb(255, 163, 25);"></i>&nbsp;Show Date &nbsp;<i class="fa fa-sort"></i></th>
+                        <th><i class="fa fa-calendar" style="color:rgb(255, 163, 25);"></i>&nbsp;Show Date &nbsp;<i class="fa fa-sort"></i></th> <!--(click)="funcSortShowDateArrayBenar()"-->
                     </ng-template>
-                    <th *ngIf="showEventSorting === false; else sortingEventDate" (click)="funcSortEventDateArray()"><i class="fa fa-calendar" style="color:rgb(255, 58, 58);"></i>&nbsp;Event Date &nbsp;<i class="fa fa-sort"></i></th>
+                    <th><i class="fa fa-calendar" style="color:rgb(255, 58, 58);"></i>&nbsp;Event Date &nbsp;<i class="fa fa-sort"></i></th> <!--*ngIf="showEventSorting === false; else sortingEventDate" (click)="funcSortEventDateArray()"-->
                     <ng-template #sortingEventDate>
-                        <th (click)="funcSortEventDateArrayBenar()"><i class="fa fa-calendar" style="color:rgb(255, 58, 58);"></i>&nbsp;Event Date &nbsp;<i class="fa fa-sort"></i></th>
+                        <th><i class="fa fa-calendar" style="color:rgb(255, 58, 58);"></i>&nbsp;Event Date &nbsp;<i class="fa fa-sort"></i></th> <!--(click)="funcSortEventDateArrayBenar()"-->
                     </ng-template>
                     <!-- <th>Quantity&nbsp;<i class="fa fa-align-justify"></i></th> -->
                     <th>ACTION&nbsp;<i class="fa fa-angle-double-right"></i></th>
                 </tr>
             </thead>
-            <tbody [nbSpinner]="loading" nbSpinnerStatus="warning" nbSpinnerSize="xxlarge">
+            <tbody nbSpinnerStatus="warning" nbSpinnerSize="xxlarge">
                 <tr>
                     <td><input class="form-control" placeholder="Search Event Name" [(ngModel)]="name"></td>
                     <td><input class="form-control" placeholder="Search Join Date" [(ngModel)]="joinDate"></td>
@@ -46,9 +46,6 @@
                     <!-- <td></td> -->
                     <td></td>
                 </tr>
-                <div *ngIf="title; else please">
-                    The user is logged in.
-                </div>
                 <ng-template #please>
                     <ng-container *ngFor="let item of listEvent.content | searchPipe:'eventName':name | searchPipe:'joinEventStartDate':joinDate | searchPipe:'showEventStartDate':showDate | searchPipe:'eventStartDate':eventDate">
                         <tr (click)="openRowEvent(item.id)">
