@@ -8,6 +8,8 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { WithdrawalComponent } from './withdrawal.component';
 import { MyDatePickerModule } from 'mydatepicker';
 import { WithdrawalHistoryComponent } from './withdrawal-history/withdrawal-history.component';
+import { WithdrawalTabsComponent } from './withdrawal-tabs/withdrawal-tabs.component';
+import { RouteTabsetShowcaseComponent } from './tabset.component';
 // import { DateUtil } from '../../@core/utils/date.util';
 
 @NgModule({
@@ -23,6 +25,8 @@ import { WithdrawalHistoryComponent } from './withdrawal-history/withdrawal-hist
   declarations: [
     WithdrawalComponent,
     WithdrawalListComponent,
-    WithdrawalHistoryComponent]
+    WithdrawalHistoryComponent,
+    WithdrawalTabsComponent,
+    RouteTabsetShowcaseComponent]
 })
 export class WithdrawalModule { }
