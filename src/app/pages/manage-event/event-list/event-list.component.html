@@ -92,10 +92,61 @@
                                             </td>
                                             <td>
                                                 <div>
-                                                    Belum ada produk untuk event ini.
-                                                    <div class="button-add-product">
-                                                        <button ngbButtonLabel class="btn btn-success btn-tn" style="cursor:pointer;" (click)="addProduct(content,item.id)"><i class="fa fa-plus"></i>&nbsp;Add Product</button>
-                                                        <!-- <button>Product List</button> -->
+                                                    <div class="no-product" *ngIf="prod === 0">
+                                                        Belum ada produk untuk event ini.<br><br>
+                                                        <div class="button-add-product">
+                                                            <button ngbButtonLabel class="btn btn-success btn-tn" style="cursor:pointer;" (click)="addProduct(content,item.id)"><i class="fa fa-plus"></i>&nbsp;Add Product</button>
+                                                            <!-- <button>Product List</button> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="with-product" *ngIf="prod !== 0">
+                                                        <table>
+                                                            <tr>
+                                                                <th>Photo</th>
+                                                                <th>Name</th>
+                                                                <th>Master Prod. ID</th>
+                                                                <th>Max. Purchase Qty</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                            <tr *ngFor="let p of listProductEvent.content">
+                                                                <td>Foto Produk?</td>
+                                                                <td>Nama Produk?</td>
+                                                                <td>{{p.masterProductId}}</td>
+                                                                <td>{{p.maxPurhaseQty}}</td>
+                                                                <td>
+                                                                    <div class="action">
+                                                                        <div (click)="editProduct(eventId,p.id)">
+                                                                            <i class="fa fa-edit" style="padding-left:2rem;padding:1rem;cursor:pointer;"></i>
+                                                                        </div>
+                                                                        <div (click)="deleteProduct(eventId,p.id)">
+                                                                            <i class="fa fa-trash" style="padding:1rem;cursor:pointer;"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table><br><br>
+                                                        <!-- <div class="row">
+                                                            <div class="col-md-2 center">Photo</div>
+                                                            <div class="col-md-2 center">Name</div>
+                                                            <div class="col-md-2 center">Master Prod. ID</div>
+                                                            <div class="col-md-2 center">Max. Purchase Qty</div>
+                                                            <div class="col-md-4 center">Action</div>
+                                                        </div>
+                                                        <div class="row" *ngFor="let p of listProductEvent.content">
+                                                            <div class="col-md-2">Foto Produk?</div>
+                                                            <div class="col-md-2">Nama Produk?</div>
+                                                            <div class="col-md-2">{{p.masterProductId}}</div>
+                                                            <div class="col-md-2">{{p.maxPurhaseQty}}</div>
+                                                            <div class="col-md-2" (click)="editProduct(eventId,p.id)">
+                                                                <i class="fa fa-edit fa-lg" style="cursor:pointer;"></i>
+                                                            </div>
+                                                            <div class="col-md-2" (click)="deleteProduct(eventId,p.id)">
+                                                                <i class="fa fa-trash fa-lg" style="cursor:pointer;"></i>
+                                                            </div>
+                                                        </div><br><br> -->
+                                                        <div style="padding-left:15rem; padding-bottom:6rem;">
+                                                            <button ngbButtonLabel class="btn btn-success" style="float:left;cursor:pointer;" (click)="addProduct(content,item.id)"><i class="fa fa-plus"></i>&nbsp;Add Product</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </td>
@@ -177,18 +228,15 @@
                     </div>
                     Silahkan Pilih Varian
                     <div formArrayName="productVariants">
-                        <div [formGroupName]="i" *ngFor="let it of getVariants(addProductForm); let i = index">
-                            <div *ngFor="let item of VariantAttr">
-                                    <input class="form-control" type="hidden" formControlName="masterVariantId" >
+                        <div [formGroupName]="i" *ngFor="let it of getVariants(addProductForm); let i = index"> 
+                            
                                 <div class="row">
-
-                                    <div class="col-md-3">
-                                        <div *ngIf="item.useVarian==true" (change)="toggleControl(it)">
-                                            <input type="checkbox" checked formControlName="isActive"> {{item.name}} - {{item.productId}}
-                                        </div>
-                                        <div *ngIf="item.useVarian==false" (change)="toggleControl(it)">
-                                            <input type="checkbox" formControlName="isActive"> {{item.name}} - {{item.productId}}
-                                        </div>
+                                    <input class="form-control" type="hidden" formControlName="masterVariantId" >
+                                    <div class="col-md-1">
+                                        <input formControlName="isActive" type="checkbox" (change)="toggleControl(it)">
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{VariantAttr[i].name}} - {{VariantAttr[i].productId}}
                                     </div>
                                     <div class="col-md-3">
                                         <input class="form-control" (change)="calculateDiscount()" type="text" formControlName="priceMin" placeholder="Price Min." 
@@ -203,7 +251,7 @@
                                     </div>
                                     <div class="offset-md-5 col-md-5">
                                         <div *ngIf="(submitted || it.controls.qty.touched) && it.controls.qty.invalid && it.controls.isActive.value == true">
-                                            <!-- <bss-field-error [displayError]="it.controls.qty.errors.max" errorMsg="Maksimal quantity 5"></bss-field-error> -->
+                                            <!-- <bss-field-error [displayError]="it.controls.qty.errors.max" errorMsg="Maksimal quantity 5"></bss-field-error>-->
                                             <bss-field-error [displayError]="it.controls.qty.errors.required" errorMsg="Quantity harus diisi"></bss-field-error>
                                         </div>
                                         <div *ngIf="(submitted || it.touched) && it.errors && it.controls.isActive.value == true">
@@ -219,11 +267,11 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            
                         </div>
                     </div>
                     <div style="float:right; padding:2rem;">
-                        <button ngbButtonLabel class="btn btn-success btn-tn" [disabled]="addProductForm.invalid" (click)="submit(eventId)" style="cursor:pointer;">Submit</button>
+                        <button ngbButtonLabel class="btn btn-success btn-tn" [disabled]="addProductForm.invalid" (click)="postProduct(eventId)" style="cursor:pointer;">Submit</button>
                     </div>
                 </form>
             
