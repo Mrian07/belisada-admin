@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Event,EventList, MasterProduct, PostMasterProduct, ProductList, DetailEventList, Product, GetVariant, Variant, SpecVariant } from 'app/@core/models/manage-event/manage-event.model';
+import { Event,EventList, MasterProduct, PostMasterProduct, ProductList, DetailEventList, Product, GetVariant, Variant, SpecVariant, GetMasterProduct, EditEvent } from 'app/@core/models/manage-event/manage-event.model';
 @Injectable({
     providedIn: 'root'
 })
@@ -25,7 +25,7 @@ constructor(private configuration: Configuration, private http: HttpClient, priv
     }
 
     getEventById(id: any): Observable<DetailEventList> {
-        return this.http.get(this.configuration.apiURL + '/events' + id)
+        return this.http.get(this.configuration.eventURL + '/events/' + id)
             .pipe(
                 map(response => response as DetailEventList)
             );
@@ -46,6 +46,13 @@ constructor(private configuration: Configuration, private http: HttpClient, priv
         );
     }
 
+    editEvent(id,data) {
+        return this.http.put(this.configuration.eventURL + '/events/' + id, data)
+            .pipe(
+                map(resp => resp as EditEvent)
+            );
+    }
+
     getEventProduct(id: any): Observable<MasterProduct> {
         return this.http.get(this.configuration.eventURL + '/events/' + id + '/mpe')
             .pipe(
@@ -53,11 +60,18 @@ constructor(private configuration: Configuration, private http: HttpClient, priv
             );
     }
 
-    createEventProduct(eventId, data: PostMasterProduct) {
+    createEventProduct(eventId,data): Observable<PostMasterProduct>{
         return this.http.post(this.configuration.eventURL + '/events/' + eventId + '/mpe', data)
-            .pipe(
-                map(response => response as any)
-            );
+        .pipe(
+            map(resp => resp as PostMasterProduct)
+        );
+    }
+
+    deleteProduct(eventId,masterProductEventId): Observable<GetMasterProduct[]> {
+        return this.http.delete(this.configuration.eventURL + '/events/' + eventId + '/mpe/' + masterProductEventId)
+        .pipe(
+            map(response => response as GetMasterProduct[])
+        );
     }
 
     getProductList(keyWord): Observable<ProductList> {

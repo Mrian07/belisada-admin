@@ -12,6 +12,16 @@ export class Event {
     eventStatus: string;
 }
 
+export class EditEvent {
+    eventName: string;
+    joinEventStartDate: string;
+    joinEventEndDate: string;
+    showEventStartDate: string;
+    showEventEndDate: string;
+    eventStartDate: string;
+    eventEndDate: string;
+}
+
 export class EventList {
     last: boolean;
     totalPages: number;
@@ -58,7 +68,7 @@ export class GetMasterProduct {
     id:	string
     masterProductId: number;
     maxPurhaseQty: number;
-    productVariants: VariantMaster[];
+    // productVariants: VariantMaster[];
     updatedAt: string;
 }
 

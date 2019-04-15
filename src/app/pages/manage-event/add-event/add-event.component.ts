@@ -83,7 +83,7 @@ export class AddEventComponent implements OnInit{
         });
     }
     
-    fillFormPatchValue(data: DetailEventList) {
+    fillFormPatchValue(data: Event) {
         this.addEventForm.patchValue({
             eventName: data.eventName,
             joinEventStartDate: data.joinEventStartDate,
@@ -114,43 +114,73 @@ export class AddEventComponent implements OnInit{
     
     onSubmit(){
         if (this.addEventForm.valid) {
-            swal({
-                title: 'Alert',
-                text: 'Apakah semua data sudah benar?',
-                type: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Iya',
-                cancelButtonText: 'Tidak',
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                reverseButtons: true
+
+            if (this.eventId) {
+                // this.addEventForm.patchValue({
+                //     eventName: data.eventName,
+                //     joinEventStartDate: data.joinEventStartDate,
+                //     joinEventEndDate: data.joinEventEndDate,
+                //     showEventStartDate: data.showEventStartDate,
+                //     showEventEndDate: data.showEventEndDate,
+                //     eventStartDate: data.eventStartDate,
+                //     eventEndDate: data.eventEndDate,
+                // });
+                swal({
+                    title: 'Alert',
+                    text: 'Apakah semua data sudah benar?',
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Iya',
+                    cancelButtonText: 'Tidak',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    reverseButtons: true
                 }).then((result) => {
-                    if (result.value === true) {
-                        console.log('event:', this.addEventForm.value);
-                        console.log('value:', result.value);
-                        const data: Event = new Event();
-        
-                        data.eventName = this.addEventForm.value.eventName;
-                        data.joinEventStartDate = this.addEventForm.value.joinEventStartDate;
-                        data.joinEventEndDate = this.addEventForm.value.joinEventEndDate;
-                        data.showEventStartDate = this.addEventForm.value.showEventStartDate;
-                        data.showEventEndDate = this.addEventForm.value.showEventEndDate;
-                        data.eventStartDate = this.addEventForm.value.eventStartDate;
-                        data.eventEndDate = this.addEventForm.value.eventEndDate;
-                        this.eventService.createEvent(data).subscribe(respon => {
-                            console.log('data event:',respon)
-                
-                        });
-                        swal(
-                            'Success!',
-                            'Terimakasih. Event telah dibuat dan masuk ke Event List.',
-                            'success'
-                        ).then(() => {
-                            this.addEventForm.reset();
+                    if (result.value) {
+                        this.eventService.editEvent( this.eventId,this.addEventForm.value).subscribe(response => {
                             this.router.navigate(['event/']);
                         });
                     }
                 });
+            } else {
+                swal({
+                    title: 'Alert',
+                    text: 'Apakah semua data sudah benar?',
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Iya',
+                    cancelButtonText: 'Tidak',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    reverseButtons: true
+                    }).then((result) => {
+                        if (result.value === true) {
+                            console.log('event:', this.addEventForm.value);
+                            console.log('value:', result.value);
+                            const data: Event = new Event();
+            
+                            data.eventName = this.addEventForm.value.eventName;
+                            data.joinEventStartDate = this.addEventForm.value.joinEventStartDate;
+                            data.joinEventEndDate = this.addEventForm.value.joinEventEndDate;
+                            data.showEventStartDate = this.addEventForm.value.showEventStartDate;
+                            data.showEventEndDate = this.addEventForm.value.showEventEndDate;
+                            data.eventStartDate = this.addEventForm.value.eventStartDate;
+                            data.eventEndDate = this.addEventForm.value.eventEndDate;
+                            this.eventService.createEvent(data).subscribe(respon => {
+                                console.log('data event:',respon)
+                    
+                            });
+                            swal(
+                                'Success!',
+                                'Terimakasih. Event telah dibuat dan masuk ke Event List.',
+                                'success'
+                            ).then(() => {
+                                this.addEventForm.reset();
+                                this.router.navigate(['event/']);
+                            });
+                        }
+                    });
+            }
         } else {
             swal(
                 'Semua kolom harus diisi'

@@ -82,16 +82,17 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Withdrawal',
     icon: 'nb-loop',
-    children: [
-      {
-        title: 'List',
-        link: '/withdrawal',
-      },
-      {
-        title: 'History',
-        link: '/withdrawal/history',
-      },
-    ],
+    link: '/withdrawal/list'
+    // children: [
+    //   {
+    //     title: 'List',
+    //     link: '/withdrawal',
+    //   },
+    //   {
+    //     title: 'History',
+    //     link: '/withdrawal/history',
+    //   },
+    // ],
   },
 
 ];
