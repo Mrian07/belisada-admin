@@ -112,19 +112,19 @@ export class AddEventComponent implements OnInit{
 
     setPage() {}
     
-    onSubmit(data: Event){
+    onSubmit(){
         if (this.addEventForm.valid) {
 
             if (this.eventId) {
-                this.addEventForm.patchValue({
-                    eventName: data.eventName,
-                    joinEventStartDate: data.joinEventStartDate,
-                    joinEventEndDate: data.joinEventEndDate,
-                    showEventStartDate: data.showEventStartDate,
-                    showEventEndDate: data.showEventEndDate,
-                    eventStartDate: data.eventStartDate,
-                    eventEndDate: data.eventEndDate,
-                });
+                // this.addEventForm.patchValue({
+                //     eventName: data.eventName,
+                //     joinEventStartDate: data.joinEventStartDate,
+                //     joinEventEndDate: data.joinEventEndDate,
+                //     showEventStartDate: data.showEventStartDate,
+                //     showEventEndDate: data.showEventEndDate,
+                //     eventStartDate: data.eventStartDate,
+                //     eventEndDate: data.eventEndDate,
+                // });
                 swal({
                     title: 'Alert',
                     text: 'Apakah semua data sudah benar?',
