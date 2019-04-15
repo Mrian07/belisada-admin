@@ -1,8 +1,5 @@
+<nb-route-tabset-showcase></nb-route-tabset-showcase>
 <nb-card>
-    <nb-card-header>
-        History Withdrawal
-    </nb-card-header>
-
     <nb-card-body [nbSpinner]="loading" nbSpinnerStatus="warning">
         <table class="table table-bordered table-striped">
             <thead>
@@ -16,7 +13,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of list">
-                    <td>{{item.transferDate}}</td>
+                    <td>{{item.transferDate[0]}}{{item.transferDate[1]}}{{item.transferDate[2]}}{{item.transferDate[3]}}{{item.transferDate[4]}}{{item.transferDate[5]}}{{item.transferDate[6]}}{{item.transferDate[7]}}{{item.transferDate[8]}}{{item.transferDate[9]}}</td>
                     <td>{{item.storeName}}</td>
                     <td>Rp.{{item.grandTotal | number}}</td>
                     <td>{{item.status}}</td>
@@ -70,7 +67,7 @@
                         </div>
                         <div>
                             Tanggal Transfer<br>
-                            <div class="labField">{{transferDate}}</div>
+                            <div class="labField">{{transferDate[0]}}{{transferDate[1]}}{{transferDate[2]}}{{transferDate[3]}}{{transferDate[4]}}{{transferDate[5]}}{{transferDate[6]}}{{transferDate[7]}}{{transferDate[8]}}{{transferDate[9]}}</div>
                             Invoice Penarikan Dana<br>
                             <div class="labField"> 
                                 <div class="listInvoice" *ngFor="let itemsI of listInvoice">{{itemsI}}</div>

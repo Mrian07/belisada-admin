@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import swal from 'sweetalert2';
 import { EventService } from 'app/@core/services/manage-event/manage-event.service';
-import { EventList, Product, ProductList, GetVariant, VariantMaster, Variant } from 'app/@core/models/manage-event/manage-event.model';
+import { EventList, Product, ProductList, GetVariant, VariantMaster, Variant, MasterProduct } from 'app/@core/models/manage-event/manage-event.model';
 import { DateFormatEnum } from 'app/@core/enum/date-format.enum';
 import { IMyDpOptions } from 'mydatepicker';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -61,6 +61,7 @@ export class EventListComponent {
     currentPage: any;
     listEvent: EventList = new EventList();
     listVariant: GetVariant = new GetVariant;
+    listProductEvent: MasterProduct = new MasterProduct();
     lastPage: number;
 
     name: string;
@@ -87,6 +88,7 @@ export class EventListComponent {
     public price: number;
     public specialPrice: number;
     public stock: number;
+    prod: any;
 
     constructor(
         private modalService: NgbModal,
@@ -108,6 +110,32 @@ export class EventListComponent {
         });
 
         
+    }
+
+    loadDataProduct(productId, name) {
+        this.isSearch = false;
+        this.isVarian = true;
+        this.productId = productId;
+        this.name = name;
+
+        this.eventService.getDetailVariant(productId).subscribe(respon => {
+            console.log('data : variant', respon.data);
+            this.VariantAttr = respon.data;
+            this.VariantAttr.forEach((it, index) => {
+                this.addVariants();
+
+                this.addProductForm.patchValue({
+                    masterProductId: productId,
+                });
+
+                const control = <FormArray>this.addProductForm.get('productVariants');
+                control.at(index).patchValue({
+                    masterVariantId: it.productId,
+                    
+                });
+            });
+        });
+
     }
 
     toggleControl(it: FormArray) {
@@ -150,16 +178,16 @@ export class EventListComponent {
         return form.controls.productVariants.controls;
     }
 
-    public applyForAll() {
-        this.getVariants(this.addProductForm).forEach(control => {
-            control.patchValue({
-                priceMax: this.price,
-                priceMin: this.specialPrice,
-                qty: this.stock
-            });
-        });
-        this.calculateDiscount();
-    }
+    // public applyForAll() {
+    //     this.getVariants(this.addProductForm).forEach(control => {
+    //         control.patchValue({
+    //             priceMax: this.price,
+    //             priceMin: this.specialPrice,
+    //             qty: this.stock
+    //         });
+    //     });
+    //     this.calculateDiscount();
+    // }
 
     xx() {
         const control = <FormArray>this.addProductForm.get('productVariants');
@@ -226,42 +254,71 @@ export class EventListComponent {
 
 
         if (this.addProductForm.valid) {
-
-            console.log('this.addProductForm.value----: ', this.addProductForm.value);
-            this.eventService.createEventProduct(eventId,productFormModified).subscribe(response => {
-                // console.log(response);
-                    swal(
-                    'belisada.co.id',
-                    response.message,
-                    (response.status === 0) ? 'error' : 'success'
-                );
-                if (response.status === 1) {
-                    swal({
-                        title: 'Apakah anda ingin menambahkan produk lain?',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Ya',
-                        cancelButtonText: 'Tidak',
-                        confirmButtonClass: 'btn btn-success',
-                        cancelButtonClass: 'btn btn-danger',
-                        buttonsStyling: false,
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.value) {
-                            this.addProduct(this.content,eventId);
-                        } else {
-                            swal (
-                                'Success',
-                                'Produk berhasil ditambahkan',
-                                'success'
-                            )
-                            this.router.navigate(['/event']);
-                        }
-                        this.loadingService.hide();
-                    })
+            swal({
+                title: 'Info',
+                text: 'Apakah semua data sudah benar?',
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Iya',
+                cancelButtonText: 'Tidak',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                reverseButtons: true
+            }).then ((result) => {
+                if (result.value) {
+                    console.log('this.addProductForm.value----: ', this.addProductForm.value);
+                    this.eventService.createEventProduct(eventId,productFormModified).subscribe(response => {
+                        swal (
+                            'Success',
+                            'Produk berhasil ditambahkan',
+                            'success'
+                        )
+                    });
+                    this.addProduct(this.content,eventId);
+                } else {
+                    swal (
+                        'Warning',
+                        'Produk gagal ditambahkan',
+                        'warning'
+                    )
                 }
             });
+
+            // console.log('this.addProductForm.value----: ', this.addProductForm.value);
+            // this.eventService.createEventProduct(eventId,productFormModified).subscribe(response => {
+            //     // console.log(response);
+            //         swal(
+            //         'belisada.co.id',
+            //         response.message,
+            //         (response.status === 0) ? 'error' : 'success'
+            //     );
+            //     if (response.status === 1) {
+            //         swal({
+            //             title: 'Apakah anda ingin menambahkan produk lain?',
+            //             showCancelButton: true,
+            //             confirmButtonColor: '#3085d6',
+            //             cancelButtonColor: '#d33',
+            //             confirmButtonText: 'Ya',
+            //             cancelButtonText: 'Tidak',
+            //             confirmButtonClass: 'btn btn-success',
+            //             cancelButtonClass: 'btn btn-danger',
+            //             buttonsStyling: false,
+            //             reverseButtons: true
+            //         }).then((result) => {
+            //             if (result.value) {
+            //                 this.addProduct(this.content,eventId);
+            //             } else {
+            //                 swal (
+            //                     'Success',
+            //                     'Produk berhasil ditambahkan',
+            //                     'success'
+            //                 )
+            //                 this.router.navigate(['/event']);
+            //             }
+            //             this.loadingService.hide();
+            //         })
+            //     }
+            
 
             // if ( this.router.url === '/edit-products/' + this.masterId) {
             //     console.log('this.addProductForm.value-asd---: ', this.addProductForm.value);
@@ -347,37 +404,6 @@ export class EventListComponent {
         });
     }
 
-    loadDataProduct(productId, name) {
-        this.isSearch = false;
-        this.isVarian = true;
-        this.productId = productId;
-        this.name = name;
-
-        this.eventService.getDetailVariant(productId).subscribe(respon => {
-            console.log('data : variant', respon.data);
-            this.VariantAttr = respon.data;
-            this.VariantAttr.forEach((it, index) => {
-                this.addVariants();
-
-                this.addProductForm.patchValue({
-                    masterProductId: productId,
-                });
-
-                const control = <FormArray>this.addProductForm.get('productVariants');
-                control.at(index).patchValue({
-                    masterVariantId: it.productId,
-                    
-                });
-            });
-        });
-
-
-        // this.eventService.getDetailVariant(productId).subscribe(response => {
-        //     console.log('isi', response);
-        //     this.listVariant = response;
-        // });
-    }
-
     
 
     deleteEvent(id) {
@@ -397,6 +423,28 @@ export class EventListComponent {
         
                 this.eventService.deleteEvent(id).subscribe(respon => {
                     this.loadDataEvent();
+                });
+            }
+            });
+    }
+
+    deleteProduct(eventId,masterProductEventId) {
+
+        swal({
+            title: 'Alert',
+            text: 'Anda yakin akan menghapus produk ini?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Iya',
+            cancelButtonText: 'Tidak',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            reverseButtons: true
+            }).then((result) => {
+            if (result.value) {
+        
+                this.eventService.deleteProduct(eventId,masterProductEventId).subscribe(respon => {
+                    this.openRowEvent(eventId);
                 });
             }
             });
@@ -444,7 +492,8 @@ export class EventListComponent {
     }
 
     public openRowEvent(id: number): void {
-    
+        this.eventId = id;
+
         if (this.rowSelected === -1) {
             this.rowSelected = id
         } else {
@@ -454,6 +503,12 @@ export class EventListComponent {
                 this.rowSelected = id
             }
         }
+
+        this.eventService.getEventProduct(id).subscribe(response => {
+            console.log('prooood:', response);
+            this.listProductEvent = response;
+            this.prod = response.totalElements;
+        });
     }
 
 }
